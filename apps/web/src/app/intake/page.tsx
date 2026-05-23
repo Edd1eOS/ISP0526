@@ -32,7 +32,7 @@ const DOORS: ReadonlyArray<Door> = [
         title: "展开说说",
         tagline: "freestyle 一段超乎想象的未来",
         hint: "按住说话，AI 把你的脑洞整理成档案。",
-        ready: false,
+        ready: true,
     },
     {
         href: "/intake/chat",
