@@ -37,12 +37,15 @@
 
 | 用途 | 模型 | 调用方式 | 备注 |
 |---|---|---|---|
-| 表单字段抽取 | Gemini 2.5 Flash | Vercel AI SDK | 低延迟 + 低成本 |
-| 推荐文案生成 | Claude Sonnet 4 / GPT-4o-mini | Vercel AI SDK | 二选一，A/B 评估 |
-| 语音转文字 | Whisper (OpenAI) | API | 用户口述输入 |
-| 文档 OCR | GPT-4o-mini Vision | API | 成绩单 / 雅思图片 |
+| 推荐文案生成（默认） | Gemini 2.0 Flash | Vercel AI SDK (`ai` ^6, `@ai-sdk/google` ^3) | 免费档（10 RPM / 1500 请求每日），单次批量返回所有推荐项 |
+| 推荐文案生成（fallback） | 模板渲染（`packages/core/ai/templates/narrative-template.ts`） | 纯 TS | 当 `GOOGLE_GENERATIVE_AI_API_KEY` 未配置 / LLM 失败 / post-filter 拒收时启用，零外部依赖 |
+| 表单字段抽取 | Gemini 2.0 Flash | Vercel AI SDK | 同上 |
+| 语音转文字 | Whisper (OpenAI) | API | 待启用 |
+| 文档 OCR | GPT-4o-mini Vision | API | 待启用 |
 
-**适配层**：所有 LLM 调用走 `packages/core/ai/` 抽象层；切模型仅改配置不改业务代码。
+**适配层**：所有 LLM 调用走 `packages/core/ai/` 抽象层；`GenerateObjectFn` 由调用方（如 `apps/web/src/lib/ai/google-narrative.ts`）注入。核心包不直接依赖任何 LLM SDK，便于多 runtime 移植。
+
+**输出契约**：每次调用 → Zod 校验 → `filterNarrative` 丢弃未引用合法 `source_id` 的字段 → 调用方接收 `Result<T, AIError>` 并按需回退到模板。
 
 ---
 

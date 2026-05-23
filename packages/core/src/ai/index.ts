@@ -7,4 +7,6 @@ export * from "./result";
 export * from "./config";
 export * from "./post-filter";
 export * from "./prompts/recommendation-narrative";
+export * from "./prompts/recommendation-narrative-batch";
 export * from "./adapters/narrative";
+export * from "./adapters/narrative-batch";

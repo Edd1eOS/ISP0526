@@ -5,9 +5,9 @@
 export type ModelRole = "narrative" | "extraction" | "translation";
 
 const DEFAULTS: Record<ModelRole, string> = {
-    narrative: "openai:gpt-4o-mini",
-    extraction: "openai:gpt-4o-mini",
-    translation: "openai:gpt-4o-mini",
+    narrative: "google:gemini-2.0-flash",
+    extraction: "google:gemini-2.0-flash",
+    translation: "google:gemini-2.0-flash",
 };
 
 export function getModel(role: ModelRole): string {
