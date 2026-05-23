@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname, "../.."),
   },
+  // Transpile the workspace core package since it ships raw TS source.
+  transpilePackages: ["@isp0526/core"],
 };
 
 export default nextConfig;

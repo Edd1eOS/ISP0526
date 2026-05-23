@@ -9,10 +9,10 @@
 
 | 类别 | 选型 | 版本 | 理由 |
 |---|---|---|---|
-| 框架 | Next.js (App Router) | ^15 | SSR + Edge + Vercel 一键部署；React 19 RSC 默认 |
-| UI 库 | React | ^19 | 配套 Next 15 |
-| 语言 | TypeScript | ^5.5 | strict 模式；规则引擎类型安全 |
-| 样式 | Tailwind CSS | ^4 | 暖色系定制；utility-first；CSS variables |
+| 框架 | Next.js (App Router, Turbopack) | ^16 | SSR + Edge + Vercel 一键部署；React 19 RSC 默认；Turbopack stable |
+| UI 库 | React | ^19 | 配套 Next 16 |
+| 语言 | TypeScript | ^5.9 | strict 模式 + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes`；规则引擎类型安全 |
+| 样式 | Tailwind CSS | ^4 | 暖色系定制；utility-first；token 通过 `@theme inline` 注入 CSS variables |
 | 组件 | shadcn/ui | latest | Copy-in 而非 npm 安装；无运行时锁 |
 | 动效 | Framer Motion | ^11 | 微交互；与 React 19 兼容 |
 | 国际化 | next-intl | ^3 | 中英双语；App Router 原生支持 |
@@ -37,12 +37,15 @@
 
 | 用途 | 模型 | 调用方式 | 备注 |
 |---|---|---|---|
-| 表单字段抽取 | Gemini 2.5 Flash | Vercel AI SDK | 低延迟 + 低成本 |
-| 推荐文案生成 | Claude Sonnet 4 / GPT-4o-mini | Vercel AI SDK | 二选一，A/B 评估 |
-| 语音转文字 | Whisper (OpenAI) | API | 用户口述输入 |
-| 文档 OCR | GPT-4o-mini Vision | API | 成绩单 / 雅思图片 |
+| 推荐文案生成（默认） | Gemini 2.0 Flash | Vercel AI SDK (`ai` ^6, `@ai-sdk/google` ^3) | 免费档（10 RPM / 1500 请求每日），单次批量返回所有推荐项 |
+| 推荐文案生成（fallback） | 模板渲染（`packages/core/ai/templates/narrative-template.ts`） | 纯 TS | 当 `GOOGLE_GENERATIVE_AI_API_KEY` 未配置 / LLM 失败 / post-filter 拒收时启用，零外部依赖 |
+| 表单字段抽取 | Gemini 2.0 Flash | Vercel AI SDK | 同上 |
+| 语音转文字 | Whisper (OpenAI) | API | 待启用 |
+| 文档 OCR | GPT-4o-mini Vision | API | 待启用 |
 
-**适配层**：所有 LLM 调用走 `packages/core/ai/` 抽象层；切模型仅改配置不改业务代码。
+**适配层**：所有 LLM 调用走 `packages/core/ai/` 抽象层；`GenerateObjectFn` 由调用方（如 `apps/web/src/lib/ai/google-narrative.ts`）注入。核心包不直接依赖任何 LLM SDK，便于多 runtime 移植。
+
+**输出契约**：每次调用 → Zod 校验 → `filterNarrative` 丢弃未引用合法 `source_id` 的字段 → 调用方接收 `Result<T, AIError>` 并按需回退到模板。
 
 ---
 
@@ -51,9 +54,10 @@
 | 类别 | 选型 | 备注 |
 |---|---|---|
 | 托管 | Vercel Hobby | 0 成本；`xxx.vercel.app` 二级域名 |
-| 包管理 | pnpm | ^9（已装 11.2.2） |
-| 仓库结构 | Monorepo | `apps/web` + `packages/core` |
-| Node 运行时 | Node | ^20 LTS（本地 24.11，CI 锁 20） |
+| 包管理 | pnpm | ^11.2.2（**强约束**：pnpm 11 用 `node:sqlite`，要求 Node ≥ 22.13） |
+| 仓库结构 | Monorepo | `apps/web` + `packages/core`，pnpm workspaces 单根 lockfile |
+| Node 运行时 | Node | ^22.13 LTS（本地 24.11，CI 锁 22；root `package.json` `engines.node` 已声明） |
+| 构建脚本审批 | `pnpm-workspace.yaml` `allowBuilds` | 显式允许 `sharp` / `unrs-resolver` 跑安装脚本，其余依赖默认拒跑 |
 
 ---
 

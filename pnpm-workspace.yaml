@@ -3,12 +3,14 @@ packages:
   - "packages/*"
 
 allowBuilds:
+  esbuild: true
   sharp: true
   unrs-resolver: true
 
 # pnpm 11 requires explicit allow/deny of dependency install scripts.
-# Both packages run native postinstall scripts; we allow them as they
-# come straight from Next.js's official install chain.
+# All three run native postinstall scripts; esbuild comes via vitest, the
+# other two come from Next.js's official install chain.
 onlyBuiltDependencies:
+  - esbuild
   - sharp
   - unrs-resolver

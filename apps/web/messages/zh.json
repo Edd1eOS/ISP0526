@@ -1,10 +1,18 @@
 {
-  "common": {
-    "appName": "一站式留学启动器",
-    "tagline": "用可验证的数据，做你自己的选择",
-    "cta": {
-      "start": "开始测评",
-      "learnMore": "了解更多"
+    "common": {
+        "appName": "一站式留学启动器",
+        "tagline": "用可验证的数据，做你自己的选择",
+        "cta": {
+            "start": "开始测评",
+            "learnMore": "了解更多",
+            "talkToUs": "想找人聊聊？"
+        },
+        "contact": {
+            "intro": "报告里任何想再深入聊的地方，可以加我们。",
+            "reportIdLabel": "你的报告 ID",
+            "reportIdHint": "把这个发给我们，我们就能调出你的完整方案。",
+            "whatsapp": "WhatsApp",
+            "wechat": "WeChat"
+        }
     }
-  }
 }
