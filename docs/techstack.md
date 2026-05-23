@@ -19,6 +19,7 @@
 | 状态 | Zustand | ^5 | 全局轻量状态；persist 中间件 |
 | 数据获取 | TanStack Query | ^5 | 缓存 + 乐观更新 |
 | 表单 | React Hook Form + Zod | ^7 + ^3 | 类型 + 校验合一 |
+| 客户端文档解析 | pdfjs-dist + mammoth | ^4 + ^1 | PDF 文本主线程抽取（避开 Turbopack worker 装配）；DOCX 走 mammoth browser bundle `extractRawText`，弃 styling 只保留纯文本喂给抽取 prompt |
 
 ---
 

@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { extractPdfText } from "@/lib/pdf/extract-pdf-text";
+import { extractDocxText } from "@/lib/docx/extract-docx-text";
 import { startIntakeFromTextAction } from "./upload-actions";
 
 type FileStatus = "queued" | "parsing" | "done" | "error";
@@ -16,8 +17,21 @@ interface QueuedFile {
     error?: string;
 }
 
-const ACCEPTED_TYPES = ["application/pdf"];
+const PDF_MIME = "application/pdf";
+const DOCX_MIME =
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+const ACCEPTED_TYPES = [PDF_MIME, DOCX_MIME];
+// reason: some browsers leave `file.type` empty for .docx dragged from
+// Explorer; fall back to the extension before rejecting the file.
+const ACCEPTED_EXTS = [".pdf", ".docx"];
 const MAX_BYTES = 10 * 1024 * 1024;
+
+function detectKind(file: File): "pdf" | "docx" | null {
+    const name = file.name.toLowerCase();
+    if (file.type === PDF_MIME || name.endsWith(".pdf")) return "pdf";
+    if (file.type === DOCX_MIME || name.endsWith(".docx")) return "docx";
+    return null;
+}
 
 export function UploadDropzone() {
     const router = useRouter();
@@ -29,7 +43,7 @@ export function UploadDropzone() {
     const acceptFiles = useCallback(async (incoming: FileList | File[]) => {
         const accepted: QueuedFile[] = [];
         for (const file of Array.from(incoming)) {
-            if (!ACCEPTED_TYPES.includes(file.type)) continue;
+            if (!detectKind(file)) continue;
             if (file.size > MAX_BYTES) continue;
             accepted.push({
                 id: `${file.name}:${file.size}:${Date.now()}`,
@@ -52,15 +66,29 @@ export function UploadDropzone() {
             ),
         );
         try {
-            const text = await extractPdfText(queued.file, (pct) => {
+            const kind = detectKind(queued.file);
+            let text: string;
+            if (kind === "pdf") {
+                text = await extractPdfText(queued.file, (pct) => {
+                    setFiles((prev) =>
+                        prev.map((f) =>
+                            f.id === queued.id
+                                ? { ...f, progress: Math.max(f.progress, pct) }
+                                : f,
+                        ),
+                    );
+                });
+            } else if (kind === "docx") {
+                // mammoth has no progress callback; bump to 50% so the bar moves.
                 setFiles((prev) =>
                     prev.map((f) =>
-                        f.id === queued.id
-                            ? { ...f, progress: Math.max(f.progress, pct) }
-                            : f,
+                        f.id === queued.id ? { ...f, progress: 50 } : f,
                     ),
                 );
-            });
+                text = await extractDocxText(queued.file);
+            } else {
+                throw new Error("unsupported file type");
+            }
             setFiles((prev) =>
                 prev.map((f) =>
                     f.id === queued.id
@@ -154,10 +182,10 @@ export function UploadDropzone() {
                 </span>
                 <div className="space-y-1 text-center">
                     <p className="text-text text-base font-semibold">
-                        拖入 PDF 文件
+                        拖入 PDF 或 Word 文件
                     </p>
                     <p className="text-text-muted text-xs">
-                        简历 / 成绩单 / 录取信均可（≤ 10 MB）
+                        简历 / 成绩单 / 录取信均可 · .pdf / .docx · ≤ 10 MB
                     </p>
                 </div>
                 <span className="text-text-muted text-xs uppercase tracking-widest">
@@ -178,7 +206,7 @@ export function UploadDropzone() {
                 <input
                     ref={inputRef}
                     type="file"
-                    accept={ACCEPTED_TYPES.join(",")}
+                    accept={[...ACCEPTED_TYPES, ...ACCEPTED_EXTS].join(",")}
                     multiple
                     onChange={onPick}
                     className="hidden"
