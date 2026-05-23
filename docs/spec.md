@@ -313,16 +313,18 @@ final_score (0-100) =
 #### 7.2.1 颜色 token
 | Token | 值 | 用途 |
 |---|---|---|
-| `--color-bg` | `#FFF8F0` | 全局背景，奶米 |
-| `--color-surface` | `#FFEBDC` | 卡片 / 容器，浅蜜桃 |
-| `--color-surface-alt` | `#FFD9BD` | 次级卡片 / hover |
-| `--color-primary-from` | `#FF7A45` | 主按钮渐变起，蜜桃橘 |
-| `--color-primary-to` | `#FFB088` | 主按钮渐变止 |
-| `--color-accent` | `#9FD8A6` | 完成 / 成功反馈（薄荷绿） |
-| `--color-warning` | `#FFC25C` | 提示 / 进度（蜜糖黄） |
-| `--color-text` | `#2A1810` | 主文字，深咖 |
-| `--color-text-muted` | `#8C6A4E` | 次文字，浅咖 |
-| `--color-text-on-primary` | `#FFFFFF` | 主按钮文字 |
+| `--color-bg` | `#fffaf3` | 全局背景，奶米 |
+| `--color-surface` | `#ffefe2` | 卡片 / 容器，浅蜜桃 |
+| `--color-surface-alt` | `#ffe0c8` | 次级卡片 / hover |
+| `--color-primary-from` | `#d97757` | 主按钮渐变起，暖陶土橘 |
+| `--color-primary-to` | `#e8a98a` | 主按钮渐变止 |
+| `--color-accent` | `#a8c8a2` | 完成 / 成功反馈（鼠尾草绿） |
+| `--color-warning` | `#d9b372` | 提示 / 进度（蜂蜜棕） |
+| `--color-text` | `#2a1810` | 主文字，深咖 |
+| `--color-text-muted` | `#8c6a4e` | 次文字，浅咖 |
+| `--color-text-on-primary` | `#ffffff` | 主按钮文字 |
+
+> 设计约束：所有颜色饱和度受控（HSL S ≤ 60），杜绝"鲜艳广告色"。新增 hue 前先确认与现有调色板的同温度。
 
 #### 7.2.2 圆角 token
 | Token | 值 | 用途 |
@@ -336,9 +338,9 @@ final_score (0-100) =
 #### 7.2.3 阴影 token（Claymorphism 灵魂）
 | Token | 公式 |
 |---|---|
-| `--shadow-clay-card` | `0 50px 100px 0 rgba(255, 180, 140, 0.35)` |
-| `--shadow-clay-raised` | `0 20px 40px 0 rgba(255, 180, 140, 0.5), inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72)` |
-| `--shadow-clay-primary` | `0 20px 40px 0 rgba(255, 122, 69, 0.4), inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5), inset 0 -3px 10px 0 rgba(0, 0, 0, 0.25)` |
+| `--shadow-clay-card` | `0 50px 100px 0 rgba(217, 175, 145, 0.28)` |
+| `--shadow-clay-raised` | `0 20px 40px 0 rgba(217, 175, 145, 0.4), inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72)` |
+| `--shadow-clay-primary` | `0 20px 40px 0 rgba(217, 119, 87, 0.3), inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5), inset 0 -3px 10px 0 rgba(0, 0, 0, 0.18)` |
 | `--shadow-clay-pressed` | `inset 4px 4px 12px 0 rgba(0, 0, 0, 0.15)` |
 
 #### 7.2.4 字体 token
