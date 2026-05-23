@@ -11,7 +11,7 @@ import type { BandTier } from "../schemas/index.js";
 import { BAND_THRESHOLDS } from "./weights.js";
 
 export function classifyBand(academicFit: number): BandTier {
-  if (academicFit < BAND_THRESHOLDS.stretch_max) return "stretch";
-  if (academicFit < BAND_THRESHOLDS.match_max) return "match";
-  return "safety";
+    if (academicFit < BAND_THRESHOLDS.stretch_max) return "stretch";
+    if (academicFit < BAND_THRESHOLDS.match_max) return "match";
+    return "safety";
 }

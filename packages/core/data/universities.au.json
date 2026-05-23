@@ -1,103 +1,103 @@
 [
-  {
-    "id": "anu",
-    "name_en": "The Australian National University",
-    "name_zh": "澳大利亚国立大学",
-    "country": "AU",
-    "city": "Canberra",
-    "city_size": "medium",
-    "climate": "temperate",
-    "reputation_score": 0.96,
-    "chinese_community_density": 0.4,
-    "safety_index": 0.9,
-    "sources": [
-      {
-        "source_id": "anu_homepage_2026",
-        "kind": "url",
-        "url": "https://www.anu.edu.au/",
-        "last_verified_date": "2026-05-23",
-        "note": "official ANU homepage; institutional facts only"
-      }
-    ]
-  },
-  {
-    "id": "unimelb",
-    "name_en": "The University of Melbourne",
-    "name_zh": "墨尔本大学",
-    "country": "AU",
-    "city": "Melbourne",
-    "city_size": "mega",
-    "climate": "temperate",
-    "reputation_score": 0.95,
-    "chinese_community_density": 0.75,
-    "safety_index": 0.85,
-    "sources": [
-      {
-        "source_id": "unimelb_homepage_2026",
-        "kind": "url",
-        "url": "https://www.unimelb.edu.au/",
-        "last_verified_date": "2026-05-23"
-      }
-    ]
-  },
-  {
-    "id": "unsw",
-    "name_en": "University of New South Wales",
-    "name_zh": "新南威尔士大学",
-    "country": "AU",
-    "city": "Sydney",
-    "city_size": "mega",
-    "climate": "subtropical",
-    "reputation_score": 0.93,
-    "chinese_community_density": 0.8,
-    "safety_index": 0.85,
-    "sources": [
-      {
-        "source_id": "unsw_homepage_2026",
-        "kind": "url",
-        "url": "https://www.unsw.edu.au/",
-        "last_verified_date": "2026-05-23"
-      }
-    ]
-  },
-  {
-    "id": "usyd",
-    "name_en": "The University of Sydney",
-    "name_zh": "悉尼大学",
-    "country": "AU",
-    "city": "Sydney",
-    "city_size": "mega",
-    "climate": "subtropical",
-    "reputation_score": 0.93,
-    "chinese_community_density": 0.8,
-    "safety_index": 0.85,
-    "sources": [
-      {
-        "source_id": "usyd_homepage_2026",
-        "kind": "url",
-        "url": "https://www.sydney.edu.au/",
-        "last_verified_date": "2026-05-23"
-      }
-    ]
-  },
-  {
-    "id": "uq",
-    "name_en": "The University of Queensland",
-    "name_zh": "昆士兰大学",
-    "country": "AU",
-    "city": "Brisbane",
-    "city_size": "large",
-    "climate": "subtropical",
-    "reputation_score": 0.9,
-    "chinese_community_density": 0.55,
-    "safety_index": 0.88,
-    "sources": [
-      {
-        "source_id": "uq_homepage_2026",
-        "kind": "url",
-        "url": "https://www.uq.edu.au/",
-        "last_verified_date": "2026-05-23"
-      }
-    ]
-  }
+    {
+        "id": "anu",
+        "name_en": "The Australian National University",
+        "name_zh": "澳大利亚国立大学",
+        "country": "AU",
+        "city": "Canberra",
+        "city_size": "medium",
+        "climate": "temperate",
+        "reputation_score": 0.96,
+        "chinese_community_density": 0.4,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "anu_homepage_2026",
+                "kind": "url",
+                "url": "https://www.anu.edu.au/",
+                "last_verified_date": "2026-05-23",
+                "note": "official ANU homepage; institutional facts only"
+            }
+        ]
+    },
+    {
+        "id": "unimelb",
+        "name_en": "The University of Melbourne",
+        "name_zh": "墨尔本大学",
+        "country": "AU",
+        "city": "Melbourne",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.95,
+        "chinese_community_density": 0.75,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "unimelb_homepage_2026",
+                "kind": "url",
+                "url": "https://www.unimelb.edu.au/",
+                "last_verified_date": "2026-05-23"
+            }
+        ]
+    },
+    {
+        "id": "unsw",
+        "name_en": "University of New South Wales",
+        "name_zh": "新南威尔士大学",
+        "country": "AU",
+        "city": "Sydney",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.93,
+        "chinese_community_density": 0.8,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "unsw_homepage_2026",
+                "kind": "url",
+                "url": "https://www.unsw.edu.au/",
+                "last_verified_date": "2026-05-23"
+            }
+        ]
+    },
+    {
+        "id": "usyd",
+        "name_en": "The University of Sydney",
+        "name_zh": "悉尼大学",
+        "country": "AU",
+        "city": "Sydney",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.93,
+        "chinese_community_density": 0.8,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "usyd_homepage_2026",
+                "kind": "url",
+                "url": "https://www.sydney.edu.au/",
+                "last_verified_date": "2026-05-23"
+            }
+        ]
+    },
+    {
+        "id": "uq",
+        "name_en": "The University of Queensland",
+        "name_zh": "昆士兰大学",
+        "country": "AU",
+        "city": "Brisbane",
+        "city_size": "large",
+        "climate": "subtropical",
+        "reputation_score": 0.9,
+        "chinese_community_density": 0.55,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "uq_homepage_2026",
+                "kind": "url",
+                "url": "https://www.uq.edu.au/",
+                "last_verified_date": "2026-05-23"
+            }
+        ]
+    }
 ]
