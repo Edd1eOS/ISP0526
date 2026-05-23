@@ -34,7 +34,7 @@ export async function submitIntakeAction(formData: FormData): Promise<void> {
         );
     }
 
-    saveReport({
+    await saveReport({
         code,
         created_at: new Date().toISOString(),
         profile,

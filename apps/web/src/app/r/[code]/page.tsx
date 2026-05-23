@@ -12,7 +12,7 @@ interface ReportPageProps {
 
 export default async function ReportPage({ params }: ReportPageProps) {
     const { code } = await params;
-    const snapshot = loadReport(code);
+    const snapshot = await loadReport(code);
     if (!snapshot) notFound();
 
     const sections = [

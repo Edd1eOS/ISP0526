@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
+import { FIELD_OPTIONS } from "./field-options";
 
 interface IntakeFormProps {
     readonly action: (formData: FormData) => Promise<void>;
@@ -55,12 +56,17 @@ export function IntakeForm({ action }: IntakeFormProps) {
             </Field>
 
             <Field label="目标方向（可选）">
-                <input
-                    type="text"
+                <select
                     name="target_field"
-                    placeholder="例如 Information Technology"
+                    defaultValue=""
                     className="form-control"
-                />
+                >
+                    {FIELD_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                            {o.label}
+                        </option>
+                    ))}
+                </select>
             </Field>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

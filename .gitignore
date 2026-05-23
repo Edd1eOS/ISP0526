@@ -54,6 +54,9 @@ supabase/.temp/
 # Vercel
 .vercel/
 
+# Local runtime data (file-backed report store)
+.data/
+
 # Misc
 *.tgz
 .DS_Store
