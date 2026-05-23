@@ -63,6 +63,16 @@ export async function extractProfileFromText(
         });
     }
 
+    if (process.env.NODE_ENV !== "production") {
+        // reason: developer-only diagnostic so we can see what the LLM
+        // actually returned before the confidence floor strips fields.
+        // eslint-disable-next-line no-console
+        console.info(
+            "[intake-extraction] raw fields:",
+            JSON.stringify(parsed.data),
+        );
+    }
+
     return ok(applyConfidenceFloor(parsed.data, floor));
 }
 

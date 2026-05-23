@@ -36,3 +36,4 @@
 ---
 
 <!-- 未来条目追加到上方 v0.0.x 区段，按时间倒序 -->
+| 2026-05-24 | fix(intake-extraction) | sprint 2 voice-channel calibration: relax the extraction system prompt so currency-less budget phrases (e.g. "20��") default to AUD at confidence 0.5..0.65, and broad Chinese discipline terms (e.g. "����", "�̿�") normalize to the closest English discipline name at confidence 0.55..0.7; also widen the confidence ladder to 0.4..0.6 for "supported but requires assumption". Add dev-only `console.info` of raw LLM output before the confidence floor for debug visibility. 70/70 core tests still green | feat/intake-multimodal |

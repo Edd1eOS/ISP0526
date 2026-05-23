@@ -18,11 +18,33 @@ export interface VoiceIntakeResult {
 }
 
 const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
+// reason: Gemini 2.0 Flash currently gates audio input behind a paid tier
+// (free-tier limit = 0 for `generate_content_free_tier_input_token_count`
+// when the request contains audio). Gemini 2.5 Flash audio is still on
+// the free tier as of 2026-05, so we default voice transcription there.
+// Override with GOOGLE_VOICE_MODEL_ID if you have access to a different
+// model on your account.
+const VOICE_MODEL_ID =
+    process.env.GOOGLE_VOICE_MODEL_ID || "gemini-2.5-flash";
 const VOICE_TRANSCRIBE_PROMPT =
     "You are transcribing a study-abroad consultation voice memo. " +
     "Output ONLY the verbatim transcript, no prefixes, no commentary. " +
     "Keep the speaker's original language (Chinese or English). " +
     "If the audio is silent or unintelligible, output a single empty string.";
+
+// Gemini's audio understanding accepts: wav, mp3, aiff, aac, ogg, flac.
+// MediaRecorder in Chromium emits audio/webm;codecs=opus and in Safari
+// emits audio/mp4 (AAC). We strip codec parameters (Gemini rejects the
+// `;codecs=` suffix on some paths) and remap webm to ogg because the opus
+// stream inside the webm container is byte-compatible with what Gemini's
+// ogg decoder expects.
+function normalizeAudioMediaType(raw: string): string {
+    const bare = (raw || "audio/webm").split(";")[0]!.trim().toLowerCase();
+    if (bare === "audio/webm") return "audio/ogg";
+    if (bare === "audio/mp4" || bare === "audio/x-m4a") return "audio/aac";
+    if (bare === "audio/mpeg") return "audio/mp3";
+    return bare;
+}
 
 export async function startIntakeFromAudioAction(
     formData: FormData,
@@ -48,16 +70,19 @@ export async function startIntakeFromAudioAction(
     let transcript = "";
     try {
         const bytes = new Uint8Array(await audio.arrayBuffer());
-        const mediaType = audio.type || "audio/webm";
+        const mediaType = normalizeAudioMediaType(audio.type);
         const { text } = await generateText({
-            model: google("gemini-2.0-flash"),
+            model: google(VOICE_MODEL_ID),
             messages: [
                 {
                     role: "user",
                     content: [
                         // reason: Vercel AI SDK v6 file part takes raw bytes
-                        // plus a mediaType; Gemini's multimodal endpoint
-                        // accepts opus/webm and mp4 audio directly.
+                        // plus a mediaType. Gemini's audio understanding
+                        // accepts wav / mp3 / aiff / aac / ogg / flac;
+                        // MediaRecorder usually emits webm/opus, which we
+                        // surface to Gemini as audio/ogg (same opus payload
+                        // in a different container, and Gemini decodes it).
                         { type: "file", data: bytes, mediaType },
                         { type: "text", text: VOICE_TRANSCRIBE_PROMPT },
                     ],
@@ -66,9 +91,11 @@ export async function startIntakeFromAudioAction(
         });
         transcript = text.trim();
     } catch (cause) {
+        const detail =
+            cause instanceof Error ? `${cause.name}: ${cause.message}` : String(cause);
         // eslint-disable-next-line no-console
         console.warn("[voice] transcription failed", cause);
-        return { ok: false, error: "听写失败，再试一次？" };
+        return { ok: false, error: `听写失败：${detail}` };
     }
 
     if (transcript.length === 0) {

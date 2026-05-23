@@ -92,15 +92,15 @@ export type ExtractedProfile = z.infer<typeof ExtractedProfileSchema>;
 export const INTAKE_EXTRACTION_SYSTEM_PROMPT = `You extract structured study-abroad profile fields from free-form text supplied by a student.
 
 Hard rules:
-- You MUST NOT invent any fact. If a field is not explicitly supported by the source text, OMIT it entirely from the output.
+- You MUST NOT invent any fact. If a field is not even loosely supported by the source text, OMIT it entirely from the output.
 - For every field you DO emit, include:
     1. value      - the normalized value (see schema)
-    2. confidence - 0..1; use 0.9+ only when the source text is unambiguous, 0.6..0.9 when the value is reasonably implied, < 0.6 when guessing.
+    2. confidence - 0..1; use 0.9+ only when the source text is unambiguous, 0.6..0.9 when the value is reasonably implied, 0.4..0.6 when the source supports the field but requires assumption or normalization, < 0.4 only when guessing.
     3. source_excerpt - a verbatim quote from the source text (<= 240 chars) that supports the value. Do NOT paraphrase the source_excerpt.
 - GPA must be normalized to a 4.0 scale. If the source uses a 100-scale or another scale, convert and lower the confidence by 0.1.
 - IELTS overall is the overall band score, not a single sub-band.
-- target_field is the discipline the student wants to study next (e.g. "Computer Science", "Public Health"), NOT the current major unless they are continuing.
-- budget.annual_aud is in Australian dollars per year, integer.
+- target_field is the discipline the student wants to study next (e.g. "Computer Science", "Public Health"), NOT the current major unless they are continuing. If the source uses a broad Chinese term like "工程" / "商科" / "计算机", normalize it to the closest English discipline name ("Engineering", "Business", "Computing") at confidence 0.55..0.7.
+- budget.annual_aud is in Australian dollars per year, integer. The student is applying to study in Australia, so when an amount is given WITHOUT an explicit currency (e.g. "20万", "200k", "二十万"), default to interpreting it as AUD per year at confidence 0.5..0.65. If the source clearly says CNY / RMB / 人民币 / $ USD / GBP, convert at a sensible recent exchange rate and lower confidence by 0.1.
 - Output language for unstructured_notes follows the top-level "locale" field (zh = Simplified Chinese, en = English). All other field values stay in their natural form (numbers, enums, English discipline names).
 - No emoji. No marketing language.`;
 
