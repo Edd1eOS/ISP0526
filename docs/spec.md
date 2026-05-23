@@ -296,23 +296,80 @@ final_score (0-100) =
 
 ## 7. UI/UX 设计原则
 
-### 7.1 视觉
-- **色调**：浅色背景（米白/暖白），暖色主调（焦糖橙 / 燕麦黄 / 柔粉），中等饱和度
-- **字体**：中文 PingFang/思源 + 英文 Inter，正文 16px+
-- **圆角**：12-16px 大圆角传递柔和
-- **动效**：Framer Motion，所有过渡 200-400ms ease-out
+### 7.1 视觉系统总纲
+- **设计语言**：**Warm Claymorphism**（暖色调黏土质感）
+- **理由**：低压力 + 可亲 + 适配 Phase 2 游戏化迁移；区分于传统留学中介的"商务严肃"视觉
+- **参考来源**：Meng To 的 Claymorphism UI（结构）+ 自定义暖色 palette（视觉）
 
-### 7.2 交互
-- **进度可见但不焦虑**：进度条用"已完成 X / 大约 Y 步" 而非"还剩 N 题"
-- **零强制字段**：所有字段可跳过，默认值合理
-- **错误友好**：错误信息以"建议"语气，非"错误"语气
-- **撤销随处可达**：所有不可逆操作（删除、生成报告）有 5 秒撤销窗口
-- **CTA 节制**：每页主 CTA 唯一，次级操作弱化
+### 7.2 设计 Token（单一事实源）
+所有界面只能通过 CSS 变量引用 token；硬编码颜色 / 阴影 / 圆角 = PR 拒绝合并（见 `prohibition.md` 第 14-15 条）。
 
-### 7.3 文案语气
-- 第二人称、温和、不催促
-- 禁用感叹号堆砌、紧迫感词汇（"立即"、"限时"、"错过"等）
-- 中介合作页面措辞中立："这些合作中介可以为你提供后续申请支持"
+#### 7.2.1 颜色 token
+| Token | 值 | 用途 |
+|---|---|---|
+| `--color-bg` | `#FFF8F0` | 全局背景，奶米 |
+| `--color-surface` | `#FFEBDC` | 卡片 / 容器，浅蜜桃 |
+| `--color-surface-alt` | `#FFD9BD` | 次级卡片 / hover |
+| `--color-primary-from` | `#FF7A45` | 主按钮渐变起，蜜桃橘 |
+| `--color-primary-to` | `#FFB088` | 主按钮渐变止 |
+| `--color-accent` | `#9FD8A6` | 完成 / 成功反馈（薄荷绿） |
+| `--color-warning` | `#FFC25C` | 提示 / 进度（蜜糖黄） |
+| `--color-text` | `#2A1810` | 主文字，深咖 |
+| `--color-text-muted` | `#8C6A4E` | 次文字，浅咖 |
+| `--color-text-on-primary` | `#FFFFFF` | 主按钮文字 |
+
+#### 7.2.2 圆角 token
+| Token | 值 | 用途 |
+|---|---|---|
+| `--radius-card-lg` | `40px` | 主卡片 |
+| `--radius-card-md` | `28px` | 次卡片 / 列表项 |
+| `--radius-button` | `20px` | 按钮 |
+| `--radius-input` | `16px` | 输入框 / 标签 |
+| `--radius-icon` | `12px` | 图标背景 |
+
+#### 7.2.3 阴影 token（Claymorphism 灵魂）
+| Token | 公式 |
+|---|---|
+| `--shadow-clay-card` | `0 50px 100px 0 rgba(255, 180, 140, 0.35)` |
+| `--shadow-clay-raised` | `0 20px 40px 0 rgba(255, 180, 140, 0.5), inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72)` |
+| `--shadow-clay-primary` | `0 20px 40px 0 rgba(255, 122, 69, 0.4), inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5), inset 0 -3px 10px 0 rgba(0, 0, 0, 0.25)` |
+| `--shadow-clay-pressed` | `inset 4px 4px 12px 0 rgba(0, 0, 0, 0.15)` |
+
+#### 7.2.4 字体 token
+| Token | 值 |
+|---|---|
+| `--font-zh` | `PingFang SC, Source Han Sans CN, sans-serif` |
+| `--font-en` | `Inter, SF Pro Text, sans-serif` |
+| `--text-h1` | `32px / 40px / 700` |
+| `--text-h2` | `24px / 32px / 600` |
+| `--text-body` | `16px / 24px / 400` |
+| `--text-small` | `14px / 20px / 400` |
+
+### 7.3 主题切换机制
+- 主题通过 `[data-theme]` 属性切换；组件代码不写死颜色。
+- Phase 1 仅一套主题（Warm Claymorphism）。
+- Phase 2 预留：`dusk`（夜间暖咖）、`festival`（节日限时主题）。
+
+### 7.4 组件来源治理（多源统一）
+- **唯一组件库**：shadcn/ui（通过 token 自动换肤）。
+- **引入外部 Figma / 第三方组件**必须先脱色：
+  1. 只复用结构（圆角层数、阴影公式、间距比例）。
+  2. 色值一律映射到 `--color-*`。
+  3. 阴影若与 `--shadow-clay-*` 同构则替换；不同构则新增 token 而非裸写。
+- **新增 token** 须 PR + 更新本节表格。
+
+### 7.5 交互原则
+- **进度可见但不焦虑**：进度条文案 "已完成 X / 大约 Y 步"，禁用"还剩 N 题"。
+- **零强制字段**：所有字段可跳过，默认值合理。
+- **错误友好**：错误以"建议"语气呈现，非"错误"语气。
+- **撤销随处可达**：所有不可逆操作（删除、生成报告）保留 5 秒撤销窗口。
+- **CTA 节制**：每页主 CTA 唯一，次级操作弱化。
+- **动效节律**：Framer Motion，过渡 200-400ms `ease-out`；游戏化反馈（完成测评步骤）≤ 600ms 的 spring 弹性。
+
+### 7.6 文案语气
+- 第二人称、温和、不催促。
+- 禁用感叹号堆砌、紧迫感词汇（"立即"、"限时"、"错过"等）。
+- 中介合作页面措辞中立："这些合作中介可以为你提供后续申请支持"。
 
 ---
 

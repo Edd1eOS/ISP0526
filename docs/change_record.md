@@ -11,6 +11,8 @@
 |---|---|---|---|
 | 2026-05-23 | docs(spec) | initial product spec v1.0 | — (pre-repo) |
 | 2026-05-23 | chore(repo) | initialize repo skeleton with docs, legal, copilot instructions | — (initial commit) |
+| 2026-05-23 | chore(mcp) | add Figma MCP server (Framelink) for design token extraction | — (direct main) |
+| 2026-05-23 | docs(spec) | section 7 rewritten as Warm Claymorphism design system with full token table (colors / radii / shadows / typography) extracted from Meng To reference + warm palette adaptation | — (direct main) |
 
 ---
 

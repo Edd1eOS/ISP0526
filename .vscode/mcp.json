@@ -26,6 +26,12 @@
             "id": "tavily-key",
             "description": "Tavily API Key (tvly-xxx)",
             "password": true
+        },
+        {
+            "type": "promptString",
+            "id": "figma-pat",
+            "description": "Figma Personal Access Token (figd_xxx). Settings > Security > Personal access tokens.",
+            "password": true
         }
     ],
     "servers": {
@@ -76,6 +82,20 @@
             ],
             "env": {
                 "TAVILY_API_KEY": "${input:tavily-key}"
+            }
+        },
+        // Figma MCP (Framelink community server): read Figma files / nodes / styles / export images.
+        // Free; uses Figma REST API. Upgrade to Figma official Dev Mode MCP later if needed.
+        "figma": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "figma-developer-mcp",
+                "--stdio"
+            ],
+            "env": {
+                "FIGMA_API_KEY": "${input:figma-pat}"
             }
         }
     }
