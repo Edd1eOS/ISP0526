@@ -100,10 +100,11 @@ const CURRENCY: ReadonlyArray<{ re: RegExp; rate: number }> = [
     { re: /(\d+(?:\.\d+)?)\s*k\s*(?:aud|澳币|澳元)/i, rate: 1 },
     { re: /(\d+(?:\.\d+)?)\s*k\s*(?:rmb|cny|人民币|元)/i, rate: 1 / 4.7 },
     { re: /(\d+(?:\.\d+)?)\s*k\s*(?:usd|美元)/i, rate: 1.5 },
-    { re: /(\d+(?:\.\d+)?)\s*k\b/i, rate: 1 }, // bare "60k" -> AUD
+    { re: /(\d+(?:\.\d+)?)\s*k\b/i, rate: 1 / 4.7 }, // bare "60k" -> RMB on Chinese platform
     { re: /(\d+(?:,\d{3})*)\s*(?:aud|澳币|澳元)/i, rate: 1 },
     { re: /(\d+(?:,\d{3})*)\s*(?:usd|美元)/i, rate: 1.5 },
     { re: /(\d+(?:,\d{3})*)\s*(?:rmb|cny|人民币|元)/i, rate: 1 / 4.7 },
+    { re: /\b(\d{4,6})\b/i, rate: 1 / 4.7 }, // bare number -> RMB default
 ];
 
 function detectBudget(text: string): Signal<number> | undefined {

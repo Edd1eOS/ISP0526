@@ -70,6 +70,19 @@ function isSkip(text: string): boolean {
     );
 }
 
+// Strip the skip phrases out of a reply so the leftover (if any) can be
+// echoed back as context. Returns a trimmed leftover, or "" if nothing
+// substantive remains.
+function extractExtraContext(text: string): string {
+    const skipPhrases = /不知道|没想好|没.*想法|不太清楚|不清楚|说不准|随便|都行|跳过|skip|下一个|下一题|算了|不想.*答|够了|够.*了|没意见|无所谓|whatever|都没有|没有/gi;
+    const stripped = text
+        .replace(skipPhrases, " ")
+        .replace(/[，。,.!！?？；;:\s]+/g, " ")
+        .trim();
+    if (stripped.length < 2 || stripped.length > 40) return "";
+    return stripped;
+}
+
 // --- per-field interpreters ---------------------------------------------
 
 function parseTargetField(text: string): string | undefined {
@@ -124,18 +137,13 @@ function parseBudget(text: string): number | undefined {
     if (CURRENCY_REJECT_RE.test(text)) return undefined;
     const n = parseNumber(text);
     if (n === undefined) return undefined;
-    let rate = 1;
-    let matched = false;
+    let rate = 1 / 4.7; // default: RMB on a Chinese-first platform
     for (const c of CURRENCY_AUD_RATE) {
         if (c.test.test(text)) {
             rate = c.rate;
-            matched = true;
             break;
         }
     }
-    // No currency keyword: assume AUD if number is in a sane AUD range,
-    // otherwise assume CNY (a bare "20万" almost always means RMB).
-    if (!matched && n >= 100000) rate = 1 / 4.7;
     const aud = Math.round(n * rate);
     if (aud < 5000 || aud > 500000) return undefined;
     return aud;
@@ -256,8 +264,9 @@ export function runDeterministicTurn(
         if (!filled && isSkip(userAnswer)) skipped = true;
     }
 
-    // Decide whether to re-ask the same field or move on.
-    if (asked && userAnswer && !filled && !skipped && asked.attempt < 2) {
+    // Decide whether to re-ask the same field or move on. Be more patient:
+    // 3 attempts before giving up, since users often clarify across turns.
+    if (asked && userAnswer && !filled && !skipped && asked.attempt < 3) {
         const reAsk = RETRY_QUESTIONS[asked.key];
         return {
             reply: appendMarker(reAsk, asked.key, asked.attempt + 1),
@@ -268,7 +277,7 @@ export function runDeterministicTurn(
     // Build the remaining list. If we just filled or skipped the asked
     // field, exclude it; otherwise keep going down the list.
     const remaining = input.missingKeys.filter(
-        (k) => !(asked && k === asked.key && (filled || skipped || asked.attempt >= 2)),
+        (k) => !(asked && k === asked.key && (filled || skipped || asked.attempt >= 3)),
     );
 
     if (remaining.length === 0) {
@@ -281,12 +290,20 @@ export function runDeterministicTurn(
     }
 
     const nextKey = remaining[0];
-    const ack =
-        skipped
-            ? "好，先跳过这条。"
-            : asked && !filled && asked.attempt >= 2
-              ? "这条先跳过，等下你可以在右边表单直接选。"
-              : "";
+    // Acknowledge what the user said before pivoting. If they expressed
+    // a skip with extra context (e.g. "都没有，最看重校园环境"), echo the
+    // extra bit so they don't feel ignored. Strip pure skip words to avoid
+    // "记下了：都没有" which reads silly.
+    const extra = skipped ? extractExtraContext(userAnswer) : "";
+    const ack = filled
+        ? ""
+        : skipped
+          ? extra
+              ? `好，记下了你提到的「${extra}」（表单没这个选项，会作为参考）。这条先跳过。`
+              : "好，这条先跳过。你之后可以在右边表单里手动选，或者留空。"
+          : asked && !filled && asked.attempt >= 3
+            ? "这条我没读出明确答案，先跳过——你可以在右边表单里直接选。"
+            : "";
     const body = QUESTIONS[nextKey];
     const reply = ack ? `${ack}\n${body}` : body;
     return {
