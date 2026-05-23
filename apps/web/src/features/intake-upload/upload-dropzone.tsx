@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { extractPdfText } from "@/lib/pdf/extract-pdf-text";
+import { startIntakeFromTextAction } from "./upload-actions";
 
 type FileStatus = "queued" | "parsing" | "done" | "error";
 
@@ -99,27 +100,34 @@ export function UploadDropzone() {
 
     const onSubmit = async () => {
         setSubmitting(true);
-        // Phase 1: just dump extracted text to console so we can verify the
-        // pipeline; the review-page hookup lands in a follow-up commit.
-        // eslint-disable-next-line no-console
-        console.info(
-            "[upload] extracted text from",
-            doneCount,
-            "file(s):",
-            files.filter((f) => f.status === "done").map((f) => ({
-                name: f.file.name,
-                chars: f.text?.length ?? 0,
-                preview: f.text?.slice(0, 240),
-            })),
-        );
-        // TODO(E1d/E1e): push extracted text to a server action, run the
-        // extraction prompt, then router.push to the review page.
-        await new Promise((r) => setTimeout(r, 600));
-        setSubmitting(false);
-        alert(
-            "文本已读取完毕（去 dev 控制台看看）。下一关：AI 补填字段 + 审阅页。",
-        );
-        router.refresh();
+        try {
+            const done = files.filter((f) => f.status === "done" && f.text);
+            // Concatenate all uploaded sources into one prompt; label by the
+            // first filename so the review page can show provenance.
+            const combinedText = done
+                .map((f) => `=== ${f.file.name} ===\n${f.text}`)
+                .join("\n\n");
+            const label =
+                done.length === 1
+                    ? done[0]!.file.name
+                    : `${done[0]!.file.name} 等 ${done.length} 份`;
+            const result = await startIntakeFromTextAction({
+                source: "upload",
+                label,
+                text: combinedText,
+            });
+            if (!result.ok || !result.sessionId) {
+                alert(`抽取失败：${result.error ?? "未知错误"}`);
+                setSubmitting(false);
+                return;
+            }
+            router.push(`/intake/review/${result.sessionId}`);
+        } catch (cause) {
+            // eslint-disable-next-line no-console
+            console.error("[upload] submit failed", cause);
+            alert("出错了，再试一次？");
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -211,7 +219,7 @@ export function UploadDropzone() {
                     {submitting
                         ? "AI 读中…请稍等"
                         : doneCount > 0
-                            ? `带着这 ${doneCount} 份继续冲关`
+                            ? `带着这 ${doneCount} 份去审阅`
                             : "等文件准备好再继续"}
                 </button>
             </div>
