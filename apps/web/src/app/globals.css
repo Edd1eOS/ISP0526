@@ -8,14 +8,15 @@
 @import "tailwindcss";
 
 :root {
-  /* Color tokens (spec 7.2.1) */
-  --color-bg: #fff8f0;
-  --color-surface: #ffebdc;
-  --color-surface-alt: #ffd9bd;
-  --color-primary-from: #ff7a45;
-  --color-primary-to: #ffb088;
+  /* Color tokens (spec 7.2.1) — warm but dialed back from saturated orange.
+   * Primary now leans peach-coral; surface keeps the cream-on-cream calm. */
+  --color-bg: #fffaf3;
+  --color-surface: #ffefe2;
+  --color-surface-alt: #ffe0c8;
+  --color-primary-from: #f08358;
+  --color-primary-to: #f5b89a;
   --color-accent: #9fd8a6;
-  --color-warning: #ffc25c;
+  --color-warning: #f5c26b;
   --color-text: #2a1810;
   --color-text-muted: #8c6a4e;
   --color-text-on-primary: #ffffff;
@@ -28,19 +29,19 @@
   --radius-icon: 12px;
 
   /* Shadow tokens — claymorphism soul (spec 7.2.3) */
-  --shadow-clay-card: 0 50px 100px 0 rgba(255, 180, 140, 0.35);
+  --shadow-clay-card: 0 50px 100px 0 rgba(240, 170, 130, 0.3);
   --shadow-clay-raised:
-    0 20px 40px 0 rgba(255, 180, 140, 0.5),
+    0 20px 40px 0 rgba(240, 170, 130, 0.45),
     inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72);
   --shadow-clay-primary:
-    0 20px 40px 0 rgba(255, 122, 69, 0.4),
+    0 20px 40px 0 rgba(240, 131, 88, 0.35),
     inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -3px 10px 0 rgba(0, 0, 0, 0.25);
+    inset 0 -3px 10px 0 rgba(0, 0, 0, 0.2);
   --shadow-clay-pressed: inset 4px 4px 12px 0 rgba(0, 0, 0, 0.15);
 
   /* Gradient compositions */
-  --gradient-primary: linear-gradient(-45deg, #ff7a45 0%, #ffb088 100%);
-  --gradient-raised: linear-gradient(-40deg, #ffe0cc 0%, #ffffff 100%);
+  --gradient-primary: linear-gradient(-45deg, #f08358 0%, #f5b89a 100%);
+  --gradient-raised: linear-gradient(-40deg, #ffe5d2 0%, #ffffff 100%);
 
   /* Typography tokens (spec 7.2.4) */
   --font-zh: "PingFang SC", "Source Han Sans CN", sans-serif;
