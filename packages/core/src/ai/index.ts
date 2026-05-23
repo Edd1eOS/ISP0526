@@ -10,3 +10,5 @@ export * from "./prompts/recommendation-narrative";
 export * from "./prompts/recommendation-narrative-batch";
 export * from "./adapters/narrative";
 export * from "./adapters/narrative-batch";
+export * from "./prompts/intake-extraction";
+export * from "./adapters/intake-extraction";
