@@ -60,4 +60,6 @@ supabase/.temp/
 # Misc
 *.tgz
 .DS_Store
-`n# Local backup files created during in-place rewrites`n*.bak
+
+# Local backup files created during in-place rewrites
+*.bak
