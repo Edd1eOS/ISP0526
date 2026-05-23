@@ -4,6 +4,7 @@ import "server-only";
 import { generateText } from "ai";
 import { google } from "@ai-sdk/google";
 import { extractProfileFromText, type ExtractedProfile } from "@isp0526/core";
+import { enrichExtraction } from "../../lib/ai/intake-enricher";
 import { isGoogleConfigured } from "../../lib/ai/google-narrative";
 import { buildGoogleExtractionGenerator } from "../../lib/ai/google-extraction";
 import {
@@ -123,6 +124,9 @@ export async function startIntakeFromAudioAction(
         console.warn("[voice] extraction threw", cause);
     }
 
+    // Backfill obvious signals via regex when the LLM missed them.
+    const enriched = enrichExtraction(extracted, transcript);
+
     const id = newSessionId();
     await saveIntakeSession({
         id,
@@ -132,7 +136,7 @@ export async function startIntakeFromAudioAction(
             label: `语音输入 · 约 ${seconds}s`,
             text: transcript,
         },
-        extracted,
+        extracted: enriched,
     });
 
     return { ok: true, sessionId: id };

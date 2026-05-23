@@ -5,6 +5,7 @@ import {
     isGoogleConfigured,
 } from "../../lib/ai/google-narrative";
 import { buildGoogleExtractionGenerator } from "../../lib/ai/google-extraction";
+import { enrichExtraction } from "../../lib/ai/intake-enricher";
 import {
     newSessionId,
     saveIntakeSession,
@@ -74,12 +75,25 @@ export async function startIntakeFromTextAction(
         );
     }
 
+    // Always run the deterministic regex enricher to backfill obvious
+    // signals the LLM missed (or to cover the case where the LLM call
+    // failed entirely). Enricher only fills gaps; existing AI signals win.
+    const enriched = enrichExtraction(extracted, text);
+    if (countFields(enriched) > countFields(extracted)) {
+        // eslint-disable-next-line no-console
+        console.info(
+            `[intake-extraction] enricher added ${
+                countFields(enriched) - countFields(extracted)
+            } field(s) via regex`,
+        );
+    }
+
     const id = newSessionId();
     await saveIntakeSession({
         id,
         created_at: new Date().toISOString(),
         source: { kind: input.source, label: input.label, text },
-        extracted,
+        extracted: enriched,
     });
 
     return { ok: true, sessionId: id, llmUsed };

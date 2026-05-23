@@ -1,11 +1,13 @@
-// Deterministic clarify fallback. When the LLM is unavailable (quota
-// exhausted, network error, missing API key) the chat must still drive the
-// student to a filled-out form. This module provides a tiny rule-based
-// "interviewer" that picks the next priority question and does best-effort
-// keyword extraction on the student's plain-text reply.
-//
-// It is intentionally dumb: substring matching, regex for numbers, fixed
-// question text. The point is to keep the demo walking when Gemini sleeps.
+// Deterministic clarify fallback. Drives the chat when the LLM is
+// unavailable. Each assistant question carries a hidden marker
+// "[[ask:KEY:N]]" where N is the attempt number for that field. On the
+// next turn we:
+//   1. parse the user's reply for that field;
+//   2. if parsed -> apply patch and pick the next missing field;
+//   3. if not parsed AND user expressed skip-intent -> advance;
+//   4. if not parsed AND N >= 2 -> advance (give up, user can edit form);
+//   5. if not parsed AND N == 1 -> re-ask with a shorter clarifier.
+// This is intentionally a tiny rule engine, not a model.
 
 import type {
     ClarifyPatch,
@@ -23,27 +25,29 @@ export interface FallbackTurnResult {
     readonly done: boolean;
 }
 
-// Last user message is the answer to whatever assistant asked previously.
-// We track which question was just asked by looking at the trailing
-// assistant message; map it back to a field key via a hidden marker.
-const MARKER_RE = /\[\[ask:(\w+)\]\]$/;
+const MARKER_RE = /\[\[ask:(\w+)(?::(\d+))?\]\]/;
+const STRIP_RE = /\[\[ask:\w+(?::\d+)?\]\]/g;
 
-function appendMarker(text: string, key: FormFieldKey): string {
-    return `${text}\n\n[[ask:${key}]]`;
+function appendMarker(text: string, key: FormFieldKey, attempt: number): string {
+    return `${text}\n\n[[ask:${key}:${attempt}]]`;
 }
 
 function stripMarker(text: string): string {
-    return text.replace(MARKER_RE, "").trim();
+    return text.replace(STRIP_RE, "").trim();
 }
 
 function lastAsked(
     messages: ReadonlyArray<{ role: string; content: string }>,
-): FormFieldKey | undefined {
+): { key: FormFieldKey; attempt: number } | undefined {
     for (let i = messages.length - 1; i >= 0; i--) {
         const m = messages[i];
         if (m.role !== "assistant") continue;
         const hit = MARKER_RE.exec(m.content);
-        if (hit) return hit[1] as FormFieldKey;
+        if (hit)
+            return {
+                key: hit[1] as FormFieldKey,
+                attempt: hit[2] ? parseInt(hit[2], 10) : 1,
+            };
         return undefined;
     }
     return undefined;
@@ -58,28 +62,37 @@ function lastUser(
     return "";
 }
 
+// Skip / give-up signals from the student.
+function isSkip(text: string): boolean {
+    const t = text.toLowerCase();
+    return /不知道|没想好|没.*想法|不太清楚|不清楚|说不准|随便|都行|跳过|skip|下一个|下一题|算了|不想.*答|够了|够.*了|干嘛.*问|干吗.*问|没意见|无所谓|whatever|没有/i.test(
+        t,
+    );
+}
+
 // --- per-field interpreters ---------------------------------------------
 
 function parseTargetField(text: string): string | undefined {
     const t = text.toLowerCase();
-    // engineering family
     if (/土木|civil/.test(text)) return "Civil Engineering";
     if (/电气|电子|electrical/.test(text)) return "Electrical Engineering";
     if (/机械|mechanical/.test(text)) return "Mechanical Engineering";
-    if (/工程|engineering/.test(text)) return "Civil Engineering"; // sane default
+    if (/工程|engineering/.test(text)) return "Civil Engineering";
     if (/数据|data/.test(text)) return "Data Science";
     if (/it|信息技术|资讯/.test(t)) return "Information Technology";
     if (/计算机|cs|computing|comp\s*sci/.test(t)) return "Computing";
     if (/金融|finance/.test(text)) return "Finance";
     if (/mba|工商管理/.test(t)) return "Business Administration";
-    if (/商|business|commerce/.test(t)) return "Business";
+    if (/商科|商学|business|commerce|商/.test(t)) return "Business";
     if (/设计|design/.test(text)) return "Design";
     if (/tesol|英语教学|英语老师/.test(t)) return "TESOL";
     return undefined;
 }
 
+// Parse a number, including Chinese magnitude suffixes 万/亿.
 function parseNumber(text: string): number | undefined {
-    // Handle Chinese "万": 20万 -> 200000, 3.5万 -> 35000
+    const yi = /(\d+(?:\.\d+)?)\s*亿/.exec(text);
+    if (yi) return Math.round(parseFloat(yi[1]) * 1e8);
     const wan = /(\d+(?:\.\d+)?)\s*万/.exec(text);
     if (wan) return Math.round(parseFloat(wan[1]) * 10000);
     const plain = /(\d+(?:\.\d+)?)/.exec(text);
@@ -87,17 +100,42 @@ function parseNumber(text: string): number | undefined {
     return undefined;
 }
 
+// AUD-per-unit rates. Roughly current-ish; we're parsing student
+// guesstimates not bank settlements.
+const CURRENCY_AUD_RATE: Array<{ test: RegExp; rate: number }> = [
+    { test: /aud|澳币|澳元|澳币|澳/i, rate: 1 },
+    { test: /人民币|rmb|cny|￥|元(?!\s*aud)/i, rate: 1 / 4.7 },
+    { test: /usd|美元|美刀|\$/i, rate: 1.5 },
+    { test: /hkd|港币|港元/i, rate: 1 / 5.1 },
+    { test: /eur|欧元|欧/i, rate: 1.65 },
+    { test: /gbp|英镑/i, rate: 2.0 },
+    { test: /jpy|日元|日币/i, rate: 1 / 100 },
+    { test: /sgd|新币|新加坡币/i, rate: 1.15 },
+    { test: /cad|加币/i, rate: 1.1 },
+];
+
+// Currencies we deliberately don't translate (joke or extreme inflation).
+const CURRENCY_REJECT_RE = /津巴布韦|委内瑞拉|玻利瓦尔|zwl|vef/i;
+
 function parseBudget(text: string): number | undefined {
+    if (CURRENCY_REJECT_RE.test(text)) return undefined;
     const n = parseNumber(text);
     if (n === undefined) return undefined;
-    // Detect explicit CNY/RMB to convert (rough 4.7x rate).
-    if (/人民币|rmb|cny|￥/.test(text.toLowerCase())) {
-        return Math.round(n / 4.7);
+    let rate = 1;
+    let matched = false;
+    for (const c of CURRENCY_AUD_RATE) {
+        if (c.test.test(text)) {
+            rate = c.rate;
+            matched = true;
+            break;
+        }
     }
-    // Treat as AUD by default. Sanity clamp.
-    if (n < 1000) return undefined;
-    if (n > 500000) return 500000;
-    return Math.round(n);
+    // No currency keyword: assume AUD if number is in a sane AUD range,
+    // otherwise assume CNY (a bare "20万" almost always means RMB).
+    if (!matched && n >= 100000) rate = 1 / 4.7;
+    const aud = Math.round(n * rate);
+    if (aud < 5000 || aud > 500000) return undefined;
+    return aud;
 }
 
 function parseGpa(text: string): number | undefined {
@@ -118,33 +156,39 @@ function parseIelts(text: string): number | undefined {
 function parseTeachingStyle(
     text: string,
 ): "theory_heavy" | "balanced" | "applied_heavy" | undefined {
-    if (/^1$|理论|学术|research/i.test(text)) return "theory_heavy";
-    if (/^2$|平衡|都行|balanced/i.test(text)) return "balanced";
-    if (/^3$|实践|应用|动手|applied|practical/i.test(text)) return "applied_heavy";
+    if (/^1\b|理论|学术|research/i.test(text)) return "theory_heavy";
+    if (/^2\b|平衡|都行|balanced/i.test(text)) return "balanced";
+    if (/^3\b|实践|应用|动手|applied|practical/i.test(text)) return "applied_heavy";
     return undefined;
 }
 
 function parseCitySize(
     text: string,
 ): "mega" | "large" | "medium" | "small" | undefined {
-    if (/^1$|超大|悉尼|sydney|墨尔本|melbourne|大都市/i.test(text)) return "mega";
-    if (/^2$|大城市|brisbane|布里斯班|perth|珀斯/i.test(text)) return "large";
-    if (/^3$|中等|adelaide|阿德莱德/i.test(text)) return "medium";
-    if (/^4$|小城|乡村|town|small/i.test(text)) return "small";
+    if (/^1\b|超大|悉尼|sydney|墨尔本|melbourne|大都市/i.test(text)) return "mega";
+    if (/^2\b|大城市|brisbane|布里斯班|perth|珀斯/i.test(text)) return "large";
+    if (/^3\b|中等|adelaide|阿德莱德/i.test(text)) return "medium";
+    if (/^4\b|小城|乡村|town|small/i.test(text)) return "small";
     return undefined;
 }
 
 function parseTags(text: string): string[] | undefined {
     const tags = new Set<string>();
     if (/学科|顶尖|top|排名|强|world.class/i.test(text)) tags.add("field_top");
-    if (/移民|留下|prr?|pr|permanent/i.test(text)) tags.add("migration_friendly");
+    if (/移民|留下|prr?|pr\b|permanent/i.test(text)) tags.add("migration_friendly");
     if (/就业|工作|实习|career|job/i.test(text)) tags.add("career_pipeline");
     if (/性价比|便宜|cheap|value|划算/i.test(text)) tags.add("value_for_money");
     if (/奖学金|scholarship/i.test(text)) tags.add("scholarship_rich");
     if (/华人|中国人|chinese.community/i.test(text)) tags.add("chinese_community");
-    // numeric multi-choice 1-6
     const nums = text.match(/[1-6]/g) ?? [];
-    const numTags = ["field_top","migration_friendly","career_pipeline","value_for_money","scholarship_rich","chinese_community"];
+    const numTags = [
+        "field_top",
+        "migration_friendly",
+        "career_pipeline",
+        "value_for_money",
+        "scholarship_rich",
+        "chinese_community",
+    ];
     for (const d of nums) tags.add(numTags[parseInt(d, 10) - 1]);
     return tags.size > 0 ? Array.from(tags) : undefined;
 }
@@ -162,18 +206,35 @@ function parseTargetLevel(
 
 const QUESTIONS: Record<FormFieldKey, string> = {
     target_field:
-        "先确认下专业方向：你提到想学的是工程的话，更偏土木、电气还是机械？也可以直接说 IT、数据、商科、金融、MBA、设计、TESOL 之一。",
+        "先确认下专业方向：IT、数据、计算机、商科、金融、工程、设计、TESOL，最近的是哪个？",
     annual_budget_aud:
-        "预算想留多少？给个一年全包数字（学费+生活）就行，比如「6 万 AUD」或「20 万人民币」我都能换算。",
+        "预算一年留多少？给个数字就行，例如「6 万 AUD」或「20 万人民币」我帮你换算。",
     preferred_tags:
-        "你最看重哪两三点？可以直接说，或者报数字（多选）：1 学科顶尖 / 2 利于移民 / 3 就业渠道 / 4 性价比 / 5 奖学金 / 6 华人社区。",
-    gpa: "顺便问下 GPA 大概多少？按 4 分制说就行（也可以告诉我百分制，我帮你换）。",
-    ielts_overall: "雅思总分考了吗？没考也可以说「没考」。",
+        "你最看重哪两三点？可以直接说，也可以报数字（多选）：1 学科顶尖 / 2 利于移民 / 3 就业渠道 / 4 性价比 / 5 奖学金 / 6 华人社区。",
+    gpa: "GPA 大概多少？4 分制说就行（百分制也可以，我来换）。",
+    ielts_overall: "雅思总分考了吗？没考也可以直接说没考。",
     teaching_style:
-        "你喜欢哪种上课风格？1 偏理论 / 2 理论与应用平衡 / 3 偏实践。",
+        "你喜欢哪种上课风格？1 偏理论 / 2 平衡 / 3 偏实践。",
     city_size:
-        "想去什么规模的城市？1 超大（悉尼/墨尔本）/ 2 大城市（布里斯班/珀斯）/ 3 中等（阿德莱德等）/ 4 小城市。",
-    target_level: "目标学位是？本科 / 硕士 / 博士。",
+        "想去多大的城市？1 超大（悉尼/墨尔本）/ 2 大城市（布里斯班/珀斯）/ 3 中等（阿德莱德）/ 4 小城市。",
+    target_level: "目标学位：本科 / 硕士 / 博士？",
+};
+
+// Second-attempt phrasings — shorter and more forgiving when the first
+// answer was unparseable.
+const RETRY_QUESTIONS: Record<FormFieldKey, string> = {
+    target_field:
+        "刚才没看懂，可以直接说个最近的：IT、数据、商科、工程、金融、设计、TESOL；或者打「跳过」。",
+    annual_budget_aud:
+        "我换算不了这个币种，给个 AUD 或人民币的数字试试？打「跳过」也行。",
+    preferred_tags:
+        "直接说一个最看重的就行，比如「就业」「移民」「性价比」；或者打「跳过」。",
+    gpa: "给个 4 分制数字就行，例如 3.6；没把握就打「跳过」。",
+    ielts_overall: "0 到 9 之间的总分就行，没考过打「跳过」。",
+    teaching_style: "理论 / 平衡 / 实践 三选一；不确定就打「跳过」。",
+    city_size:
+        "超大 / 大 / 中 / 小 城市，挑一个；不确定就打「跳过」。",
+    target_level: "本科 / 硕士 / 博士，三选一。",
 };
 
 // --- main entry ----------------------------------------------------------
@@ -185,31 +246,48 @@ export function runDeterministicTurn(
     const asked = lastAsked(input.messages);
     const userAnswer = lastUser(input.messages);
 
-    // If the previous assistant message asked about a specific field,
-    // try to interpret the user's reply for that field.
+    let filled = false;
+    let skipped = false;
     if (asked && userAnswer) {
-        applyAnswer(asked, userAnswer, patch);
+        filled = applyAnswer(asked.key, userAnswer, patch);
+        if (!filled && isSkip(userAnswer)) skipped = true;
     }
 
-    // Recompute missing after applying patch. Caller-supplied missingKeys
-    // is post-patch by the time we're reading it, but the new patch might
-    // have filled the field they were just asked about — so skip the asked
-    // key from the next question pick.
-    const remaining = input.missingKeys.filter((k) => k !== asked || !(k in patch));
+    // Decide whether to re-ask the same field or move on.
+    if (asked && userAnswer && !filled && !skipped && asked.attempt < 2) {
+        const reAsk = RETRY_QUESTIONS[asked.key];
+        return {
+            reply: appendMarker(reAsk, asked.key, asked.attempt + 1),
+            done: false,
+        };
+    }
+
+    // Build the remaining list. If we just filled or skipped the asked
+    // field, exclude it; otherwise keep going down the list.
+    const remaining = input.missingKeys.filter(
+        (k) => !(asked && k === asked.key && (filled || skipped || asked.attempt >= 2)),
+    );
 
     if (remaining.length === 0) {
         return {
             reply:
-                "都聊清楚了，下方按钮就能出报告。还想改任何字段，直接编辑右边表单就行。",
+                "都聊清楚了，下方按钮就能出报告。还想改任何字段，直接点右边表单。",
             patch: Object.keys(patch).length > 0 ? patch : undefined,
             done: true,
         };
     }
 
     const nextKey = remaining[0];
-    const question = QUESTIONS[nextKey];
+    const ack =
+        skipped
+            ? "好，先跳过这条。"
+            : asked && !filled && asked.attempt >= 2
+              ? "这条先跳过，等下你可以在右边表单直接选。"
+              : "";
+    const body = QUESTIONS[nextKey];
+    const reply = ack ? `${ack}\n${body}` : body;
     return {
-        reply: appendMarker(question, nextKey),
+        reply: appendMarker(reply, nextKey, 1),
         patch: Object.keys(patch).length > 0 ? patch : undefined,
         done: false,
     };
@@ -221,17 +299,23 @@ function applyAnswer(
     key: FormFieldKey,
     answer: string,
     patch: Mutable<ClarifyPatch>,
-): void {
+): boolean {
     switch (key) {
         case "target_field": {
             const v = parseTargetField(answer);
-            if (v) patch.target_field = v;
-            break;
+            if (v) {
+                patch.target_field = v;
+                return true;
+            }
+            return false;
         }
         case "annual_budget_aud": {
             const v = parseBudget(answer);
-            if (v !== undefined) patch.annual_budget_aud = v;
-            break;
+            if (v !== undefined) {
+                patch.annual_budget_aud = v;
+                return true;
+            }
+            return false;
         }
         case "preferred_tags": {
             const v = parseTags(answer);
@@ -239,33 +323,49 @@ function applyAnswer(
                 // reason: parseTags returns plain string[] from a closed enum
                 // set, type-narrowed by the schema enum at runtime.
                 patch.preferred_tags = v as ClarifyPatch["preferred_tags"];
+                return true;
             }
-            break;
+            return false;
         }
         case "gpa": {
             const v = parseGpa(answer);
-            if (v !== undefined) patch.gpa = v;
-            break;
+            if (v !== undefined) {
+                patch.gpa = v;
+                return true;
+            }
+            return false;
         }
         case "ielts_overall": {
             const v = parseIelts(answer);
-            if (v !== undefined) patch.ielts_overall = v;
-            break;
+            if (v !== undefined) {
+                patch.ielts_overall = v;
+                return true;
+            }
+            return false;
         }
         case "teaching_style": {
             const v = parseTeachingStyle(answer);
-            if (v) patch.teaching_style = v;
-            break;
+            if (v) {
+                patch.teaching_style = v;
+                return true;
+            }
+            return false;
         }
         case "city_size": {
             const v = parseCitySize(answer);
-            if (v) patch.city_size = v;
-            break;
+            if (v) {
+                patch.city_size = v;
+                return true;
+            }
+            return false;
         }
         case "target_level": {
             const v = parseTargetLevel(answer);
-            if (v) patch.target_level = v;
-            break;
+            if (v) {
+                patch.target_level = v;
+                return true;
+            }
+            return false;
         }
     }
 }

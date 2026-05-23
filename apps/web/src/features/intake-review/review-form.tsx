@@ -236,7 +236,16 @@ export function ReviewForm({
     );
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            {llmUsed ? (
+                <ClarifyChat
+                    sessionId={sessionId}
+                    currentValues={currentValues}
+                    missingKeys={missingKeys}
+                    onPatch={applyPatch}
+                />
+            ) : null}
+
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
                 <SourcePanel
                     label={sourceLabel}
@@ -444,15 +453,6 @@ export function ReviewForm({
                     `}</style>
                 </form>
             </div>
-
-            {llmUsed ? (
-                <ClarifyChat
-                    sessionId={sessionId}
-                    currentValues={currentValues}
-                    missingKeys={missingKeys}
-                    onPatch={applyPatch}
-                />
-            ) : null}
         </div>
     );
 }
