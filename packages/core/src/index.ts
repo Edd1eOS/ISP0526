@@ -9,3 +9,4 @@ export * from "./rules/recommend.js";
 export * from "./rules/thresholds.js";
 export * from "./rules/bands.js";
 export * from "./data/index.js";
+export * from "./ai/index.js";
