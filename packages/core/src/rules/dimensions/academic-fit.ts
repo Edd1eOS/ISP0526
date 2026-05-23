@@ -71,11 +71,10 @@ export function explain(
                 `Your GPA (${gpa.toFixed(2)}) is below the listed minimum (${program.gpa_min.toFixed(2)}); admission would be aspirational.`,
             );
         }
-    } else {
-        reasons.push(
-            "GPA not provided; academic fit estimated as a neutral baseline.",
-        );
     }
+    // When GPA is undefined the score already degrades to a neutral baseline;
+    // we intentionally skip a "no data" reason here so the UI is not cluttered
+    // with negative-shaped statements about what the user did not provide.
 
     const ieltsRequired = program.language_min.ielts_overall;
     if (ieltsRequired !== undefined && ielts_overall !== undefined) {

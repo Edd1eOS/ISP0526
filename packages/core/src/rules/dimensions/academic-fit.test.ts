@@ -90,9 +90,12 @@ describe("academic-fit.score", () => {
 });
 
 describe("academic-fit.explain", () => {
-    it("calls out missing GPA as a neutral baseline", () => {
+    it("emits no reasons when no academic data is provided", () => {
         const reasons = explain(profile({}), candidate);
-        expect(reasons.some((r) => r.includes("GPA not provided"))).toBe(true);
+        // The dimension intentionally degrades to a neutral score without
+        // surfacing a \"no data\" bullet, so the UI is never cluttered with
+        // negative-shaped statements about missing inputs.
+        expect(reasons).toEqual([]);
     });
 
     it("flags strong GPA headroom", () => {

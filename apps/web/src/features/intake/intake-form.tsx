@@ -8,9 +8,9 @@ interface IntakeFormProps {
 }
 
 const STUDY_LEVELS = [
-    { value: "bachelor", label: "本科" },
+    { value: "bachelor", label: "本科（暂无项目数据）" },
     { value: "master", label: "硕士" },
-    { value: "phd", label: "博士" },
+    { value: "phd", label: "博士（暂无项目数据）" },
 ] as const;
 
 const TEACHING_STYLES = [

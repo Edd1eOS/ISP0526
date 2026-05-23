@@ -21,6 +21,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
         { key: "safety", title: "Safety · 保底", scores: snapshot.set.safety },
     ] as const;
 
+    const llmCount = [...snapshot.narrative_sources.values()].filter(
+        (s) => s === "llm",
+    ).length;
+    const totalCount = snapshot.narrative_sources.size;
+
     return (
         <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
             <div className="mx-auto max-w-3xl space-y-10">
@@ -34,6 +39,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
                     <p className="text-text-muted">
                         所有结论来自规则引擎对你的画像与项目数据的逐项比对，每条理由可追溯到原始来源。
                     </p>
+                    {totalCount > 0 ? (
+                        <p className="text-text-muted text-xs">
+                            文案来源：Gemini {llmCount} 项 · 模板 {totalCount - llmCount} 项
+                        </p>
+                    ) : null}
                 </header>
 
                 {sections.map((section) => (
@@ -57,6 +67,9 @@ export default async function ReportPage({ params }: ReportPageProps) {
                                         narrative={snapshot.narratives.get(
                                             score.program_id,
                                         )}
+                                        source={snapshot.narrative_sources.get(
+                                            score.program_id,
+                                        )}
                                     />
                                 ))}
                             </div>
@@ -73,9 +86,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
 function ScoreCard({
     score,
     narrative,
+    source,
 }: {
     score: Score;
     narrative: RecommendationNarrative | undefined;
+    source: "llm" | "template" | undefined;
 }) {
     return (
         <article
@@ -90,14 +105,29 @@ function ScoreCard({
                     {narrative?.headline ??
                         `${score.university_id} · ${score.program_id}`}
                 </h3>
-                <span
-                    className="text-text shrink-0 rounded-full px-3 py-1 text-sm font-semibold"
-                    style={{
-                        background: "var(--color-surface-alt)",
-                    }}
-                >
-                    {Math.round(score.final_score)}
-                </span>
+                <div className="flex shrink-0 items-center gap-2">
+                    {source ? (
+                        <span
+                            className="text-text-muted rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
+                            style={{ background: "var(--color-surface-alt)" }}
+                            title={
+                                source === "llm"
+                                    ? "本条推荐文案由 Gemini 2.0 Flash 生成，并经 Zod 校验 + 来源过滤"
+                                    : "本条推荐文案由模板渲染（LLM 未启用或已回退）"
+                            }
+                        >
+                            {source === "llm" ? "AI" : "模板"}
+                        </span>
+                    ) : null}
+                    <span
+                        className="text-text rounded-full px-3 py-1 text-sm font-semibold"
+                        style={{
+                            background: "var(--color-surface-alt)",
+                        }}
+                    >
+                        {Math.round(score.final_score)}
+                    </span>
+                </div>
             </div>
             {narrative ? (
                 <p className="text-text-muted text-sm leading-relaxed">

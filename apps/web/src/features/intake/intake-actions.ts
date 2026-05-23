@@ -36,7 +36,7 @@ export async function submitIntakeAction(formData: FormData): Promise<void> {
         })
         .filter((x): x is { score: Score; candidate: Candidate } => x !== null);
 
-    const narratives = await buildNarratives(items);
+    const { narratives, sources: narrative_sources } = await buildNarratives(items);
 
     await saveReport({
         code,
@@ -44,6 +44,7 @@ export async function submitIntakeAction(formData: FormData): Promise<void> {
         profile,
         set,
         narratives,
+        narrative_sources,
         candidates: candidateIndex,
     });
 
@@ -55,8 +56,12 @@ export async function submitIntakeAction(formData: FormData): Promise<void> {
 // template is also the zero-cost path when no API key is present.
 async function buildNarratives(
     items: ReadonlyArray<{ score: Score; candidate: Candidate }>,
-): Promise<Map<string, RecommendationNarrative>> {
+): Promise<{
+    narratives: Map<string, RecommendationNarrative>;
+    sources: Map<string, "llm" | "template">;
+}> {
     const result = new Map<string, RecommendationNarrative>();
+    const sources = new Map<string, "llm" | "template">();
 
     if (isGoogleConfigured()) {
         try {
@@ -68,7 +73,12 @@ async function buildNarratives(
             if (r.ok) {
                 for (const [id, narrative] of r.value.narratives) {
                     result.set(id, narrative);
+                    sources.set(id, "llm");
                 }
+                // eslint-disable-next-line no-console
+                console.info(
+                    `[narrative] Gemini produced ${r.value.narratives.size}/${items.length} narrative(s); ${r.value.rejected.length} rejected`,
+                );
                 if (r.value.rejected.length > 0) {
                     // eslint-disable-next-line no-console
                     console.warn(
@@ -90,6 +100,11 @@ async function buildNarratives(
                 cause,
             );
         }
+    } else {
+        // eslint-disable-next-line no-console
+        console.info(
+            "[narrative] GOOGLE_GENERATIVE_AI_API_KEY not set; using template for all items",
+        );
     }
 
     for (const { score, candidate } of items) {
@@ -98,7 +113,8 @@ async function buildNarratives(
             score.program_id,
             renderTemplateNarrative(score, candidate, "zh"),
         );
+        sources.set(score.program_id, "template");
     }
 
-    return result;
+    return { narratives: result, sources };
 }

@@ -19,6 +19,7 @@ export interface ReportSnapshot {
     readonly profile: StudentProfile;
     readonly set: RecommendationSet;
     readonly narratives: ReadonlyMap<string, RecommendationNarrative>;
+    readonly narrative_sources: ReadonlyMap<string, "llm" | "template">;
     readonly candidates: ReadonlyMap<string, Candidate>;
 }
 
@@ -28,6 +29,7 @@ interface PersistedSnapshot {
     readonly profile: StudentProfile;
     readonly set: RecommendationSet;
     readonly narratives: ReadonlyArray<readonly [string, RecommendationNarrative]>;
+    readonly narrative_sources: ReadonlyArray<readonly [string, "llm" | "template"]>;
     readonly candidates: ReadonlyArray<readonly [string, Candidate]>;
 }
 
@@ -62,6 +64,7 @@ export async function saveReport(snapshot: ReportSnapshot): Promise<void> {
         profile: snapshot.profile,
         set: snapshot.set,
         narratives: [...snapshot.narratives.entries()],
+        narrative_sources: [...snapshot.narrative_sources.entries()],
         candidates: [...snapshot.candidates.entries()],
     };
     await fs.writeFile(
@@ -91,6 +94,7 @@ export async function loadReport(
         profile: persisted.profile,
         set: persisted.set,
         narratives: new Map(persisted.narratives),
+        narrative_sources: new Map(persisted.narrative_sources ?? []),
         candidates: new Map(persisted.candidates),
     };
     cache().set(code, snapshot);
