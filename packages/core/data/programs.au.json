@@ -1,0 +1,122 @@
+[
+  {
+    "id": "unsw-master-of-it",
+    "university_id": "unsw",
+    "name_en": "Master of Information Technology",
+    "name_zh": "信息技术硕士",
+    "level": "master",
+    "duration_years": 2,
+    "field": "Information Technology",
+    "teaching_style": "applied_heavy",
+    "gpa_min": 2.7,
+    "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+    "tuition": { "currency": "AUD", "annual": 53760 },
+    "tags": ["field_top", "career_pipeline", "migration_friendly"],
+    "applied_ratio": 0.75,
+    "sources": [
+      {
+        "source_id": "unsw_mit_2026",
+        "kind": "url",
+        "url": "https://www.unsw.edu.au/study/postgraduate/master-of-information-technology",
+        "last_verified_date": "2026-05-23",
+        "note": "placeholder sticker price; verify before launch"
+      }
+    ]
+  },
+  {
+    "id": "unimelb-master-of-it",
+    "university_id": "unimelb",
+    "name_en": "Master of Information Technology",
+    "name_zh": "信息技术硕士",
+    "level": "master",
+    "duration_years": 2,
+    "field": "Information Technology",
+    "teaching_style": "balanced",
+    "gpa_min": 2.8,
+    "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+    "tuition": { "currency": "AUD", "annual": 50272 },
+    "tags": ["field_top", "career_pipeline"],
+    "applied_ratio": 0.6,
+    "sources": [
+      {
+        "source_id": "unimelb_mit_2026",
+        "kind": "url",
+        "url": "https://study.unimelb.edu.au/find/courses/graduate/master-of-information-technology/",
+        "last_verified_date": "2026-05-23",
+        "note": "placeholder sticker price; verify before launch"
+      }
+    ]
+  },
+  {
+    "id": "usyd-master-of-it",
+    "university_id": "usyd",
+    "name_en": "Master of Information Technology",
+    "name_zh": "信息技术硕士",
+    "level": "master",
+    "duration_years": 1.5,
+    "field": "Information Technology",
+    "teaching_style": "applied_heavy",
+    "gpa_min": 2.7,
+    "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+    "tuition": { "currency": "AUD", "annual": 55500 },
+    "tags": ["field_top", "career_pipeline", "migration_friendly"],
+    "applied_ratio": 0.7,
+    "sources": [
+      {
+        "source_id": "usyd_mit_2026",
+        "kind": "url",
+        "url": "https://www.sydney.edu.au/courses/courses/pc/master-of-information-technology.html",
+        "last_verified_date": "2026-05-23",
+        "note": "placeholder sticker price; verify before launch"
+      }
+    ]
+  },
+  {
+    "id": "anu-master-of-computing",
+    "university_id": "anu",
+    "name_en": "Master of Computing",
+    "name_zh": "计算机硕士",
+    "level": "master",
+    "duration_years": 2,
+    "field": "Computing",
+    "teaching_style": "theory_heavy",
+    "gpa_min": 3.0,
+    "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+    "tuition": { "currency": "AUD", "annual": 51000 },
+    "tags": ["field_top", "scholarship_rich"],
+    "applied_ratio": 0.4,
+    "sources": [
+      {
+        "source_id": "anu_moc_2026",
+        "kind": "url",
+        "url": "https://programsandcourses.anu.edu.au/program/MCOMP",
+        "last_verified_date": "2026-05-23",
+        "note": "placeholder sticker price; verify before launch"
+      }
+    ]
+  },
+  {
+    "id": "uq-master-of-it",
+    "university_id": "uq",
+    "name_en": "Master of Information Technology",
+    "name_zh": "信息技术硕士",
+    "level": "master",
+    "duration_years": 2,
+    "field": "Information Technology",
+    "teaching_style": "balanced",
+    "gpa_min": 2.5,
+    "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+    "tuition": { "currency": "AUD", "annual": 48000 },
+    "tags": ["value_for_money", "migration_friendly"],
+    "applied_ratio": 0.6,
+    "sources": [
+      {
+        "source_id": "uq_mit_2026",
+        "kind": "url",
+        "url": "https://study.uq.edu.au/study-options/programs/master-information-technology-5687",
+        "last_verified_date": "2026-05-23",
+        "note": "placeholder sticker price; verify before launch"
+      }
+    ]
+  }
+]

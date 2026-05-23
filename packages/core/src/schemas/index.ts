@@ -1,4 +1,10 @@
 // Zod schemas shared across the app.
-// User profile, institution data, LLM output contracts, etc.
+// Each schema is the single source of truth for its shape; TS types are
+// derived via z.infer in the owning file and re-exported here.
 
-export { };
+export * from "./ids.js";
+export * from "./source.js";
+export * from "./institution.js";
+export * from "./student-profile.js";
+export * from "./scoring.js";
+
