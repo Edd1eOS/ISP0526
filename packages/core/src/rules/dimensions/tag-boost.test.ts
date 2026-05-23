@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { score, explain } from "./tag-boost.js";
-import { buildProfile, fixtureCandidate } from "./__fixtures__.js";
+import { score, explain } from "./tag-boost";
+import { buildProfile, fixtureCandidate } from "./__fixtures__";
 
 describe("tag-boost.score", () => {
     it("returns neutral baseline with no preferred tags", () => {

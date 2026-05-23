@@ -5,8 +5,8 @@
 //   internship signal -> career_pipeline tag
 // Salary sensitivity is reserved for a future pass once we ship outcome data.
 
-import type { Candidate, StudentProfile } from "../../schemas/index.js";
-import { SCORING_WEIGHTS } from "../weights.js";
+import type { Candidate, StudentProfile } from "../../schemas/index";
+import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.career;
 

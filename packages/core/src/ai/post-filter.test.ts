@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { filterNarrative } from "./post-filter.js";
+import { filterNarrative } from "./post-filter";
 import {
     RecommendationNarrativeSchema,
     type RecommendationNarrative,
-} from "./prompts/recommendation-narrative.js";
+} from "./prompts/recommendation-narrative";
 
 function makeNarrative(
     overrides: Partial<{

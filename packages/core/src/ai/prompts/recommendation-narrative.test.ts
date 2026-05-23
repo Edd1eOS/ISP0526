@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
     RecommendationNarrativeSchema,
     buildUserPrompt,
-} from "./recommendation-narrative.js";
+} from "./recommendation-narrative";
 
 describe("RecommendationNarrativeSchema", () => {
     it("accepts a well-formed narrative", () => {

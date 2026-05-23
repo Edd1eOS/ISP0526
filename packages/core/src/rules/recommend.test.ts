@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { scoreCandidate } from "./score.js";
-import { recommend } from "./recommend.js";
-import { getCandidates } from "../data/index.js";
-import { buildProfile, fixtureCandidate } from "./dimensions/__fixtures__.js";
+import { scoreCandidate } from "./score";
+import { recommend } from "./recommend";
+import { getCandidates } from "../data/index";
+import { buildProfile, fixtureCandidate } from "./dimensions/__fixtures__";
 
 describe("scoreCandidate", () => {
     it("returns a Score that satisfies the schema (>=3 reasons each cited)", () => {

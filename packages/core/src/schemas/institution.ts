@@ -5,8 +5,8 @@
 // shapes directly; no I/O happens inside scoring functions.
 
 import { z } from "zod";
-import { ProgramIdSchema, UniversityIdSchema } from "./ids.js";
-import { SourceCitationSchema } from "./source.js";
+import { ProgramIdSchema, UniversityIdSchema } from "./ids";
+import { SourceCitationSchema } from "./source";
 
 export const CountrySchema = z.enum(["AU", "US", "UK", "CA", "NZ", "HK", "SG"]);
 export type Country = z.infer<typeof CountrySchema>;

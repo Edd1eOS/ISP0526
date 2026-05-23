@@ -6,8 +6,8 @@
 // university values reduce the score but never to zero — Phase 1 treats them
 // as ranking signal, not as hard cuts.
 
-import type { Candidate, StudentProfile } from "../../schemas/index.js";
-import { SCORING_WEIGHTS } from "../weights.js";
+import type { Candidate, StudentProfile } from "../../schemas/index";
+import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.lifestyle;
 

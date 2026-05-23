@@ -5,8 +5,8 @@ import {
     UniversitySchema,
     type Candidate,
     type StudentProfile,
-} from "../../schemas/index.js";
-import { score, explain } from "./academic-fit.js";
+} from "../../schemas/index";
+import { score, explain } from "./academic-fit";
 
 const university = UniversitySchema.parse({
     id: "unsw",

@@ -36,8 +36,8 @@ export default function Home() {
 
           {/* Buttons row */}
           <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-            <button
-              type="button"
+            <a
+              href="/intake"
               className="text-text-on-primary px-6 py-3 text-base font-semibold transition-transform active:scale-95"
               style={{
                 background: "var(--gradient-primary)",
@@ -46,10 +46,10 @@ export default function Home() {
               }}
             >
               开始测评
-            </button>
+            </a>
 
-            <button
-              type="button"
+            <a
+              href="#"
               className="text-text px-6 py-3 text-base font-semibold transition-transform active:scale-95"
               style={{
                 background: "var(--gradient-raised)",
@@ -58,7 +58,7 @@ export default function Home() {
               }}
             >
               了解更多
-            </button>
+            </a>
           </div>
         </section>
 

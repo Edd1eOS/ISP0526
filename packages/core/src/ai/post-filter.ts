@@ -3,8 +3,8 @@
 // pros/cons entry that references an unknown id, and reject the whole
 // narrative if too few pros remain.
 
-import type { RecommendationNarrative } from "./prompts/recommendation-narrative.js";
-import { err, ok, type AIError, type Result } from "./result.js";
+import type { RecommendationNarrative } from "./prompts/recommendation-narrative";
+import { err, ok, type AIError, type Result } from "./result";
 
 export function filterNarrative(
     narrative: RecommendationNarrative,

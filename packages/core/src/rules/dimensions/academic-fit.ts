@@ -5,8 +5,8 @@
 // headroom. Missing inputs degrade to a neutral 0.5 ("no signal") rather than
 // to 0, so an unknown does not punish a candidate.
 
-import type { Candidate, StudentProfile } from "../../schemas/index.js";
-import { SCORING_WEIGHTS } from "../weights.js";
+import type { Candidate, StudentProfile } from "../../schemas/index";
+import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.academic_fit;
 

@@ -12,37 +12,37 @@ import {
     type Score,
     type ScoreBreakdown,
     type StudentProfile,
-} from "../schemas/index.js";
-import { classifyBand } from "./bands.js";
+} from "../schemas/index";
+import { classifyBand } from "./bands";
 import {
     score as academicFitScore,
     explain as academicFitExplain,
-} from "./dimensions/academic-fit.js";
+} from "./dimensions/academic-fit";
 import {
     score as personalityScore,
     explain as personalityExplain,
-} from "./dimensions/personality.js";
+} from "./dimensions/personality";
 import {
     score as lifestyleScore,
     explain as lifestyleExplain,
-} from "./dimensions/lifestyle.js";
+} from "./dimensions/lifestyle";
 import {
     score as careerScore,
     explain as careerExplain,
-} from "./dimensions/career.js";
+} from "./dimensions/career";
 import {
     score as budgetScore,
     explain as budgetExplain,
-} from "./dimensions/budget.js";
+} from "./dimensions/budget";
 import {
     score as tagBoostScore,
     explain as tagBoostExplain,
-} from "./dimensions/tag-boost.js";
+} from "./dimensions/tag-boost";
 import {
     score as reputationScore,
     explain as reputationExplain,
-} from "./dimensions/reputation.js";
-import { modulateWeights, type Weights } from "./modulate.js";
+} from "./dimensions/reputation";
+import { modulateWeights, type Weights } from "./modulate";
 
 type DimensionId =
     | "academic_fit"

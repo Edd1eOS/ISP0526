@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { score, explain } from "./reputation.js";
-import { buildProfile, fixtureCandidate } from "./__fixtures__.js";
+import { score, explain } from "./reputation";
+import { buildProfile, fixtureCandidate } from "./__fixtures__";
 
 describe("reputation.score", () => {
     it("blends university reputation with the field_top bonus", () => {

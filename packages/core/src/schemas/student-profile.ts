@@ -13,7 +13,7 @@ import {
     ProgramTagSchema,
     StudyLevelSchema,
     TeachingStyleSchema,
-} from "./institution.js";
+} from "./institution";
 
 // Big Five via TIPI: each dimension 0..7.
 const tipiDim = z.number().min(0).max(7);

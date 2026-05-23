@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { score, explain } from "./lifestyle.js";
-import { buildProfile, fixtureCandidate } from "./__fixtures__.js";
+import { score, explain } from "./lifestyle";
+import { buildProfile, fixtureCandidate } from "./__fixtures__";
 
 describe("lifestyle.score", () => {
     it("returns neutral baseline with no preferences", () => {

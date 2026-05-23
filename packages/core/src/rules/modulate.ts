@@ -7,8 +7,8 @@
 // Every modulation rule is documented inline and is pure: same profile in,
 // same weights out. The sum of returned weights is always 1.
 
-import type { StudentProfile } from "../schemas/index.js";
-import { SCORING_WEIGHTS, type ScoringDimension } from "./weights.js";
+import type { StudentProfile } from "../schemas/index";
+import { SCORING_WEIGHTS, type ScoringDimension } from "./weights";
 
 export type Weights = Record<ScoringDimension, number>;
 

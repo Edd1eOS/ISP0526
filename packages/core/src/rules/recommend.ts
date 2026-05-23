@@ -8,9 +8,9 @@ import {
     type RecommendationSet,
     type Score,
     type StudentProfile,
-} from "../schemas/index.js";
-import { applyHardThresholds, type ExclusionReason } from "./thresholds.js";
-import { scoreCandidate } from "./score.js";
+} from "../schemas/index";
+import { applyHardThresholds, type ExclusionReason } from "./thresholds";
+import { scoreCandidate } from "./score";
 
 const LIMITS = {
     stretch: 5,

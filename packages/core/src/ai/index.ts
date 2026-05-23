@@ -3,8 +3,8 @@
 // Every LLM call MUST: parse -> validate via Zod -> post-filter (drop fields
 // lacking source_id) -> return. No inline multi-line prompts in business code.
 
-export * from "./result.js";
-export * from "./config.js";
-export * from "./post-filter.js";
-export * from "./prompts/recommendation-narrative.js";
-export * from "./adapters/narrative.js";
+export * from "./result";
+export * from "./config";
+export * from "./post-filter";
+export * from "./prompts/recommendation-narrative";
+export * from "./adapters/narrative";

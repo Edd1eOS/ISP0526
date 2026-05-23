@@ -7,8 +7,8 @@
 //
 // TODO: when `University.living_cost_aud_annual` exists, fold it in here.
 
-import type { Candidate, StudentProfile } from "../../schemas/index.js";
-import { SCORING_WEIGHTS } from "../weights.js";
+import type { Candidate, StudentProfile } from "../../schemas/index";
+import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.budget;
 

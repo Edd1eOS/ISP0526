@@ -6,7 +6,7 @@
 // already in the input. Post-filter then validates citation source_ids.
 
 import { z } from "zod";
-import { ProgramIdSchema, UniversityIdSchema } from "../../schemas/ids.js";
+import { ProgramIdSchema, UniversityIdSchema } from "../../schemas/ids";
 
 export const LocaleSchema = z.enum(["zh", "en"]);
 export type Locale = z.infer<typeof LocaleSchema>;

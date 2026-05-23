@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { generateRecommendationNarrative } from "./narrative.js";
-import { scoreCandidate } from "../../rules/score.js";
+import { generateRecommendationNarrative } from "./narrative";
+import { scoreCandidate } from "../../rules/score";
 import {
     buildProfile,
     fixtureCandidate,
-} from "../../rules/dimensions/__fixtures__.js";
-import type { GenerateObjectFn } from "./narrative.js";
+} from "../../rules/dimensions/__fixtures__";
+import type { GenerateObjectFn } from "./narrative";
 
 function fakeGenerator(object: unknown): GenerateObjectFn {
     return async () => ({ object });

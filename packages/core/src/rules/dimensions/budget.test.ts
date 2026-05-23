@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { score, explain } from "./budget.js";
-import { buildProfile, fixtureCandidate } from "./__fixtures__.js";
+import { score, explain } from "./budget";
+import { buildProfile, fixtureCandidate } from "./__fixtures__";
 
 describe("budget.score", () => {
     it("returns neutral baseline when no budget is provided", () => {

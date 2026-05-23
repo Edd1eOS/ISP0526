@@ -3,17 +3,17 @@
 // model invocation is injected via the `generate` function so we can swap in
 // the Vercel AI SDK at deployment time and stub it in tests.
 
-import type { Candidate, Score } from "../../schemas/index.js";
-import { getModel } from "../config.js";
-import { filterNarrative } from "../post-filter.js";
+import type { Candidate, Score } from "../../schemas/index";
+import { getModel } from "../config";
+import { filterNarrative } from "../post-filter";
 import {
     RecommendationNarrativeSchema,
     SYSTEM_PROMPT,
     buildUserPrompt,
     type Locale,
     type RecommendationNarrative,
-} from "../prompts/recommendation-narrative.js";
-import { err, ok, type AIError, type Result } from "../result.js";
+} from "../prompts/recommendation-narrative";
+import { err, ok, type AIError, type Result } from "../result";
 
 export interface GenerateObjectArgs {
     readonly model: string;

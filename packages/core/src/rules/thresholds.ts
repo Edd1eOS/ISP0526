@@ -3,8 +3,8 @@
 // is silently dropped — every exclusion is recorded with a machine-readable
 // reason so the report layer can show "we considered but excluded ..." flows.
 
-import type { Candidate } from "../schemas/index.js";
-import type { StudentProfile } from "../schemas/index.js";
+import type { Candidate } from "../schemas/index";
+import type { StudentProfile } from "../schemas/index";
 
 // Tolerance below program GPA minimum that still counts as "stretch reachable".
 // 0.85 keeps a 15% headroom so we surface aspirational candidates rather than

@@ -10,7 +10,7 @@ import {
     type Program,
     type StudentProfile,
     type University,
-} from "../../schemas/index.js";
+} from "../../schemas/index";
 
 export const fixtureUniversity: University = UniversitySchema.parse({
     id: "unsw",

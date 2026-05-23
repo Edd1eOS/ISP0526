@@ -4,8 +4,8 @@
 // human-readable reasons, each carrying at least one source citation.
 
 import { z } from "zod";
-import { ProgramIdSchema, UniversityIdSchema } from "./ids.js";
-import { SourceCitationSchema } from "./source.js";
+import { ProgramIdSchema, UniversityIdSchema } from "./ids";
+import { SourceCitationSchema } from "./source";
 
 const unitInterval = z.number().min(0).max(1);
 const percentScore = z.number().min(0).max(100);

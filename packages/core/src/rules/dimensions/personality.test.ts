@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { score, explain } from "./personality.js";
-import { buildProfile, fixtureCandidate } from "./__fixtures__.js";
+import { score, explain } from "./personality";
+import { buildProfile, fixtureCandidate } from "./__fixtures__";
 
 describe("personality.score", () => {
     it("returns the neutral baseline with no signal", () => {

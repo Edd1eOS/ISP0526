@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { SCORING_WEIGHTS } from "./weights.js";
-import { modulateWeights } from "./modulate.js";
-import { buildProfile } from "./dimensions/__fixtures__.js";
+import { SCORING_WEIGHTS } from "./weights";
+import { modulateWeights } from "./modulate";
+import { buildProfile } from "./dimensions/__fixtures__";
 
 const EPS = 1e-9;
 

@@ -12,7 +12,7 @@ import {
     type Program,
     type University,
     type UniversityId,
-} from "../schemas/index.js";
+} from "../schemas/index";
 import universitiesAuRaw from "../../data/universities.au.json" with { type: "json" };
 import programsAuRaw from "../../data/programs.au.json" with { type: "json" };
 

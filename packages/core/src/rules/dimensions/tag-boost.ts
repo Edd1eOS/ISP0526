@@ -3,8 +3,8 @@
 // Increases score for programs that carry tags the student opted into during
 // the preference step. Each preferred tag contributes equally; capped at 1.0.
 
-import type { Candidate, StudentProfile } from "../../schemas/index.js";
-import { SCORING_WEIGHTS } from "../weights.js";
+import type { Candidate, StudentProfile } from "../../schemas/index";
+import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.tag_boost;
 
