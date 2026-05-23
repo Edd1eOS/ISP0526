@@ -36,6 +36,7 @@ export default async function IntakeReviewPage({ params }: PageProps) {
                     </p>
                 </header>
                 <ReviewForm
+                    sessionId={session.id}
                     sourceLabel={session.source.label}
                     sourceText={session.source.text}
                     extracted={session.extracted}
