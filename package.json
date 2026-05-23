@@ -1,18 +1,18 @@
 {
-  "name": "isp0526",
-  "version": "0.0.0",
-  "private": true,
-  "description": "ISP0526 - one-stop study-abroad launcher (Phase 1: AI school recommendation)",
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
-  },
-  "packageManager": "pnpm@11.2.2",
-  "scripts": {
-    "lint": "pnpm -r --if-present lint",
-    "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test",
-    "build": "pnpm -r --if-present build",
-    "dev": "pnpm --filter @isp0526/web dev"
-  }
+    "name": "isp0526",
+    "version": "0.0.0",
+    "private": true,
+    "description": "ISP0526 - one-stop study-abroad launcher (Phase 1: AI school recommendation)",
+    "engines": {
+        "node": ">=20",
+        "pnpm": ">=9"
+    },
+    "packageManager": "pnpm@11.2.2",
+    "scripts": {
+        "lint": "pnpm -r --if-present lint",
+        "typecheck": "pnpm -r --if-present typecheck",
+        "test": "pnpm -r --if-present test",
+        "build": "pnpm -r --if-present build",
+        "dev": "pnpm --filter @isp0526/web dev"
+    }
 }

@@ -1,0 +1,80 @@
+/**
+ * Warm Claymorphism design tokens.
+ * Single source of truth — see docs/spec.md Section 7.
+ * Components MUST consume these via Tailwind utilities (bg-bg, shadow-clay-raised, etc).
+ * Hardcoded hex / shadow values are forbidden — see docs/prohibition.md #14-15.
+ */
+
+@import "tailwindcss";
+
+:root {
+  /* Color tokens (spec 7.2.1) */
+  --color-bg: #fff8f0;
+  --color-surface: #ffebdc;
+  --color-surface-alt: #ffd9bd;
+  --color-primary-from: #ff7a45;
+  --color-primary-to: #ffb088;
+  --color-accent: #9fd8a6;
+  --color-warning: #ffc25c;
+  --color-text: #2a1810;
+  --color-text-muted: #8c6a4e;
+  --color-text-on-primary: #ffffff;
+
+  /* Radius tokens (spec 7.2.2) */
+  --radius-card-lg: 40px;
+  --radius-card-md: 28px;
+  --radius-button: 20px;
+  --radius-input: 16px;
+  --radius-icon: 12px;
+
+  /* Shadow tokens — claymorphism soul (spec 7.2.3) */
+  --shadow-clay-card: 0 50px 100px 0 rgba(255, 180, 140, 0.35);
+  --shadow-clay-raised:
+    0 20px 40px 0 rgba(255, 180, 140, 0.5),
+    inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72);
+  --shadow-clay-primary:
+    0 20px 40px 0 rgba(255, 122, 69, 0.4),
+    inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -3px 10px 0 rgba(0, 0, 0, 0.25);
+  --shadow-clay-pressed: inset 4px 4px 12px 0 rgba(0, 0, 0, 0.15);
+
+  /* Gradient compositions */
+  --gradient-primary: linear-gradient(-45deg, #ff7a45 0%, #ffb088 100%);
+  --gradient-raised: linear-gradient(-40deg, #ffe0cc 0%, #ffffff 100%);
+
+  /* Typography tokens (spec 7.2.4) */
+  --font-zh: "PingFang SC", "Source Han Sans CN", sans-serif;
+  --font-en: Inter, "SF Pro Text", sans-serif;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-primary-from: var(--color-primary-from);
+  --color-primary-to: var(--color-primary-to);
+  --color-accent: var(--color-accent);
+  --color-warning: var(--color-warning);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-on-primary: var(--color-text-on-primary);
+
+  --radius-card-lg: var(--radius-card-lg);
+  --radius-card-md: var(--radius-card-md);
+  --radius-button: var(--radius-button);
+  --radius-input: var(--radius-input);
+  --radius-icon: var(--radius-icon);
+
+  --shadow-clay-card: var(--shadow-clay-card);
+  --shadow-clay-raised: var(--shadow-clay-raised);
+  --shadow-clay-primary: var(--shadow-clay-primary);
+  --shadow-clay-pressed: var(--shadow-clay-pressed);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-en), var(--font-zh);
+  -webkit-font-smoothing: antialiased;
+}
+

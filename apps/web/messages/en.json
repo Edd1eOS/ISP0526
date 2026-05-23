@@ -1,0 +1,10 @@
+{
+  "common": {
+    "appName": "One-stop Study-Abroad Launcher",
+    "tagline": "Make your own choice, grounded in verifiable data",
+    "cta": {
+      "start": "Start assessment",
+      "learnMore": "Learn more"
+    }
+  }
+}
