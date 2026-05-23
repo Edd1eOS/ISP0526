@@ -89,12 +89,15 @@ function parseTargetField(text: string): string | undefined {
     return undefined;
 }
 
-// Parse a number, including Chinese magnitude suffixes 万/亿.
+// Parse a number, including Chinese magnitude suffixes 万/亿 and the
+// shorthand "k" (60k -> 60000).
 function parseNumber(text: string): number | undefined {
     const yi = /(\d+(?:\.\d+)?)\s*亿/.exec(text);
     if (yi) return Math.round(parseFloat(yi[1]) * 1e8);
     const wan = /(\d+(?:\.\d+)?)\s*万/.exec(text);
     if (wan) return Math.round(parseFloat(wan[1]) * 10000);
+    const k = /(\d+(?:\.\d+)?)\s*k\b/i.exec(text);
+    if (k) return Math.round(parseFloat(k[1]) * 1000);
     const plain = /(\d+(?:\.\d+)?)/.exec(text);
     if (plain) return parseFloat(plain[1]);
     return undefined;

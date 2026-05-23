@@ -89,13 +89,18 @@ function detectIelts(text: string): Signal<number> | undefined {
     return makeSignal(n, text, m);
 }
 
-// Currency conversion table (rough, to AUD).
+// Currency conversion table (rough, to AUD). The k-suffix variants come
+// before the bare-number variants so "60k人民币" wins over a generic match.
 const CURRENCY: ReadonlyArray<{ re: RegExp; rate: number }> = [
-    { re: /(\d+(?:\.\d+)?)\s*(?:亿)\s*(?:rmb|cny|人民币|元)?/i, rate: 1 / 4.7 }, // 亿 ~ huge, but we still divide by rate
+    { re: /(\d+(?:\.\d+)?)\s*(?:亿)\s*(?:rmb|cny|人民币|元)?/i, rate: 1 / 4.7 },
     { re: /(\d+(?:\.\d+)?)\s*万\s*(?:aud|澳币|澳元)/i, rate: 1 },
     { re: /(\d+(?:\.\d+)?)\s*万\s*(?:rmb|cny|人民币|元)/i, rate: 1 / 4.7 },
     { re: /(\d+(?:\.\d+)?)\s*万\s*(?:usd|美元|美刀)/i, rate: 1.5 },
-    { re: /(\d+(?:\.\d+)?)\s*万/i, rate: 1 / 4.7 }, // bare 万 most often = RMB
+    { re: /(\d+(?:\.\d+)?)\s*万/i, rate: 1 / 4.7 },
+    { re: /(\d+(?:\.\d+)?)\s*k\s*(?:aud|澳币|澳元)/i, rate: 1 },
+    { re: /(\d+(?:\.\d+)?)\s*k\s*(?:rmb|cny|人民币|元)/i, rate: 1 / 4.7 },
+    { re: /(\d+(?:\.\d+)?)\s*k\s*(?:usd|美元)/i, rate: 1.5 },
+    { re: /(\d+(?:\.\d+)?)\s*k\b/i, rate: 1 }, // bare "60k" -> AUD
     { re: /(\d+(?:,\d{3})*)\s*(?:aud|澳币|澳元)/i, rate: 1 },
     { re: /(\d+(?:,\d{3})*)\s*(?:usd|美元)/i, rate: 1.5 },
     { re: /(\d+(?:,\d{3})*)\s*(?:rmb|cny|人民币|元)/i, rate: 1 / 4.7 },
@@ -108,7 +113,14 @@ function detectBudget(text: string): Signal<number> | undefined {
         const raw = parseFloat(m[1].replace(/,/g, ""));
         const isYi = /亿/.test(m[0]);
         const isWan = /万/.test(m[0]);
-        const baseUnits = isYi ? raw * 1e8 : isWan ? raw * 1e4 : raw;
+        const isK = /k/i.test(m[0]) && !/[a-z]/i.test(m[0].replace(/k/gi, ""));
+        const baseUnits = isYi
+            ? raw * 1e8
+            : isWan
+              ? raw * 1e4
+              : isK
+                ? raw * 1e3
+                : raw;
         const aud = Math.round(baseUnits * c.rate);
         if (aud < 5000 || aud > 500000) continue;
         return makeSignal(aud, text, m);

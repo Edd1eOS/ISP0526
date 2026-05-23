@@ -35,16 +35,16 @@ export interface ClarifyTurnResult {
 function fallbackTurn(
     messages: ReadonlyArray<ClarifyMessage>,
     missingKeys: ReadonlyArray<FormFieldKey>,
-    note?: string,
 ): ClarifyTurnResult {
     const r = runDeterministicTurn({
         messages: messages.map((m) => ({ role: m.role, content: m.content })),
         missingKeys,
     });
-    const prefix = note ? `（${note}，先用脱机问答继续）\n` : "";
+    // No per-message "AI 暂时累了" prefix — the chat header banner already
+    // tells the user we're in offline mode. Don't double-announce.
     return {
         ok: true,
-        reply: prefix + r.reply,
+        reply: r.reply,
         patch: r.patch,
         done: r.done,
         degraded: true,
@@ -64,7 +64,7 @@ export async function clarifyTurnAction(
     }
 
     if (!isGoogleConfigured()) {
-        return fallbackTurn(input.messages, input.missingKeys, "AI 未配置");
+        return fallbackTurn(input.messages, input.missingKeys);
     }
 
     const trimmed = input.messages.slice(-MAX_MESSAGES);
@@ -95,9 +95,6 @@ export async function clarifyTurnAction(
             cause instanceof Error ? cause.message : String(cause);
         // eslint-disable-next-line no-console
         console.warn("[intake-clarify] LLM failed, using fallback:", message);
-        const note = /quota|rate.?limit|429/i.test(message)
-            ? "AI 暂时累了"
-            : "AI 暂时连不上";
-        return fallbackTurn(input.messages, input.missingKeys, note);
+        return fallbackTurn(input.messages, input.missingKeys);
     }
 }

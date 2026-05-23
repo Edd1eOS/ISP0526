@@ -16,8 +16,9 @@ interface ClarifyChatProps {
 }
 
 // Marker used by the deterministic fallback to remember which field was
-// just asked; strip from anything we render in user-facing bubbles.
-const MARKER_RE = /\[\[ask:\w+\]\]/g;
+// just asked; strip from anything we render in user-facing bubbles. The
+// marker format is [[ask:KEY:N]] where N is the attempt count.
+const MARKER_RE = /\[\[ask:\w+(?::\d+)?\]\]/g;
 
 function clean(text: string): string {
     return text.replace(MARKER_RE, "").trim();
