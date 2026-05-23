@@ -11,7 +11,7 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import type { ExtractedProfile } from "@isp0526/core";
 
-export type IntakeSource = "upload" | "voice" | "chat";
+export type IntakeSource = "upload" | "chat";
 
 export interface IntakeSessionSource {
     readonly kind: IntakeSource;

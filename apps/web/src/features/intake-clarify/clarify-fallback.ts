@@ -298,12 +298,12 @@ export function runDeterministicTurn(
     const ack = filled
         ? ""
         : skipped
-          ? extra
-              ? `好，记下了你提到的「${extra}」（表单没这个选项，会作为参考）。这条先跳过。`
-              : "好，这条先跳过。你之后可以在右边表单里手动选，或者留空。"
-          : asked && !filled && asked.attempt >= 3
-            ? "这条我没读出明确答案，先跳过——你可以在右边表单里直接选。"
-            : "";
+            ? extra
+                ? `好，记下了你提到的「${extra}」（表单没这个选项，会作为参考）。这条先跳过。`
+                : "好，这条先跳过。你之后可以在右边表单里手动选，或者留空。"
+            : asked && !filled && asked.attempt >= 3
+                ? "这条我没读出明确答案，先跳过——你可以在右边表单里直接选。"
+                : "";
     const body = QUESTIONS[nextKey];
     const reply = ack ? `${ack}\n${body}` : body;
     return {

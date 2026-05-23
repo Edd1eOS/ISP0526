@@ -118,10 +118,10 @@ function detectBudget(text: string): Signal<number> | undefined {
         const baseUnits = isYi
             ? raw * 1e8
             : isWan
-              ? raw * 1e4
-              : isK
-                ? raw * 1e3
-                : raw;
+                ? raw * 1e4
+                : isK
+                    ? raw * 1e3
+                    : raw;
         const aud = Math.round(baseUnits * c.rate);
         if (aud < 5000 || aud > 500000) continue;
         return makeSignal(aud, text, m);

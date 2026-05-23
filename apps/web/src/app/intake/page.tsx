@@ -27,14 +27,6 @@ const DOORS: ReadonlyArray<Door> = [
         ready: true,
     },
     {
-        href: "/intake/voice",
-        icon: "🎙",
-        title: "展开说说",
-        tagline: "freestyle 一段超乎想象的未来",
-        hint: "按住说话，AI 把你的脑洞整理成档案。",
-        ready: true,
-    },
-    {
         href: "/intake/chat",
         icon: "💬",
         title: "聊会天",
@@ -56,7 +48,7 @@ export default function IntakeHubPage() {
                         请选择你开启留学副本的方式
                     </h1>
                     <p className="text-text-muted mx-auto max-w-xl">
-                        四道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。
+                        三道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。
                     </p>
                 </header>
 

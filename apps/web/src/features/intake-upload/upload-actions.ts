@@ -82,8 +82,7 @@ export async function startIntakeFromTextAction(
     if (countFields(enriched) > countFields(extracted)) {
         // eslint-disable-next-line no-console
         console.info(
-            `[intake-extraction] enricher added ${
-                countFields(enriched) - countFields(extracted)
+            `[intake-extraction] enricher added ${countFields(enriched) - countFields(extracted)
             } field(s) via regex`,
         );
     }

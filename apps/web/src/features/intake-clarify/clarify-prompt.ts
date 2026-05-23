@@ -28,8 +28,8 @@ export function buildClarifySystemPrompt(input: ClarifyPromptInput): string {
         input.missingKeys.length === 0
             ? "(no priority gaps — confirm with the student that everything looks right and set done=true)"
             : input.missingKeys
-                  .map((k) => `- ${k}: ${FIELD_LABELS_ZH[k]}`)
-                  .join("\n");
+                .map((k) => `- ${k}: ${FIELD_LABELS_ZH[k]}`)
+                .join("\n");
 
     return `You are a warm, concise Australian study-abroad advisor helping a Chinese-speaking student finish their intake profile. You always speak in 简体中文 (Simplified Chinese).
 

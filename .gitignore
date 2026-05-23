@@ -63,3 +63,4 @@ supabase/.temp/
 
 # Local backup files created during in-place rewrites
 *.bak
+.attic/

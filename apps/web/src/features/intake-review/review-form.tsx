@@ -490,8 +490,8 @@ function SourcePanel({
                     {!llmUsed
                         ? "AI 没启动（未配置或失败），右侧字段需要手动填写"
                         : fieldsExtracted === 0
-                          ? "AI 没从原文里直接锁定任何字段。下面会聊几句帮你补上。"
-                          : `AI 从这里抠出了 ${fieldsExtracted} 个字段，下面会接着追问`}
+                            ? "AI 没从原文里直接锁定任何字段。下面会聊几句帮你补上。"
+                            : `AI 从这里抠出了 ${fieldsExtracted} 个字段，下面会接着追问`}
                 </p>
             </div>
 
