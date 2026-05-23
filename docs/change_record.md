@@ -14,6 +14,7 @@
 | 2026-05-23 | chore(mcp) | add Figma MCP server (Framelink) for design token extraction | — (direct main) |
 | 2026-05-23 | docs(spec) | section 7 rewritten as Warm Claymorphism design system with full token table (colors / radii / shadows / typography) extracted from Meng To reference + warm palette adaptation | — (direct main) |
 | 2026-05-23 | feat(scaffold) | sprint 0: scaffold `apps/web` (Next.js 16 + TS strict + Tailwind v4) and `packages/core` (rules/ai/data/schemas); write warm claymorphism tokens into `globals.css`; add token-preview landing page; add i18n message files (zh/en); add Supabase env helper + `.env.example`; add GitHub Actions CI (lint+typecheck+test+build) | feat/scaffold-web-and-core |
+| 2026-05-23 | refactor(spec) | business model adjusted: users no longer routed to commercial agents directly. Reports now end in a low-key "want to talk to someone?" card that opens a Contact page (WhatsApp / WeChat to our team + report ID). Agents remain a backend referral channel, invisible to end users. Renamed `TransferCode` -> `ReportCode`, updated FR-5.3 / FR-6 / FR-9.3 / NFR-5.5 / data model / KPIs / risks accordingly. i18n message files updated. | feat/scaffold-web-and-core |
 
 ---
 

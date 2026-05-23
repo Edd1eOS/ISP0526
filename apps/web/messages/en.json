@@ -1,10 +1,18 @@
 {
-  "common": {
-    "appName": "One-stop Study-Abroad Launcher",
-    "tagline": "Make your own choice, grounded in verifiable data",
-    "cta": {
-      "start": "Start assessment",
-      "learnMore": "Learn more"
+    "common": {
+        "appName": "One-stop Study-Abroad Launcher",
+        "tagline": "Make your own choice, grounded in verifiable data",
+        "cta": {
+            "start": "Start assessment",
+            "learnMore": "Learn more",
+            "talkToUs": "Want to talk to someone?"
+        },
+        "contact": {
+            "intro": "If you want to dig deeper into anything in the report, message us.",
+            "reportIdLabel": "Your report ID",
+            "reportIdHint": "Send us this and we can pull up your full plan.",
+            "whatsapp": "WhatsApp",
+            "wechat": "WeChat"
+        }
     }
-  }
 }

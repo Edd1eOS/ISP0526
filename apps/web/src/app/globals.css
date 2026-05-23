@@ -13,10 +13,10 @@
   --color-bg: #fffaf3;
   --color-surface: #ffefe2;
   --color-surface-alt: #ffe0c8;
-  --color-primary-from: #f08358;
-  --color-primary-to: #f5b89a;
-  --color-accent: #9fd8a6;
-  --color-warning: #f5c26b;
+  --color-primary-from: #d97757;
+  --color-primary-to: #e8a98a;
+  --color-accent: #a8c8a2;
+  --color-warning: #d9b372;
   --color-text: #2a1810;
   --color-text-muted: #8c6a4e;
   --color-text-on-primary: #ffffff;
@@ -29,18 +29,18 @@
   --radius-icon: 12px;
 
   /* Shadow tokens — claymorphism soul (spec 7.2.3) */
-  --shadow-clay-card: 0 50px 100px 0 rgba(240, 170, 130, 0.3);
+  --shadow-clay-card: 0 50px 100px 0 rgba(217, 175, 145, 0.28);
   --shadow-clay-raised:
-    0 20px 40px 0 rgba(240, 170, 130, 0.45),
+    0 20px 40px 0 rgba(217, 175, 145, 0.4),
     inset 3px 3px 10px 0 rgba(255, 255, 255, 0.72);
   --shadow-clay-primary:
-    0 20px 40px 0 rgba(240, 131, 88, 0.35),
+    0 20px 40px 0 rgba(217, 119, 87, 0.3),
     inset 3px 1px 15px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -3px 10px 0 rgba(0, 0, 0, 0.2);
+    inset 0 -3px 10px 0 rgba(0, 0, 0, 0.18);
   --shadow-clay-pressed: inset 4px 4px 12px 0 rgba(0, 0, 0, 0.15);
 
   /* Gradient compositions */
-  --gradient-primary: linear-gradient(-45deg, #f08358 0%, #f5b89a 100%);
+  --gradient-primary: linear-gradient(-45deg, #d97757 0%, #e8a98a 100%);
   --gradient-raised: linear-gradient(-40deg, #ffe5d2 0%, #ffffff 100%);
 
   /* Typography tokens (spec 7.2.4) */
@@ -78,4 +78,3 @@ body {
   font-family: var(--font-en), var(--font-zh);
   -webkit-font-smoothing: antialiased;
 }
-

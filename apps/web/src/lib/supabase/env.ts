@@ -8,18 +8,18 @@
  */
 
 const required = (key: string): string => {
-  const value = process.env[key];
-  if (!value) {
-    throw new Error(
-      `Missing required environment variable: ${key}. ` +
-        "See .env.example for the full list.",
-    );
-  }
-  return value;
+    const value = process.env[key];
+    if (!value) {
+        throw new Error(
+            `Missing required environment variable: ${key}. ` +
+            "See .env.example for the full list.",
+        );
+    }
+    return value;
 };
 
 export const supabaseEnv = {
-  url: (): string => required("NEXT_PUBLIC_SUPABASE_URL"),
-  anonKey: (): string => required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
-  serviceRoleKey: (): string => required("SUPABASE_SERVICE_ROLE_KEY"),
+    url: (): string => required("NEXT_PUBLIC_SUPABASE_URL"),
+    anonKey: (): string => required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    serviceRoleKey: (): string => required("SUPABASE_SERVICE_ROLE_KEY"),
 } as const;

@@ -4,4 +4,4 @@
 //
 // File naming: <country>-<vertical>.json (e.g. au-universities.json).
 
-export {};
+export { };
