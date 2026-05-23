@@ -13,7 +13,7 @@ import {
 import { buildClarifySystemPrompt } from "./clarify-prompt";
 import { runDeterministicTurn, stripMarker } from "./clarify-fallback";
 
-const MODEL_ID = "gemini-2.0-flash";
+const MODEL_ID = process.env.GOOGLE_TEXT_MODEL_ID ?? "gemini-2.5-flash";
 const MAX_MESSAGES = 20;
 
 export interface ClarifyTurnInput {

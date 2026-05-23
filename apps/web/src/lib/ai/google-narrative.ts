@@ -10,7 +10,7 @@ import {
     type GenerateObjectFn,
 } from "@isp0526/core";
 
-const PRIMARY_MODEL_ID = "gemini-2.0-flash";
+const PRIMARY_MODEL_ID = process.env.GOOGLE_TEXT_MODEL_ID ?? "gemini-2.5-flash";
 
 export function isGoogleConfigured(): boolean {
     return Boolean(process.env.GOOGLE_GENERATIVE_AI_API_KEY);

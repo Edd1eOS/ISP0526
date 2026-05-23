@@ -11,7 +11,7 @@ import {
     type GenerateObjectFn,
 } from "@isp0526/core";
 
-const PRIMARY_MODEL_ID = "gemini-2.0-flash";
+const PRIMARY_MODEL_ID = process.env.GOOGLE_TEXT_MODEL_ID ?? "gemini-2.5-flash";
 
 export function buildGoogleExtractionGenerator(): GenerateObjectFn {
     return async ({ system, prompt }) => {
