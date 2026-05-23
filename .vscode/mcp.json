@@ -1,0 +1,82 @@
+// MCP Server configuration for ISP0526 workspace.
+// Secrets are injected via VS Code's encrypted input prompts on first start.
+// To re-enter a secret: run "MCP: Reset Cached Tools and Inputs" from Command Palette.
+{
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "github-pat",
+            "description": "GitHub Fine-grained PAT (github_pat_xxx)",
+            "password": true
+        },
+        {
+            "type": "promptString",
+            "id": "supabase-pat-v4",
+            "description": "FIRST BOX: sbp_xxx (about 50 chars, starts with sbp_). This goes to ACCESS TOKEN.",
+            "password": true
+        },
+        {
+            "type": "promptString",
+            "id": "supabase-project-ref-v4",
+            "description": "SECOND BOX: project ref ~20 chars, NO prefix, pure letters+digits (e.g. abcdefghijklmnop). NOT starting with sbp_.",
+            "password": false
+        },
+        {
+            "type": "promptString",
+            "id": "tavily-key",
+            "description": "Tavily API Key (tvly-xxx)",
+            "password": true
+        }
+    ],
+    "servers": {
+        // GitHub MCP: repo / issue / PR / branch operations.
+        "github": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-github"
+            ],
+            "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github-pat}"
+            }
+        },
+        // Context7 MCP: up-to-date library docs (Next.js / Supabase / shadcn / etc.).
+        // No auth required.
+        "context7": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@upstash/context7-mcp"
+            ]
+        },
+        // Supabase MCP: schema introspection, query, RLS inspection.
+        // --read-only enforced during Phase 1 exploration; remove when running migrations.
+        "supabase": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@supabase/mcp-server-supabase",
+                "--read-only",
+                "--project-ref=${input:supabase-project-ref-v4}"
+            ],
+            "env": {
+                "SUPABASE_ACCESS_TOKEN": "${input:supabase-pat-v4}"
+            }
+        },
+        // Tavily MCP: web search for data verification (university info, admission requirements).
+        "tavily": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "tavily-mcp@latest"
+            ],
+            "env": {
+                "TAVILY_API_KEY": "${input:tavily-key}"
+            }
+        }
+    }
+}
