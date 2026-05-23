@@ -13,33 +13,33 @@ const DOORS: ReadonlyArray<Door> = [
     {
         href: "/intake/form",
         icon: "📝",
-        title: "结构化表单",
-        tagline: "我自己知道想要什么",
-        hint: "30 秒填完关键字段，立刻出报告。",
+        title: "填个表",
+        tagline: "我对一切都了如指掌",
+        hint: "30 秒勾几个选项，立刻翻开你的报告。",
         ready: true,
     },
     {
         href: "/intake/upload",
         icon: "📄",
-        title: "上传文件",
-        tagline: "我有简历 / 成绩单 / 录取信",
-        hint: "AI 帮你抽出关键字段，你只需审阅。",
+        title: "传个文件",
+        tagline: "我有迹可循的远大前程",
+        hint: "简历 / 成绩单 / 录取信丢进来，让 AI 帮你抠重点。",
         ready: true,
     },
     {
         href: "/intake/voice",
         icon: "🎙",
-        title: "语音输入",
-        tagline: "我想边走边说",
-        hint: "录一段话，AI 自动转录并填表。",
+        title: "展开说说",
+        tagline: "freestyle 一段超乎想象的未来",
+        hint: "按住说话，AI 把你的脑洞整理成档案。",
         ready: false,
     },
     {
         href: "/intake/chat",
         icon: "💬",
-        title: "对话助手",
-        tagline: "我喜欢被一步步问到",
-        hint: "聊天式收集信息，按你的节奏来。",
+        title: "聊会天",
+        tagline: "未来的我有话要说？去看看！",
+        hint: "一问一答，AI 陪你把想法慢慢理清楚。",
         ready: false,
     },
 ];
@@ -50,13 +50,13 @@ export default function IntakeHubPage() {
             <div className="mx-auto max-w-4xl space-y-10">
                 <header className="space-y-2 text-center">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        Step 1 · 选择采集方式
+                        Step 1 · 选个入口
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        你想怎么开始？
+                        请选择你开启留学副本的方式
                     </h1>
                     <p className="text-text-muted mx-auto max-w-xl">
-                        四种方式抵达同一份报告。任选一种，过程中可以随时切换或补充。
+                        四道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。
                     </p>
                 </header>
 
@@ -82,7 +82,7 @@ function DoorCard({ door }: { door: Door }) {
                         className="text-text-muted rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
                         style={{ background: "var(--color-surface-alt)" }}
                     >
-                        即将上线
+                        敬请期待
                     </span>
                 ) : null}
             </div>

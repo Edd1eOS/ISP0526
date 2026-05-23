@@ -6,14 +6,13 @@ export default function IntakeUploadPage() {
             <div className="mx-auto max-w-5xl space-y-10">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        上传文件
+                        传个文件
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        把材料丢给我，AI 帮你抽字段
+                        把你的过去丢进来，AI 替你拎重点
                     </h1>
                     <p className="text-text-muted max-w-2xl">
-                        支持 PDF（≤ 10 MB）。先客户端解析文本，下一步会送入
-                        Gemini 抽取关键信息，然后跳到审阅页让你确认。
+                        简历、成绩单、录取信都行（PDF，≤ 10 MB）。AI 读完会把关键信息整理好，下一步你只要核对、改两笔，就能直接生成报告。
                     </p>
                 </header>
                 <UploadDropzone />

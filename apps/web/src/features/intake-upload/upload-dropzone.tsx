@@ -117,7 +117,7 @@ export function UploadDropzone() {
         await new Promise((r) => setTimeout(r, 600));
         setSubmitting(false);
         alert(
-            "已抽取文本（详见 dev 终端 console）。下一步将接入 AI 字段抽取 + 审阅页。",
+            "文本已读取完毕（去 dev 控制台看看）。下一关：AI 补填字段 + 审阅页。",
         );
         router.refresh();
     };
@@ -179,11 +179,11 @@ export function UploadDropzone() {
 
             <div className="space-y-3">
                 <h2 className="text-text text-sm font-medium uppercase tracking-widest">
-                    已选择 · {files.length}
+                    收件篮 · {files.length}
                 </h2>
                 {files.length === 0 ? (
                     <p className="text-text-muted text-sm">
-                        还没有文件。拖一份过来，或点"选择文件"。
+                        空空如也。丢一份过来，或点“挑一份”。
                     </p>
                 ) : (
                     <ul className="space-y-2">
@@ -209,10 +209,10 @@ export function UploadDropzone() {
                     }}
                 >
                     {submitting
-                        ? "处理中…"
+                        ? "AI 读中…请稍等"
                         : doneCount > 0
-                          ? `用这 ${doneCount} 份文件继续`
-                          : "等待文件解析完成"}
+                            ? `带着这 ${doneCount} 份继续冲关`
+                            : "等文件准备好再继续"}
                 </button>
             </div>
         </div>
@@ -277,8 +277,8 @@ function FileRow({
 
 function StatusBadge({ status }: { status: FileStatus }) {
     const map: Record<FileStatus, { text: string; bg: string }> = {
-        queued: { text: "等待", bg: "var(--color-surface-alt)" },
-        parsing: { text: "解析中", bg: "var(--color-surface-alt)" },
+        queued: { text: "排队", bg: "var(--color-surface-alt)" },
+        parsing: { text: "读取中", bg: "var(--color-surface-alt)" },
         done: { text: "✓", bg: "var(--color-success, #2f9461)" },
         error: { text: "✕", bg: "var(--color-warning, #c84a3f)" },
     };
@@ -286,9 +286,8 @@ function StatusBadge({ status }: { status: FileStatus }) {
     const isIcon = status === "done" || status === "error";
     return (
         <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider ${
-                isIcon ? "text-white" : "text-text-muted"
-            }`}
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider ${isIcon ? "text-white" : "text-text-muted"
+                }`}
             style={{ background: cfg.bg }}
         >
             {cfg.text}

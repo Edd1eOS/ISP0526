@@ -7,13 +7,13 @@ export default function IntakeFormPage() {
             <div className="mx-auto max-w-2xl space-y-10">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        结构化表单
+                        填个表
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        告诉我们一点你的背景
+                        把你的故事勾几个选项给我
                     </h1>
                     <p className="text-text-muted max-w-xl">
-                        所有字段都可选。填得越多，推荐越精准。提交后会立刻生成你的报告。
+                        每一项都可以跳过，但写得越多 AI 越懂你。提交后立刻翻开属于你的那张报告。
                     </p>
                 </header>
                 <IntakeForm action={submitIntakeAction} />

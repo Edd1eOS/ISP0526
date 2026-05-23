@@ -23,7 +23,9 @@
 
 import { z } from "zod";
 
-export type Locale = "zh" | "en";
+import type { Locale } from "./recommendation-narrative";
+
+export type { Locale };
 
 const confidence = z.number().min(0).max(1);
 // Short verbatim quote from the source text, used to show provenance in the
