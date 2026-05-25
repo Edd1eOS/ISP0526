@@ -64,10 +64,10 @@ export function ContactForm({ code, locale, labels }: ContactFormProps) {
         state?.error === "invalid_input"
             ? labels.errorInvalid
             : state?.error === "report_not_found"
-              ? labels.errorNotFound
-              : state?.error === "server_error"
-                ? labels.errorServer
-                : null;
+                ? labels.errorNotFound
+                : state?.error === "server_error"
+                    ? labels.errorServer
+                    : null;
 
     return (
         <form action={action} className="space-y-4">

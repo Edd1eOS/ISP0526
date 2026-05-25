@@ -68,8 +68,8 @@ export function ReportChat({ code }: { code: string }) {
                     typeof data?.message === "string"
                         ? data.message
                         : typeof data?.error === "string"
-                          ? data.error
-                          : "对话服务暂时不可用，请稍后再试。";
+                            ? data.error
+                            : "对话服务暂时不可用，请稍后再试。";
                 setError(detail);
                 return;
             }

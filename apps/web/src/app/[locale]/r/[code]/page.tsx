@@ -6,13 +6,18 @@ import type {
     RecommendationNarrative,
     Score,
     ScoreBreakdown,
-    VisaRoute,
     VisaRouteMap,
 } from "@isp0526/core";
 import { getVisaRoutes } from "@isp0526/core";
 import { loadReport } from "../../../../lib/report-store";
 import { ReportChat } from "../../../../features/report/report-chat";
 import { ContactCard } from "../../../../features/report/contact-card";
+import {
+    BottlesGrid,
+    type BottleCard,
+    type BottleSection,
+} from "../../../../features/report/bottles";
+import { JourneyMap } from "../../../../features/report/journey-map";
 import { Link } from "../../../../i18n/navigation";
 
 interface ReportPageProps {
@@ -42,6 +47,106 @@ const DIMENSION_LABEL: Record<keyof ScoreBreakdown, string> = {
     visa_feasibility: "签证",
 };
 
+// Highest-dimension flag shown in the collapsed capsule row. The colour is
+// inline (not a Tailwind class) so the bundler does not purge dynamic values.
+const DIMENSION_FLAG: Record<
+    keyof ScoreBreakdown,
+    { label: string; bg: string; fg: string }
+> = {
+    academic_fit: { label: "专业强劲", bg: "#e0e7ff", fg: "#3730a3" },
+    personality: { label: "性格契合", bg: "#ffe4e6", fg: "#9f1239" },
+    lifestyle: { label: "生活舒适", bg: "#fef3c7", fg: "#92400e" },
+    career: { label: "就业前景", bg: "#d1fae5", fg: "#065f46" },
+    budget: { label: "性价比高", bg: "#cffafe", fg: "#155e75" },
+    tag_boost: { label: "目标契合", bg: "#ede9fe", fg: "#5b21b6" },
+    reputation: { label: "口碑硬核", bg: "#e2e8f0", fg: "#1e293b" },
+    visa_feasibility: { label: "签证友好", bg: "#ccfbf1", fg: "#115e59" },
+};
+
+// Tier-relative flag: pick the dimension where this candidate stands out the
+// most compared to its tier peers. This gives variety — otherwise the same
+// systemically-dominant dimension (e.g. budget for the safety tier) would
+// flag every card identically.
+function topDimensionRelative(
+    breakdown: ScoreBreakdown,
+    tierAverages: Record<keyof ScoreBreakdown, number>,
+): keyof ScoreBreakdown {
+    const entries = Object.entries(breakdown) as Array<
+        [keyof ScoreBreakdown, number]
+    >;
+    let bestKey: keyof ScoreBreakdown = "academic_fit";
+    let bestDelta = -Infinity;
+    for (const [k, v] of entries) {
+        const delta = v - tierAverages[k];
+        if (delta > bestDelta) {
+            bestDelta = delta;
+            bestKey = k;
+        }
+    }
+    return bestKey;
+}
+
+function computeTierAverages(
+    scores: ReadonlyArray<Score>,
+): Record<keyof ScoreBreakdown, number> {
+    const keys = Object.keys(DIMENSION_LABEL) as (keyof ScoreBreakdown)[];
+    const sums: Record<string, number> = {};
+    for (const k of keys) sums[k] = 0;
+    if (scores.length === 0) {
+        return sums as Record<keyof ScoreBreakdown, number>;
+    }
+    for (const s of scores) {
+        for (const k of keys) sums[k] += s.breakdown[k];
+    }
+    const out = {} as Record<keyof ScoreBreakdown, number>;
+    for (const k of keys) out[k] = sums[k]! / scores.length;
+    return out;
+}
+
+const BOTTLE_ACCENT: Record<"match" | "stretch" | "safety", string> = {
+    match: "linear-gradient(135deg, #fde68a 0%, #fbbf24 100%)",
+    stretch: "linear-gradient(135deg, #fecaca 0%, #f87171 100%)",
+    safety: "linear-gradient(135deg, #bbf7d0 0%, #34d399 100%)",
+};
+
+function buildBottleCards(
+    scores: ReadonlyArray<Score>,
+    snapshot: {
+        candidates: ReadonlyMap<string, Candidate>;
+        narratives: ReadonlyMap<string, RecommendationNarrative>;
+        narrative_sources: ReadonlyMap<string, "llm" | "template">;
+    },
+): ReadonlyArray<BottleCard> {
+    const tierAvg = computeTierAverages(scores);
+    return scores.map((s) => {
+        const cand = snapshot.candidates.get(s.program_id);
+        const narr = snapshot.narratives.get(s.program_id);
+        const src = snapshot.narrative_sources.get(s.program_id);
+        const flagKey = topDimensionRelative(s.breakdown, tierAvg);
+        const flag = DIMENSION_FLAG[flagKey];
+        return {
+            programId: s.program_id,
+            headline: narr?.headline ?? `${s.university_id} · ${s.program_id}`,
+            scoreInt: Math.round(s.final_score),
+            flagKey,
+            flagLabel: flag.label,
+            flagBg: flag.bg,
+            flagFg: flag.fg,
+            country: cand
+                ? COUNTRY_LABEL[cand.university.country]
+                : undefined,
+            city: cand?.university.city,
+            summary: narr?.summary,
+            pros: (narr?.pros ?? []).map((p) => ({
+                text: p.text,
+                sourceId: p.source_id,
+            })),
+            breakdown: s.breakdown,
+            source: src,
+        };
+    });
+}
+
 export default async function ReportPage({ params }: ReportPageProps) {
     const { code, locale } = await params;
     setRequestLocale(locale);
@@ -50,7 +155,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
     const expiredAt = new Date(
         new Date(snapshot.created_at).getTime() +
-            SHARE_LINK_EXPIRY_DAYS * 86_400_000,
+        SHARE_LINK_EXPIRY_DAYS * 86_400_000,
     );
     if (expiredAt.getTime() < Date.now()) {
         return <ExpiredReport locale={locale} code={snapshot.code} />;
@@ -60,10 +165,17 @@ export default async function ReportPage({ params }: ReportPageProps) {
     const routes = getVisaRoutes();
 
     const sections = [
-        { key: "match", title: "Match · 主推", scores: snapshot.set.match },
-        { key: "stretch", title: "Stretch · 冲一冲", scores: snapshot.set.stretch },
-        { key: "safety", title: "Safety · 保底", scores: snapshot.set.safety },
+        { key: "match", title: "主推", scores: snapshot.set.match },
+        { key: "stretch", title: "冲一冲", scores: snapshot.set.stretch },
+        { key: "safety", title: "保底", scores: snapshot.set.safety },
     ] as const;
+
+    const bottleSections: ReadonlyArray<BottleSection> = sections.map((s) => ({
+        key: s.key,
+        title: s.title,
+        accent: BOTTLE_ACCENT[s.key],
+        cards: buildBottleCards(s.scores, snapshot),
+    }));
 
     const allScores: Score[] = [
         ...snapshot.set.stretch,
@@ -82,29 +194,28 @@ export default async function ReportPage({ params }: ReportPageProps) {
     const totalCount = snapshot.narrative_sources.size;
 
     return (
-        <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
-            <div className="mx-auto max-w-3xl space-y-10">
-                <header className="space-y-2">
-                    <span className="text-text-muted text-sm uppercase tracking-widest">
-                        Report · {snapshot.code}
-                    </span>
-                    <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        你的留学院校推荐
-                    </h1>
-                    <p className="text-text-muted">
-                        所有结论来自规则引擎对你的画像与项目数据的逐项比对，每条理由可追溯到原始来源。
-                    </p>
-                    {totalCount > 0 ? (
-                        <p className="text-text-muted text-xs">
-                            文案来源：Gemini {llmCount} 项 · 模板 {totalCount - llmCount} 项
-                        </p>
-                    ) : null}
-                    <div className="flex flex-wrap gap-2 pt-2">
+        <main className="bg-bg min-h-screen w-full px-6 py-10 sm:px-12">
+            <div className="mx-auto max-w-6xl space-y-8">
+                <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div className="space-y-1">
+                        <span className="text-text-muted text-xs tracking-widest">
+                            报告编号 · {snapshot.code}
+                        </span>
+                        <h1 className="text-text text-2xl font-bold leading-tight sm:text-3xl">
+                            你的留学院校推荐
+                        </h1>
+                        {totalCount > 0 ? (
+                            <p className="text-text-muted text-xs">
+                                文案来源：Gemini {llmCount} 项 · 模板 {totalCount - llmCount} 项
+                            </p>
+                        ) : null}
+                    </div>
+                    <div className="flex shrink-0 flex-wrap gap-2">
                         <a
                             href={`/r/${snapshot.code}/pdf`}
                             target="_blank"
                             rel="noopener"
-                            className="text-text px-4 py-2 text-sm font-semibold transition-transform active:scale-95"
+                            className="text-text px-3 py-1.5 text-xs font-semibold transition-transform active:scale-95"
                             style={{
                                 background: "var(--gradient-raised)",
                                 borderRadius: "var(--radius-button)",
@@ -117,7 +228,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
                             href={`/r/${snapshot.code}/poster.png`}
                             target="_blank"
                             rel="noopener"
-                            className="text-text px-4 py-2 text-sm font-semibold transition-transform active:scale-95"
+                            className="text-text px-3 py-1.5 text-xs font-semibold transition-transform active:scale-95"
                             style={{
                                 background: "var(--gradient-raised)",
                                 borderRadius: "var(--radius-button)",
@@ -129,44 +240,12 @@ export default async function ReportPage({ params }: ReportPageProps) {
                     </div>
                 </header>
 
-                {sections.map((section) => (
-                    <section key={section.key} className="space-y-4">
-                        <h2 className="text-text text-xl font-semibold">
-                            {section.title}
-                            <span className="text-text-muted ml-2 text-sm font-normal">
-                                {section.scores.length} 项
-                            </span>
-                        </h2>
-                        {section.scores.length === 0 ? (
-                            <p className="text-text-muted text-sm">
-                                这一档暂时没有匹配。
-                            </p>
-                        ) : (
-                            <div className="space-y-4">
-                                {section.scores.map((score) => (
-                                    <ScoreCard
-                                        key={score.program_id}
-                                        score={score}
-                                        candidate={snapshot.candidates.get(
-                                            score.program_id,
-                                        )}
-                                        narrative={snapshot.narratives.get(
-                                            score.program_id,
-                                        )}
-                                        source={snapshot.narrative_sources.get(
-                                            score.program_id,
-                                        )}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </section>
-                ))}
+                <BottlesGrid sections={bottleSections} />
 
-                <VisaOverview countries={presentCountries} routes={routes} />
-                <ApplicationTimeline
-                    countries={presentCountries}
+                <JourneyMap
+                    countries={[...presentCountries]}
                     routes={routes}
+                    countryLabels={COUNTRY_LABEL}
                 />
                 <ReportChat code={snapshot.code} />
                 <ContactCard
@@ -237,312 +316,7 @@ function ExpiredReport({ locale, code }: { locale: string; code: string }) {
     );
 }
 
-function ScoreCard({
-    score,
-    candidate,
-    narrative,
-    source,
-}: {
-    score: Score;
-    candidate: Candidate | undefined;
-    narrative: RecommendationNarrative | undefined;
-    source: "llm" | "template" | undefined;
-}) {
-    const country = candidate?.university.country;
-    const city = candidate?.university.city;
-    return (
-        <article
-            className="bg-surface space-y-3 p-6"
-            style={{
-                borderRadius: "var(--radius-card-md)",
-                boxShadow: "var(--shadow-clay-card)",
-            }}
-        >
-            <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1">
-                    <h3 className="text-text text-lg font-semibold">
-                        {narrative?.headline ??
-                            `${score.university_id} · ${score.program_id}`}
-                    </h3>
-                    {country ? (
-                        <p className="text-text-muted text-xs">
-                            <span
-                                className="mr-2 inline-block rounded-full px-2 py-0.5 font-medium"
-                                style={{
-                                    background: "var(--color-surface-alt)",
-                                }}
-                            >
-                                {COUNTRY_LABEL[country]}
-                            </span>
-                            {city ?? ""}
-                        </p>
-                    ) : null}
-                </div>
-                <div className="flex shrink-0 items-center gap-2">
-                    {source ? (
-                        <span
-                            className="text-text-muted rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
-                            style={{ background: "var(--color-surface-alt)" }}
-                            title={
-                                source === "llm"
-                                    ? "本条推荐文案由 Gemini 2.0 Flash 生成，并经 Zod 校验 + 来源过滤"
-                                    : "本条推荐文案由模板渲染（LLM 未启用或已回退）"
-                            }
-                        >
-                            {source === "llm" ? "AI" : "模板"}
-                        </span>
-                    ) : null}
-                    <span
-                        className="text-text rounded-full px-3 py-1 text-sm font-semibold"
-                        style={{
-                            background: "var(--color-surface-alt)",
-                        }}
-                    >
-                        {Math.round(score.final_score)}
-                    </span>
-                </div>
-            </div>
-            {narrative ? (
-                <p className="text-text-muted text-sm leading-relaxed">
-                    {narrative.summary}
-                </p>
-            ) : null}
-            <ul className="space-y-1.5 text-sm">
-                {(narrative?.pros ?? []).map((p, i) => (
-                    <li key={i} className="text-text flex gap-2">
-                        <span aria-hidden className="text-accent">·</span>
-                        <span>
-                            {p.text}
-                            <span className="text-text-muted ml-1 text-xs">
-                                ({p.source_id})
-                            </span>
-                        </span>
-                    </li>
-                ))}
-            </ul>
-            <BreakdownRadar breakdown={score.breakdown} />
-        </article>
-    );
-}
-
-function BreakdownRadar({ breakdown }: { breakdown: ScoreBreakdown }) {
-    const entries = (Object.keys(DIMENSION_LABEL) as (keyof ScoreBreakdown)[]).map(
-        (k) => ({ key: k, label: DIMENSION_LABEL[k], value: breakdown[k] }),
-    );
-    const n = entries.length;
-    const cx = 110;
-    const cy = 110;
-    const radius = 80;
-    const polar = (i: number, r: number) => {
-        const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-        return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)] as const;
-    };
-    const gridLevels = [0.25, 0.5, 0.75, 1];
-    const gridPaths = gridLevels.map((lvl) =>
-        entries
-            .map((_, i) => polar(i, radius * lvl))
-            .map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`)
-            .join(" "),
-    );
-    const valuePoints = entries
-        .map((e, i) => polar(i, radius * Math.max(0.05, e.value)))
-        .map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`)
-        .join(" ");
-
-    return (
-        <details className="text-text-muted text-xs">
-            <summary className="cursor-pointer">维度分解</summary>
-            <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:items-start">
-                <svg
-                    viewBox="0 0 220 220"
-                    className="h-48 w-48 shrink-0"
-                    role="img"
-                    aria-label="dimension radar"
-                >
-                    {gridPaths.map((pts, idx) => (
-                        <polygon
-                            key={idx}
-                            points={pts}
-                            fill="none"
-                            stroke="currentColor"
-                            strokeOpacity={0.15}
-                        />
-                    ))}
-                    {entries.map((_, i) => {
-                        const [x, y] = polar(i, radius);
-                        return (
-                            <line
-                                key={i}
-                                x1={cx}
-                                y1={cy}
-                                x2={x}
-                                y2={y}
-                                stroke="currentColor"
-                                strokeOpacity={0.1}
-                            />
-                        );
-                    })}
-                    <polygon
-                        points={valuePoints}
-                        fill="var(--color-accent, #6366f1)"
-                        fillOpacity={0.25}
-                        stroke="var(--color-accent, #6366f1)"
-                        strokeWidth={1.5}
-                    />
-                    {entries.map((e, i) => {
-                        const [x, y] = polar(i, radius + 14);
-                        return (
-                            <text
-                                key={e.key}
-                                x={x}
-                                y={y}
-                                textAnchor="middle"
-                                dominantBaseline="middle"
-                                fontSize={9}
-                                fill="currentColor"
-                                fillOpacity={0.7}
-                            >
-                                {e.label}
-                            </text>
-                        );
-                    })}
-                </svg>
-                <dl className="grid w-full grid-cols-2 gap-x-4 gap-y-1 sm:grid-cols-2">
-                    {entries.map((e) => (
-                        <div key={e.key} className="contents">
-                            <dt>{e.label}</dt>
-                            <dd className="text-text">
-                                {(e.value * 100).toFixed(0)}
-                            </dd>
-                        </div>
-                    ))}
-                </dl>
-            </div>
-        </details>
-    );
-}
-
-function VisaOverview({
-    countries,
-    routes,
-}: {
-    countries: ReadonlySet<Country>;
-    routes: VisaRouteMap;
-}) {
-    const items: Array<[Country, VisaRoute]> = [];
-    for (const c of countries) {
-        const route = routes[c];
-        if (route) items.push([c, route]);
-    }
-    if (items.length === 0) return null;
-    return (
-        <section className="space-y-4">
-            <h2 className="text-text text-xl font-semibold">签证一览</h2>
-            <p className="text-text-muted text-sm">
-                每个目的国的典型办理周期与毕业工签年限，数据来源为官方移民局。最终以受理时移民局公告为准。
-            </p>
-            <div className="grid gap-4 sm:grid-cols-2">
-                {items.map(([country, route]) => (
-                    <article
-                        key={country}
-                        className="bg-surface space-y-2 p-5"
-                        style={{
-                            borderRadius: "var(--radius-card-md)",
-                            boxShadow: "var(--shadow-clay-card)",
-                        }}
-                    >
-                        <div className="flex items-baseline justify-between">
-                            <h3 className="text-text text-base font-semibold">
-                                {COUNTRY_LABEL[country]} · {route.visa_class}
-                            </h3>
-                            <span className="text-text-muted text-xs">
-                                {route.total_weeks_typical} 周
-                            </span>
-                        </div>
-                        <p className="text-text-muted text-xs">
-                            毕业工签：{route.post_study_work_years} 年
-                        </p>
-                        <ol className="text-text space-y-1 text-xs">
-                            {route.steps.map((step) => (
-                                <li key={step.id} className="flex justify-between">
-                                    <span>{step.name_en}</span>
-                                    <span className="text-text-muted ml-2">
-                                        ~{step.weeks}w
-                                    </span>
-                                </li>
-                            ))}
-                        </ol>
-                        <p className="text-text-muted text-[10px]">
-                            来源：{route.source.source_id}
-                            {route.source.last_verified_date
-                                ? ` · ${route.source.last_verified_date}`
-                                : ""}
-                        </p>
-                    </article>
-                ))}
-            </div>
-        </section>
-    );
-}
-
-function ApplicationTimeline({
-    countries,
-    routes,
-}: {
-    countries: ReadonlySet<Country>;
-    routes: VisaRouteMap;
-}) {
-    const items: Array<{ country: Country; route: VisaRoute }> = [];
-    for (const c of countries) {
-        const r = routes[c];
-        if (r) items.push({ country: c, route: r });
-    }
-    if (items.length === 0) return null;
-    const maxWeeks = Math.max(...items.map((i) => i.route.total_weeks_typical));
-    return (
-        <section className="space-y-4">
-            <h2 className="text-text text-xl font-semibold">申请节奏</h2>
-            <p className="text-text-muted text-sm">
-                以拿到 offer 为时间零点向后推。条形长度反映典型办理周数，便于你判断递交时机。
-            </p>
-            <div
-                className="bg-surface space-y-3 p-5"
-                style={{
-                    borderRadius: "var(--radius-card-md)",
-                    boxShadow: "var(--shadow-clay-card)",
-                }}
-            >
-                {items.map(({ country, route }) => {
-                    const pct = (route.total_weeks_typical / maxWeeks) * 100;
-                    return (
-                        <div key={country} className="space-y-1">
-                            <div className="text-text flex justify-between text-xs">
-                                <span className="font-medium">
-                                    {COUNTRY_LABEL[country]}
-                                </span>
-                                <span className="text-text-muted">
-                                    {route.total_weeks_typical} 周 ·{" "}
-                                    {route.steps.length} 步
-                                </span>
-                            </div>
-                            <div
-                                className="h-2 w-full overflow-hidden rounded-full"
-                                style={{ background: "var(--color-surface-alt)" }}
-                            >
-                                <div
-                                    className="h-full"
-                                    style={{
-                                        width: `${pct}%`,
-                                        background: "var(--gradient-primary)",
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </section>
-    );
-}
+// ScoreCard + BreakdownRadar moved to features/report/bottles.tsx.
+// VisaOverview + ApplicationTimeline replaced by JourneyMap (features/report/journey-map.tsx).
 
 

@@ -4,23 +4,21 @@
 // Core re-validates with Zod after the call as defense-in-depth.
 
 import "server-only";
-import { generateObject } from "ai";
-import { google } from "@ai-sdk/google";
+import { generateText, Output } from "ai";
 import {
     ReportChatReplySchema,
     type GenerateObjectFn,
 } from "@isp0526/core";
-
-const PRIMARY_MODEL_ID = process.env.GOOGLE_TEXT_MODEL_ID ?? "gemini-2.5-flash";
+import { getTextModel } from "./google-narrative";
 
 export function buildGoogleReportChatGenerator(): GenerateObjectFn {
     return async ({ system, prompt }) => {
-        const { object } = await generateObject({
-            model: google(PRIMARY_MODEL_ID),
-            schema: ReportChatReplySchema,
+        const { output } = await generateText({
+            model: getTextModel(),
+            output: Output.object({ schema: ReportChatReplySchema }),
             system,
             prompt,
         });
-        return { object };
+        return { object: output };
     };
 }
