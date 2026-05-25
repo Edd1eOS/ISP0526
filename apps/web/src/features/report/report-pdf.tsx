@@ -1,11 +1,8 @@
 // Server-only PDF document for a recommendation report.
 //
-// Renders via @react-pdf/renderer. The Chinese typeface is loaded from a
-// public CDN at first render and cached by the runtime; if the network
-// fetch fails, react-pdf falls back to Helvetica and Chinese characters
-// will render as boxes. There is no try/catch around Font.register because
-// the call itself does not throw — the failure happens inside renderToStream
-// and is surfaced to the route handler.
+// Renders via @react-pdf/renderer. The Chinese typeface (Noto Sans SC) is
+// loaded as a Buffer from @fontsource/noto-sans-sc in node_modules so we
+// never depend on a CDN at request time. react-pdf supports WOFF.
 
 import {
     Document,
@@ -22,14 +19,10 @@ import type {
     StudentProfile,
 } from "@isp0526/core";
 
-// Noto Sans SC Regular, static OTF served from jsDelivr (notofonts/noto-cjk).
-const CHINESE_FONT_URL =
-    "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansSC-Regular.otf";
-
 let fontsRegistered = false;
-function ensureFontsRegistered(): void {
+export function registerChineseFont(stableFontPath: string): void {
     if (fontsRegistered) return;
-    Font.register({ family: "NotoSansSC", src: CHINESE_FONT_URL });
+    Font.register({ family: "NotoSansSC", src: stableFontPath });
     // Disable hyphenation; it breaks CJK lines.
     Font.registerHyphenationCallback((w) => [w]);
     fontsRegistered = true;
@@ -128,7 +121,6 @@ export interface ReportPdfProps {
 }
 
 export function ReportPdfDocument(props: ReportPdfProps) {
-    ensureFontsRegistered();
     const { code, createdAt, profile, sections, candidates, narratives } = props;
 
     const dateStr = new Date(createdAt).toLocaleDateString("zh-CN");

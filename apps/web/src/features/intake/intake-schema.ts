@@ -17,7 +17,7 @@ import {
 
 const optionalNumber = (parser: z.ZodNumber) =>
     z
-        .union([z.literal(""), z.string(), z.number()])
+        .union([z.literal(""), z.string(), z.number(), z.undefined()])
         .transform((v) => (v === "" || v === undefined ? undefined : Number(v)))
         .pipe(parser.optional());
 
@@ -59,15 +59,25 @@ export function intakeToProfile(values: IntakeFormValues): StudentProfile {
 
 // FormData helpers (server actions hand us a FormData, not JSON).
 export function parseIntakeFormData(formData: FormData): IntakeFormValues {
+    // FormData.get returns null when a field is absent; Zod unions below
+    // accept string | number | "" but not null, so we normalise upfront.
+    const str = (key: string): string | undefined => {
+        const v = formData.get(key);
+        if (typeof v !== "string") return undefined;
+        const trimmed = v.trim();
+        return trimmed === "" ? undefined : trimmed;
+    };
     const raw = {
-        target_level: formData.get("target_level"),
-        target_field: formData.get("target_field") || undefined,
-        gpa: formData.get("gpa"),
-        ielts_overall: formData.get("ielts_overall"),
-        teaching_style: formData.get("teaching_style") || undefined,
-        city_size: formData.get("city_size") || undefined,
-        annual_budget_aud: formData.get("annual_budget_aud"),
-        preferred_tags: formData.getAll("preferred_tags"),
+        target_level: str("target_level"),
+        target_field: str("target_field"),
+        gpa: str("gpa"),
+        ielts_overall: str("ielts_overall"),
+        teaching_style: str("teaching_style"),
+        city_size: str("city_size"),
+        annual_budget_aud: str("annual_budget_aud"),
+        preferred_tags: formData
+            .getAll("preferred_tags")
+            .filter((v): v is string => typeof v === "string" && v.length > 0),
     };
     return IntakeFormSchema.parse(raw);
 }

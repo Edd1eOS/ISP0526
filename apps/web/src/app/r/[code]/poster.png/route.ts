@@ -12,23 +12,9 @@ import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactElement } from "react";
 import { loadReport } from "../../../../lib/report-store";
+import { loadNotoSansSc } from "../../../../lib/fonts/noto-sans-sc";
 
 export const runtime = "nodejs";
-
-const FONT_URL =
-    "https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansSC-Regular.otf";
-
-let cachedFont: ArrayBuffer | null = null;
-
-async function loadFont(): Promise<ArrayBuffer> {
-    if (cachedFont) return cachedFont;
-    const res = await fetch(FONT_URL, { cache: "force-cache" });
-    if (!res.ok) {
-        throw new Error(`font fetch failed: ${res.status}`);
-    }
-    cachedFont = await res.arrayBuffer();
-    return cachedFont;
-}
 
 interface RouteContext {
     readonly params: Promise<{ code: string }>;
@@ -60,7 +46,7 @@ export async function GET(
             };
         });
 
-    const fontData = await loadFont();
+    const fontData = await loadNotoSansSc();
     const svg = await satori(buildTree(snapshot.code, tiles), {
         width: 750,
         height: 1334,

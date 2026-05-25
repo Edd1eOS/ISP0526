@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { loadReport } from "../../../../lib/report-store";
-import { ReportPdfDocument } from "../../../../features/report/report-pdf";
+import {
+    ReportPdfDocument,
+    registerChineseFont,
+} from "../../../../features/report/report-pdf";
+import { getNotoSansScStablePath } from "../../../../lib/fonts/noto-sans-sc";
 
 // reason: react-pdf relies on node Buffer / fs / fetch; force the Node.js
 // runtime so this route never gets compiled into the Edge bundle.
@@ -26,6 +30,8 @@ export async function GET(
         { key: "stretch", title: "Stretch · 冲一冲", scores: snapshot.set.stretch },
         { key: "safety", title: "Safety · 保底", scores: snapshot.set.safety },
     ];
+
+    registerChineseFont(await getNotoSansScStablePath());
 
     const document = ReportPdfDocument({
         code: snapshot.code,
