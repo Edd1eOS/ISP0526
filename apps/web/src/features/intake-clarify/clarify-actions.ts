@@ -1,9 +1,11 @@
 "use server";
 
-import { generateObject } from "ai";
-import { google } from "@ai-sdk/google";
+import { generateText, Output } from "ai";
 import { loadIntakeSession } from "@/lib/intake-session-store";
-import { isGoogleConfigured } from "@/lib/ai/google-narrative";
+import {
+    getTextModel,
+    isLLMConfigured,
+} from "@/lib/ai/google-narrative";
 import {
     ClarifyTurnSchema,
     type ClarifyMessage,
@@ -13,7 +15,6 @@ import {
 import { buildClarifySystemPrompt } from "./clarify-prompt";
 import { runDeterministicTurn, stripMarker } from "./clarify-fallback";
 
-const MODEL_ID = process.env.GOOGLE_TEXT_MODEL_ID ?? "gemini-2.5-flash";
 const MAX_MESSAGES = 20;
 
 export interface ClarifyTurnInput {
@@ -63,7 +64,7 @@ export async function clarifyTurnAction(
         return { ok: false, error: "会话已过期，请重新开始。" };
     }
 
-    if (!isGoogleConfigured()) {
+    if (!isLLMConfigured()) {
         return fallbackTurn(input.messages, input.missingKeys);
     }
 
@@ -75,15 +76,16 @@ export async function clarifyTurnAction(
     });
 
     try {
-        const { object } = await generateObject({
-            model: google(MODEL_ID),
-            schema: ClarifyTurnSchema,
+        const { output } = await generateText({
+            model: getTextModel(),
+            output: Output.object({ schema: ClarifyTurnSchema }),
             system,
             messages: sanitize(trimmed).map((m) => ({
                 role: m.role,
                 content: m.content,
             })),
         });
+        const object = output;
         return {
             ok: true,
             reply: object.reply,

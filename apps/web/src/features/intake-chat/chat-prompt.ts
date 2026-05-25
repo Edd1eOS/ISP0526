@@ -1,16 +1,14 @@
-// System prompt for the chat-driven intake. The LLM IS the intake here —
-// it asks questions, accumulates a structured patch as a side-effect, and
-// signals when it has enough to run the rule engine. No form review step
-// follows; the report is generated directly from whatever the chat
-// captured. Missing fields fall to safe defaults inside the finalize action.
+// Shared constants and prompt fragments used by both the Conversation
+// Agent (CA) and the Extraction Agent (EA). The full prompt builders live
+// in chat-prompt-conversation.ts and chat-prompt-extraction.ts.
 
 import type { FormFieldKey } from "../intake-clarify/clarify-schema";
 
-const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
+export const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
     target_level: "目标学位（bachelor / master / phd）",
     target_field:
-        "目标方向（IT / Computing / Data Science / Business / Finance / Civil Engineering / Electrical Engineering / Mechanical Engineering / Design / TESOL 等）",
-    gpa: "GPA（4 分制）",
+        "目标方向（Information Technology / Computing / Data Science / Business / Business Administration / Finance / Civil Engineering / Electrical Engineering / Mechanical Engineering / Design / TESOL）",
+    gpa: "学业成绩（GPA、WAM、高考、AP、A-level、IB、证书等任意类型）",
     ielts_overall: "IELTS 总分",
     teaching_style: "学习风格（theory_heavy / balanced / applied_heavy）",
     city_size: "城市规模偏好（mega / large / medium / small）",
@@ -38,48 +36,135 @@ export const CHAT_PRIORITY: ReadonlyArray<FormFieldKey> = [
 // captured, the LLM may set done=true on its own.
 export const MIN_SUPPORTING_SIGNALS = 3;
 
-export interface ChatIntakePromptInput {
-    readonly accumulated: Readonly<Record<string, unknown>>;
-    readonly missingKeys: ReadonlyArray<FormFieldKey>;
+export interface AssessmentSummaryForPrompt {
+    readonly big_five: {
+        readonly openness: number;
+        readonly conscientiousness: number;
+        readonly extraversion: number;
+        readonly agreeableness: number;
+        readonly neuroticism: number;
+    };
+    readonly learning?: {
+        readonly teaching_style?: string;
+        readonly class_size_small?: number;
+        readonly fast_pace?: number;
+    };
+    readonly lifestyle?: { readonly city_size?: string };
+    readonly career?: {
+        readonly migration_intent?: number;
+        readonly return_home?: number;
+        readonly interests?: Readonly<Record<string, number>>;
+    };
 }
 
-export function buildChatIntakeSystemPrompt(
-    input: ChatIntakePromptInput,
+function describeTrait(label: string, score: number): string {
+    // score is on 0..7 scale per BigFiveSchema
+    if (score >= 5.25) return `${label}偏高(${score.toFixed(1)}/7)`;
+    if (score >= 3.75) return `${label}中等(${score.toFixed(1)}/7)`;
+    return `${label}偏低(${score.toFixed(1)}/7)`;
+}
+
+const RIASEC_ZH: Readonly<Record<string, string>> = {
+    realistic: "现实型R",
+    investigative: "研究型I",
+    artistic: "艺术型A",
+    social: "社会型S",
+    enterprising: "企业型E",
+    conventional: "常规型C",
+};
+
+const TEACHING_STYLE_ZH: Readonly<Record<string, string>> = {
+    theory_heavy: "偏理论",
+    balanced: "都行",
+    applied_heavy: "偏实践",
+};
+
+const CITY_SIZE_ZH: Readonly<Record<string, string>> = {
+    mega: "超大城市",
+    large: "大城市",
+    medium: "中等城市",
+    small: "小城市",
+};
+
+export function renderAssessmentBlock(a: AssessmentSummaryForPrompt): string {
+    const b = a.big_five;
+    const traits = [
+        describeTrait("外向性", b.extraversion),
+        describeTrait("宜人性", b.agreeableness),
+        describeTrait("尽责性", b.conscientiousness),
+        describeTrait("情绪稳定性", 7 - b.neuroticism),
+        describeTrait("开放性", b.openness),
+    ].join("、");
+
+    const interests = a.career?.interests;
+    let riasecLine = "";
+    if (interests) {
+        const ranked = Object.entries(interests)
+            .filter((e): e is [string, number] => typeof e[1] === "number")
+            .sort((x, y) => y[1] - x[1]);
+        if (ranked.length > 0) {
+            const top = ranked
+                .slice(0, 3)
+                .map(
+                    ([k, v]) =>
+                        `${RIASEC_ZH[k] ?? k}${Math.round(v * 100)}%`,
+                )
+                .join("、");
+            riasecLine = `\n职业兴趣 RIASEC 前三：${top}`;
+        }
+    }
+
+    const learnBits: string[] = [];
+    if (a.learning?.teaching_style)
+        learnBits.push(
+            `教学风格=${TEACHING_STYLE_ZH[a.learning.teaching_style] ?? a.learning.teaching_style}`,
+        );
+    if (typeof a.learning?.class_size_small === "number")
+        learnBits.push(`小班偏好=${a.learning.class_size_small}/5`);
+    if (typeof a.learning?.fast_pace === "number")
+        learnBits.push(`节奏紧凑度=${a.learning.fast_pace}/5`);
+
+    const lifeBits: string[] = [];
+    if (a.lifestyle?.city_size)
+        lifeBits.push(
+            `城市规模=${CITY_SIZE_ZH[a.lifestyle.city_size] ?? a.lifestyle.city_size}`,
+        );
+
+    const careerBits: string[] = [];
+    if (typeof a.career?.migration_intent === "number")
+        careerBits.push(`留下意愿=${a.career.migration_intent}/5`);
+
+    const lines: string[] = [];
+    if (learnBits.length > 0)
+        lines.push(`学习偏好：${learnBits.join("，")}`);
+    if (lifeBits.length > 0)
+        lines.push(`生活偏好：${lifeBits.join("，")}`);
+    if (careerBits.length > 0)
+        lines.push(`职业意愿：${careerBits.join("，")}`);
+
+    const prefBlock = lines.length > 0 ? `\n${lines.join("\n")}` : "";
+
+    return `\n学生已完成 Big Five (TIPI) 人格 + Holland RIASEC 职业兴趣 + 学习/生活偏好测评，结果如下：\n${traits}${riasecLine}${prefBlock}\n\n你必须把这份测评结果用在对话里：\n- 第一条消息里就要自然地提一句你"看到测评了"，挑 1 个最突出的特征（Big Five 或 RIASEC 都行）作为切入点，例如："看你研究型分挺高，估计想去研究密度大的项目吧。"\n- 不要再追问 teaching_style 或 city_size — 已经由测评得到，patch 也不要重写这些字段。\n- 在询问 target_field 时，可以参考 RIASEC：研究型/艺术型/社会型/企业型/现实型/常规型分别对应不同方向，你可以给学生推荐与他高分类型契合的方向作为 quick_replies 默认前几项（例如研究型可优先推 Data Science / Computer Science / Engineering，社会型可推 Education / Public Health）。\n- 整个对话要呼应学生的性格 + 兴趣特质。`;
+}
+
+export function renderPhaseBlock(
+    phase:
+        | "OPENING"
+        | "GATHERING_CORE"
+        | "GATHERING_SOFT"
+        | "READY_TO_RECOMMEND",
+    hasAssessment: boolean,
 ): string {
-    const missingList =
-        input.missingKeys.length === 0
-            ? "(no remaining priority gaps — set done=true and invite the student to view their report)"
-            : input.missingKeys
-                  .map((k) => `- ${k}: ${FIELD_LABELS_ZH[k]}`)
-                  .join("\n");
-
-    return `You are a warm, concise Australian study-abroad advisor doing a relaxed IM-style intake chat with a Chinese-speaking student. You speak ONLY in 简体中文. You sound like a real person texting on WhatsApp — short messages, one question at a time, no bullet points, no headings, no marketing.
-
-Your job: through casual conversation, learn enough about the student to recommend study programs. You do NOT show them a form afterwards — the report is generated directly from what you capture in this chat.
-
-Patch you have accumulated so far:
-${JSON.stringify(input.accumulated, null, 2)}
-
-Remaining priority gaps (ask in this order, skipping anything the student already covered):
-${missingList}
-
-Rules:
-1. Each turn: ONE message, 1-2 short sentences. No emoji. No "let me confirm" or "first, I'd like to ask". Just sound natural.
-2. The very first turn (no prior user message): a warm one-line opener plus the highest-priority question. Example: "嗨，先帮你简单聊几句就能给你看推荐了。你打算去读硕士还是本科？".
-3. Whenever the student gives concrete info, output a "patch" with normalized enum values from the lists above. Use EXACT enum strings. Convert numbers: "3.7" -> 3.7, "20万" / "二十万" -> ~42000 AUD (assume CNY unless they say AUD/USD), "5万澳" -> 50000.
-4. If the student is vague (e.g. "工程"), pick the closest enum ("Civil Engineering") and confirm in your next reply ("先按土木来，要换告诉我"). Never guess silently.
-5. NEVER re-ask something already in the patch. NEVER invent answers.
-6. Provide "quick_replies" (2-4 short labels) whenever the question has obvious typical answers. Quick replies are buttons the student can tap instead of typing — keep each under 12 Chinese chars. Examples:
-   - target_level question -> ["硕士", "本科", "博士"]
-   - city_size -> ["超大城市", "大城市", "中等就行", "小城市没问题"]
-   - teaching_style -> ["偏理论", "都行", "偏实践"]
-   - preferred_tags -> ["好就业", "性价比", "想留下来", "顶尖学校"]
-   - budget -> ["20万人民币", "30万人民币", "40万人民币", "随便看看"]
-   - Omit quick_replies for open questions (target_field, gpa, ielts).
-7. If the student types a quick_reply label verbatim, treat it as their answer.
-8. Safety gate for done=true: only when target_level is set AND the patch has at least ${MIN_SUPPORTING_SIGNALS} other non-empty fields (counting preferred_tags as 1 if non-empty), OR the student explicitly says they want to see the report ("够了" / "可以了" / "直接看推荐" / "就这样"). When you set done=true, "reply" must be one short sentence like "好的，我去给你拉推荐了。"
-9. NEVER mention "field", "schema", "enum", "patch", "JSON", "tag", "form". You are texting, not filling a form.
-10. Stay strictly on intake. If the student asks unrelated questions, briefly say you'll save it for after the report and steer back.
-
-Output strictly the JSON object matching the provided schema: {reply, patch?, quick_replies?, done}.`;
+    switch (phase) {
+        case "OPENING":
+            return hasAssessment
+                ? "这是第一轮对话，学生还没说话。开场必须先用一句话回应学生的测评结果（挑 1 个最突出特质），紧接着抛出第一个未锁定的最高优先级问题（看『剩余优先级缺口』列表第一项）。绝对不要再说\"我们做个测评吧\"。本轮 done 必须为 false——即使 accumulated 看起来已经齐全，也要先问一个问题确认而不是直接结束。"
+                : "这是第一轮对话，学生还没说话。一句温和的开场白 + 第一个未锁定的最高优先级问题（看『剩余优先级缺口』列表第一项）。本轮 done 必须为 false——即使 accumulated 看起来已经齐全，也要先问一个问题确认而不是直接结束。";
+        case "GATHERING_CORE":
+            return "核心字段（target_level / target_field / annual_budget_aud）还有缺口。集中精力把核心问完，每轮只问一个；不要插入 teaching_style / city_size / preferred_tags 这类软性字段。";
+        case "GATHERING_SOFT":
+            return "核心三项已经齐了，可以问 1-2 个软性字段（preferred_tags / gpa / ielts_overall）来提高推荐准度。但每问完一项就评估一次是否够了，不要把学生问烦。";
+        case "READY_TO_RECOMMEND":
+            return "信息已经足够推荐。这一轮要么主动收尾（done=true，reply 用一句简短的\"好的，我去给你拉推荐了。\"），要么如果学生还在主动补充就接住再决定。绝对不要再发起新问题。";
+    }
 }

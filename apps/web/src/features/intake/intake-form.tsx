@@ -296,8 +296,8 @@ function ProgressDots({
                             background: active
                                 ? "var(--gradient-primary)"
                                 : done
-                                  ? "var(--color-primary-from)"
-                                  : "var(--color-surface-alt)",
+                                    ? "var(--color-primary-from)"
+                                    : "var(--color-surface-alt)",
                             opacity: active ? 1 : done ? 0.55 : 1,
                         }}
                     />

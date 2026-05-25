@@ -14,6 +14,50 @@ import {
     finalizeChatIntakeAction,
     type ChatMessage,
 } from "./chat-actions";
+import { mergePatchDeep } from "./intake-state";
+
+const ASSESSMENT_KEY = "isp_assessment_v1";
+const INTAKE_PATCH_KEY = "isp_intake_accumulated_v1";
+
+function readAccumulatedFromSession(): ClarifyPatch {
+    if (typeof window === "undefined") return {};
+    try {
+        const raw = window.sessionStorage.getItem(INTAKE_PATCH_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+            return parsed as ClarifyPatch;
+        }
+        return {};
+    } catch {
+        return {};
+    }
+}
+
+function writeAccumulatedToSession(p: ClarifyPatch) {
+    if (typeof window === "undefined") return;
+    try {
+        window.sessionStorage.setItem(
+            INTAKE_PATCH_KEY,
+            JSON.stringify(p),
+        );
+    } catch {
+        // ignore quota / private-mode errors; in-memory state still works.
+    }
+}
+
+function readAssessmentFromSession() {
+    if (typeof window === "undefined") return undefined;
+    try {
+        const raw = window.sessionStorage.getItem(ASSESSMENT_KEY);
+        if (!raw) return undefined;
+        return JSON.parse(raw) as Parameters<
+            typeof finalizeChatIntakeAction
+        >[1];
+    } catch {
+        return undefined;
+    }
+}
 import { MIN_SUPPORTING_SIGNALS } from "./chat-prompt";
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
 
@@ -28,14 +72,19 @@ function uid(): string {
 }
 
 function countSignals(p: ClarifyPatch): number {
+    const skipped = new Set(p.skipped_fields ?? []);
     let n = 0;
-    if (p.target_field) n += 1;
-    if (p.annual_budget_aud) n += 1;
-    if (p.preferred_tags && p.preferred_tags.length > 0) n += 1;
-    if (p.gpa !== undefined) n += 1;
-    if (p.ielts_overall !== undefined) n += 1;
-    if (p.teaching_style) n += 1;
-    if (p.city_size) n += 1;
+    if (p.target_field || skipped.has("target_field")) n += 1;
+    if (p.annual_budget_aud || skipped.has("annual_budget_aud")) n += 1;
+    if (
+        (p.preferred_tags && p.preferred_tags.length > 0) ||
+        skipped.has("preferred_tags")
+    )
+        n += 1;
+    if (p.gpa !== undefined || skipped.has("gpa")) n += 1;
+    if (p.ielts_overall !== undefined || skipped.has("ielts_overall")) n += 1;
+    if (p.teaching_style || skipped.has("teaching_style")) n += 1;
+    if (p.city_size || skipped.has("city_size")) n += 1;
     return n;
 }
 
@@ -45,6 +94,12 @@ export function ChatIntake() {
     const [quickReplies, setQuickReplies] = useState<ReadonlyArray<string>>(
         [],
     );
+    const [inputMode, setInputMode] = useState<
+        "single" | "multi" | "number"
+    >("single");
+    const [multiSelected, setMultiSelected] = useState<ReadonlyArray<string>>(
+        [],
+    );
     const [done, setDone] = useState(false);
     const [draft, setDraft] = useState("");
     const [pending, startTransition] = useTransition();
@@ -52,6 +107,9 @@ export function ChatIntake() {
     const [degraded, setDegraded] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const openedRef = useRef(false);
+    const assessmentRef = useRef<
+        Parameters<typeof finalizeChatIntakeAction>[1] | undefined
+    >(undefined);
     const scrollerRef = useRef<HTMLDivElement | null>(null);
 
     const signals = useMemo(() => countSignals(accumulated), [accumulated]);
@@ -76,6 +134,7 @@ export function ChatIntake() {
                     const r = await chatIntakeTurnAction({
                         messages,
                         accumulated: patch,
+                        assessment: assessmentRef.current,
                     });
                     if (!r.ok) {
                         setError(r.error ?? "出错了，再试一次？");
@@ -83,7 +142,11 @@ export function ChatIntake() {
                     }
                     if (r.degraded) setDegraded(true);
                     if (r.patch) {
-                        setAccumulated((prev) => ({ ...prev, ...r.patch }));
+                        setAccumulated((prev) => {
+                            const merged = mergePatchDeep(prev, r.patch);
+                            writeAccumulatedToSession(merged);
+                            return merged;
+                        });
                     }
                     if (r.reply) {
                         setBubbles((prev) => [
@@ -95,7 +158,15 @@ export function ChatIntake() {
                             },
                         ]);
                     }
-                    setQuickReplies(r.quickReplies ?? []);
+                    setQuickReplies(
+                        normalizeQuickReplies(
+                            r.reply ?? "",
+                            r.inputMode ?? "single",
+                            r.quickReplies ?? [],
+                        ),
+                    );
+                    setInputMode(r.inputMode ?? "single");
+                    setMultiSelected([]);
                     if (r.done) setDone(true);
                 } catch (cause) {
                     // eslint-disable-next-line no-console
@@ -110,8 +181,13 @@ export function ChatIntake() {
     useEffect(() => {
         if (openedRef.current) return;
         openedRef.current = true;
+        assessmentRef.current = readAssessmentFromSession();
+        const restored = readAccumulatedFromSession();
+        if (Object.keys(restored).length > 0) {
+            setAccumulated(restored);
+        }
         trackEvent("intake_step_start", { channel: "chat", step: 0 });
-        sendTurn([], {});
+        sendTurn([], restored);
     }, [sendTurn]);
 
     const pushUser = (text: string) => {
@@ -139,9 +215,18 @@ export function ChatIntake() {
         if (!canFinalize || finalizing) return;
         setFinalizing(true);
         trackEvent("intake_submitted", { channel: "chat" });
+        const assessment = readAssessmentFromSession();
         startTransition(async () => {
             try {
-                await finalizeChatIntakeAction(accumulated);
+                await finalizeChatIntakeAction(accumulated, assessment);
+                // Clear assessment payload on success so a refresh of the
+                // report page does not re-use stale answers.
+                try {
+                    window.sessionStorage.removeItem(ASSESSMENT_KEY);
+                    window.sessionStorage.removeItem(INTAKE_PATCH_KEY);
+                } catch {
+                    // ignore
+                }
             } catch (cause) {
                 if (
                     cause &&
@@ -166,7 +251,7 @@ export function ChatIntake() {
         100,
         Math.round(
             (((hasLevel ? 1 : 0) + signals) / (1 + MIN_SUPPORTING_SIGNALS)) *
-                100,
+            100,
         ),
     );
 
@@ -206,7 +291,7 @@ export function ChatIntake() {
                         </p>
                         <p className="text-text-muted text-[11px]">
                             {degraded
-                                ? "AI 暂时离线，已切到兜底问句"
+                                ? "正在用基础模式陪你聊"
                                 : "在线，按你的节奏聊"}
                         </p>
                     </div>
@@ -266,7 +351,76 @@ export function ChatIntake() {
                 ) : null}
             </div>
 
-            {quickReplies.length > 0 && !done ? (
+            {quickReplies.length > 0 && !done && inputMode === "number" ? (
+                <NumberSliderRow
+                    spec={quickReplies[0]!}
+                    disabled={pending}
+                    onSubmit={(label) => pushUser(label)}
+                />
+            ) : null}
+
+            {quickReplies.length > 0 && !done && inputMode === "multi" ? (
+                <div className="px-4 pb-2 pt-1 sm:px-5">
+                    <div
+                        className="flex flex-wrap gap-2"
+                        role="group"
+                        aria-label="多选回复"
+                    >
+                        {quickReplies.map((q) => {
+                            const active = multiSelected.includes(q);
+                            return (
+                                <button
+                                    key={q}
+                                    type="button"
+                                    disabled={pending}
+                                    onClick={() =>
+                                        setMultiSelected((prev) =>
+                                            prev.includes(q)
+                                                ? prev.filter((x) => x !== q)
+                                                : [...prev, q],
+                                        )
+                                    }
+                                    className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
+                                    style={{
+                                        background: active
+                                            ? "var(--gradient-primary)"
+                                            : "var(--color-surface-alt)",
+                                        color: active
+                                            ? "var(--color-text-on-primary)"
+                                            : "var(--color-text)",
+                                        borderRadius: 999,
+                                        boxShadow: active
+                                            ? "var(--shadow-clay-primary)"
+                                            : "var(--shadow-clay-raised)",
+                                    }}
+                                >
+                                    {q}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="mt-2 flex justify-end">
+                        <button
+                            type="button"
+                            disabled={pending || multiSelected.length === 0}
+                            onClick={() =>
+                                pushUser(multiSelected.join("、"))
+                            }
+                            className="px-3 py-1.5 text-xs font-semibold transition-opacity disabled:opacity-40"
+                            style={{
+                                background: "var(--gradient-primary)",
+                                color: "var(--color-text-on-primary)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-primary)",
+                            }}
+                        >
+                            就这几个
+                        </button>
+                    </div>
+                </div>
+            ) : null}
+
+            {quickReplies.length > 0 && !done && inputMode === "single" ? (
                 <div
                     className="flex flex-wrap gap-2 px-4 pb-2 pt-1 sm:px-5"
                     role="group"
@@ -425,5 +579,117 @@ function Dot({ delay }: { delay: string }) {
                 opacity: 0.6,
             }}
         />
+    );
+}
+
+// Guard against LLM hallucinating slider ranges (e.g. returning 4,100,1,分
+// for IELTS). Detect the field from the assistant's question text and force
+// the canonical spec when applicable. Falls back to LLM-provided spec.
+const NUMBER_SPEC_OVERRIDES: ReadonlyArray<{
+    test: RegExp;
+    spec: string;
+}> = [
+        { test: /雅思|ielts/i, spec: "4,9,0.5,分" },
+        { test: /托福|toefl/i, spec: "40,120,1,分" },
+        { test: /gpa|绩点|均分|平均分/i, spec: "0,100,1,分" },
+        { test: /预算|学费|budget|aud|澳币|澳元/i, spec: "20000,200000,5000,AUD" },
+    ];
+
+function normalizeQuickReplies(
+    reply: string,
+    inputMode: "single" | "multi" | "number",
+    raw: ReadonlyArray<string>,
+): ReadonlyArray<string> {
+    if (inputMode !== "number" || raw.length === 0) return raw;
+    for (const o of NUMBER_SPEC_OVERRIDES) {
+        if (o.test.test(reply)) return [o.spec];
+    }
+    return raw;
+}
+
+function parseSliderSpec(spec: string): {
+    min: number;
+    max: number;
+    step: number;
+    unit: string;
+} {
+    const parts = spec.split(",").map((s) => s.trim());
+    const min = Number.parseFloat(parts[0] ?? "0");
+    const max = Number.parseFloat(parts[1] ?? "100");
+    const step = Number.parseFloat(parts[2] ?? "1");
+    const unit = parts[3] ?? "";
+    return {
+        min: Number.isFinite(min) ? min : 0,
+        max: Number.isFinite(max) ? max : 100,
+        step: Number.isFinite(step) && step > 0 ? step : 1,
+        unit,
+    };
+}
+
+function NumberSliderRow({
+    spec,
+    disabled,
+    onSubmit,
+}: {
+    spec: string;
+    disabled: boolean;
+    onSubmit: (label: string) => void;
+}) {
+    const { min, max, step, unit } = useMemo(
+        () => parseSliderSpec(spec),
+        [spec],
+    );
+    const [val, setVal] = useState<number>(() => (min + max) / 2);
+    const display = Number.isInteger(step) ? String(val) : val.toFixed(1);
+    return (
+        <div className="px-4 pb-2 pt-1 sm:px-5">
+            <div
+                className="flex items-center justify-between text-xs"
+                style={{ color: "var(--color-text-muted)" }}
+            >
+                <span>
+                    {min}
+                    {unit}
+                </span>
+                <span
+                    className="text-sm font-semibold"
+                    style={{ color: "var(--color-text)" }}
+                >
+                    {display}
+                    {unit}
+                </span>
+                <span>
+                    {max}
+                    {unit}
+                </span>
+            </div>
+            <input
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={val}
+                disabled={disabled}
+                onChange={(e) => setVal(Number.parseFloat(e.target.value))}
+                className="mt-1 w-full"
+                aria-label="数值滑条"
+            />
+            <div className="mt-2 flex justify-end">
+                <button
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => onSubmit(`${display}${unit}`)}
+                    className="px-3 py-1.5 text-xs font-semibold transition-opacity disabled:opacity-40"
+                    style={{
+                        background: "var(--gradient-primary)",
+                        color: "var(--color-text-on-primary)",
+                        borderRadius: "var(--radius-button)",
+                        boxShadow: "var(--shadow-clay-primary)",
+                    }}
+                >
+                    就这个数
+                </button>
+            </div>
+        </div>
     );
 }

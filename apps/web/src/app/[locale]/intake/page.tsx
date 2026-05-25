@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "../../../i18n/navigation";
 
 interface Door {
-    readonly href: "/intake/form" | "/intake/upload" | "/intake/chat";
+    readonly href: "/intake/form" | "/intake/upload" | "/intake/assessment";
     readonly icon: string;
     readonly key: "form" | "upload" | "chat";
     readonly ready: boolean;
@@ -11,7 +11,9 @@ interface Door {
 const DOORS: ReadonlyArray<Door> = [
     { href: "/intake/form", icon: "📝", key: "form", ready: true },
     { href: "/intake/upload", icon: "📄", key: "upload", ready: true },
-    { href: "/intake/chat", icon: "💬", key: "chat", ready: true },
+    // The chat door starts with the 15-item Step-3 assessment so the chat
+    // can be guided by the resulting personality + preference signals.
+    { href: "/intake/assessment", icon: "💬", key: "chat", ready: true },
 ];
 
 export default async function IntakeHubPage({
