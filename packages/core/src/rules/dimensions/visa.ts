@@ -62,16 +62,16 @@ export function explain(
     const route = routes[candidate.university.country];
     if (!route) {
         return [
-            `Visa pathway for ${candidate.university.country} is not yet curated; using a neutral feasibility prior.`,
+            `${candidate.university.country} 的签证路径还未整理，采用中性可行性估值。`,
         ];
     }
     const reasons: string[] = [
-        `${route.country_name_en} ${route.visa_class}: typical end-to-end ${route.total_weeks_typical} weeks across ${route.steps.length} steps.`,
-        `Post-study work rights up to ${route.post_study_work_years} years.`,
+        `${route.country_name_zh ?? route.country_name_en} ${route.visa_class}：全流程约 ${route.total_weeks_typical} 周，共 ${route.steps.length} 个步骤。`,
+        `毕业后工作签最长 ${route.post_study_work_years} 年。`,
     ];
     if (candidate.program.tags.includes("migration_friendly")) {
         reasons.push(
-            "Program is tagged migration-friendly, adding a small feasibility bonus.",
+            "项目有移民友好标签，可行性面额外加分。",
         );
     }
     return reasons;

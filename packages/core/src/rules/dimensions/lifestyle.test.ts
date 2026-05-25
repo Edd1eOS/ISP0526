@@ -39,6 +39,6 @@ describe("lifestyle.explain", () => {
             buildProfile({ lifestyle: { city_size: "mega" } }),
             fixtureCandidate,
         );
-        expect(reasons.some((r) => r.includes("matching your preference"))).toBe(true);
+        expect(reasons.some((r) => r.includes("与你的偏好一致"))).toBe(true);
     });
 });

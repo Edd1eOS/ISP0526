@@ -25,10 +25,10 @@ export function explain(
     candidate: Candidate,
 ): string[] {
     const reasons: string[] = [
-        `${candidate.university.name_en} carries a normalized reputation score of ${candidate.university.reputation_score.toFixed(2)}.`,
+        `${candidate.university.name_zh ?? candidate.university.name_en} 的口碑归一化评分为 ${candidate.university.reputation_score.toFixed(2)}。`,
     ];
     if (candidate.program.tags.includes("field_top")) {
-        reasons.push("Program is tagged field-top, adding a small reputation bonus.");
+        reasons.push("项目被标为专业领域顶尖，额外加分。");
     }
     return reasons;
 }

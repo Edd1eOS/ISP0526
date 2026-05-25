@@ -21,9 +21,9 @@ import { applyHardThresholds, type ExclusionReason } from "./thresholds";
 import { scoreCandidate } from "./score";
 
 const LIMITS = {
-    stretch: 5,
-    match: 10,
-    safety: 5,
+    stretch: 4,
+    match: 4,
+    safety: 4,
 } as const;
 
 export type ExcludedCandidate = {

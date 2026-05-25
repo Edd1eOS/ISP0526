@@ -45,13 +45,13 @@ describe("personality.explain", () => {
             buildProfile({ learning: { teaching_style: "applied_heavy" } }),
             fixtureCandidate,
         );
-        expect(reasons.some((r) => r.includes("matches your stated preference"))).toBe(
+        expect(reasons.some((r) => r.includes("与你的偏好一致"))).toBe(
             true,
         );
     });
 
     it("falls back to neutral text with no inputs", () => {
         const reasons = explain(buildProfile(), fixtureCandidate);
-        expect(reasons.some((r) => r.includes("neutral"))).toBe(true);
+        expect(reasons.some((r) => r.includes("中性匹配"))).toBe(true);
     });
 });

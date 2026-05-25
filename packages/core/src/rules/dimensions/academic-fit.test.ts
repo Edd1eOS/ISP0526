@@ -100,11 +100,11 @@ describe("academic-fit.explain", () => {
 
     it("flags strong GPA headroom", () => {
         const reasons = explain(profile({ gpa: 3.6 }), candidate);
-        expect(reasons.some((r) => r.includes("comfortably above"))).toBe(true);
+        expect(reasons.some((r) => r.includes("充分超过"))).toBe(true);
     });
 
     it("flags GPA below the minimum as aspirational", () => {
         const reasons = explain(profile({ gpa: 2.5 }), candidate);
-        expect(reasons.some((r) => r.includes("aspirational"))).toBe(true);
+        expect(reasons.some((r) => r.includes("偏冲刺"))).toBe(true);
     });
 });

@@ -24,17 +24,17 @@ export function explain(
 ): string[] {
     const preferred = profile.preferred_tags;
     if (preferred.length === 0) {
-        return ["No preferred tags selected; tag boost defaulted to neutral."];
+        return ["未选择偏好标签，标签匹配采用中性估值。"];
     }
     const have = new Set(candidate.program.tags);
     const hits = preferred.filter((t) => have.has(t));
     const misses = preferred.filter((t) => !have.has(t));
     const reasons: string[] = [];
     if (hits.length > 0) {
-        reasons.push(`Program matches preferred tags: ${hits.join(", ")}.`);
+        reasons.push(`项目命中你的偏好标签：${hits.join("、")}。`);
     }
     if (misses.length > 0) {
-        reasons.push(`Preferred tags not present on this program: ${misses.join(", ")}.`);
+        reasons.push(`未命中的偏好标签：${misses.join("、")}。`);
     }
     return reasons;
 }

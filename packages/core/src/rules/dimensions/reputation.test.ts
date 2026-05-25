@@ -19,11 +19,11 @@ describe("reputation.score", () => {
 describe("reputation.explain", () => {
     it("mentions the reputation score", () => {
         const reasons = explain(buildProfile(), fixtureCandidate);
-        expect(reasons.some((r) => r.includes("reputation score"))).toBe(true);
+        expect(reasons.some((r) => r.includes("口碑归一化评分"))).toBe(true);
     });
 
     it("notes the field_top bonus when applicable", () => {
         const reasons = explain(buildProfile(), fixtureCandidate);
-        expect(reasons.some((r) => r.includes("field-top"))).toBe(true);
+        expect(reasons.some((r) => r.includes("专业领域顶尖"))).toBe(true);
     });
 });

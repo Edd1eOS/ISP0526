@@ -67,11 +67,11 @@ export function explain(
     if (learning.teaching_style !== undefined) {
         if (learning.teaching_style === program.teaching_style) {
             reasons.push(
-                `Program teaching style (${program.teaching_style}) matches your stated preference.`,
+                `项目授课风格（${styleLabel(program.teaching_style)}）与你的偏好一致。`,
             );
         } else {
             reasons.push(
-                `Program teaching style is ${program.teaching_style}; you indicated a preference for ${learning.teaching_style}.`,
+                `项目授课风格为${styleLabel(program.teaching_style)}，你偏好${styleLabel(learning.teaching_style)}。`,
             );
         }
     }
@@ -79,16 +79,25 @@ export function explain(
     if (learning.prefers_applied !== undefined) {
         const ratioPct = Math.round(program.applied_ratio * 100);
         reasons.push(
-            `Program is roughly ${ratioPct}% applied vs theoretical; your applied-learning preference is ${learning.prefers_applied}/5.`,
+            `项目约 ${ratioPct}% 实践、其余偏理论；你的实践偏好为 ${learning.prefers_applied}/5。`,
         );
     }
 
     if (reasons.length === 0) {
         reasons.push(
-            "No personality or learning-style signal provided; defaulted to a neutral fit.",
+            "未提供性格与学习风格信号，采用中性匹配估值。",
         );
     }
     return reasons;
+}
+
+function styleLabel(s: string): string {
+    const m: Record<string, string> = {
+        applied_heavy: "偏实践",
+        balanced: "实践与理论均衡",
+        theory_heavy: "偏理论",
+    };
+    return m[s] ?? s;
 }
 
 function clamp01(n: number): number {

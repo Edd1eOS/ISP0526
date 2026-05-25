@@ -5,6 +5,7 @@
 
 import type { Candidate } from "../schemas/index";
 import type { StudentProfile } from "../schemas/index";
+import { getEffectiveGpa4 } from "./normalize/academic-grade";
 
 // Tolerance below program GPA minimum that still counts as "stretch reachable".
 // 0.85 keeps a 15% headroom so we surface aspirational candidates rather than
@@ -46,15 +47,16 @@ export function applyHardThresholds(
         };
     }
 
-    if (academic.gpa !== undefined) {
+    const effectiveGpa = getEffectiveGpa4(profile);
+    if (effectiveGpa !== undefined) {
         const threshold = program.gpa_min * GPA_STRETCH_TOLERANCE;
-        if (academic.gpa < threshold) {
+        if (effectiveGpa < threshold) {
             return {
                 kind: "exclude",
                 reason: {
                     kind: "gpa_far_below_min",
                     required: program.gpa_min,
-                    observed: academic.gpa,
+                    observed: effectiveGpa,
                 },
             };
         }

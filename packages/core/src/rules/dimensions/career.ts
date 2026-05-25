@@ -45,8 +45,8 @@ export function explain(
     if (career.migration_intent !== undefined && career.migration_intent >= 4) {
         reasons.push(
             tags.has("migration_friendly")
-                ? "Program is tagged migration-friendly, aligned with your migration intent."
-                : "Program is not tagged migration-friendly; weigh this against your migration intent.",
+                ? "项目有移民友好标签，与你的留下意愿契合。"
+                : "项目未标记移民友好，需衡量你的留下需求。",
         );
     }
     if (
@@ -55,12 +55,12 @@ export function explain(
     ) {
         reasons.push(
             tags.has("career_pipeline")
-                ? "Program has a recognized career pipeline, supporting your internship priority."
-                : "Program does not advertise a strong career pipeline; consider supplementing with internships.",
+                ? "项目拥有明确的就业输送管道，能支撑你的实习优先项。"
+                : "项目未提及专门的就业输送，建议额外物色实习机会。",
         );
     }
     if (reasons.length === 0) {
-        reasons.push("No career preferences provided; defaulted to a neutral fit.");
+        reasons.push("未提供就业偏好，采用中性匹配估值。");
     }
     return reasons;
 }

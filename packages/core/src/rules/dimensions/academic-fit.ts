@@ -6,6 +6,7 @@
 // to 0, so an unknown does not punish a candidate.
 
 import type { Candidate, StudentProfile } from "../../schemas/index";
+import { getEffectiveGpa4 } from "../normalize/academic-grade";
 import { SCORING_WEIGHTS } from "../weights";
 
 export const defaultWeight = SCORING_WEIGHTS.academic_fit;
@@ -40,7 +41,7 @@ function ieltsHeadroom(profile: StudentProfile, candidate: Candidate): number {
 }
 
 export function score(profile: StudentProfile, candidate: Candidate): number {
-    const { gpa } = profile.academic;
+    const gpa = getEffectiveGpa4(profile);
     const gpaPart =
         gpa === undefined ? NEUTRAL : gpaFitCurve(gpa - candidate.program.gpa_min);
     const langPart = ieltsHeadroom(profile, candidate);
@@ -53,22 +54,23 @@ export function explain(
     candidate: Candidate,
 ): string[] {
     const reasons: string[] = [];
-    const { gpa, ielts_overall } = profile.academic;
+    const gpa = getEffectiveGpa4(profile);
+    const { ielts_overall } = profile.academic;
     const { program } = candidate;
 
     if (gpa !== undefined) {
         const delta = gpa - program.gpa_min;
         if (delta >= 0.5) {
             reasons.push(
-                `Your GPA (${gpa.toFixed(2)}) is comfortably above the program minimum of ${program.gpa_min.toFixed(2)}.`,
+                `你的 GPA（${gpa.toFixed(2)}）充分超过项目下限 ${program.gpa_min.toFixed(2)}。`,
             );
         } else if (delta >= 0) {
             reasons.push(
-                `Your GPA (${gpa.toFixed(2)}) meets the program minimum (${program.gpa_min.toFixed(2)}) with limited headroom.`,
+                `你的 GPA（${gpa.toFixed(2)}）刚达项目下限 ${program.gpa_min.toFixed(2)}，余量有限。`,
             );
         } else {
             reasons.push(
-                `Your GPA (${gpa.toFixed(2)}) is below the listed minimum (${program.gpa_min.toFixed(2)}); admission would be aspirational.`,
+                `你的 GPA（${gpa.toFixed(2)}）低于项目下限 ${program.gpa_min.toFixed(2)}，录取偏冲刺。`,
             );
         }
     }
@@ -81,11 +83,11 @@ export function explain(
         const headroom = ielts_overall - ieltsRequired;
         if (headroom >= 0) {
             reasons.push(
-                `IELTS overall ${ielts_overall.toFixed(1)} meets the program's ${ieltsRequired.toFixed(1)} requirement.`,
+                `雅思总分 ${ielts_overall.toFixed(1)} 达到项目要求的 ${ieltsRequired.toFixed(1)}。`,
             );
         } else {
             reasons.push(
-                `IELTS overall ${ielts_overall.toFixed(1)} is below the program's ${ieltsRequired.toFixed(1)} requirement.`,
+                `雅思总分 ${ielts_overall.toFixed(1)} 低于项目要求的 ${ieltsRequired.toFixed(1)}。`,
             );
         }
     }

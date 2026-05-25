@@ -38,6 +38,6 @@ describe("budget.explain", () => {
             buildProfile({ budget: { annual_aud: 80000, flex: 0 } }),
             fixtureCandidate,
         );
-        expect(reasons.some((r) => r.includes("fits within"))).toBe(true);
+        expect(reasons.some((r) => r.includes("年预算"))).toBe(true);
     });
 });

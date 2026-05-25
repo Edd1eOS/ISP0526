@@ -35,6 +35,6 @@ describe("career.explain", () => {
             buildProfile({ career: { migration_intent: 5 } }),
             fixtureCandidate,
         );
-        expect(reasons.some((r) => r.includes("migration"))).toBe(true);
+        expect(reasons.some((r) => r.includes("移民"))).toBe(true);
     });
 });

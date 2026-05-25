@@ -71,28 +71,48 @@ export function explain(
     if (lifestyle.city_size !== undefined) {
         if (lifestyle.city_size === university.city_size) {
             reasons.push(
-                `${university.name_en} sits in a ${university.city_size} city, matching your preference.`,
+                `${university.name_zh ?? university.name_en} 位于 ${cityLabel(university.city_size)}，与你的偏好一致。`,
             );
         } else {
             reasons.push(
-                `${university.name_en} sits in a ${university.city_size} city; you preferred ${lifestyle.city_size}.`,
+                `${university.name_zh ?? university.name_en} 位于 ${cityLabel(university.city_size)}，你偏好 ${cityLabel(lifestyle.city_size)}。`,
             );
         }
     }
     if (lifestyle.climate !== undefined) {
         reasons.push(
-            `City climate is ${university.climate}; you preferred ${lifestyle.climate}.`,
+            `当地气候为${climateLabel(university.climate)}，你偏好${climateLabel(lifestyle.climate)}。`,
         );
     }
     if (lifestyle.chinese_community_min !== undefined) {
         reasons.push(
-            `Local Chinese community density estimate ${university.chinese_community_density.toFixed(2)} vs your floor ${lifestyle.chinese_community_min.toFixed(2)}.`,
+            `华人社群密度估值 ${university.chinese_community_density.toFixed(2)}，你的下限为 ${lifestyle.chinese_community_min.toFixed(2)}。`,
         );
     }
     if (reasons.length === 0) {
-        reasons.push("No lifestyle preferences provided; defaulted to a neutral fit.");
+        reasons.push("未提供生活偏好，采用中性匹配估值。");
     }
     return reasons;
+}
+
+function cityLabel(size: string): string {
+    const m: Record<string, string> = {
+        mega: "超大型城市",
+        large: "大型城市",
+        medium: "中型城市",
+        small: "小型城市",
+    };
+    return m[size] ?? size;
+}
+
+function climateLabel(c: string): string {
+    const m: Record<string, string> = {
+        tropical: "热带",
+        subtropical: "亚热带",
+        temperate: "温带",
+        cold: "寒带",
+    };
+    return m[c] ?? c;
 }
 
 function clamp01(n: number): number {

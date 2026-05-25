@@ -9,9 +9,19 @@
         "field": "Information Technology",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 53760 },
-        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 53760
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.75,
         "sources": [
             {
@@ -33,9 +43,19 @@
         "field": "Data Science",
         "teaching_style": "balanced",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 58320 },
-        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 58320
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.7,
         "sources": [
             {
@@ -57,9 +77,19 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 57600 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 7.0,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 57600
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.8,
         "sources": [
             {
@@ -81,9 +111,18 @@
         "field": "Civil Engineering",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 54720 },
-        "tags": ["migration_friendly", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 54720
+        },
+        "tags": [
+            "migration_friendly",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.5,
         "sources": [
             {
@@ -105,9 +144,18 @@
         "field": "Business Administration",
         "teaching_style": "balanced",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 89000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 7.0,
+            "ielts_min_band": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 89000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.3,
         "sources": [
             {
@@ -129,9 +177,18 @@
         "field": "Information Technology",
         "teaching_style": "balanced",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 50272 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50272
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.6,
         "sources": [
             {
@@ -153,9 +210,18 @@
         "field": "Data Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 53504 },
-        "tags": ["field_top", "scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 53504
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.35,
         "sources": [
             {
@@ -177,9 +243,18 @@
         "field": "Finance",
         "teaching_style": "balanced",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 55296 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 55296
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.55,
         "sources": [
             {
@@ -201,9 +276,19 @@
         "field": "Electrical Engineering",
         "teaching_style": "theory_heavy",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 54400 },
-        "tags": ["field_top", "migration_friendly", "scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 54400
+        },
+        "tags": [
+            "field_top",
+            "migration_friendly",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.4,
         "sources": [
             {
@@ -225,9 +310,19 @@
         "field": "Information Technology",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 55500 },
-        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 55500
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.7,
         "sources": [
             {
@@ -249,9 +344,18 @@
         "field": "Data Science",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 57000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 57000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.65,
         "sources": [
             {
@@ -273,9 +377,19 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 56500 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 7.0,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 56500
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.75,
         "sources": [
             {
@@ -297,9 +411,17 @@
         "field": "Design",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 51500 },
-        "tags": ["chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 51500
+        },
+        "tags": [
+            "chinese_community"
+        ],
         "applied_ratio": 0.55,
         "sources": [
             {
@@ -321,9 +443,18 @@
         "field": "Computing",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 51000 },
-        "tags": ["field_top", "scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 51000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.4,
         "sources": [
             {
@@ -345,9 +476,18 @@
         "field": "Data Science",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 50000 },
-        "tags": ["career_pipeline", "scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50000
+        },
+        "tags": [
+            "career_pipeline",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.5,
         "sources": [
             {
@@ -369,9 +509,18 @@
         "field": "Finance",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 54000 },
-        "tags": ["field_top", "scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 54000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.35,
         "sources": [
             {
@@ -393,9 +542,18 @@
         "field": "Information Technology",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 48000 },
-        "tags": ["value_for_money", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 48000
+        },
+        "tags": [
+            "value_for_money",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.6,
         "sources": [
             {
@@ -417,9 +575,18 @@
         "field": "Data Science",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 49500 },
-        "tags": ["value_for_money", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 49500
+        },
+        "tags": [
+            "value_for_money",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.55,
         "sources": [
             {
@@ -441,9 +608,17 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 47000 },
-        "tags": ["value_for_money"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 47000
+        },
+        "tags": [
+            "value_for_money"
+        ],
         "applied_ratio": 0.7,
         "sources": [
             {
@@ -465,9 +640,18 @@
         "field": "Mechanical Engineering",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 50500 },
-        "tags": ["migration_friendly", "value_for_money"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50500
+        },
+        "tags": [
+            "migration_friendly",
+            "value_for_money"
+        ],
         "applied_ratio": 0.45,
         "sources": [
             {
@@ -489,15 +673,223 @@
         "field": "TESOL",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 42000 },
-        "tags": ["value_for_money"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 42000
+        },
+        "tags": [
+            "value_for_money"
+        ],
         "applied_ratio": 0.65,
         "sources": [
             {
                 "source_id": "uq_mtesol_2026",
                 "kind": "url",
                 "url": "https://study.uq.edu.au/study-options/programs/master-applied-linguistics",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "unsw-bachelor-of-computer-science",
+        "university_id": "unsw",
+        "name_en": "Bachelor of Computer Science",
+        "name_zh": "计算机科学学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Computing",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.5,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 53760
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "unsw_bcs_2026",
+                "kind": "url",
+                "url": "https://www.unsw.edu.au/study/undergraduate/bachelor-of-computer-science",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "unsw-bachelor-of-commerce",
+        "university_id": "unsw",
+        "name_en": "Bachelor of Commerce",
+        "name_zh": "商学学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Business",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": {
+            "ielts_overall": 7.0,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 51840
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "unsw_bcom_2026",
+                "kind": "url",
+                "url": "https://www.unsw.edu.au/study/undergraduate/bachelor-of-commerce",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "usyd-bachelor-of-information-technology",
+        "university_id": "usyd",
+        "name_en": "Bachelor of Information Technology",
+        "name_zh": "信息技术学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Information Technology",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.3,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 52500
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "usyd_bit_2026",
+                "kind": "url",
+                "url": "https://www.sydney.edu.au/courses/courses/uc/bachelor-of-information-technology.html",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "usyd-bachelor-of-design-computing",
+        "university_id": "usyd",
+        "name_en": "Bachelor of Design Computing",
+        "name_zh": "设计计算学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Design",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.0,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50500
+        },
+        "tags": [
+            "chinese_community",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "usyd_bdc_2026",
+                "kind": "url",
+                "url": "https://www.sydney.edu.au/courses/courses/uc/bachelor-of-design-computing.html",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "unimelb-bachelor-of-science-computing",
+        "university_id": "unimelb",
+        "name_en": "Bachelor of Science (Computing and Software Systems)",
+        "name_zh": "理学学士（计算机与软件系统）",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Computing",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 2.7,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 49600
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich"
+        ],
+        "applied_ratio": 0.5,
+        "sources": [
+            {
+                "source_id": "unimelb_bsc_comp_2026",
+                "kind": "url",
+                "url": "https://study.unimelb.edu.au/find/courses/undergraduate/bachelor-of-science/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "unimelb-bachelor-of-commerce",
+        "university_id": "unimelb",
+        "name_en": "Bachelor of Commerce",
+        "name_zh": "商学学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Business",
+        "teaching_style": "balanced",
+        "gpa_min": 2.7,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50272
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "unimelb_bcom_2026",
+                "kind": "url",
+                "url": "https://study.unimelb.edu.au/find/courses/undergraduate/bachelor-of-commerce/",
                 "last_verified_date": "2026-05-23",
                 "note": "placeholder sticker price; verify before launch"
             }

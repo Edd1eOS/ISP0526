@@ -39,16 +39,16 @@ export function explain(
     const { tuition } = candidate.program;
 
     if (budget.annual_aud === undefined) {
-        return ["No annual budget provided; budget fit estimated as neutral."];
+        return ["未提供年预算，预算匹配采用中性估值。"];
     }
     const effective = Math.round(budget.annual_aud * (1 + budget.flex));
     if (tuition.annual <= effective) {
         return [
-            `Tuition AUD ${tuition.annual.toLocaleString()} fits within your annual budget of AUD ${effective.toLocaleString()} (including ${Math.round(budget.flex * 100)}% flex).`,
+            `学费 AUD ${tuition.annual.toLocaleString()} 在你的年预算 AUD ${effective.toLocaleString()} 内（含 ${Math.round(budget.flex * 100)}% 弹性）。`,
         ];
     }
     return [
-        `Tuition AUD ${tuition.annual.toLocaleString()} exceeds your annual budget of AUD ${effective.toLocaleString()} (including flex).`,
+        `学费 AUD ${tuition.annual.toLocaleString()} 超出你的年预算 AUD ${effective.toLocaleString()}（含弹性）。`,
     ];
 }
 
