@@ -1,4 +1,4 @@
-import { ChatIntake } from "../../../features/intake-chat/chat-intake";
+import { ChatIntake } from "../../../../features/intake-chat/chat-intake";
 
 export default function IntakeChatPage() {
     return (

@@ -1,54 +1,40 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "../../../i18n/navigation";
 
 interface Door {
-    readonly href: string;
+    readonly href: "/intake/form" | "/intake/upload" | "/intake/chat";
     readonly icon: string;
-    readonly title: string;
-    readonly tagline: string;
-    readonly hint: string;
+    readonly key: "form" | "upload" | "chat";
     readonly ready: boolean;
 }
 
 const DOORS: ReadonlyArray<Door> = [
-    {
-        href: "/intake/form",
-        icon: "📝",
-        title: "填个表",
-        tagline: "我对一切都了如指掌",
-        hint: "30 秒勾几个选项，立刻翻开你的报告。",
-        ready: true,
-    },
-    {
-        href: "/intake/upload",
-        icon: "📄",
-        title: "传个文件",
-        tagline: "我有迹可循的远大前程",
-        hint: "简历 / 成绩单 / 录取信丢进来，让 AI 帮你抠重点。",
-        ready: true,
-    },
-    {
-        href: "/intake/chat",
-        icon: "💬",
-        title: "聊会天",
-        tagline: "未来的我有话要说？去看看！",
-        hint: "一问一答，AI 陪你把想法慢慢理清楚。",
-        ready: true,
-    },
+    { href: "/intake/form", icon: "📝", key: "form", ready: true },
+    { href: "/intake/upload", icon: "📄", key: "upload", ready: true },
+    { href: "/intake/chat", icon: "💬", key: "chat", ready: true },
 ];
 
-export default function IntakeHubPage() {
+export default async function IntakeHubPage({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
+    setRequestLocale(locale);
+    const t = await getTranslations("intakeHub");
+
     return (
         <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
             <div className="mx-auto max-w-4xl space-y-10">
                 <header className="space-y-2 text-center">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        Step 1 · 选个入口
+                        {t("stepTag")}
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        请选择你开启留学副本的方式
+                        {t("title")}
                     </h1>
                     <p className="text-text-muted mx-auto max-w-xl">
-                        三道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。
+                        {t("subtitle")}
                     </p>
                 </header>
 
@@ -62,7 +48,9 @@ export default function IntakeHubPage() {
     );
 }
 
-function DoorCard({ door }: { door: Door }) {
+async function DoorCard({ door }: { door: Door }) {
+    const t = await getTranslations(`intakeHub.doors.${door.key}`);
+    const tHub = await getTranslations("intakeHub");
     const inner = (
         <div className="flex h-full flex-col gap-3">
             <div className="flex items-start justify-between gap-3">
@@ -74,21 +62,19 @@ function DoorCard({ door }: { door: Door }) {
                         className="text-text-muted rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
                         style={{ background: "var(--color-surface-alt)" }}
                     >
-                        敬请期待
+                        {tHub("comingSoon")}
                     </span>
                 ) : null}
             </div>
-            <h2 className="text-text text-xl font-semibold">{door.title}</h2>
-            <p className="text-text-muted text-sm">{door.tagline}</p>
+            <h2 className="text-text text-xl font-semibold">{t("title")}</h2>
+            <p className="text-text-muted text-sm">{t("tagline")}</p>
             <p className="text-text-muted mt-auto text-xs leading-relaxed">
-                {door.hint}
+                {t("hint")}
             </p>
         </div>
     );
 
-    const baseClasses =
-        "block h-full p-6 transition-transform sm:p-7";
-
+    const baseClasses = "block h-full p-6 transition-transform sm:p-7";
     const baseStyle = {
         background: "var(--gradient-raised)",
         borderRadius: "var(--radius-card-md)",

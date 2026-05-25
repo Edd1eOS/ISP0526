@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { ReviewForm } from "../../../../features/intake-review/review-form";
-import { loadIntakeSession } from "../../../../lib/intake-session-store";
-import { isGoogleConfigured } from "../../../../lib/ai/google-narrative";
+import { ReviewForm } from "../../../../../features/intake-review/review-form";
+import { loadIntakeSession } from "../../../../../lib/intake-session-store";
+import { isGoogleConfigured } from "../../../../../lib/ai/google-narrative";
 
 interface PageProps {
     readonly params: Promise<{ readonly id: string }>;

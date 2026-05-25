@@ -1,29 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { PostHogProvider } from "../lib/analytics/posthog-provider";
-import { PrivacyBanner } from "../features/analytics/privacy-banner";
+// Root layout. The real <html>/<body> shell is rendered by the locale-scoped
+// layout under app/[locale]/layout.tsx. This file only forwards children so
+// route handlers and parallel routes that bypass [locale] (e.g. the public
+// /r/[code]/pdf and /r/[code]/poster.png endpoints) still resolve.
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "ISP0526 — one-stop study-abroad launcher",
-  description:
-    "AI-assisted Australian university recommendation, grounded in verifiable data.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="zh-CN" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <PostHogProvider>{children}</PostHogProvider>
-        <PrivacyBanner />
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: ReactNode }) {
+    return children;
 }
+

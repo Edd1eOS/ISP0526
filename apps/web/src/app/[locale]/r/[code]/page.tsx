@@ -4,7 +4,7 @@ import type {
     RecommendationNarrative,
     Score,
 } from "@isp0526/core";
-import { loadReport } from "../../../lib/report-store";
+import { loadReport } from "../../../../lib/report-store";
 
 interface ReportPageProps {
     readonly params: Promise<{ code: string }>;

@@ -13,6 +13,41 @@
             "reportIdHint": "把这个发给我们，我们就能调出你的完整方案。",
             "whatsapp": "WhatsApp",
             "wechat": "WeChat"
+        },
+        "localeSwitcher": {
+            "label": "语言",
+            "zh": "中文",
+            "en": "English"
+        }
+    },
+    "landing": {
+        "sprintTag": "ISP0526 · sprint 0",
+        "heroSubtitle": "Warm claymorphism token preview. All visuals here are driven by CSS variables — no hardcoded colors or shadows.",
+        "cardTitle": "卡片表面",
+        "cardBody": "柔和的奶米背景上，浅蜜桃卡片承载内容。圆角 40px，外部柔光投影模拟黏土质感。",
+        "paletteTitle": "调色板"
+    },
+    "intakeHub": {
+        "stepTag": "Step 1 · 选个入口",
+        "title": "请选择你开启留学副本的方式",
+        "subtitle": "三道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。",
+        "comingSoon": "敬请期待",
+        "doors": {
+            "form": {
+                "title": "填个表",
+                "tagline": "我对一切都了如指掌",
+                "hint": "30 秒勾几个选项，立刻翻开你的报告。"
+            },
+            "upload": {
+                "title": "传个文件",
+                "tagline": "我有迹可循的远大前程",
+                "hint": "简历 / 成绩单 / 录取信丢进来，让 AI 帮你抠重点。"
+            },
+            "chat": {
+                "title": "聊会天",
+                "tagline": "未来的我有话要说？去看看！",
+                "hint": "一问一答，AI 陪你把想法慢慢理清楚。"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
-import { submitIntakeAction } from "../../../features/intake/intake-actions";
-import { IntakeForm } from "../../../features/intake/intake-form";
+import { submitIntakeAction } from "../../../../features/intake/intake-actions";
+import { IntakeForm } from "../../../../features/intake/intake-form";
 
 export default function IntakeFormPage() {
     return (

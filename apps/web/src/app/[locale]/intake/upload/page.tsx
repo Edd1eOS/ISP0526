@@ -1,4 +1,4 @@
-import { UploadDropzone } from "../../../features/intake-upload/upload-dropzone";
+import { UploadDropzone } from "../../../../features/intake-upload/upload-dropzone";
 
 export default function IntakeUploadPage() {
     return (
