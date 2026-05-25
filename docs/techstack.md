@@ -38,11 +38,14 @@
 
 | 用途 | 模型 | 调用方式 | 备注 |
 |---|---|---|---|
-| 推荐文案生成（默认） | Gemini 2.0 Flash | Vercel AI SDK (`ai` ^6, `@ai-sdk/google` ^3) | 免费档（10 RPM / 1500 请求每日），单次批量返回所有推荐项 |
-| 推荐文案生成（fallback） | 模板渲染（`packages/core/ai/templates/narrative-template.ts`） | 纯 TS | 当 `GOOGLE_GENERATIVE_AI_API_KEY` 未配置 / LLM 失败 / post-filter 拒收时启用，零外部依赖 |
-| 表单字段抽取 | Gemini 2.0 Flash | Vercel AI SDK | 同上 |
+| 推荐文案生成（默认） | Groq Llama 3.3 70B Versatile | Vercel AI SDK (`ai` ^6, `@ai-sdk/groq` ^2) | 免费档限额远高于 Gemini 免费档（Gemini Flash 仅 20 req/day），稳定性更好；模型 id 可通过 `GROQ_MODEL_ID` 覆盖 |
+| 推荐文案生成（备用） | Gemini 2.5 Flash | Vercel AI SDK (`@ai-sdk/google` ^3) | 当 `GROQ_API_KEY` 未设置时自动回退；模型 id 可通过 `GOOGLE_TEXT_MODEL_ID` 覆盖 |
+| 推荐文案生成（最终 fallback） | 模板渲染（`packages/core/ai/templates/narrative-template.ts`） | 纯 TS | 当所有 LLM 凭据均未配置 / 调用失败 / post-filter 拒收时启用，零外部依赖 |
+| 表单字段抽取 | 同上（Groq → Gemini） | Vercel AI SDK | 同上 |
 | 语音转文字 | Whisper (OpenAI) | API | 待启用 |
 | 文档 OCR | GPT-4o-mini Vision | API | 待启用 |
+
+**Provider 选择**：`apps/web/src/lib/ai/google-narrative.ts` 中的 `getTextModel()` 在运行时择 Groq / Gemini；任一密钥存在即视为已配置（`isLLMConfigured()`）。
 
 **适配层**：所有 LLM 调用走 `packages/core/ai/` 抽象层；`GenerateObjectFn` 由调用方（如 `apps/web/src/lib/ai/google-narrative.ts`）注入。核心包不直接依赖任何 LLM SDK，便于多 runtime 移植。
 
