@@ -44,6 +44,21 @@ export default async function ReportPage({ params }: ReportPageProps) {
                             文案来源：Gemini {llmCount} 项 · 模板 {totalCount - llmCount} 项
                         </p>
                     ) : null}
+                    <div className="flex flex-wrap gap-2 pt-2">
+                        <a
+                            href={`/r/${snapshot.code}/pdf`}
+                            target="_blank"
+                            rel="noopener"
+                            className="text-text px-4 py-2 text-sm font-semibold transition-transform active:scale-95"
+                            style={{
+                                background: "var(--gradient-raised)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-raised)",
+                            }}
+                        >
+                            下载 PDF
+                        </a>
+                    </div>
                 </header>
 
                 {sections.map((section) => (

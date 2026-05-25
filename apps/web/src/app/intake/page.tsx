@@ -32,7 +32,7 @@ const DOORS: ReadonlyArray<Door> = [
         title: "聊会天",
         tagline: "未来的我有话要说？去看看！",
         hint: "一问一答，AI 陪你把想法慢慢理清楚。",
-        ready: false,
+        ready: true,
     },
 ];
 
