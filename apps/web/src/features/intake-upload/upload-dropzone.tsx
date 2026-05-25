@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { extractPdfText } from "@/lib/pdf/extract-pdf-text";
 import { extractDocxText } from "@/lib/docx/extract-docx-text";
+import { trackEvent } from "../../lib/analytics/track";
 import { startIntakeFromTextAction } from "./upload-actions";
 
 type FileStatus = "queued" | "parsing" | "done" | "error";
@@ -128,6 +129,7 @@ export function UploadDropzone() {
 
     const onSubmit = async () => {
         setSubmitting(true);
+        trackEvent("intake_submitted", { channel: "upload" });
         try {
             const done = files.filter((f) => f.status === "done" && f.text);
             // Concatenate all uploaded sources into one prompt; label by the

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import posthog from "posthog-js";
+import { trackEvent, trackEventOnce } from "../../lib/analytics/track";
 import { Link } from "../../i18n/navigation";
 
 interface ContactCardProps {
@@ -14,40 +14,17 @@ interface ContactCardProps {
     };
 }
 
-function captureOncePerSession(key: string, event: string, props: object): void {
-    if (typeof window === "undefined") return;
-    try {
-        if (window.sessionStorage.getItem(key) === "1") return;
-        posthog.capture?.(event, props);
-        window.sessionStorage.setItem(key, "1");
-    } catch {
-        // posthog not initialised or storage unavailable; ignore.
-    }
-}
-
 export function ContactCard({ code, labels }: ContactCardProps) {
     useEffect(() => {
-        captureOncePerSession(
-            `isp0526:rg:${code}`,
-            "report_generated",
-            { code },
-        );
-        captureOncePerSession(
-            `isp0526:cr:${code}`,
-            "code_revealed",
-            { code, surface: "report_contact_card" },
-        );
+        trackEventOnce(`isp0526:rg:${code}`, "report_generated", { code });
+        trackEventOnce(`isp0526:cr:${code}`, "code_revealed", {
+            code,
+            surface: "report_contact_card",
+        });
     }, [code]);
 
     const fireCtaClicked = () => {
-        try {
-            posthog.capture?.("cta_clicked", {
-                cta: "talk_to_us",
-                code,
-            });
-        } catch {
-            // consent declined or not initialised
-        }
+        trackEvent("cta_clicked", { cta: "talk_to_us", code });
     };
 
     return (

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { trackEvent } from "../../lib/analytics/track";
 import { FIELD_OPTIONS } from "./field-options";
 
 interface IntakeFormProps {
@@ -99,8 +100,23 @@ export function IntakeForm({ action }: IntakeFormProps) {
         return true;
     }, [current, values]);
 
+    useEffect(() => {
+        trackEvent("intake_step_start", {
+            channel: "form",
+            step,
+            key: STEPS[step]!.key,
+        });
+    }, [step]);
+
     const goNext = () => {
         if (step < STEPS.length - 1) {
+            const v = values[current.key];
+            const filled =
+                v !== null && v !== "" && !(Array.isArray(v) && v.length === 0);
+            trackEvent(
+                filled ? "intake_step_complete" : "intake_step_skip",
+                { channel: "form", step, key: current.key },
+            );
             setDirection(1);
             setStep(step + 1);
         }
@@ -125,6 +141,7 @@ export function IntakeForm({ action }: IntakeFormProps) {
             fd.set("annual_budget_aud", String(aud));
         }
         values.preferred_tags.forEach((t) => fd.append("preferred_tags", t));
+        trackEvent("intake_submitted", { channel: "form" });
         startTransition(() => {
             void action(fd);
         });

@@ -32,3 +32,26 @@ export async function appendContactInquiry(
         "utf8",
     );
 }
+
+export async function listContactInquiries(
+    code: string,
+): Promise<ReadonlyArray<ContactInquiry>> {
+    let raw: string;
+    try {
+        raw = await fs.readFile(filePath(code), "utf8");
+    } catch (cause) {
+        if ((cause as NodeJS.ErrnoException).code === "ENOENT") return [];
+        throw cause;
+    }
+    const out: ContactInquiry[] = [];
+    for (const line of raw.split("\n")) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        try {
+            out.push(JSON.parse(trimmed) as ContactInquiry);
+        } catch {
+            // Skip malformed lines; do not crash the admin view.
+        }
+    }
+    return out;
+}

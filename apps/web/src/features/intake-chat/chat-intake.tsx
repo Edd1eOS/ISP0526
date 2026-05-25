@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackEvent } from "../../lib/analytics/track";
 import { startIntakeFromTextAction } from "../intake-upload/upload-actions";
 
 interface Prompt {
@@ -66,6 +67,7 @@ export function ChatIntake() {
     const submit = async () => {
         setSubmitting(true);
         setError(null);
+        trackEvent("intake_submitted", { channel: "chat" });
         try {
             const transcript = PROMPTS
                 .map((p) => {

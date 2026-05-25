@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import posthog from "posthog-js";
+import { trackEvent } from "../../lib/analytics/track";
 import {
     submitContactInquiryAction,
     type ContactActionResult,
@@ -38,11 +38,7 @@ export function ContactForm({ code, locale, labels }: ContactFormProps) {
 
     useEffect(() => {
         if (state?.ok) {
-            try {
-                posthog.capture?.("contact_inquiry_submitted", { code, channel });
-            } catch {
-                // posthog may not be initialised (consent declined); fine.
-            }
+            trackEvent("contact_inquiry_submitted", { code, channel });
         }
     }, [state, code, channel]);
 
