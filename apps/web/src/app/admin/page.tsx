@@ -149,7 +149,7 @@ function ReportSummary({
                     />
                     <Row
                         label="Target"
-                        value={`${snapshot.profile.target_level} · ${snapshot.profile.target_field ?? "any"}`}
+                        value={`${snapshot.profile.target_level ?? "—"} · ${snapshot.profile.target_field ?? "any"}`}
                     />
                     <Row
                         label="Budget (AUD/y)"

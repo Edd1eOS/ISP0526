@@ -14,7 +14,8 @@ export const config = {
     // - Next.js internals and static assets
     // - The dynamic report-export endpoints which return binary payloads and
     //   are linked from emails / WeChat scans without a locale segment.
+    // - /admin: internal lookup tool, locale-free, gated by ADMIN_TOKEN.
     matcher: [
-        "/((?!api|_next|_vercel|.*\\..*|r/[^/]+/pdf|r/[^/]+/poster\\.png).*)",
+        "/((?!api|_next|_vercel|admin|.*\\..*|r/[^/]+/pdf|r/[^/]+/poster\\.png).*)",
     ],
 };
