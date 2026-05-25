@@ -62,4 +62,23 @@ describe("recommend (against AU seed data)", () => {
             excluded.every((e) => e.reason.kind === "study_level_mismatch"),
         ).toBe(true);
     });
+
+    it("fills every band when the pool has >=3 survivors", () => {
+        // A strong applicant: absolute thresholds would otherwise push the
+        // whole pool into safety. Rank-based redistribution should still
+        // surface stretch + match entries.
+        const { set } = recommend(
+            buildProfile({
+                academic: { gpa: 3.95, ielts_overall: 8.0, target_level: "master" },
+                budget: { annual_aud: 100000, flex: 0.2 },
+            }),
+            getCandidates(),
+        );
+        const total = set.stretch.length + set.match.length + set.safety.length;
+        if (total >= 3) {
+            expect(set.stretch.length).toBeGreaterThan(0);
+            expect(set.match.length).toBeGreaterThan(0);
+            expect(set.safety.length).toBeGreaterThan(0);
+        }
+    });
 });

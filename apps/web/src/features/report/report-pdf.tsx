@@ -135,7 +135,7 @@ export function ReportPdfDocument(props: ReportPdfProps) {
             <Page size="A4" style={styles.page} wrap>
                 <View style={styles.header}>
                     <Text style={styles.code}>REPORT · {code}</Text>
-                    <Text style={styles.title}>你的澳洲院校推荐</Text>
+                    <Text style={styles.title}>你的留学院校推荐</Text>
                     <Text style={styles.subtitle}>
                         {dateStr} 生成 · 共 {totalCount} 项推荐 ·
                         所有结论来自规则引擎，可追溯到原始来源

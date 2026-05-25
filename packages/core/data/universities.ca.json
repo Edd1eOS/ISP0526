@@ -1,0 +1,65 @@
+[
+    {
+        "id": "utoronto",
+        "name_en": "University of Toronto",
+        "name_zh": "多伦多大学",
+        "country": "CA",
+        "city": "Toronto",
+        "city_size": "mega",
+        "climate": "cold",
+        "reputation_score": 0.94,
+        "chinese_community_density": 0.7,
+        "safety_index": 0.87,
+        "sources": [
+            {
+                "source_id": "utoronto_homepage_2026",
+                "kind": "url",
+                "url": "https://www.utoronto.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "University of Toronto official site"
+            }
+        ]
+    },
+    {
+        "id": "mcgill",
+        "name_en": "McGill University",
+        "name_zh": "麦吉尔大学",
+        "country": "CA",
+        "city": "Montreal",
+        "city_size": "mega",
+        "climate": "cold",
+        "reputation_score": 0.9,
+        "chinese_community_density": 0.55,
+        "safety_index": 0.86,
+        "sources": [
+            {
+                "source_id": "mcgill_homepage_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "McGill University official site"
+            }
+        ]
+    },
+    {
+        "id": "ubc",
+        "name_en": "University of British Columbia",
+        "name_zh": "英属哥伦比亚大学",
+        "country": "CA",
+        "city": "Vancouver",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.91,
+        "chinese_community_density": 0.75,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "ubc_homepage_2026",
+                "kind": "url",
+                "url": "https://www.ubc.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "UBC official site"
+            }
+        ]
+    }
+]

@@ -7,4 +7,5 @@ export * from "./source";
 export * from "./institution";
 export * from "./student-profile";
 export * from "./scoring";
+export * from "./visa";
 

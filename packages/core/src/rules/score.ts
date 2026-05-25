@@ -12,7 +12,9 @@ import {
     type Score,
     type ScoreBreakdown,
     type StudentProfile,
+    type VisaRouteMap,
 } from "../schemas/index";
+import { getVisaRoutes } from "../data/index";
 import { classifyBand } from "./bands";
 import {
     score as academicFitScore,
@@ -42,6 +44,10 @@ import {
     score as reputationScore,
     explain as reputationExplain,
 } from "./dimensions/reputation";
+import {
+    score as visaScore,
+    explain as visaExplain,
+} from "./dimensions/visa";
 import { modulateWeights, type Weights } from "./modulate";
 
 type DimensionId =
@@ -51,7 +57,8 @@ type DimensionId =
     | "career"
     | "budget"
     | "tag_boost"
-    | "reputation";
+    | "reputation"
+    | "visa_feasibility";
 
 function wrapReasons(
     dimension: DimensionId,
@@ -76,6 +83,7 @@ function wrapReasons(
 export function scoreCandidate(
     profile: StudentProfile,
     candidate: Candidate,
+    routes: VisaRouteMap = getVisaRoutes(),
 ): Score {
     const breakdown: ScoreBreakdown = {
         academic_fit: academicFitScore(profile, candidate),
@@ -85,6 +93,7 @@ export function scoreCandidate(
         budget: budgetScore(profile, candidate),
         tag_boost: tagBoostScore(profile, candidate),
         reputation: reputationScore(profile, candidate),
+        visa_feasibility: visaScore(profile, candidate, routes),
     };
 
     const weights = modulateWeights(profile);
@@ -98,6 +107,7 @@ export function scoreCandidate(
         ...wrapReasons("budget", budgetExplain(profile, candidate), candidate),
         ...wrapReasons("tag_boost", tagBoostExplain(profile, candidate), candidate),
         ...wrapReasons("reputation", reputationExplain(profile, candidate), candidate),
+        ...wrapReasons("visa_feasibility", visaExplain(profile, candidate, routes), candidate),
     ];
 
     return ScoreSchema.parse({
@@ -118,6 +128,7 @@ function weightedSum(breakdown: ScoreBreakdown, weights: Weights): number {
         breakdown.career * weights.career +
         breakdown.budget * weights.budget +
         breakdown.tag_boost * weights.tag_boost +
-        breakdown.reputation * weights.reputation
+        breakdown.reputation * weights.reputation +
+        breakdown.visa_feasibility * weights.visa_feasibility
     );
 }

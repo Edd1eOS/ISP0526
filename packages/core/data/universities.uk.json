@@ -1,0 +1,65 @@
+[
+    {
+        "id": "icl",
+        "name_en": "Imperial College London",
+        "name_zh": "帝国理工学院",
+        "country": "UK",
+        "city": "London",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.97,
+        "chinese_community_density": 0.6,
+        "safety_index": 0.82,
+        "sources": [
+            {
+                "source_id": "icl_homepage_2026",
+                "kind": "url",
+                "url": "https://www.imperial.ac.uk/",
+                "last_verified_date": "2026-05-23",
+                "note": "Imperial College London official site"
+            }
+        ]
+    },
+    {
+        "id": "edin",
+        "name_en": "The University of Edinburgh",
+        "name_zh": "爱丁堡大学",
+        "country": "UK",
+        "city": "Edinburgh",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.92,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "edin_homepage_2026",
+                "kind": "url",
+                "url": "https://www.ed.ac.uk/",
+                "last_verified_date": "2026-05-23",
+                "note": "University of Edinburgh official site"
+            }
+        ]
+    },
+    {
+        "id": "manc",
+        "name_en": "The University of Manchester",
+        "name_zh": "曼彻斯特大学",
+        "country": "UK",
+        "city": "Manchester",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.88,
+        "chinese_community_density": 0.55,
+        "safety_index": 0.8,
+        "sources": [
+            {
+                "source_id": "manc_homepage_2026",
+                "kind": "url",
+                "url": "https://www.manchester.ac.uk/",
+                "last_verified_date": "2026-05-23",
+                "note": "University of Manchester official site"
+            }
+        ]
+    }
+]

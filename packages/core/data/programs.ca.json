@@ -1,0 +1,434 @@
+[
+    {
+        "id": "utoronto-msc-cs",
+        "university_id": "utoronto",
+        "name_en": "MSc Computer Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 73000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.4,
+        "sources": [
+            {
+                "source_id": "utoronto_msc_cs_2026",
+                "kind": "url",
+                "url": "https://web.cs.toronto.edu/graduate",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "utoronto-mma",
+        "university_id": "utoronto",
+        "name_en": "Master of Management Analytics",
+        "name_zh": "管理分析硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 80000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "utoronto_mma_2026",
+                "kind": "url",
+                "url": "https://www.rotman.utoronto.ca/Degrees/MastersPrograms/MMA",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "utoronto-mfin",
+        "university_id": "utoronto",
+        "name_en": "Master of Finance",
+        "name_zh": "金融硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Finance",
+        "teaching_style": "balanced",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 86000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.5,
+        "sources": [
+            {
+                "source_id": "utoronto_mfin_2026",
+                "kind": "url",
+                "url": "https://www.rotman.utoronto.ca/Degrees/MastersPrograms/MFin",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "utoronto-meng-civil",
+        "university_id": "utoronto",
+        "name_en": "MEng Civil Engineering",
+        "name_zh": "工程硕士（土木）",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Civil Engineering",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 70000 },
+        "tags": ["career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "utoronto_meng_civil_2026",
+                "kind": "url",
+                "url": "https://www.civmin.utoronto.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "utoronto-msc-stats",
+        "university_id": "utoronto",
+        "name_en": "MSc Statistics",
+        "name_zh": "统计学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Statistics",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 35000 },
+        "tags": ["scholarship_rich", "stepping_stone", "migration_friendly"],
+        "applied_ratio": 0.3,
+        "sources": [
+            {
+                "source_id": "utoronto_msc_stats_2026",
+                "kind": "url",
+                "url": "https://www.statistics.utoronto.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "domestic-track tuition; international rate may differ — verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "utoronto-mpp",
+        "university_id": "utoronto",
+        "name_en": "Master of Public Policy",
+        "name_zh": "公共政策硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Public Policy",
+        "teaching_style": "balanced",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 56000 },
+        "tags": ["stepping_stone", "migration_friendly"],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "utoronto_mpp_2026",
+                "kind": "url",
+                "url": "https://www.publicpolicy.utoronto.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-msc-cs",
+        "university_id": "mcgill",
+        "name_en": "MSc Computer Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 38000 },
+        "tags": ["scholarship_rich", "value_for_money", "migration_friendly"],
+        "applied_ratio": 0.4,
+        "sources": [
+            {
+                "source_id": "mcgill_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.cs.mcgill.ca/admissions/grad/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-mba",
+        "university_id": "mcgill",
+        "name_en": "Desautels MBA",
+        "name_zh": "Desautels 工商管理硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Business Administration",
+        "teaching_style": "balanced",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 110000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.4,
+        "sources": [
+            {
+                "source_id": "mcgill_mba_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/desautels/programs/mba",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-mse-electrical",
+        "university_id": "mcgill",
+        "name_en": "MEng Electrical Engineering",
+        "name_zh": "工程硕士（电气）",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Electrical Engineering",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 40000 },
+        "tags": ["value_for_money", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "mcgill_meng_ee_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/ece/graduate",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-master-architecture",
+        "university_id": "mcgill",
+        "name_en": "Master of Architecture",
+        "name_zh": "建筑学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Architecture",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 38000 },
+        "tags": ["value_for_money", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "mcgill_march_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/architecture/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-msc-bioinformatics",
+        "university_id": "mcgill",
+        "name_en": "MSc Bioinformatics",
+        "name_zh": "生物信息学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Bioinformatics",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 38000 },
+        "tags": ["scholarship_rich", "stepping_stone", "migration_friendly"],
+        "applied_ratio": 0.4,
+        "sources": [
+            {
+                "source_id": "mcgill_msc_bioinf_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/bioinformatics/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "mcgill-msc-finance",
+        "university_id": "mcgill",
+        "name_en": "MSc Finance",
+        "name_zh": "金融硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Finance",
+        "teaching_style": "balanced",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 65000 },
+        "tags": ["career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.5,
+        "sources": [
+            {
+                "source_id": "mcgill_msc_finance_2026",
+                "kind": "url",
+                "url": "https://www.mcgill.ca/desautels/programs/msc-finance",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-msc-cs",
+        "university_id": "ubc",
+        "name_en": "MSc Computer Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 56000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.45,
+        "sources": [
+            {
+                "source_id": "ubc_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.cs.ubc.ca/students/grad",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-mban",
+        "university_id": "ubc",
+        "name_en": "Master of Business Analytics",
+        "name_zh": "商业分析硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.3,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 78000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "ubc_mban_2026",
+                "kind": "url",
+                "url": "https://www.sauder.ubc.ca/programs/master-business-analytics",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-meng-software",
+        "university_id": "ubc",
+        "name_en": "MEng Software Engineering",
+        "name_zh": "软件工程硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Software Engineering",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 58000 },
+        "tags": ["career_pipeline", "migration_friendly", "chinese_community"],
+        "applied_ratio": 0.8,
+        "sources": [
+            {
+                "source_id": "ubc_meng_software_2026",
+                "kind": "url",
+                "url": "https://www.ece.ubc.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-msc-data-science",
+        "university_id": "ubc",
+        "name_en": "MSc Data Science",
+        "name_zh": "数据科学硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.2,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 66000 },
+        "tags": ["field_top", "career_pipeline", "migration_friendly"],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "ubc_msc_ds_2026",
+                "kind": "url",
+                "url": "https://masterdatascience.ubc.ca/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-mph",
+        "university_id": "ubc",
+        "name_en": "Master of Public Health",
+        "name_zh": "公共卫生硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Public Health",
+        "teaching_style": "balanced",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 7.0, "ielts_min_band": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 38000 },
+        "tags": ["value_for_money", "stepping_stone", "migration_friendly"],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "ubc_mph_2026",
+                "kind": "url",
+                "url": "https://spph.ubc.ca/programs/mph/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ubc-master-forestry",
+        "university_id": "ubc",
+        "name_en": "Master of Sustainable Forest Management",
+        "name_zh": "可持续林业管理硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Forestry",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 40000 },
+        "tags": ["value_for_money", "migration_friendly"],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "ubc_msfm_2026",
+                "kind": "url",
+                "url": "https://forestry.ubc.ca/programs/graduate/",
+                "last_verified_date": "2026-05-23",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    }
+]

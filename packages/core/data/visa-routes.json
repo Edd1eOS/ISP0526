@@ -1,0 +1,135 @@
+{
+    "AU": {
+        "country_name_en": "Australia",
+        "country_name_zh": "澳大利亚",
+        "visa_class": "Subclass 500 Student Visa",
+        "total_weeks_typical": 12,
+        "post_study_work_years": 2,
+        "steps": [
+            {
+                "id": "coe",
+                "name_en": "Confirmation of Enrolment (CoE) from the institution",
+                "weeks": 2
+            },
+            {
+                "id": "oshc",
+                "name_en": "Purchase OSHC health cover",
+                "weeks": 1
+            },
+            {
+                "id": "gte",
+                "name_en": "Prepare Genuine Student (GS) statement and documents",
+                "weeks": 2
+            },
+            {
+                "id": "lodge",
+                "name_en": "Lodge Subclass 500 application online via ImmiAccount",
+                "weeks": 1
+            },
+            {
+                "id": "biometrics",
+                "name_en": "Biometrics and health examination",
+                "weeks": 2
+            },
+            {
+                "id": "grant",
+                "name_en": "Visa grant (median processing)",
+                "weeks": 4
+            }
+        ],
+        "source": {
+            "source_id": "homeaffairs_500_2026",
+            "kind": "url",
+            "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
+            "last_verified_date": "2026-05-23",
+            "note": "Australian Department of Home Affairs Subclass 500 overview; processing time medians vary by sector"
+        }
+    },
+    "UK": {
+        "country_name_en": "United Kingdom",
+        "country_name_zh": "英国",
+        "visa_class": "Student Route (Tier 4 successor)",
+        "total_weeks_typical": 6,
+        "post_study_work_years": 2,
+        "steps": [
+            {
+                "id": "cas",
+                "name_en": "Confirmation of Acceptance for Studies (CAS) issued by sponsor",
+                "weeks": 2
+            },
+            {
+                "id": "tb_test",
+                "name_en": "Tuberculosis test (mainland China applicants)",
+                "weeks": 1
+            },
+            {
+                "id": "lodge",
+                "name_en": "Online Student visa application and IHS payment",
+                "weeks": 1
+            },
+            {
+                "id": "biometrics",
+                "name_en": "Biometrics at VFS centre",
+                "weeks": 1
+            },
+            {
+                "id": "decision",
+                "name_en": "Visa decision (priority service available)",
+                "weeks": 3
+            }
+        ],
+        "source": {
+            "source_id": "gov_uk_student_visa_2026",
+            "kind": "url",
+            "url": "https://www.gov.uk/student-visa",
+            "last_verified_date": "2026-05-23",
+            "note": "UK Government Student visa guidance; standard non-priority processing"
+        }
+    },
+    "CA": {
+        "country_name_en": "Canada",
+        "country_name_zh": "加拿大",
+        "visa_class": "Study Permit",
+        "total_weeks_typical": 14,
+        "post_study_work_years": 3,
+        "steps": [
+            {
+                "id": "loa",
+                "name_en": "Letter of Acceptance from DLI",
+                "weeks": 2
+            },
+            {
+                "id": "pal",
+                "name_en": "Provincial Attestation Letter (PAL) where required",
+                "weeks": 3
+            },
+            {
+                "id": "gic",
+                "name_en": "GIC purchase and proof of funds",
+                "weeks": 1
+            },
+            {
+                "id": "lodge",
+                "name_en": "Online Study Permit application via IRCC portal",
+                "weeks": 1
+            },
+            {
+                "id": "biometrics",
+                "name_en": "Biometrics at VAC",
+                "weeks": 2
+            },
+            {
+                "id": "decision",
+                "name_en": "Decision (IRCC processing time)",
+                "weeks": 5
+            }
+        ],
+        "source": {
+            "source_id": "ircc_study_permit_2026",
+            "kind": "url",
+            "url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit.html",
+            "last_verified_date": "2026-05-23",
+            "note": "Immigration, Refugees and Citizenship Canada Study Permit guidance; processing times vary by visa office"
+        }
+    }
+}

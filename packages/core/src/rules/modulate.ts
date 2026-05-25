@@ -22,6 +22,14 @@ export function modulateWeights(profile: StudentProfile): Weights {
         weights.budget = SCORING_WEIGHTS.budget * 2;
     }
 
+    // Rule: migration intent at or above 4 increases the visa_feasibility
+    // weight by 50%. People who explicitly want to settle should see visa
+    // pathway dominate over reputation polish.
+    const mig = profile.career.migration_intent;
+    if (mig !== undefined && mig >= 4) {
+        weights.visa_feasibility = SCORING_WEIGHTS.visa_feasibility * 1.5;
+    }
+
     return normalize(weights);
 }
 

@@ -41,6 +41,7 @@
 17. **禁止 `any` 滥用**：TypeScript strict mode；`any` 必须配合 `// reason: <why>` 注释，且 PR Review 重点关注。
 18. **禁止跳过 lint / typecheck**：`--no-verify` 推送、`eslint-disable` 整文件、`@ts-ignore` 无原因——一律拒绝。
 19. **禁止未测试的业务逻辑合并**：规则引擎、AI 适配层、评分核心覆盖率 ≥ 80%。
+20. **禁止新增非必要实体**：如无必要勿增实体，保持工程可扩展和可维护
 
 ---
 

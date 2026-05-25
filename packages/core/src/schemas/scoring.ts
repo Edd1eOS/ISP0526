@@ -21,6 +21,7 @@ export const ScoreBreakdownSchema = z.object({
     budget: unitInterval,
     tag_boost: unitInterval,
     reputation: unitInterval,
+    visa_feasibility: unitInterval,
 });
 export type ScoreBreakdown = z.infer<typeof ScoreBreakdownSchema>;
 
