@@ -14,12 +14,12 @@ import type { Country } from "../schemas/institution";
 
 export interface CalendarMilestone {
     readonly key:
-        | "application_open"
-        | "application_deadline"
-        | "decision_by"
-        | "deposit_deadline"
-        | "visa_window"
-        | "intake_start";
+    | "application_open"
+    | "application_deadline"
+    | "decision_by"
+    | "deposit_deadline"
+    | "visa_window"
+    | "intake_start";
     readonly label_zh: string;
     // Month / day pair for the calendar year that the milestone happens in.
     // `yearOffset` 0 = same calendar year as the intake; -1 = the year prior.
@@ -399,5 +399,18 @@ export function resolveMilestone(
         refMonth <= cal.intakeMonth ? refYear : refYear + 1;
     const year = intakeYear + milestone.yearOffset;
     // Months in JS Date are 0-indexed.
+    return new Date(Date.UTC(year, milestone.month - 1, milestone.day));
+}
+
+// Resolve a milestone against an explicitly chosen intake (year + month).
+// Use this when the user has picked a target intake; it ignores the country's
+// default intake month and pins the timeline to the user's choice.
+export function resolveMilestoneForIntake(
+    country: Country,
+    milestone: CalendarMilestone,
+    intakeYear: number,
+): Date {
+    void country;
+    const year = intakeYear + milestone.yearOffset;
     return new Date(Date.UTC(year, milestone.month - 1, milestone.day));
 }

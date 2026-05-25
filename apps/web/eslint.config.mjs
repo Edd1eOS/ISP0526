@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Parked/legacy code, not part of the active build.
+    ".attic/**",
   ]),
 ]);
 

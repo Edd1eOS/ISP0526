@@ -184,6 +184,7 @@ export function ChatIntake() {
         assessmentRef.current = readAssessmentFromSession();
         const restored = readAccumulatedFromSession();
         if (Object.keys(restored).length > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setAccumulated(restored);
         }
         trackEvent("intake_step_start", { channel: "chat", step: 0 });

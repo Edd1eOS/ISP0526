@@ -58,8 +58,8 @@ export function ChecklistFolder({
                             {error
                                 ? "AI 暂时不可用，可联系顾问"
                                 : checklist
-                                  ? `${itemCount} 项 · 点击${open ? "收起" : "展开"}`
-                                  : "正在生成..."}
+                                    ? `${itemCount} 项 · 点击${open ? "收起" : "展开"}`
+                                    : "正在生成..."}
                         </span>
                     </span>
                 </span>

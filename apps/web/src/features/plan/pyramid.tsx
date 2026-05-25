@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { Country } from "@isp0526/core";
 
 export interface PyramidCard {
@@ -26,81 +29,50 @@ interface PyramidProps {
     readonly cards: readonly PyramidCard[];
 }
 
-// The pyramid is laid out top-down: 2 stretch -> 3 match -> 1 safety, with
-// thin down-arrows between rows to encode priority flow.
+// Compact accordion-style pyramid: each program is a small capsule that
+// expands on click to reveal program/country details. Only one capsule is
+// expanded at a time per pyramid.
 export function Pyramid({ cards }: PyramidProps) {
+    const [openId, setOpenId] = useState<string | null>(null);
+
     const rows: ReadonlyArray<{
         readonly tier: PyramidCard["tier"];
         readonly items: readonly PyramidCard[];
     }> = [
-        {
-            tier: "stretch",
-            items: cards.filter((c) => c.tier === "stretch"),
-        },
+        { tier: "stretch", items: cards.filter((c) => c.tier === "stretch") },
         { tier: "match", items: cards.filter((c) => c.tier === "match") },
         { tier: "safety", items: cards.filter((c) => c.tier === "safety") },
     ];
 
     return (
-        <div className="space-y-3">
+        <div className="space-y-2">
             {rows.map((row, rowIdx) => (
-                <div key={row.tier} className="space-y-3">
+                <div key={row.tier} className="space-y-2">
                     <div
-                        className="grid gap-3"
+                        className="flex flex-wrap justify-center gap-2"
                         style={{
-                            gridTemplateColumns: `repeat(${row.items.length}, minmax(0, 1fr))`,
-                            // Center the row visually by capping its width
-                            // relative to the tier size; 2-up and 1-up rows
-                            // pull in narrower so the pyramid silhouette is
-                            // visible.
                             maxWidth:
                                 row.items.length === 1
-                                    ? "32%"
+                                    ? "40%"
                                     : row.items.length === 2
-                                      ? "66%"
-                                      : "100%",
+                                        ? "70%"
+                                        : "100%",
                             margin: "0 auto",
                         }}
                     >
                         {row.items.map((c) => (
-                            <article
+                            <Capsule
                                 key={c.programId}
-                                className="space-y-1 px-4 py-3"
-                                style={{
-                                    background: "var(--gradient-raised)",
-                                    borderRadius: "var(--radius-card)",
-                                    boxShadow: "var(--shadow-clay-card)",
-                                    borderTop: `4px solid transparent`,
-                                    borderImage: `${TIER_ACCENT[c.tier]} 1`,
-                                }}
-                            >
-                                <div className="flex items-center justify-between gap-2">
-                                    <span
-                                        className="px-2 py-0.5 text-[10px] font-bold text-white"
-                                        style={{
-                                            background: TIER_ACCENT[c.tier],
-                                            borderRadius: "999px",
-                                        }}
-                                    >
-                                        {TIER_LABEL[c.tier]}
-                                    </span>
-                                    <span className="text-text text-sm font-bold">
-                                        {c.score}
-                                    </span>
-                                </div>
-                                <h3 className="text-text text-sm font-semibold leading-tight">
-                                    {c.universityName}
-                                </h3>
-                                <p className="text-text-muted text-xs leading-snug">
-                                    {c.programName}
-                                </p>
-                                {c.country ? (
-                                    <p className="text-text-muted text-[10px]">
-                                        {c.country}
-                                        {c.city ? ` · ${c.city}` : ""}
-                                    </p>
-                                ) : null}
-                            </article>
+                                card={c}
+                                open={openId === c.programId}
+                                onToggle={() =>
+                                    setOpenId((prev) =>
+                                        prev === c.programId
+                                            ? null
+                                            : c.programId,
+                                    )
+                                }
+                            />
                         ))}
                     </div>
 
@@ -115,11 +87,87 @@ export function Pyramid({ cards }: PyramidProps) {
     );
 }
 
+interface CapsuleProps {
+    readonly card: PyramidCard;
+    readonly open: boolean;
+    readonly onToggle: () => void;
+}
+
+function Capsule({ card, open, onToggle }: CapsuleProps) {
+    return (
+        <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={open}
+            className="group flex flex-col items-stretch text-left transition-[transform,box-shadow] duration-200 ease-out active:scale-[0.98]"
+            style={{
+                background: "var(--gradient-raised)",
+                borderRadius: 22,
+                boxShadow: open
+                    ? "var(--shadow-clay-raised)"
+                    : "var(--shadow-clay-card)",
+                paddingLeft: 14,
+                paddingRight: 14,
+                paddingTop: open ? 10 : 8,
+                paddingBottom: open ? 12 : 8,
+                minWidth: 180,
+                maxWidth: 280,
+                transform: open ? "translateY(-1px)" : undefined,
+            }}
+        >
+            <div className="flex items-center gap-2">
+                <span
+                    aria-hidden="true"
+                    style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: "999px",
+                        background: TIER_ACCENT[card.tier],
+                        color: "#fff",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                    }}
+                >
+                    {TIER_LABEL[card.tier]}
+                </span>
+                <span className="text-text flex-1 truncate text-xs font-semibold">
+                    {card.universityName}
+                </span>
+                <span className="text-text-muted text-[11px] font-bold tabular-nums">
+                    {card.score}
+                </span>
+            </div>
+            <div
+                className="overflow-hidden transition-[max-height,opacity,margin-top] duration-300 ease-out"
+                style={{
+                    maxHeight: open ? 80 : 0,
+                    opacity: open ? 1 : 0,
+                    marginTop: open ? 6 : 0,
+                }}
+            >
+                <p className="text-text-muted text-[11px] leading-snug">
+                    {card.programName}
+                </p>
+                {card.country ? (
+                    <p className="text-text-muted text-[10px]">
+                        {card.country}
+                        {card.city ? ` · ${card.city}` : ""}
+                    </p>
+                ) : null}
+            </div>
+        </button>
+    );
+}
+
 function DownArrow() {
     return (
         <svg
-            width="24"
-            height="22"
+            width="20"
+            height="18"
             viewBox="0 0 24 22"
             fill="none"
             stroke="var(--color-text-muted, #94a3b8)"

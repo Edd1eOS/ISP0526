@@ -55,7 +55,7 @@ type AnswerMap = {
 
 export function AssessmentFlow() {
     const router = useRouter();
-    const steps = useMemo(buildSteps, []);
+    const steps = useMemo(() => buildSteps(), []);
     const [cursor, setCursor] = useState(0);
     const [answers, setAnswers] = useState<AnswerMap>({
         tipi: {},

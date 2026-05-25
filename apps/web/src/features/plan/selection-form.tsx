@@ -49,6 +49,10 @@ export function SelectionForm({
         match: new Set(),
         safety: new Set(),
     });
+    const intakeOptions = useMemo(() => buildIntakeOptions(), []);
+    const [intake, setIntake] = useState<string>(
+        () => intakeOptions[0]?.value ?? "",
+    );
 
     const tiers: ReadonlyArray<{
         readonly tier: Tier;
@@ -89,13 +93,49 @@ export function SelectionForm({
             ...Array.from(picks.match).map((id) => `m:${id}`),
             ...Array.from(picks.safety).map((id) => `f:${id}`),
         ].join(",");
-        router.push(
-            `/${locale}/r/${code}/plan?picks=${encodeURIComponent(flat)}`,
-        );
+        const params = new URLSearchParams({ picks: flat });
+        if (intake) params.set("intake", intake);
+        router.push(`/${locale}/r/${code}/plan?${params.toString()}`);
     }
 
     return (
         <div className="space-y-6">
+            <div
+                className="space-y-3 px-5 py-4"
+                style={{
+                    background: "var(--gradient-raised)",
+                    borderRadius: "var(--radius-card)",
+                    boxShadow: "var(--shadow-clay-card)",
+                }}
+            >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h2 className="text-text text-sm font-semibold">
+                            选择目标入学时间
+                        </h2>
+                        <p className="text-text-muted mt-0.5 text-xs">
+                            时间轴会以这个入学季为基准对齐递交、签证、开学等节点。
+                        </p>
+                    </div>
+                    <select
+                        value={intake}
+                        onChange={(e) => setIntake(e.target.value)}
+                        className="text-text px-3 py-2 text-sm focus:outline-none"
+                        style={{
+                            background: "var(--color-surface-alt)",
+                            borderRadius: "var(--radius-button)",
+                            boxShadow: "var(--shadow-clay-card)",
+                        }}
+                    >
+                        {intakeOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
             <div
                 className="sticky top-2 z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3"
                 style={{
@@ -231,4 +271,28 @@ export function SelectionForm({
             ))}
         </div>
     );
+}
+
+interface IntakeOption {
+    readonly value: string;
+    readonly label: string;
+}
+
+function buildIntakeOptions(): readonly IntakeOption[] {
+    // 12 upcoming months from the next full month, plus the current month so
+    // the user can opt into an imminent intake.
+    const now = new Date();
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+    const list: IntakeOption[] = [];
+    for (let i = 0; i < 18; i += 1) {
+        const d = new Date(
+            Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1),
+        );
+        const y = d.getUTCFullYear();
+        const m = d.getUTCMonth() + 1;
+        const value = `${y}-${String(m).padStart(2, "0")}`;
+        const label = `${y} 年 ${m} 月`;
+        list.push({ value, label });
+    }
+    return list;
 }

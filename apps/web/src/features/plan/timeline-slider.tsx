@@ -17,12 +17,17 @@ export interface TimelineSliderProps {
 
 function formatDate(iso: string): string {
     const d = new Date(iso + "T00:00:00Z");
-    return `${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()}`;
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${y}/${m}/${day}`;
 }
 
-function monthLabel(iso: string): string {
+function shortDate(iso: string): string {
     const d = new Date(iso + "T00:00:00Z");
-    return `${d.getUTCMonth() + 1}月`;
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${m}/${day}`;
 }
 
 export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
@@ -34,6 +39,7 @@ export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
         [events],
     );
     const [idx, setIdx] = useState(0);
+    const [hoverIdx, setHoverIdx] = useState<number | null>(null);
 
     if (sorted.length === 0) {
         return (
@@ -45,44 +51,100 @@ export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
     const minT = Date.parse(sorted[0]!.date);
     const maxT = Date.parse(sorted[sorted.length - 1]!.date);
     const span = Math.max(1, maxT - minT);
+    const activePct = ((Date.parse(active.date) - minT) / span) * 100;
+    const revealedIdx = hoverIdx ?? idx;
 
     return (
         <div className="space-y-4">
-            <div className="relative h-14">
+            {/* Rail with dots. Dates only show on the active / hovered node. */}
+            <div className="relative h-20">
+                {/* Background rail */}
                 <div
-                    className="absolute left-0 right-0 top-7 h-1"
+                    className="absolute left-0 right-0"
                     style={{
+                        top: 44,
+                        height: 4,
                         background: "var(--color-surface-alt)",
-                        borderRadius: "999px",
+                        borderRadius: 999,
+                    }}
+                />
+                {/* Progress rail up to the active node, animated */}
+                <div
+                    className="absolute left-0 transition-[width] duration-500 ease-out"
+                    style={{
+                        top: 44,
+                        height: 4,
+                        width: `${activePct}%`,
+                        background: "var(--gradient-primary)",
+                        borderRadius: 999,
                     }}
                 />
                 {sorted.map((ev, i) => {
                     const pct = ((Date.parse(ev.date) - minT) / span) * 100;
                     const isActive = i === idx;
+                    const isRevealed = i === revealedIdx;
+                    const size = isActive ? 22 : isRevealed ? 18 : 12;
                     return (
                         <button
                             key={ev.key}
                             type="button"
                             onClick={() => setIdx(i)}
-                            aria-label={ev.label}
-                            className="absolute -translate-x-1/2 transition-transform active:scale-95"
+                            onMouseEnter={() => setHoverIdx(i)}
+                            onMouseLeave={() => setHoverIdx(null)}
+                            onFocus={() => setHoverIdx(i)}
+                            onBlur={() => setHoverIdx(null)}
+                            aria-label={`${ev.label} ${formatDate(ev.date)}`}
+                            className="absolute -translate-x-1/2 outline-none"
                             style={{
-                                top: 18,
+                                top: 44 - size / 2 + 2,
                                 left: `${pct}%`,
+                                width: 28,
+                                height: 28,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                             }}
                         >
                             <span
-                                className="block h-5 w-5"
+                                aria-hidden="true"
+                                className="transition-[width,height,box-shadow,background] duration-300 ease-out"
                                 style={{
+                                    width: size,
+                                    height: size,
+                                    borderRadius: 999,
                                     background: isActive
                                         ? "var(--gradient-primary)"
-                                        : "var(--gradient-raised)",
+                                        : isRevealed
+                                            ? "var(--gradient-raised)"
+                                            : "var(--color-surface-alt)",
                                     boxShadow: isActive
                                         ? "var(--shadow-clay-raised)"
-                                        : "var(--shadow-clay-card)",
-                                    borderRadius: "999px",
+                                        : isRevealed
+                                            ? "var(--shadow-clay-card)"
+                                            : "none",
                                 }}
                             />
+                            {/* Date tooltip — only render for the revealed node */}
+                            <span
+                                aria-hidden="true"
+                                className="pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold tabular-nums transition-[opacity,transform] duration-200 ease-out"
+                                style={{
+                                    bottom: 36,
+                                    opacity: isRevealed ? 1 : 0,
+                                    transform: isRevealed
+                                        ? "translate(-50%, 0)"
+                                        : "translate(-50%, 4px)",
+                                    padding: "4px 8px",
+                                    background: "var(--gradient-raised)",
+                                    boxShadow: "var(--shadow-clay-card)",
+                                    borderRadius: 8,
+                                    color: "var(--color-text, #1f2937)",
+                                }}
+                            >
+                                {isActive
+                                    ? formatDate(ev.date)
+                                    : shortDate(ev.date)}
+                            </span>
                         </button>
                     );
                 })}
@@ -99,8 +161,10 @@ export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
                 aria-label="时间轴滑块"
             />
 
+            {/* Active event card. Crossfades on change. */}
             <div
-                className="space-y-2 px-4 py-3"
+                key={active.key}
+                className="space-y-2 px-4 py-3 animate-[fadeIn_280ms_ease-out]"
                 style={{
                     background: "var(--gradient-raised)",
                     borderRadius: "var(--radius-card)",
@@ -111,7 +175,7 @@ export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
                     <span className="text-text text-base font-semibold">
                         {active.label}
                     </span>
-                    <span className="text-text-muted text-xs">
+                    <span className="text-text-muted text-xs tabular-nums">
                         {formatDate(active.date)}
                     </span>
                 </div>
@@ -138,33 +202,18 @@ export function TimelineSlider({ events, programNames }: TimelineSliderProps) {
                 )}
             </div>
 
-            <ol className="grid gap-1.5 sm:grid-cols-2">
-                {sorted.map((ev, i) => {
-                    const isActive = i === idx;
-                    return (
-                        <li key={ev.key}>
-                            <button
-                                type="button"
-                                onClick={() => setIdx(i)}
-                                className="flex w-full items-center justify-between gap-2 px-3 py-1.5 text-left text-xs transition-transform active:scale-[0.99]"
-                                style={{
-                                    background: isActive
-                                        ? "var(--gradient-primary)"
-                                        : "var(--color-surface-alt)",
-                                    color: isActive ? "#fff" : undefined,
-                                    borderRadius: "var(--radius-button)",
-                                    fontWeight: isActive ? 600 : 400,
-                                }}
-                            >
-                                <span>{ev.label}</span>
-                                <span className="opacity-80">
-                                    {monthLabel(ev.date)}
-                                </span>
-                            </button>
-                        </li>
-                    );
-                })}
-            </ol>
+            <style jsx>{`
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(4px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `}</style>
         </div>
     );
 }

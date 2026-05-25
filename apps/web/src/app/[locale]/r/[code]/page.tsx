@@ -155,7 +155,10 @@ export default async function ReportPage({ params }: ReportPageProps) {
         new Date(snapshot.created_at).getTime() +
         SHARE_LINK_EXPIRY_DAYS * 86_400_000,
     );
-    if (expiredAt.getTime() < Date.now()) {
+    // reason: Server Component render is a one-shot; Date.now() is acceptable here.
+    // eslint-disable-next-line react-hooks/purity
+    const nowMs = Date.now();
+    if (expiredAt.getTime() < nowMs) {
         return <ExpiredReport locale={locale} code={snapshot.code} />;
     }
 

@@ -56,6 +56,7 @@ export function UploadDropzone() {
         if (accepted.length === 0) return;
         setFiles((prev) => [...prev, ...accepted]);
         for (const queued of accepted) {
+            // eslint-disable-next-line react-hooks/immutability
             void parseOne(queued);
         }
     }, []);

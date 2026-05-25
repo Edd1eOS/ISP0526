@@ -10,7 +10,7 @@ import type {
 import {
     COUNTRY_CALENDARS,
     generatePlanChecklist,
-    resolveMilestone,
+    resolveMilestoneForIntake,
 } from "@isp0526/core";
 import { loadReport } from "../../../../../lib/report-store";
 import {
@@ -28,7 +28,7 @@ import { Link } from "../../../../../i18n/navigation";
 
 interface PlanPageProps {
     readonly params: Promise<{ code: string; locale: string }>;
-    readonly searchParams: Promise<{ picks?: string }>;
+    readonly searchParams: Promise<{ picks?: string; intake?: string }>;
 }
 
 const COUNTRY_LABEL: Record<Country, string> = {
@@ -44,6 +44,18 @@ const COUNTRY_LABEL: Record<Country, string> = {
 interface ParsedPick {
     readonly tier: "stretch" | "match" | "safety";
     readonly programId: string;
+}
+
+function parseIntakeYear(raw: string | undefined): number {
+    // Accept either `YYYY-MM` or `YYYY`. Default to the upcoming calendar
+    // year so the timeline still renders if the user lands without a pick.
+    const fallback = new Date().getUTCFullYear() + 1;
+    if (!raw) return fallback;
+    const yearStr = raw.split("-")[0];
+    if (!yearStr) return fallback;
+    const year = Number(yearStr);
+    if (!Number.isFinite(year) || year < 2000 || year > 2100) return fallback;
+    return year;
 }
 
 function parsePicks(raw: string | undefined): ParsedPick[] {
@@ -75,12 +87,13 @@ function findScore(
 
 export default async function PlanPage({ params, searchParams }: PlanPageProps) {
     const { code, locale } = await params;
-    const { picks: rawPicks } = await searchParams;
+    const { picks: rawPicks, intake: rawIntake } = await searchParams;
     setRequestLocale(locale);
     const snapshot = await loadReport(code);
     if (!snapshot) notFound();
 
     const picks = parsePicks(rawPicks);
+    const intakeYear = parseIntakeYear(rawIntake);
     if (picks.length === 0) {
         return <EmptyPicksState code={code} locale={locale} />;
     }
@@ -125,7 +138,7 @@ export default async function PlanPage({ params, searchParams }: PlanPageProps) 
     // Build a merged timeline from the country calendar template, grouped by
     // milestone key so identical events (e.g. UK 9 月开学) appear once with
     // their owning program_ids attached.
-    const timeline = buildTimeline(resolved);
+    const timeline = buildTimeline(resolved, intakeYear);
 
     // Generate the checklist via LLM if configured; otherwise show a graceful
     // fallback message. The server component awaits the LLM here.
@@ -223,8 +236,8 @@ function buildTimeline(
         readonly pick: ParsedPick;
         readonly candidate: Candidate;
     }>,
+    intakeYear: number,
 ): TimelineEvent[] {
-    const ref = new Date();
     // event key = `${country}:${milestoneKey}` so milestones shared by
     // multiple programs in the same country collapse into one entry.
     const merged = new Map<string, TimelineEvent>();
@@ -233,7 +246,7 @@ function buildTimeline(
         const cal = COUNTRY_CALENDARS[country];
         for (const m of cal.milestones) {
             const key = `${country}:${m.key}`;
-            const date = resolveMilestone(country, m, ref);
+            const date = resolveMilestoneForIntake(country, m, intakeYear);
             const iso = date.toISOString().slice(0, 10);
             const existing = merged.get(key);
             if (existing) {

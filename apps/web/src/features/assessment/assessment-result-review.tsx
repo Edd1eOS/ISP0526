@@ -92,6 +92,7 @@ export function AssessmentResultReview() {
     useEffect(() => {
         const a = readAssessment();
         if (!a) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setMissing(true);
             return;
         }
