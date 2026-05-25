@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { PostHogProvider } from "../lib/analytics/posthog-provider";
+import { PrivacyBanner } from "../features/analytics/privacy-banner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,7 +20,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <PostHogProvider>{children}</PostHogProvider>
+        <PrivacyBanner />
+      </body>
     </html>
   );
 }
