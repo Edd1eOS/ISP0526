@@ -58,6 +58,19 @@ export default async function ReportPage({ params }: ReportPageProps) {
                         >
                             下载 PDF
                         </a>
+                        <a
+                            href={`/r/${snapshot.code}/poster.png`}
+                            target="_blank"
+                            rel="noopener"
+                            className="text-text px-4 py-2 text-sm font-semibold transition-transform active:scale-95"
+                            style={{
+                                background: "var(--gradient-raised)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-raised)",
+                            }}
+                        >
+                            微信分享图
+                        </a>
                     </div>
                 </header>
 
