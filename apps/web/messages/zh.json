@@ -18,6 +18,12 @@
             "label": "语言",
             "zh": "中文",
             "en": "English"
+        },
+        "footer": {
+            "privacy": "隐私政策",
+            "disclaimer": "免责声明",
+            "terms": "服务条款",
+            "tagline": "AI 推荐不构成录取保证。"
         }
     },
     "landing": {
@@ -49,5 +55,43 @@
                 "hint": "一问一答，AI 陪你把想法慢慢理清楚。"
             }
         }
+    },
+    "report": {
+        "contactCard": {
+            "title": "想找人聊聊？",
+            "body": "报告里任何想再深入聊的地方，把报告 ID 发给我们，几分钟内可以回到你。",
+            "cta": "联系我们",
+            "idLabel": "你的报告 ID"
+        },
+        "expiryNote": "本分享链接将于 {date} 过期，过期后请通过 PDF 或长图查看留底。"
+    },
+    "contactPage": {
+        "eyebrow": "联系我们",
+        "title": "把报告发给我们，我们看完再回你",
+        "intro": "下面写几句你想聊的点（专业方向 / 预算疑问 / 申请节奏…都可以），我们会按你的报告调取数据，认真回你一条而不是群发模板。",
+        "reportIdLabel": "你的报告 ID",
+        "reportIdHint": "我们会用这串 ID 调取你完整的画像和推荐。",
+        "channelLabel": "你方便我们用哪种方式回你？",
+        "channelWhatsapp": "WhatsApp",
+        "channelWeChat": "WeChat",
+        "channelEither": "都可以",
+        "messageLabel": "你想聊的事",
+        "messagePlaceholder": "例如：澳洲 IT 硕士和加拿大对比？预算只够 RMB 25 万够不够？",
+        "submit": "提交",
+        "submitting": "提交中…",
+        "successTitle": "已收到，我们会主动联系你",
+        "successBody": "我们会在 1–2 个工作日内通过你选的渠道回你。回复中不会包含任何中介推介，AI 推荐不构成录取保证。",
+        "errorInvalid": "请检查输入：报告 ID 与留言长度。",
+        "errorNotFound": "找不到这份报告，请回到原始报告页重试。",
+        "errorServer": "服务暂时出了点问题，请稍后再试。",
+        "disclaimer": "我们不在沟通中推销中介；推荐结果仅供参考，最终决策请你自己做。",
+        "backToReport": "回到我的报告"
+    },
+    "legal": {
+        "privacyTitle": "隐私政策",
+        "disclaimerTitle": "免责声明",
+        "termsTitle": "服务条款",
+        "lastUpdatedLabel": "最近更新",
+        "backHome": "回到首页"
     }
 }

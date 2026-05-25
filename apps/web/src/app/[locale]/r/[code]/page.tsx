@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type {
     Candidate,
     Country,
@@ -12,10 +12,14 @@ import type {
 import { getVisaRoutes } from "@isp0526/core";
 import { loadReport } from "../../../../lib/report-store";
 import { ReportChat } from "../../../../features/report/report-chat";
+import { ContactCard } from "../../../../features/report/contact-card";
+import { Link } from "../../../../i18n/navigation";
 
 interface ReportPageProps {
-    readonly params: Promise<{ code: string }>;
+    readonly params: Promise<{ code: string; locale: string }>;
 }
+
+const SHARE_LINK_EXPIRY_DAYS = 30;
 
 const COUNTRY_LABEL: Record<Country, string> = {
     AU: "澳大利亚",
@@ -39,10 +43,20 @@ const DIMENSION_LABEL: Record<keyof ScoreBreakdown, string> = {
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {
-    const { code } = await params;
+    const { code, locale } = await params;
+    setRequestLocale(locale);
     const snapshot = await loadReport(code);
     if (!snapshot) notFound();
 
+    const expiredAt = new Date(
+        new Date(snapshot.created_at).getTime() +
+            SHARE_LINK_EXPIRY_DAYS * 86_400_000,
+    );
+    if (expiredAt.getTime() < Date.now()) {
+        return <ExpiredReport locale={locale} code={snapshot.code} />;
+    }
+
+    const t = await getTranslations({ locale, namespace: "report" });
     const routes = getVisaRoutes();
 
     const sections = [
@@ -155,7 +169,69 @@ export default async function ReportPage({ params }: ReportPageProps) {
                     routes={routes}
                 />
                 <ReportChat code={snapshot.code} />
-                <ContactCard code={snapshot.code} />
+                <ContactCard
+                    code={snapshot.code}
+                    labels={{
+                        title: t("contactCard.title"),
+                        body: t("contactCard.body"),
+                        cta: t("contactCard.cta"),
+                        idLabel: t("contactCard.idLabel"),
+                    }}
+                />
+                <p className="text-text-muted text-xs">
+                    {t("expiryNote", {
+                        date: expiredAt.toLocaleDateString(
+                            locale === "zh" ? "zh-CN" : "en-AU",
+                        ),
+                    })}
+                </p>
+            </div>
+        </main>
+    );
+}
+
+function ExpiredReport({ locale, code }: { locale: string; code: string }) {
+    const isZh = locale === "zh";
+    return (
+        <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
+            <div className="mx-auto max-w-2xl space-y-4">
+                <span className="text-text-muted text-sm uppercase tracking-widest">
+                    Report · {code}
+                </span>
+                <h1 className="text-text text-2xl font-semibold">
+                    {isZh
+                        ? "分享链接已过期"
+                        : "This share link has expired"}
+                </h1>
+                <p className="text-text-muted">
+                    {isZh
+                        ? `报告分享链接有效期 ${SHARE_LINK_EXPIRY_DAYS} 天，请重新生成一份报告，或联系我们用报告 ID 调取留底。`
+                        : `Share links expire after ${SHARE_LINK_EXPIRY_DAYS} days. Please run the assessment again or contact us with your report ID to retrieve the archived copy.`}
+                </p>
+                <div className="flex flex-wrap gap-2 pt-2">
+                    <Link
+                        href="/intake"
+                        className="text-text-on-primary px-5 py-2.5 text-sm font-semibold"
+                        style={{
+                            background: "var(--gradient-primary)",
+                            borderRadius: "var(--radius-button)",
+                            boxShadow: "var(--shadow-clay-primary)",
+                        }}
+                    >
+                        {isZh ? "重新生成报告" : "Run a new assessment"}
+                    </Link>
+                    <Link
+                        href={`/contact?code=${code}`}
+                        className="text-text px-5 py-2.5 text-sm font-semibold"
+                        style={{
+                            background: "var(--gradient-raised)",
+                            borderRadius: "var(--radius-button)",
+                            boxShadow: "var(--shadow-clay-raised)",
+                        }}
+                    >
+                        {isZh ? "联系我们" : "Contact us"}
+                    </Link>
+                </div>
             </div>
         </main>
     );
@@ -469,54 +545,4 @@ function ApplicationTimeline({
     );
 }
 
-function ContactCard({ code }: { code: string }) {
-    return (
-        <section
-            className="space-y-3 p-6"
-            style={{
-                background: "var(--color-surface-alt)",
-                borderRadius: "var(--radius-card-md)",
-                boxShadow: "var(--shadow-clay-raised)",
-            }}
-        >
-            <h2 className="text-text text-lg font-semibold">想找人聊聊？</h2>
-            <p className="text-text-muted text-sm">
-                报告里任何想再深入聊的地方，可以加我们。把下面的 ID 发给我们，我们就能调出你的完整方案。
-            </p>
-            <div
-                className="text-text inline-block px-4 py-2 font-mono text-base font-semibold"
-                style={{
-                    background: "var(--color-surface)",
-                    borderRadius: "var(--radius-button)",
-                    boxShadow: "var(--shadow-clay-inset)",
-                }}
-            >
-                {code}
-            </div>
-            <div className="flex flex-col gap-2 pt-2 sm:flex-row">
-                <Link
-                    href="#"
-                    className="text-text-on-primary px-5 py-2.5 text-sm font-semibold"
-                    style={{
-                        background: "var(--gradient-primary)",
-                        borderRadius: "var(--radius-button)",
-                        boxShadow: "var(--shadow-clay-primary)",
-                    }}
-                >
-                    WhatsApp
-                </Link>
-                <Link
-                    href="#"
-                    className="text-text px-5 py-2.5 text-sm font-semibold"
-                    style={{
-                        background: "var(--gradient-raised)",
-                        borderRadius: "var(--radius-button)",
-                        boxShadow: "var(--shadow-clay-raised)",
-                    }}
-                >
-                    WeChat
-                </Link>
-            </div>
-        </section>
-    );
-}
+

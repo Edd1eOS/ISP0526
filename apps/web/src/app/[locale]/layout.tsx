@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { PrivacyBanner } from "../../features/analytics/privacy-banner";
 import { PostHogProvider } from "../../lib/analytics/posthog-provider";
+import { Link } from "../../i18n/navigation";
 import { routing } from "../../i18n/routing";
 
 const inter = Inter({
@@ -44,12 +45,29 @@ export default async function LocaleLayout({
     setRequestLocale(locale);
 
     const htmlLang = locale === "zh" ? "zh-CN" : "en";
+    const t = await getTranslations({ locale, namespace: "common.footer" });
 
     return (
         <html lang={htmlLang} className={`${inter.variable} h-full antialiased`}>
             <body className="min-h-full flex flex-col">
                 <NextIntlClientProvider>
                     <PostHogProvider>{children}</PostHogProvider>
+                    <footer className="text-text-muted border-t bg-transparent px-6 py-6 text-xs sm:px-12">
+                        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
+                            <span>{t("tagline")}</span>
+                            <nav className="flex flex-wrap gap-4">
+                                <Link href="/legal/privacy" className="underline">
+                                    {t("privacy")}
+                                </Link>
+                                <Link href="/legal/disclaimer" className="underline">
+                                    {t("disclaimer")}
+                                </Link>
+                                <Link href="/legal/terms" className="underline">
+                                    {t("terms")}
+                                </Link>
+                            </nav>
+                        </div>
+                    </footer>
                     <PrivacyBanner />
                 </NextIntlClientProvider>
             </body>

@@ -18,6 +18,12 @@
             "label": "Language",
             "zh": "中文",
             "en": "English"
+        },
+        "footer": {
+            "privacy": "Privacy",
+            "disclaimer": "Disclaimer",
+            "terms": "Terms",
+            "tagline": "AI recommendations are not an admission guarantee."
         }
     },
     "landing": {
@@ -49,5 +55,43 @@
                 "hint": "A short Q&A, AI helps you turn vibes into a plan."
             }
         }
+    },
+    "report": {
+        "contactCard": {
+            "title": "Want to talk to someone?",
+            "body": "Anything in the report worth a deeper chat — send us your report ID and we'll get back to you in person.",
+            "cta": "Contact us",
+            "idLabel": "Your report ID"
+        },
+        "expiryNote": "This share link expires on {date}. Keep a PDF or share image as your permanent copy."
+    },
+    "contactPage": {
+        "eyebrow": "Contact",
+        "title": "Send us your report and we'll reply after reading it",
+        "intro": "Tell us in a few sentences what you'd like to dig into (field choice, budget reality check, application timing). We'll pull up your data and write you a real reply, not a template.",
+        "reportIdLabel": "Your report ID",
+        "reportIdHint": "We use this to look up your full profile and recommendations.",
+        "channelLabel": "How should we reach you?",
+        "channelWhatsapp": "WhatsApp",
+        "channelWeChat": "WeChat",
+        "channelEither": "Either is fine",
+        "messageLabel": "What you'd like to talk about",
+        "messagePlaceholder": "e.g. AU IT master vs CA? Is a RMB 250k budget realistic?",
+        "submit": "Send",
+        "submitting": "Sending…",
+        "successTitle": "Got it, we'll reach out",
+        "successBody": "We'll get back to you within 1–2 working days on the channel you picked. No agency push, AI recommendations are not an admission guarantee.",
+        "errorInvalid": "Please check the report ID and message length.",
+        "errorNotFound": "We couldn't find that report. Please return to the original report page and try again.",
+        "errorServer": "Something went wrong on our side. Please try again later.",
+        "disclaimer": "We never push commercial agents in this chat; recommendations are informational only.",
+        "backToReport": "Back to my report"
+    },
+    "legal": {
+        "privacyTitle": "Privacy policy",
+        "disclaimerTitle": "Disclaimer",
+        "termsTitle": "Terms of service",
+        "lastUpdatedLabel": "Last updated",
+        "backHome": "Back to home"
     }
 }
