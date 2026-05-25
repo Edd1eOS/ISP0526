@@ -43,6 +43,7 @@ export default async function SelectPage({ params }: SelectPageProps) {
                 country: cand
                     ? COUNTRY_LABEL[cand.university.country]
                     : undefined,
+                countryCode: cand?.university.country,
                 city: cand?.university.city ?? null,
                 headline: narr?.headline ?? null,
             };

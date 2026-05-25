@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Country } from "@isp0526/core";
 
 export interface PickableProgram {
     readonly programId: string;
@@ -10,6 +11,7 @@ export interface PickableProgram {
     readonly universityName: string;
     readonly programName: string;
     readonly country: string | undefined;
+    readonly countryCode: Country | undefined;
     readonly city: string | null;
     readonly headline: string | null;
 }
@@ -49,7 +51,10 @@ export function SelectionForm({
         match: new Set(),
         safety: new Set(),
     });
-    const intakeOptions = useMemo(() => buildIntakeOptions(), []);
+    const intakeOptions = useMemo(
+        () => buildIntakeOptions([...reach, ...match, ...safety]),
+        [reach, match, safety],
+    );
     const [intake, setIntake] = useState<string>(
         () => intakeOptions[0]?.value ?? "",
     );
@@ -278,20 +283,65 @@ interface IntakeOption {
     readonly label: string;
 }
 
-function buildIntakeOptions(): readonly IntakeOption[] {
-    // 12 upcoming months from the next full month, plus the current month so
-    // the user can opt into an imminent intake.
+// Main intake months per country, with the semester label rendered alongside.
+// Programs without their own deadlines fall back to the country default.
+const COUNTRY_INTAKES: Record<Country, ReadonlyArray<{ month: number; term: string }>> = {
+    UK: [{ month: 9, term: "Fall · 秋季" }],
+    US: [
+        { month: 9, term: "Fall · 秋季" },
+        { month: 1, term: "Spring · 春季" },
+    ],
+    CA: [
+        { month: 9, term: "Fall · 秋季" },
+        { month: 1, term: "Winter · 冬季" },
+    ],
+    AU: [
+        { month: 2, term: "T1 · 上学期" },
+        { month: 7, term: "T2 · 下学期" },
+    ],
+    NZ: [{ month: 2, term: "S1 · 上学期" }],
+    HK: [{ month: 9, term: "Fall · 秋季" }],
+    SG: [{ month: 8, term: "Sem 1 · 秋季" }],
+};
+
+function buildIntakeOptions(
+    programs: ReadonlyArray<PickableProgram>,
+): readonly IntakeOption[] {
+    // Collect the union of (month, term) pairs across the user's recommended
+    // countries. If a country has not surfaced in any recommendation, ignore
+    // it so we do not present a meaningless option (e.g. AU T2 to someone
+    // looking only at UK programs).
+    const countries = new Set<Country>();
+    for (const p of programs) {
+        if (p.countryCode) countries.add(p.countryCode);
+    }
+    const monthTerms = new Map<number, Set<string>>();
+    for (const c of countries) {
+        for (const m of COUNTRY_INTAKES[c]) {
+            const labels = monthTerms.get(m.month) ?? new Set<string>();
+            labels.add(m.term);
+            monthTerms.set(m.month, labels);
+        }
+    }
+    // If we have no country info (defensive), fall back to a sensible default.
+    if (monthTerms.size === 0) {
+        monthTerms.set(9, new Set(["Fall · 秋季"]));
+        monthTerms.set(2, new Set(["T1 · 上学期"]));
+    }
+
+    // Generate the next two intake cycles from the current month.
     const now = new Date();
-    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
     const list: IntakeOption[] = [];
-    for (let i = 0; i < 18; i += 1) {
+    for (let i = 0; i < 24; i += 1) {
         const d = new Date(
-            Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1),
+            Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + i, 1),
         );
-        const y = d.getUTCFullYear();
-        const m = d.getUTCMonth() + 1;
-        const value = `${y}-${String(m).padStart(2, "0")}`;
-        const label = `${y} 年 ${m} 月`;
+        const month = d.getUTCMonth() + 1;
+        const terms = monthTerms.get(month);
+        if (!terms) continue;
+        const year = d.getUTCFullYear();
+        const value = `${year}-${String(month).padStart(2, "0")}`;
+        const label = `${year} 年 ${month} 月 · ${[...terms].join(" / ")}`;
         list.push({ value, label });
     }
     return list;
