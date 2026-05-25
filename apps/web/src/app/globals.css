@@ -78,3 +78,5 @@ body {
   font-family: var(--font-en), var(--font-zh);
   -webkit-font-smoothing: antialiased;
 }
+@keyframes chatDot { 0%, 80%, 100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-3px); opacity: 1; } }
+

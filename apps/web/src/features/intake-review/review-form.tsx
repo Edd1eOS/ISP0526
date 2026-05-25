@@ -392,8 +392,9 @@ export function ReviewForm({
                         <input
                             type="number"
                             name="annual_budget_aud"
-                            step="1000"
+                            step="1"
                             min="0"
+                            inputMode="numeric"
                             placeholder="70000"
                             value={values.annual_budget_aud}
                             onChange={(e) => {

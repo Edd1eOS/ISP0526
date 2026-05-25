@@ -1,225 +1,429 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    useTransition,
+} from "react";
 import { trackEvent } from "../../lib/analytics/track";
-import { startIntakeFromTextAction } from "../intake-upload/upload-actions";
+import {
+    chatIntakeTurnAction,
+    finalizeChatIntakeAction,
+    type ChatMessage,
+} from "./chat-actions";
+import { MIN_SUPPORTING_SIGNALS } from "./chat-prompt";
+import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
 
-interface Prompt {
+interface Bubble {
     readonly id: string;
-    readonly title: string;
-    readonly subtitle: string;
-    readonly placeholder: string;
-    readonly hints: ReadonlyArray<string>;
+    readonly role: "assistant" | "user";
+    readonly content: string;
 }
 
-const PROMPTS: ReadonlyArray<Prompt> = [
-    {
-        id: "background",
-        title: "你现在的学习/学术背景？",
-        subtitle: "用一段话告诉我，越具体越好。",
-        placeholder:
-            "例：我在上海读大三，金融专业，GPA 3.6/4.0，雅思 6.5（小分 6.0）。\n大学期间做过一段券商研究所的实习，参与过 ESG 评级相关的研究。",
-        hints: ["专业 / 学校", "GPA", "语言成绩", "实习 / 项目经历"],
-    },
-    {
-        id: "goal",
-        title: "你想去读什么？为什么？",
-        subtitle: "申请方向、国家、心仪学校，想到哪写到哪。",
-        placeholder:
-            "例：想出国读研，目标是商科相关，特别是金融或商业分析。\n首选英语国家，希望毕业后能在当地试试工作机会。\n比较关注综合实力强的院校。",
-        hints: ["目标国家 / 城市", "学位层次", "专业方向", "动机 / 期待"],
-    },
-    {
-        id: "constraints",
-        title: "现实条件和偏好？",
-        subtitle: "预算、地点、住宿、节奏——把限制说清楚，AI 才能帮你筛。",
-        placeholder:
-            "例：家里能支持的预算大概一年 30-35 万人民币（学费+生活费）。\n更喜欢大城市，怕太安静的地方。希望两年内毕业，不太想读三年。",
-        hints: ["年预算", "城市规模", "时长偏好", "教学方式"],
-    },
-];
+function uid(): string {
+    return Math.random().toString(36).slice(2, 10);
+}
+
+function countSignals(p: ClarifyPatch): number {
+    let n = 0;
+    if (p.target_field) n += 1;
+    if (p.annual_budget_aud) n += 1;
+    if (p.preferred_tags && p.preferred_tags.length > 0) n += 1;
+    if (p.gpa !== undefined) n += 1;
+    if (p.ielts_overall !== undefined) n += 1;
+    if (p.teaching_style) n += 1;
+    if (p.city_size) n += 1;
+    return n;
+}
 
 export function ChatIntake() {
-    const router = useRouter();
-    const [step, setStep] = useState(0);
-    const [answers, setAnswers] = useState<Record<string, string>>({});
-    const [submitting, setSubmitting] = useState(false);
+    const [bubbles, setBubbles] = useState<ReadonlyArray<Bubble>>([]);
+    const [accumulated, setAccumulated] = useState<ClarifyPatch>({});
+    const [quickReplies, setQuickReplies] = useState<ReadonlyArray<string>>(
+        [],
+    );
+    const [done, setDone] = useState(false);
+    const [draft, setDraft] = useState("");
+    const [pending, startTransition] = useTransition();
+    const [finalizing, setFinalizing] = useState(false);
+    const [degraded, setDegraded] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const openedRef = useRef(false);
+    const scrollerRef = useRef<HTMLDivElement | null>(null);
 
-    const total = PROMPTS.length;
-    const current = PROMPTS[step]!;
-    const value = answers[current.id] ?? "";
-    const isLast = step === total - 1;
-    const filledCount = PROMPTS.filter((p) => (answers[p.id] ?? "").trim().length > 0).length;
-    const canAdvance = value.trim().length >= 4;
+    const signals = useMemo(() => countSignals(accumulated), [accumulated]);
+    const hasLevel = Boolean(accumulated.target_level);
+    const canFinalize = hasLevel && signals >= MIN_SUPPORTING_SIGNALS;
 
-    const next = () => {
-        if (!canAdvance) return;
-        if (isLast) {
-            void submit();
-        } else {
-            setStep((s) => Math.min(s + 1, total - 1));
-        }
-    };
-    const back = () => setStep((s) => Math.max(s - 1, 0));
+    useEffect(() => {
+        const el = scrollerRef.current;
+        if (!el) return;
+        el.scrollTop = el.scrollHeight;
+    }, [bubbles, pending]);
 
-    const submit = async () => {
-        setSubmitting(true);
-        setError(null);
-        trackEvent("intake_submitted", { channel: "chat" });
-        try {
-            const transcript = PROMPTS
-                .map((p) => {
-                    const a = (answers[p.id] ?? "").trim();
-                    if (!a) return null;
-                    return `Q: ${p.title}\nA: ${a}`;
-                })
-                .filter((x): x is string => x !== null)
-                .join("\n\n");
-
-            const label = `自述聊天 · ${new Date().toLocaleDateString("zh-CN")}`;
-            const result = await startIntakeFromTextAction({
-                source: "chat",
-                label,
-                text: transcript,
+    const sendTurn = useCallback(
+        (history: ReadonlyArray<Bubble>, patch: ClarifyPatch) => {
+            const messages: ChatMessage[] = history.map((b) => ({
+                role: b.role,
+                content: b.content,
+            }));
+            startTransition(async () => {
+                setError(null);
+                try {
+                    const r = await chatIntakeTurnAction({
+                        messages,
+                        accumulated: patch,
+                    });
+                    if (!r.ok) {
+                        setError(r.error ?? "出错了，再试一次？");
+                        return;
+                    }
+                    if (r.degraded) setDegraded(true);
+                    if (r.patch) {
+                        setAccumulated((prev) => ({ ...prev, ...r.patch }));
+                    }
+                    if (r.reply) {
+                        setBubbles((prev) => [
+                            ...prev,
+                            {
+                                id: uid(),
+                                role: "assistant",
+                                content: r.reply!,
+                            },
+                        ]);
+                    }
+                    setQuickReplies(r.quickReplies ?? []);
+                    if (r.done) setDone(true);
+                } catch (cause) {
+                    // eslint-disable-next-line no-console
+                    console.error("[chat-intake] turn failed", cause);
+                    setError("网络好像不太顺，再试一次？");
+                }
             });
-            if (!result.ok || !result.sessionId) {
-                setError(result.error ?? "抽取失败，请再试一次。");
-                setSubmitting(false);
-                return;
-            }
-            router.push(`/intake/review/${result.sessionId}`);
-        } catch (cause) {
-            // eslint-disable-next-line no-console
-            console.error("[chat-intake] submit failed", cause);
-            setError("出错了，再试一次？");
-            setSubmitting(false);
-        }
+        },
+        [],
+    );
+
+    useEffect(() => {
+        if (openedRef.current) return;
+        openedRef.current = true;
+        trackEvent("intake_step_start", { channel: "chat", step: 0 });
+        sendTurn([], {});
+    }, [sendTurn]);
+
+    const pushUser = (text: string) => {
+        const trimmed = text.trim();
+        if (!trimmed) return;
+        const userBubble: Bubble = {
+            id: uid(),
+            role: "user",
+            content: trimmed,
+        };
+        const nextHistory = [...bubbles, userBubble];
+        setBubbles(nextHistory);
+        setQuickReplies([]);
+        setDraft("");
+        sendTurn(nextHistory, accumulated);
     };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (pending || done) return;
+        pushUser(draft);
+    };
+
+    const onFinalize = () => {
+        if (!canFinalize || finalizing) return;
+        setFinalizing(true);
+        trackEvent("intake_submitted", { channel: "chat" });
+        startTransition(async () => {
+            try {
+                await finalizeChatIntakeAction(accumulated);
+            } catch (cause) {
+                if (
+                    cause &&
+                    typeof cause === "object" &&
+                    "digest" in cause &&
+                    typeof (cause as { digest: unknown }).digest === "string" &&
+                    (cause as { digest: string }).digest.startsWith(
+                        "NEXT_REDIRECT",
+                    )
+                ) {
+                    return;
+                }
+                // eslint-disable-next-line no-console
+                console.error("[chat-intake] finalize failed", cause);
+                setError("生成报告失败，请再试一次。");
+                setFinalizing(false);
+            }
+        });
+    };
+
+    const progressPct = Math.min(
+        100,
+        Math.round(
+            (((hasLevel ? 1 : 0) + signals) / (1 + MIN_SUPPORTING_SIGNALS)) *
+                100,
+        ),
+    );
 
     return (
-        <div className="mx-auto w-full max-w-2xl space-y-6">
-            <div className="flex items-center justify-center gap-2">
-                {PROMPTS.map((p, i) => {
-                    const reached = i <= step;
-                    const filled = (answers[p.id] ?? "").trim().length > 0;
-                    return (
-                        <button
-                            key={p.id}
-                            type="button"
-                            onClick={() => setStep(i)}
-                            aria-label={`跳到第 ${i + 1} 步`}
-                            className="h-2.5 transition-all"
-                            style={{
-                                width: i === step ? 28 : 10,
-                                borderRadius: 999,
-                                background: filled
-                                    ? "var(--gradient-primary)"
-                                    : reached
-                                        ? "var(--color-text-muted)"
-                                        : "var(--color-surface-alt)",
-                                opacity: filled ? 1 : 0.6,
-                            }}
-                        />
-                    );
-                })}
+        <div
+            className="mx-auto flex w-full max-w-2xl flex-col"
+            style={{
+                height: "min(80vh, 720px)",
+                background: "var(--color-surface)",
+                borderRadius: "var(--radius-card-md)",
+                boxShadow: "var(--shadow-clay-card)",
+                overflow: "hidden",
+            }}
+        >
+            <header
+                className="flex items-center justify-between gap-3 px-5 py-3"
+                style={{
+                    background: "var(--color-surface-alt)",
+                    borderBottom: "1px solid rgba(0,0,0,0.04)",
+                }}
+            >
+                <div className="flex items-center gap-3">
+                    <div
+                        aria-hidden
+                        className="flex h-9 w-9 items-center justify-center text-sm font-semibold"
+                        style={{
+                            background: "var(--gradient-primary)",
+                            color: "var(--color-text-on-primary)",
+                            borderRadius: 999,
+                        }}
+                    >
+                        AI
+                    </div>
+                    <div className="leading-tight">
+                        <p className="text-text text-sm font-semibold">
+                            留学顾问助手
+                        </p>
+                        <p className="text-text-muted text-[11px]">
+                            {degraded
+                                ? "AI 暂时离线，已切到兜底问句"
+                                : "在线，按你的节奏聊"}
+                        </p>
+                    </div>
+                </div>
+                <button
+                    type="button"
+                    onClick={onFinalize}
+                    disabled={!canFinalize || finalizing}
+                    className="text-xs font-semibold transition-opacity disabled:opacity-40"
+                    style={{
+                        background: canFinalize
+                            ? "var(--gradient-primary)"
+                            : "var(--color-surface)",
+                        color: canFinalize
+                            ? "var(--color-text-on-primary)"
+                            : "var(--color-text-muted)",
+                        borderRadius: "var(--radius-button)",
+                        padding: "6px 12px",
+                        boxShadow: canFinalize
+                            ? "var(--shadow-clay-primary)"
+                            : "none",
+                    }}
+                >
+                    {finalizing ? "生成中…" : "直接看推荐"}
+                </button>
+            </header>
+
+            <div
+                className="h-1"
+                style={{ background: "var(--color-surface-alt)" }}
+                aria-hidden
+            >
+                <div
+                    className="h-full transition-all"
+                    style={{
+                        width: `${progressPct}%`,
+                        background: "var(--gradient-primary)",
+                    }}
+                />
             </div>
 
             <div
-                key={current.id}
-                className="card-slide-in p-7 sm:p-8"
-                style={{
-                    background: "var(--color-surface)",
-                    borderRadius: "var(--radius-card-md)",
-                    boxShadow: "var(--shadow-clay-card)",
-                }}
+                ref={scrollerRef}
+                className="flex-1 space-y-3 overflow-y-auto px-4 py-5 sm:px-5"
             >
-                <div className="space-y-2">
-                    <span className="text-text-muted text-xs uppercase tracking-widest">
-                        第 {step + 1} / {total} 问
-                    </span>
-                    <h2 className="text-text text-2xl font-semibold">{current.title}</h2>
-                    <p className="text-text-muted text-sm">{current.subtitle}</p>
-                </div>
+                {bubbles.map((b) => (
+                    <BubbleRow key={b.id} bubble={b} />
+                ))}
+                {pending ? <TypingBubble /> : null}
+                {error ? (
+                    <p
+                        className="text-center text-xs"
+                        style={{ color: "var(--color-danger)" }}
+                    >
+                        {error}
+                    </p>
+                ) : null}
+            </div>
 
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                    {current.hints.map((h) => (
-                        <span
-                            key={h}
-                            className="text-text-muted px-2 py-0.5 text-[11px]"
+            {quickReplies.length > 0 && !done ? (
+                <div
+                    className="flex flex-wrap gap-2 px-4 pb-2 pt-1 sm:px-5"
+                    role="group"
+                    aria-label="快捷回复"
+                >
+                    {quickReplies.map((q) => (
+                        <button
+                            key={q}
+                            type="button"
+                            disabled={pending}
+                            onClick={() => pushUser(q)}
+                            className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
                             style={{
                                 background: "var(--color-surface-alt)",
                                 borderRadius: 999,
+                                boxShadow: "var(--shadow-clay-raised)",
                             }}
                         >
-                            {h}
-                        </span>
+                            {q}
+                        </button>
                     ))}
                 </div>
+            ) : null}
 
+            <form
+                onSubmit={onSubmit}
+                className="flex items-end gap-2 border-t px-4 py-3 sm:px-5"
+                style={{ borderColor: "rgba(0,0,0,0.04)" }}
+            >
                 <textarea
-                    value={value}
-                    onChange={(e) =>
-                        setAnswers((prev) => ({ ...prev, [current.id]: e.target.value }))
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (
+                            e.key === "Enter" &&
+                            !e.shiftKey &&
+                            !e.nativeEvent.isComposing
+                        ) {
+                            e.preventDefault();
+                            onSubmit(e);
+                        }
+                    }}
+                    placeholder={
+                        done
+                            ? "已经聊够了，可以看推荐了"
+                            : "写点什么…（Shift+Enter 换行）"
                     }
-                    placeholder={current.placeholder}
-                    rows={8}
-                    className="text-text mt-5 w-full resize-y p-4 text-sm leading-relaxed outline-none transition-shadow focus:shadow-[var(--shadow-clay-primary)]"
+                    rows={1}
+                    disabled={pending || done}
+                    className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
                     style={{
                         background: "var(--color-surface-alt)",
                         borderRadius: "var(--radius-card-sm)",
                         boxShadow: "var(--shadow-clay-inset)",
+                        maxHeight: 120,
                     }}
                 />
+                <button
+                    type="submit"
+                    disabled={
+                        pending || done || draft.trim().length === 0
+                    }
+                    className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
+                    style={{
+                        background: "var(--gradient-primary)",
+                        borderRadius: "var(--radius-button)",
+                        boxShadow: "var(--shadow-clay-primary)",
+                        color: "var(--color-text-on-primary)",
+                    }}
+                >
+                    发送
+                </button>
+            </form>
 
-                <div className="text-text-muted mt-2 text-[11px]">
-                    {value.trim().length === 0
-                        ? "至少写一两句，AI 才能抓到信号。"
-                        : value.trim().length < 4
-                            ? "再多说一点？"
-                            : `${value.trim().length} 字`}
-                </div>
-
-                {error ? (
-                    <p className="mt-3 text-sm" style={{ color: "var(--color-danger)" }}>
-                        {error}
-                    </p>
-                ) : null}
-
-                <div className="mt-6 flex items-center justify-between gap-3">
+            {done ? (
+                <div
+                    className="border-t px-4 py-3 sm:px-5"
+                    style={{ borderColor: "rgba(0,0,0,0.04)" }}
+                >
                     <button
                         type="button"
-                        onClick={back}
-                        disabled={step === 0 || submitting}
-                        className="text-text-muted px-4 py-2 text-sm font-medium transition-opacity disabled:opacity-30"
-                    >
-                        上一题
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={next}
-                        disabled={!canAdvance || submitting}
-                        className="text-text-on-primary px-5 py-2.5 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-50"
+                        onClick={onFinalize}
+                        disabled={finalizing}
+                        className="w-full px-4 py-3 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-60"
                         style={{
                             background: "var(--gradient-primary)",
                             borderRadius: "var(--radius-button)",
                             boxShadow: "var(--shadow-clay-primary)",
+                            color: "var(--color-text-on-primary)",
                         }}
                     >
-                        {submitting
-                            ? "AI 整理中…"
-                            : isLast
-                                ? `生成报告（已填 ${filledCount}/${total}）`
-                                : "下一题"}
+                        {finalizing ? "生成中…" : "查看我的推荐"}
                     </button>
                 </div>
-            </div>
-
-            <p className="text-text-muted text-center text-xs">
-                想跳过某题？点上方圆点直接跳。AI 会用你写的内容抽取字段，下一步可以核对。
-            </p>
+            ) : null}
         </div>
+    );
+}
+
+function BubbleRow({ bubble }: { bubble: Bubble }) {
+    const mine = bubble.role === "user";
+    return (
+        <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+            <div
+                className="max-w-[78%] whitespace-pre-wrap break-words px-3.5 py-2 text-sm leading-relaxed"
+                style={{
+                    background: mine
+                        ? "var(--gradient-primary)"
+                        : "var(--color-surface-alt)",
+                    color: mine
+                        ? "var(--color-text-on-primary)"
+                        : "var(--color-text)",
+                    borderRadius: mine
+                        ? "18px 18px 4px 18px"
+                        : "18px 18px 18px 4px",
+                    boxShadow: mine
+                        ? "var(--shadow-clay-primary)"
+                        : "var(--shadow-clay-raised)",
+                }}
+            >
+                {bubble.content}
+            </div>
+        </div>
+    );
+}
+
+function TypingBubble() {
+    return (
+        <div className="flex justify-start">
+            <div
+                className="flex items-center gap-1 px-3.5 py-2"
+                style={{
+                    background: "var(--color-surface-alt)",
+                    borderRadius: "18px 18px 18px 4px",
+                    boxShadow: "var(--shadow-clay-raised)",
+                }}
+                aria-label="AI 正在输入"
+            >
+                <Dot delay="0ms" />
+                <Dot delay="160ms" />
+                <Dot delay="320ms" />
+            </div>
+        </div>
+    );
+}
+
+function Dot({ delay }: { delay: string }) {
+    return (
+        <span
+            className="block h-1.5 w-1.5"
+            style={{
+                background: "var(--color-text-muted)",
+                borderRadius: 999,
+                animation: "chatDot 1.2s ease-in-out infinite",
+                animationDelay: delay,
+                opacity: 0.6,
+            }}
+        />
     );
 }
