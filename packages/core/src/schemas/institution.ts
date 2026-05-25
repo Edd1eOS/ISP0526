@@ -80,6 +80,23 @@ export const TuitionSchema = z.object({
 });
 export type Tuition = z.infer<typeof TuitionSchema>;
 
+// ISO-8601 calendar date (YYYY-MM-DD). Times of day intentionally omitted.
+const isoDate = z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/u, "expected YYYY-MM-DD");
+
+// Optional program-specific timeline milestones. Populated only when sourced
+// from the program's official admissions page; otherwise consumers fall back
+// to the country-level calendar template.
+export const ProgramDeadlinesSchema = z.object({
+    application_open: isoDate.optional(),
+    application_deadline: isoDate.optional(),
+    decision_by: isoDate.optional(),
+    deposit_deadline: isoDate.optional(),
+    intake_start: isoDate.optional(),
+});
+export type ProgramDeadlines = z.infer<typeof ProgramDeadlinesSchema>;
+
 export const ProgramSchema = z.object({
     id: ProgramIdSchema,
     university_id: UniversityIdSchema,
@@ -95,6 +112,7 @@ export const ProgramSchema = z.object({
     tags: z.array(ProgramTagSchema).default([]),
     // Soft hint at applied vs theoretical; modulates personality fit.
     applied_ratio: unitInterval,
+    deadlines: ProgramDeadlinesSchema.optional(),
     sources: z.array(SourceCitationSchema).min(1),
 });
 export type Program = z.infer<typeof ProgramSchema>;

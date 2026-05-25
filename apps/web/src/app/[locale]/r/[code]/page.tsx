@@ -10,8 +10,6 @@ import type {
 } from "@isp0526/core";
 import { getVisaRoutes } from "@isp0526/core";
 import { loadReport } from "../../../../lib/report-store";
-import { ReportChat } from "../../../../features/report/report-chat";
-import { ContactCard } from "../../../../features/report/contact-card";
 import {
     BottlesGrid,
     type BottleCard,
@@ -247,16 +245,34 @@ export default async function ReportPage({ params }: ReportPageProps) {
                     routes={routes}
                     countryLabels={COUNTRY_LABEL}
                 />
-                <ReportChat code={snapshot.code} />
-                <ContactCard
-                    code={snapshot.code}
-                    labels={{
-                        title: t("contactCard.title"),
-                        body: t("contactCard.body"),
-                        cta: t("contactCard.cta"),
-                        idLabel: t("contactCard.idLabel"),
+                <div
+                    className="flex flex-col items-start gap-3 px-5 py-5 sm:flex-row sm:items-center sm:justify-between"
+                    style={{
+                        background: "var(--gradient-raised)",
+                        borderRadius: "var(--radius-card)",
+                        boxShadow: "var(--shadow-clay-card)",
                     }}
-                />
+                >
+                    <div className="space-y-1">
+                        <h2 className="text-text text-base font-semibold">
+                            选 6 所，拼出你的投递方案
+                        </h2>
+                        <p className="text-text-muted text-xs">
+                            2 冲 / 3 稳 / 1 保。自动排时间轴与资料清单。
+                        </p>
+                    </div>
+                    <Link
+                        href={`/r/${snapshot.code}/select`}
+                        className="px-4 py-2 text-sm font-semibold text-white transition-transform active:scale-95"
+                        style={{
+                            background: "var(--gradient-primary)",
+                            borderRadius: "var(--radius-button)",
+                            boxShadow: "var(--shadow-clay-raised)",
+                        }}
+                    >
+                        制定方案
+                    </Link>
+                </div>
                 <p className="text-text-muted text-xs">
                     {t("expiryNote", {
                         date: expiredAt.toLocaleDateString(

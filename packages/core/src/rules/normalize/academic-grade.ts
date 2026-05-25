@@ -85,6 +85,7 @@ function parseAlevel(raw: string): { value: number; confidence: number } | null 
     const upper = raw.toUpperCase();
     while (i < upper.length) {
         const ch = upper[i];
+        if (ch === undefined) break;
         if (ch === "A" && upper[i + 1] === "*") {
             tokens.push("A*");
             i += 2;

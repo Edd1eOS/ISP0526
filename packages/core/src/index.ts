@@ -10,6 +10,7 @@ export * from "./rules/thresholds";
 export * from "./rules/bands";
 export * from "./rules/normalize/academic-grade";
 export * from "./data/index";
+export * from "./data/country-calendar";
 export * from "./ai/index";
 export * from "./ai/templates/narrative-template";
 export * from "./reports/code";

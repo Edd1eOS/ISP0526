@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-05-25 — Plan page (selection + pyramid + timeline + checklist)
+
+- `feat(plan)`: 新增 `/r/[code]/select` 选校页（2 冲 / 3 稳 / 1 保），跳转 `/r/[code]/plan?picks=...`
+- `feat(plan)`: 方案页含金字塔布局 + 向下箭头优先级 + 时间轴滑块 + 资料清单
+- `feat(core)`: ProgramSchema 增加可选 `deadlines`；新增 country-calendar 兜底
+- `feat(ai)`: PlanChecklistSchema + adapter，LLM 生成的清单走 Zod 校验
+- `chore(report)`: 报告页移除追问区与 ContactCard，新增"制定方案" CTA
+
 ## v0.0.0 — Baseline（仓库初始化）
 
 | 日期 | 类型 | 摘要 | PR |
