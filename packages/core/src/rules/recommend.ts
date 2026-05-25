@@ -105,8 +105,8 @@ function fillEmptyBands(scored: readonly Score[]): Score[] {
             i < stretchSize
                 ? "stretch"
                 : i >= n - safetySize
-                  ? "safety"
-                  : "match";
+                    ? "safety"
+                    : "match";
         return { ...s, band };
     });
 }

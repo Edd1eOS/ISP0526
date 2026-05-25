@@ -12,3 +12,16 @@ export * from "./adapters/narrative";
 export * from "./adapters/narrative-batch";
 export * from "./prompts/intake-extraction";
 export * from "./adapters/intake-extraction";
+export {
+    ChatCitationSchema,
+    ReportChatReplySchema,
+    type ChatCitation,
+    type ReportChatReply,
+    type ReportChatContextProgram,
+    type ReportChatVisaContext,
+    type ReportChatPromptInput,
+} from "./prompts/report-chat";
+export {
+    generateReportChatReply,
+    type ReportChatAdapterInput,
+} from "./adapters/report-chat";
