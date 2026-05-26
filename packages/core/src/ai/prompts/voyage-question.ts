@@ -455,8 +455,10 @@ export type VoyageQuestion = z.infer<typeof VoyageQuestionSchema>;
 export const VoyageTurnSchema = z
     .object({
         // One short sentence confirming what the user said last turn.
-        // Empty allowed on the very first turn when there is no answer yet.
-        affirmation: z.string().max(120),
+        // Empty allowed on the very first turn when there is no answer
+        // yet, and some models omit the field outright in that case, so
+        // we default it to "" rather than fail the whole turn.
+        affirmation: z.string().max(120).optional().default(""),
         // Partial profile patch derived from the user's last answer +
         // upload summaries + prior turns. Empty object allowed.
         patch: VoyageProfileSchema,
