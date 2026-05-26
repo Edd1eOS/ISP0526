@@ -14,8 +14,12 @@ import {
     type GenerateObjectFn,
 } from "@isp0526/core";
 
+// gemini-2.5-flash-lite has a much higher free-tier daily quota
+// (~1000 RPD) than gemini-2.5-flash (~20 RPD) and is more than capable
+// for the structured-JSON workloads in this app. Override via
+// GOOGLE_TEXT_MODEL_ID if you need the larger model.
 const GOOGLE_MODEL_ID =
-    process.env.GOOGLE_TEXT_MODEL_ID || "gemini-2.5-flash";
+    process.env.GOOGLE_TEXT_MODEL_ID || "gemini-2.5-flash-lite";
 // Default model must support response_format: json_schema. See
 // https://console.groq.com/docs/structured-outputs#supported-models
 // gpt-oss-120b: better Chinese instruction following than 20b, still cheap.
