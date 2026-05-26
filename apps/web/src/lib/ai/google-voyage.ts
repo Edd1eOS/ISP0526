@@ -16,6 +16,85 @@ import { generateText } from "ai";
 import { VoyageTurnSchema, type GenerateObjectFn } from "@isp0526/core";
 import { runTextWithFallback } from "./google-narrative";
 
+// Best-effort repair of common schema drift in LLM JSON output before
+// running Zod validation. Handles: null fields where a typed value is
+// expected, scalar values where arrays are expected, oversized arrays,
+// empty objects in place of optionals. Anything we can't fix is left
+// alone so the schema error still surfaces honestly.
+type JsonObj = Record<string, unknown>;
+
+function isObject(v: unknown): v is JsonObj {
+    return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+// Known fields under VoyageProfile (patch) that must be arrays. If the
+// model returns a single string, wrap it; if it returns null, drop it.
+const PATCH_ARRAY_FIELDS = new Set<string>([
+    "notes",
+]);
+
+// Recursively drop null values from any object. Zod treats `undefined`
+// (missing) as optional, but `null` as a type mismatch for non-nullable
+// fields. Models often emit `null` to mean "no value here".
+function stripNullsDeep(value: unknown): unknown {
+    if (Array.isArray(value)) {
+        return value
+            .map(stripNullsDeep)
+            .filter((v) => v !== undefined && v !== null);
+    }
+    if (isObject(value)) {
+        const out: JsonObj = {};
+        for (const [k, v] of Object.entries(value)) {
+            if (v === null) continue;
+            const cleaned = stripNullsDeep(v);
+            if (cleaned !== undefined) out[k] = cleaned;
+        }
+        return out;
+    }
+    return value;
+}
+
+function sanitizeVoyageTurn(input: unknown): unknown {
+    if (!isObject(input)) return input;
+    // Strip all `null` recursively first; saves a dozen targeted fixes.
+    const obj = stripNullsDeep(input) as JsonObj;
+
+    // question: must be an object with required fields, or absent.
+    const q = obj.question;
+    if (q !== undefined) {
+        if (!isObject(q) || Object.keys(q).length === 0) {
+            delete obj.question;
+        } else {
+            // Truncate oversize options array (schema caps at 6).
+            if (Array.isArray(q.options) && q.options.length > 6) {
+                q.options = q.options.slice(0, 6);
+            }
+            // Drop empty options array (schema requires min 2 when present).
+            if (Array.isArray(q.options) && q.options.length < 2) {
+                delete q.options;
+            }
+        }
+    }
+
+    // patch: must be an object. Coerce string → [string] for known
+    // array-typed fields. Drop scalars where objects are expected.
+    const patch = obj.patch;
+    if (patch !== undefined) {
+        if (!isObject(patch)) {
+            obj.patch = {};
+        } else {
+            for (const field of PATCH_ARRAY_FIELDS) {
+                const v = patch[field];
+                if (typeof v === "string") {
+                    patch[field] = [v];
+                }
+            }
+        }
+    }
+
+    return obj;
+}
+
 // Extract the first balanced {...} block from a free-form string.
 // Handles common LLM verbosity: ```json fences, leading prose, trailing
 // commentary. Returns the raw substring (still unparsed) or null.
@@ -71,7 +150,7 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 "voyage: model did not return a JSON object (no {...} block found in response).",
             );
         }
-        let parsed: any;
+        let parsed: unknown;
         try {
             parsed = JSON.parse(raw);
         } catch (cause) {
@@ -79,61 +158,7 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 `voyage: model JSON failed to parse: ${cause instanceof Error ? cause.message : String(cause)}`,
             );
         }
-        // --- AUTO-FIX: 修正常见 LLM schema 错误 ---
-        // 1. question: null/{} → undefined
-        if (parsed && typeof parsed.question === "object" && parsed.question && Object.keys(parsed.question).length === 0) {
-            parsed.question = undefined;
-        }
-        if (parsed && parsed.question === null) {
-            parsed.question = undefined;
-        }
-        // 2. patch.stage.current_education: null → "other"
-        if (parsed && parsed.patch && parsed.patch.stage && parsed.patch.stage.current_education == null) {
-            parsed.patch.stage.current_education = "other";
-        }
-        // 3. patch.stage: null → undefined
-        if (parsed && parsed.patch && parsed.patch.stage === null) {
-            delete parsed.patch.stage;
-        }
-        // 4. patch: null → {}
-        if (parsed && parsed.patch === null) {
-            parsed.patch = {};
-        }
-        // 5. question.topic: null → "other"
-        if (parsed && parsed.question && parsed.question.topic == null) {
-            parsed.question.topic = "other";
-        }
-        // 6. question.kind: null → "free"
-        if (parsed && parsed.question && parsed.question.kind == null) {
-            parsed.question.kind = "free";
-        }
-        // 7. question.prompt: null → "Please clarify."
-        if (parsed && parsed.question && parsed.question.prompt == null) {
-            parsed.question.prompt = "Please clarify.";
-        }
-        // 8. question.options: null → undefined
-        if (parsed && parsed.question && parsed.question.options == null) {
-            delete parsed.question.options;
-        }
-        // 9. question.placeholder: null → undefined
-        if (parsed && parsed.question && parsed.question.placeholder == null) {
-            delete parsed.question.placeholder;
-        }
-        // 10. question.landmark: null → undefined
-        if (parsed && parsed.question && parsed.question.landmark == null) {
-            delete parsed.question.landmark;
-        }
-        // 11. patch.*: null → undefined (shallow)
-        if (parsed && parsed.patch && typeof parsed.patch === "object") {
-            for (const k of Object.keys(parsed.patch)) {
-                if (parsed.patch[k] === null) parsed.patch[k] = undefined;
-            }
-        }
-        // 12. question.options: 超过 6 个自动截断
-        if (parsed && parsed.question && Array.isArray(parsed.question.options) && parsed.question.options.length > 6) {
-            parsed.question.options = parsed.question.options.slice(0, 6);
-        }
-        // --- END AUTO-FIX ---
+        parsed = sanitizeVoyageTurn(parsed);
         const result = VoyageTurnSchema.safeParse(parsed);
         if (!result.success) {
             // Surface the first validation issue so the upstream retry

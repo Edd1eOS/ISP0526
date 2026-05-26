@@ -193,6 +193,17 @@ export function VoyageStage() {
     const uploadsRef = useRef<ReadonlyArray<VoyageUploadContext>>([]);
     const clarifyRef = useRef<ClarifyPatch>({});
     const bootedRef = useRef(false);
+    // Hold a stable ref to requestNext so the initial-boot useEffect
+    // below can call it without depending on declaration order (the
+    // useCallback that owns it is defined further down). React Compiler
+    // refuses to optimize when a function is read before its
+    // declaration in source order.
+    const requestNextRef = useRef<
+        ((args: {
+            readonly profile: VoyageProfile;
+            readonly history: ReadonlyArray<VoyageHistoryTurn>;
+        }) => void) | null
+    >(null);
 
     const turnIndex = history.length;
     const visualKind: WaypointKind = useMemo(
@@ -247,9 +258,13 @@ export function VoyageStage() {
         setVoyageProfile(profile);
         setHistory(hist);
 
-        void requestNext({
-            profile,
-            history: hist,
+        // Defer one tick so requestNextRef has been assigned by the
+        // later effect below (requestNextRef.current = requestNext).
+        queueMicrotask(() => {
+            requestNextRef.current?.({
+                profile,
+                history: hist,
+            });
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -317,6 +332,12 @@ export function VoyageStage() {
         },
         [],
     );
+
+    // Publish requestNext into the ref so the initial-boot useEffect
+    // can reach it without a TDZ violation in source order.
+    useEffect(() => {
+        requestNextRef.current = requestNext;
+    }, [requestNext]);
 
     const submitAnswer = useCallback(
         (raw: string) => {
