@@ -65,13 +65,62 @@ function sanitizeVoyageTurn(input: unknown): unknown {
         if (!isObject(q) || Object.keys(q).length === 0) {
             delete obj.question;
         } else {
+            // Backfill required fields the schema enforces. Models
+            // sometimes emit `null` (stripped above) or simply omit
+            // these; rather than reject the whole turn, give safe
+            // defaults so the user keeps moving.
+            if (typeof q.topic !== "string" || q.topic.length < 2) {
+                q.topic = "next_step";
+            }
+            if (typeof q.prompt !== "string" || q.prompt.length < 6) {
+                q.prompt = "Could you share a bit more about what matters most to you next?";
+            }
+            const validKinds = new Set([
+                "free",
+                "single_choice",
+                "multi_choice",
+                "scale",
+            ]);
+            if (typeof q.kind !== "string" || !validKinds.has(q.kind)) {
+                q.kind = "free";
+            }
+            // Coerce string options into {label, value} objects so a
+            // lazy model response still validates.
+            if (Array.isArray(q.options)) {
+                q.options = q.options
+                    .map((opt) => {
+                        if (typeof opt === "string") {
+                            return { label: opt, value: opt };
+                        }
+                        if (isObject(opt)) {
+                            const label =
+                                typeof opt.label === "string"
+                                    ? opt.label
+                                    : typeof opt.value === "string"
+                                        ? opt.value
+                                        : "";
+                            const value =
+                                typeof opt.value === "string"
+                                    ? opt.value
+                                    : label;
+                            if (!label || !value) return null;
+                            return { label, value };
+                        }
+                        return null;
+                    })
+                    .filter((opt): opt is { label: string; value: string } => opt !== null);
+            }
             // Truncate oversize options array (schema caps at 6).
             if (Array.isArray(q.options) && q.options.length > 6) {
                 q.options = q.options.slice(0, 6);
             }
-            // Drop empty options array (schema requires min 2 when present).
+            // Drop too-small options array (schema requires min 2 when present).
             if (Array.isArray(q.options) && q.options.length < 2) {
                 delete q.options;
+                // If kind required options but we lost them, fall back to free.
+                if (q.kind === "single_choice" || q.kind === "multi_choice") {
+                    q.kind = "free";
+                }
             }
         }
     }
@@ -159,7 +208,19 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
             );
         }
         parsed = sanitizeVoyageTurn(parsed);
-        const result = VoyageTurnSchema.safeParse(parsed);
+        let result = VoyageTurnSchema.safeParse(parsed);
+        if (!result.success && isObject(parsed)) {
+            // Last-resort recovery: a malformed `patch` should never kill
+            // the whole turn. Drop it and let the user keep sailing.
+            const firstPath = result.error.issues[0]?.path?.[0];
+            if (firstPath === "patch") {
+                const retry: JsonObj = { ...parsed, patch: {} };
+                const retryResult = VoyageTurnSchema.safeParse(retry);
+                if (retryResult.success) {
+                    result = retryResult;
+                }
+            }
+        }
         if (!result.success) {
             // Surface the first validation issue so the upstream retry
             // wrapper can decide whether to fall back / try again.
