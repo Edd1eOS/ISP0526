@@ -408,8 +408,7 @@ export const VoyageProfileSchema = z
         // Free-form notes the LLM wants to surface in the final report but
         // can't fit anywhere structured. Soft cap at 5 short bullets.
         notes: z.array(z.string().max(140)).max(5).optional(),
-    })
-    .strict();
+    });
 
 export type VoyageProfile = z.infer<typeof VoyageProfileSchema>;
 
@@ -449,8 +448,7 @@ export const VoyageQuestionSchema = z
             .optional(),
         placeholder: z.string().max(40).optional(),
         landmark: VoyageLandmark.optional(),
-    })
-    .strict();
+    });
 
 export type VoyageQuestion = z.infer<typeof VoyageQuestionSchema>;
 
@@ -467,8 +465,7 @@ export const VoyageTurnSchema = z
         done: z.boolean(),
         completeness: z.number().min(0).max(1),
         done_reason: z.string().max(200).optional(),
-    })
-    .strict();
+    });
 
 export type VoyageTurn = z.infer<typeof VoyageTurnSchema>;
 

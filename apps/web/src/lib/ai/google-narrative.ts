@@ -117,20 +117,35 @@ export function getTextModelCandidates(): ReadonlyArray<{
     return list;
 }
 
-// Heuristic: does this error look like a transient quota / rate-limit
-// from the upstream provider? If yes, the next candidate is worth
-// trying. Anything else (auth, schema validation, network) should NOT
-// silently swallow — re-throw so the caller surfaces it.
-function isQuotaError(err: unknown): boolean {
+// Heuristic: should we try the next provider when this error fires?
+// - Quota / rate-limit / overload: definitely.
+// - Schema-validation / "No object generated" failures from the AI SDK
+//   (small open-weight models like gpt-oss-120b sometimes emit JSON that
+//   doesn't fit the bound schema): yes, give the bigger frontier model a
+//   shot before failing the whole turn.
+// - Hard auth / config errors: NO, re-throw so the caller surfaces them.
+function isRetryableError(err: unknown): boolean {
     const msg =
         err instanceof Error
             ? err.message
             : typeof err === "string"
                 ? err
                 : "";
-    return /\b(rate.?limit|quota|429|TPD|RPD|tokens? per (day|minute)|over.?capacity|overloaded|try again)\b/i.test(
-        msg,
-    );
+    if (
+        /\b(rate.?limit|quota|429|TPD|RPD|tokens? per (day|minute)|over.?capacity|overloaded|try again)\b/i.test(
+            msg,
+        )
+    ) {
+        return true;
+    }
+    if (
+        /(no object generated|did not match schema|invalid json|response did not match|tool call validation|aitypevalidationerror)/i.test(
+            msg,
+        )
+    ) {
+        return true;
+    }
+    return false;
 }
 
 // Run a generate-text call against each configured provider in order.
@@ -153,10 +168,10 @@ export async function runTextWithFallback<T>(
         } catch (err) {
             lastErr = err;
             const isLast = i === candidates.length - 1;
-            if (isLast || !isQuotaError(err)) throw err;
+            if (isLast || !isRetryableError(err)) throw err;
             // eslint-disable-next-line no-console
             console.warn(
-                `[ai] provider ${cand.provider} (${cand.modelId}) hit quota / rate-limit; falling back to next provider.`,
+                `[ai] provider ${cand.provider} (${cand.modelId}) failed retryably; falling back to next provider. cause: ${err instanceof Error ? err.message : String(err)}`,
             );
         }
     }
