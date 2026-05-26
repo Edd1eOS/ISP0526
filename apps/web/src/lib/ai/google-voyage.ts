@@ -129,6 +129,10 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 if (parsed.patch[k] === null) parsed.patch[k] = undefined;
             }
         }
+        // 12. question.options: 超过 6 个自动截断
+        if (parsed && parsed.question && Array.isArray(parsed.question.options) && parsed.question.options.length > 6) {
+            parsed.question.options = parsed.question.options.slice(0, 6);
+        }
         // --- END AUTO-FIX ---
         const result = VoyageTurnSchema.safeParse(parsed);
         if (!result.success) {
