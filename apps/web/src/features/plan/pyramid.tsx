@@ -39,10 +39,10 @@ export function Pyramid({ cards }: PyramidProps) {
         readonly tier: PyramidCard["tier"];
         readonly items: readonly PyramidCard[];
     }> = [
-        { tier: "stretch", items: cards.filter((c) => c.tier === "stretch") },
-        { tier: "match", items: cards.filter((c) => c.tier === "match") },
-        { tier: "safety", items: cards.filter((c) => c.tier === "safety") },
-    ];
+            { tier: "stretch", items: cards.filter((c) => c.tier === "stretch") },
+            { tier: "match", items: cards.filter((c) => c.tier === "match") },
+            { tier: "safety", items: cards.filter((c) => c.tier === "safety") },
+        ];
 
     return (
         <div className="space-y-2">

@@ -27,11 +27,11 @@
         }
     },
     "landing": {
-        "sprintTag": "ISP0526 · sprint 0",
-        "heroSubtitle": "Warm claymorphism token preview. All visuals here are driven by CSS variables — no hardcoded colors or shadows.",
-        "cardTitle": "Card surface",
-        "cardBody": "A soft cream background carries the peach card. 40px corner radius and an outer halo shadow recreate the clay-like feel.",
-        "paletteTitle": "Palette"
+        "sprintTag": "ISP0526",
+        "heroTitle": "ISP0526",
+        "heroSubtitle": "Circle the globe and watch your next stop light up.",
+        "ctaStart": "Start your study-abroad quest",
+        "ctaSecondary": "See how it works"
     },
     "intakeHub": {
         "stepTag": "Step 1 · Pick a door",

@@ -130,9 +130,11 @@ export default async function PlanPage({ params, searchParams }: PlanPageProps) 
     }));
 
     const programNames: Record<string, string> = {};
+    const countries = new Set<string>();
     for (const r of resolved) {
         programNames[r.pick.programId] = r.candidate.university.name_zh ??
             r.candidate.university.name_en;
+        countries.add(r.candidate.university.country);
     }
 
     // Build a merged timeline from the country calendar template, grouped by
@@ -206,6 +208,7 @@ export default async function PlanPage({ params, searchParams }: PlanPageProps) 
                         checklist={checklistResult.checklist}
                         error={checklistResult.error}
                         programNames={programNames}
+                        countries={Array.from(countries)}
                     />
                 </section>
 
@@ -261,6 +264,7 @@ function buildTimeline(
                     date: iso,
                     programIds: [r.pick.programId],
                     note: cal.note_zh,
+                    kind: m.key,
                 });
             }
         }

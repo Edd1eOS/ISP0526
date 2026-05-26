@@ -27,17 +27,17 @@ const BIG_FIVE_LABELS: ReadonlyArray<{
     blurb: string;
     invert?: boolean;
 }> = [
-    { key: "extraversion", label: "外向性", blurb: "和人打交道、参与活动的能量" },
-    { key: "agreeableness", label: "宜人性", blurb: "合作、共情和给他人空间的倾向" },
-    { key: "conscientiousness", label: "尽责性", blurb: "计划性、自律和执行力" },
-    {
-        key: "neuroticism",
-        label: "情绪稳定性",
-        blurb: "面对压力时的稳态（数值越高越稳）",
-        invert: true,
-    },
-    { key: "openness", label: "开放性", blurb: "对新观念、新体验的兴趣" },
-];
+        { key: "extraversion", label: "外向性", blurb: "和人打交道、参与活动的能量" },
+        { key: "agreeableness", label: "宜人性", blurb: "合作、共情和给他人空间的倾向" },
+        { key: "conscientiousness", label: "尽责性", blurb: "计划性、自律和执行力" },
+        {
+            key: "neuroticism",
+            label: "情绪稳定性",
+            blurb: "面对压力时的稳态（数值越高越稳）",
+            invert: true,
+        },
+        { key: "openness", label: "开放性", blurb: "对新观念、新体验的兴趣" },
+    ];
 
 const RIASEC_LABELS: Record<RiasecDim, { label: string; blurb: string }> = {
     realistic: { label: "现实型 R", blurb: "动手操作、工具、机械、户外" },

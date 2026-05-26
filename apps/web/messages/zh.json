@@ -27,11 +27,11 @@
         }
     },
     "landing": {
-        "sprintTag": "ISP0526 · sprint 0",
-        "heroSubtitle": "Warm claymorphism token preview. All visuals here are driven by CSS variables — no hardcoded colors or shadows.",
-        "cardTitle": "卡片表面",
-        "cardBody": "柔和的奶米背景上，浅蜜桃卡片承载内容。圆角 40px，外部柔光投影模拟黏土质感。",
-        "paletteTitle": "调色板"
+        "sprintTag": "ISP0526",
+        "heroTitle": "ISP0526",
+        "heroSubtitle": "绕着地球，看你的下一站在哪里亮起。",
+        "ctaStart": "开启你的留学副本",
+        "ctaSecondary": "先看看是怎么工作的"
     },
     "intakeHub": {
         "stepTag": "Step 1 · 选个入口",

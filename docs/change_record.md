@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-05-26 — Landing globe (SVG scrolling strip, supersedes R3F attempt)
+
+- `feat(landing)`: Landing 页面 hero 改为纯 SVG 滚动地球——把等距矩形大陆条纹（含北美 / 中美 / 南美 / 欧亚 / 非洲 / 澳洲 + 不列颠 / 日本 / 马达加斯加 / 印尼 / 菲律宾 / 冰岛 / 斯里兰卡 / 古巴 / 塔斯曼尼亚 / 新西兰 + 南极 + 撒哈拉 / 亚马逊 / 刚果 / 阿拉伯沙漠 / 澳洲内陆 biomes + 落基 / 安第斯 / 阿尔卑斯 / 喜马拉雅山点）并排平铺两份，在圆形 clipPath 内做 36s 线性 `translateX(0 → -640)` 无缝循环，配合径向高光假装球面
+- `feat(landing)`: 地标黏土 SVG（埃菲尔铁塔 / 自由女神 / Silicon Valley 苹果环 + 棕榈 + 写字楼 / 富士山 + 塔 / 三只跳跃袋鼠 / 飞船）分 4 阶段在 24s 周期里轮流弹出，时序大致对齐当前可见区域
+- `feat(landing)`: 尊重 `prefers-reduced-motion`：停止条带滚动 / 袋鼠 / 飞船 / 弹出动画
+- `chore(deps)`: 移除 three、@react-three/fiber、@react-three/drei、@types/three（-47 包）；本次 hero 无新增运行时依赖
+- `docs(adr)`: 新增 ADR 0004（决定回到 SVG 方案），ADR 0003 标记为 Superseded
+
 ## 2026-05-25 — Plan page (selection + pyramid + timeline + checklist)
 
 - `feat(plan)`: 新增 `/r/[code]/select` 选校页（2 冲 / 3 稳 / 1 保），跳转 `/r/[code]/plan?picks=...`
