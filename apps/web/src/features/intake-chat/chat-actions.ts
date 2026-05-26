@@ -2,11 +2,19 @@
 
 import { generateText, Output } from "ai";
 import { redirect } from "next/navigation";
-import { StudentProfileSchema, type StudentProfile } from "@isp0526/core";
+import {
+    extractProfileFromText,
+    StudentProfileSchema,
+    type ExtractedProfile,
+    type StudentProfile,
+} from "@isp0526/core";
 import {
     getTextModel,
+    isGoogleConfigured,
     isLLMConfigured,
 } from "../../lib/ai/google-narrative";
+import { buildGoogleExtractionGenerator } from "../../lib/ai/google-extraction";
+import { enrichExtraction } from "../../lib/ai/intake-enricher";
 import { runReportFromProfile } from "../../lib/run-report";
 import {
     scoreAssessment,
@@ -16,6 +24,7 @@ import {
     type ClarifyPatch,
     type FormFieldKey,
 } from "../intake-clarify/clarify-schema";
+import { FIELD_OPTIONS } from "../intake/field-options";
 import {
     CHAT_PRIORITY,
     MIN_SUPPORTING_SIGNALS,
@@ -344,3 +353,115 @@ export async function finalizeChatIntakeAction(
     const { code } = await runReportFromProfile(profile);
     redirect(`/r/${code}`);
 }
+
+/* ---------------- Resume → ClarifyPatch (chat seeding) ----------------
+ *
+ * Used by the chat module when the student says "yes I have a resume" at
+ * the opening gate. Runs the same Gemini extractor + regex enricher as the
+ * upload flow, then maps the result onto the smaller ClarifyPatch shape so
+ * the chat FSM can lock the corresponding fields and skip those questions.
+ */
+
+const MAX_RESUME_CHARS = 60_000;
+
+export interface ResumeExtractResult {
+    readonly ok: boolean;
+    readonly patch?: ClarifyPatch;
+    readonly filledKeys?: ReadonlyArray<FormFieldKey>;
+    readonly llmUsed: boolean;
+    readonly error?: string;
+}
+
+export async function extractResumeForChatAction(
+    text: string,
+): Promise<ResumeExtractResult> {
+    const trimmed = (text ?? "").slice(0, MAX_RESUME_CHARS).trim();
+    if (trimmed.length === 0) {
+        return { ok: false, error: "empty text", llmUsed: false };
+    }
+
+    let extracted: ExtractedProfile = { academic: {}, budget: {} };
+    let llmUsed = false;
+
+    if (isGoogleConfigured()) {
+        try {
+            const r = await extractProfileFromText({
+                locale: "zh",
+                text: trimmed,
+                generate: buildGoogleExtractionGenerator(),
+            });
+            if (r.ok) {
+                extracted = r.value;
+                llmUsed = true;
+            } else {
+                // eslint-disable-next-line no-console
+                console.warn(
+                    "[intake-chat] resume extraction soft-failed:",
+                    r.error.kind,
+                    r.error.message,
+                );
+            }
+        } catch (cause) {
+            // eslint-disable-next-line no-console
+            console.warn(
+                "[intake-chat] resume extraction threw; falling back to regex enricher only",
+                cause,
+            );
+        }
+    }
+
+    const enriched = enrichExtraction(extracted, trimmed);
+    const { patch, filledKeys } = extractedToClarifyPatch(enriched);
+    return { ok: true, patch, filledKeys, llmUsed };
+}
+
+function matchFieldEnum(aiValue: string): string | undefined {
+    const q = aiValue.toLowerCase().trim();
+    if (!q) return undefined;
+    for (const opt of FIELD_OPTIONS) {
+        if (!opt.value) continue;
+        const v = opt.value.toLowerCase();
+        const l = opt.label.toLowerCase();
+        if (v.includes(q) || q.includes(v) || l.includes(q)) {
+            return opt.value;
+        }
+    }
+    return undefined;
+}
+
+function extractedToClarifyPatch(extracted: ExtractedProfile): {
+    patch: ClarifyPatch;
+    filledKeys: ReadonlyArray<FormFieldKey>;
+} {
+    const patch: Record<string, unknown> = {};
+    const filled: FormFieldKey[] = [];
+    const a = extracted.academic;
+    const b = extracted.budget;
+
+    if (a.target_level) {
+        patch.target_level = a.target_level.value;
+        filled.push("target_level");
+    }
+    if (a.target_field) {
+        const mapped = matchFieldEnum(a.target_field.value);
+        if (mapped) {
+            patch.target_field = mapped;
+            filled.push("target_field");
+        }
+    }
+    if (a.gpa) {
+        patch.gpa = a.gpa.value;
+        filled.push("gpa");
+    }
+    if (a.ielts_overall) {
+        patch.ielts_overall = a.ielts_overall.value;
+        filled.push("ielts_overall");
+    }
+    if (b.annual_aud) {
+        patch.annual_budget_aud = b.annual_aud.value;
+        filled.push("annual_budget_aud");
+    }
+
+    return { patch: patch as ClarifyPatch, filledKeys: filled };
+}
+

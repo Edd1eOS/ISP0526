@@ -12,6 +12,8 @@ export * from "./adapters/narrative";
 export * from "./adapters/narrative-batch";
 export * from "./prompts/intake-extraction";
 export * from "./adapters/intake-extraction";
+export * from "./prompts/upload-summary";
+export * from "./adapters/upload-summary";
 export {
     ChatCitationSchema,
     ReportChatReplySchema,

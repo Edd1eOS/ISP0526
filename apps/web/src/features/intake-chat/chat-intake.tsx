@@ -183,11 +183,11 @@ export function ChatIntake() {
         openedRef.current = true;
         assessmentRef.current = readAssessmentFromSession();
         const restored = readAccumulatedFromSession();
+        trackEvent("intake_step_start", { channel: "chat", step: 0 });
         if (Object.keys(restored).length > 0) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setAccumulated(restored);
         }
-        trackEvent("intake_step_start", { channel: "chat", step: 0 });
         sendTurn([], restored);
     }, [sendTurn]);
 
@@ -257,255 +257,237 @@ export function ChatIntake() {
     );
 
     return (
-        <div
-            className="mx-auto flex w-full max-w-2xl flex-col"
-            style={{
-                height: "min(80vh, 720px)",
-                background: "var(--color-surface)",
-                borderRadius: "var(--radius-card-md)",
-                boxShadow: "var(--shadow-clay-card)",
-                overflow: "hidden",
-            }}
-        >
-            <header
-                className="flex items-center justify-between gap-3 px-5 py-3"
+        <div className="mx-auto flex w-full max-w-3xl flex-col">
+            <div
+                className="flex w-full flex-col"
                 style={{
-                    background: "var(--color-surface-alt)",
-                    borderBottom: "1px solid rgba(0,0,0,0.04)",
+                    height: "min(80vh, 720px)",
+                    background: "var(--color-surface)",
+                    borderRadius: "var(--radius-card-md)",
+                    boxShadow: "var(--shadow-clay-card)",
+                    overflow: "hidden",
                 }}
             >
-                <div className="flex items-center gap-3">
-                    <div
-                        aria-hidden
-                        className="flex h-9 w-9 items-center justify-center text-sm font-semibold"
-                        style={{
-                            background: "var(--gradient-primary)",
-                            color: "var(--color-text-on-primary)",
-                            borderRadius: 999,
-                        }}
-                    >
-                        AI
-                    </div>
-                    <div className="leading-tight">
-                        <p className="text-text text-sm font-semibold">
-                            留学顾问助手
-                        </p>
-                        <p className="text-text-muted text-[11px]">
-                            {degraded
-                                ? "正在用基础模式陪你聊"
-                                : "在线，按你的节奏聊"}
-                        </p>
-                    </div>
-                </div>
-                <button
-                    type="button"
-                    onClick={onFinalize}
-                    disabled={!canFinalize || finalizing}
-                    className="text-xs font-semibold transition-opacity disabled:opacity-40"
+                <header
+                    className="flex items-center justify-between gap-3 px-5 py-3"
                     style={{
-                        background: canFinalize
-                            ? "var(--gradient-primary)"
-                            : "var(--color-surface)",
-                        color: canFinalize
-                            ? "var(--color-text-on-primary)"
-                            : "var(--color-text-muted)",
-                        borderRadius: "var(--radius-button)",
-                        padding: "6px 12px",
-                        boxShadow: canFinalize
-                            ? "var(--shadow-clay-primary)"
-                            : "none",
+                        background: "var(--color-surface-alt)",
+                        borderBottom: "1px solid rgba(0,0,0,0.04)",
                     }}
                 >
-                    {finalizing ? "生成中…" : "直接看推荐"}
-                </button>
-            </header>
-
-            <div
-                className="h-1"
-                style={{ background: "var(--color-surface-alt)" }}
-                aria-hidden
-            >
-                <div
-                    className="h-full transition-all"
-                    style={{
-                        width: `${progressPct}%`,
-                        background: "var(--gradient-primary)",
-                    }}
-                />
-            </div>
-
-            <div
-                ref={scrollerRef}
-                className="flex-1 space-y-3 overflow-y-auto px-4 py-5 sm:px-5"
-            >
-                {bubbles.map((b) => (
-                    <BubbleRow key={b.id} bubble={b} />
-                ))}
-                {pending ? <TypingBubble /> : null}
-                {error ? (
-                    <p
-                        className="text-center text-xs"
-                        style={{ color: "var(--color-danger)" }}
-                    >
-                        {error}
-                    </p>
-                ) : null}
-            </div>
-
-            {quickReplies.length > 0 && !done && inputMode === "number" ? (
-                <NumberSliderRow
-                    spec={quickReplies[0]!}
-                    disabled={pending}
-                    onSubmit={(label) => pushUser(label)}
-                />
-            ) : null}
-
-            {quickReplies.length > 0 && !done && inputMode === "multi" ? (
-                <div className="px-4 pb-2 pt-1 sm:px-5">
-                    <div
-                        className="flex flex-wrap gap-2"
-                        role="group"
-                        aria-label="多选回复"
-                    >
-                        {quickReplies.map((q) => {
-                            const active = multiSelected.includes(q);
-                            return (
-                                <button
-                                    key={q}
-                                    type="button"
-                                    disabled={pending}
-                                    onClick={() =>
-                                        setMultiSelected((prev) =>
-                                            prev.includes(q)
-                                                ? prev.filter((x) => x !== q)
-                                                : [...prev, q],
-                                        )
-                                    }
-                                    className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
-                                    style={{
-                                        background: active
-                                            ? "var(--gradient-primary)"
-                                            : "var(--color-surface-alt)",
-                                        color: active
-                                            ? "var(--color-text-on-primary)"
-                                            : "var(--color-text)",
-                                        borderRadius: 999,
-                                        boxShadow: active
-                                            ? "var(--shadow-clay-primary)"
-                                            : "var(--shadow-clay-raised)",
-                                    }}
-                                >
-                                    {q}
-                                </button>
-                            );
-                        })}
-                    </div>
-                    <div className="mt-2 flex justify-end">
-                        <button
-                            type="button"
-                            disabled={pending || multiSelected.length === 0}
-                            onClick={() =>
-                                pushUser(multiSelected.join("、"))
-                            }
-                            className="px-3 py-1.5 text-xs font-semibold transition-opacity disabled:opacity-40"
+                    <div className="flex items-center gap-3">
+                        <div
+                            aria-hidden
+                            className="flex h-9 w-9 items-center justify-center text-sm font-semibold"
                             style={{
                                 background: "var(--gradient-primary)",
                                 color: "var(--color-text-on-primary)",
-                                borderRadius: "var(--radius-button)",
-                                boxShadow: "var(--shadow-clay-primary)",
-                            }}
-                        >
-                            就这几个
-                        </button>
-                    </div>
-                </div>
-            ) : null}
-
-            {quickReplies.length > 0 && !done && inputMode === "single" ? (
-                <div
-                    className="flex flex-wrap gap-2 px-4 pb-2 pt-1 sm:px-5"
-                    role="group"
-                    aria-label="快捷回复"
-                >
-                    {quickReplies.map((q) => (
-                        <button
-                            key={q}
-                            type="button"
-                            disabled={pending}
-                            onClick={() => pushUser(q)}
-                            className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
-                            style={{
-                                background: "var(--color-surface-alt)",
                                 borderRadius: 999,
-                                boxShadow: "var(--shadow-clay-raised)",
                             }}
                         >
-                            {q}
-                        </button>
-                    ))}
-                </div>
-            ) : null}
-
-            <form
-                onSubmit={onSubmit}
-                className="flex items-end gap-2 border-t px-4 py-3 sm:px-5"
-                style={{ borderColor: "rgba(0,0,0,0.04)" }}
-            >
-                <textarea
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (
-                            e.key === "Enter" &&
-                            !e.shiftKey &&
-                            !e.nativeEvent.isComposing
-                        ) {
-                            e.preventDefault();
-                            onSubmit(e);
-                        }
-                    }}
-                    placeholder={
-                        done
-                            ? "已经聊够了，可以看推荐了"
-                            : "写点什么…（Shift+Enter 换行）"
-                    }
-                    rows={1}
-                    disabled={pending || done}
-                    className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
-                    style={{
-                        background: "var(--color-surface-alt)",
-                        borderRadius: "var(--radius-card-sm)",
-                        boxShadow: "var(--shadow-clay-inset)",
-                        maxHeight: 120,
-                    }}
-                />
-                <button
-                    type="submit"
-                    disabled={
-                        pending || done || draft.trim().length === 0
-                    }
-                    className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
-                    style={{
-                        background: "var(--gradient-primary)",
-                        borderRadius: "var(--radius-button)",
-                        boxShadow: "var(--shadow-clay-primary)",
-                        color: "var(--color-text-on-primary)",
-                    }}
-                >
-                    发送
-                </button>
-            </form>
-
-            {done ? (
-                <div
-                    className="border-t px-4 py-3 sm:px-5"
-                    style={{ borderColor: "rgba(0,0,0,0.04)" }}
-                >
+                            AI
+                        </div>
+                        <div className="leading-tight">
+                            <p className="text-text text-sm font-semibold">
+                                留学顾问助手
+                            </p>
+                            <p className="text-text-muted text-[11px]">
+                                {degraded
+                                    ? "正在用基础模式陪你聊"
+                                    : "在线，按你的节奏聊"}
+                            </p>
+                        </div>
+                    </div>
                     <button
                         type="button"
                         onClick={onFinalize}
-                        disabled={finalizing}
-                        className="w-full px-4 py-3 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-60"
+                        disabled={!canFinalize || finalizing}
+                        className="text-xs font-semibold transition-opacity disabled:opacity-40"
+                        style={{
+                            background: canFinalize
+                                ? "var(--gradient-primary)"
+                                : "var(--color-surface)",
+                            color: canFinalize
+                                ? "var(--color-text-on-primary)"
+                                : "var(--color-text-muted)",
+                            borderRadius: "var(--radius-button)",
+                            padding: "6px 12px",
+                            boxShadow: canFinalize
+                                ? "var(--shadow-clay-primary)"
+                                : "none",
+                        }}
+                    >
+                        {finalizing ? "生成中…" : "直接看推荐"}
+                    </button>
+                </header>
+
+                <div
+                    className="h-1"
+                    style={{ background: "var(--color-surface-alt)" }}
+                    aria-hidden
+                >
+                    <div
+                        className="h-full transition-all"
+                        style={{
+                            width: `${progressPct}%`,
+                            background: "var(--gradient-primary)",
+                        }}
+                    />
+                </div>
+
+                <div
+                    ref={scrollerRef}
+                    className="flex-1 space-y-3 overflow-y-auto px-4 py-5 sm:px-5"
+                >
+                    {bubbles.map((b) => (
+                        <BubbleRow key={b.id} bubble={b} />
+                    ))}
+                    {pending ? <TypingBubble /> : null}
+                    {error ? (
+                        <p
+                            className="text-center text-xs"
+                            style={{ color: "var(--color-danger)" }}
+                        >
+                            {error}
+                        </p>
+                    ) : null}
+                </div>
+
+                {quickReplies.length > 0 && !done && inputMode === "number" ? (
+                    <NumberSliderRow
+                        spec={quickReplies[0]!}
+                        disabled={pending}
+                        onSubmit={(label) => pushUser(label)}
+                    />
+                ) : null}
+
+                {quickReplies.length > 0 && !done && inputMode === "multi" ? (
+                    <div className="px-4 pb-2 pt-1 sm:px-5">
+                        <div
+                            className="flex flex-wrap gap-2"
+                            role="group"
+                            aria-label="多选回复"
+                        >
+                            {quickReplies.map((q) => {
+                                const active = multiSelected.includes(q);
+                                return (
+                                    <button
+                                        key={q}
+                                        type="button"
+                                        disabled={pending}
+                                        onClick={() =>
+                                            setMultiSelected((prev) =>
+                                                prev.includes(q)
+                                                    ? prev.filter((x) => x !== q)
+                                                    : [...prev, q],
+                                            )
+                                        }
+                                        className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
+                                        style={{
+                                            background: active
+                                                ? "var(--gradient-primary)"
+                                                : "var(--color-surface-alt)",
+                                            color: active
+                                                ? "var(--color-text-on-primary)"
+                                                : "var(--color-text)",
+                                            borderRadius: 999,
+                                            boxShadow: active
+                                                ? "var(--shadow-clay-primary)"
+                                                : "var(--shadow-clay-raised)",
+                                        }}
+                                    >
+                                        {q}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <div className="mt-2 flex justify-end">
+                            <button
+                                type="button"
+                                disabled={pending || multiSelected.length === 0}
+                                onClick={() =>
+                                    pushUser(multiSelected.join("、"))
+                                }
+                                className="px-3 py-1.5 text-xs font-semibold transition-opacity disabled:opacity-40"
+                                style={{
+                                    background: "var(--gradient-primary)",
+                                    color: "var(--color-text-on-primary)",
+                                    borderRadius: "var(--radius-button)",
+                                    boxShadow: "var(--shadow-clay-primary)",
+                                }}
+                            >
+                                就这几个
+                            </button>
+                        </div>
+                    </div>
+                ) : null}
+
+                {quickReplies.length > 0 && !done && inputMode === "single" ? (
+                    <div
+                        className="flex flex-wrap gap-2 px-4 pb-2 pt-1 sm:px-5"
+                        role="group"
+                        aria-label="快捷回复"
+                    >
+                        {quickReplies.map((q) => (
+                            <button
+                                key={q}
+                                type="button"
+                                disabled={pending}
+                                onClick={() => pushUser(q)}
+                                className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
+                                style={{
+                                    background: "var(--color-surface-alt)",
+                                    borderRadius: 999,
+                                    boxShadow: "var(--shadow-clay-raised)",
+                                }}
+                            >
+                                {q}
+                            </button>
+                        ))}
+                    </div>
+                ) : null}
+
+                <form
+                    onSubmit={onSubmit}
+                    className="flex items-end gap-2 border-t px-4 py-3 sm:px-5"
+                    style={{ borderColor: "rgba(0,0,0,0.04)" }}
+                >
+                    <textarea
+                        value={draft}
+                        onChange={(e) => setDraft(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (
+                                e.key === "Enter" &&
+                                !e.shiftKey &&
+                                !e.nativeEvent.isComposing
+                            ) {
+                                e.preventDefault();
+                                onSubmit(e);
+                            }
+                        }}
+                        placeholder={
+                            done
+                                ? "已经聊够了，可以看推荐了"
+                                : "写点什么…（Shift+Enter 换行）"
+                        }
+                        rows={1}
+                        disabled={pending || done}
+                        className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
+                        style={{
+                            background: "var(--color-surface-alt)",
+                            borderRadius: "var(--radius-card-sm)",
+                            boxShadow: "var(--shadow-clay-inset)",
+                            maxHeight: 120,
+                        }}
+                    />
+                    <button
+                        type="submit"
+                        disabled={
+                            pending ||
+                            done ||
+                            draft.trim().length === 0
+                        }
+                        className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
                         style={{
                             background: "var(--gradient-primary)",
                             borderRadius: "var(--radius-button)",
@@ -513,10 +495,32 @@ export function ChatIntake() {
                             color: "var(--color-text-on-primary)",
                         }}
                     >
-                        {finalizing ? "生成中…" : "查看我的推荐"}
+                        发送
                     </button>
-                </div>
-            ) : null}
+                </form>
+
+                {done ? (
+                    <div
+                        className="border-t px-4 py-3 sm:px-5"
+                        style={{ borderColor: "rgba(0,0,0,0.04)" }}
+                    >
+                        <button
+                            type="button"
+                            onClick={onFinalize}
+                            disabled={finalizing}
+                            className="w-full px-4 py-3 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-60"
+                            style={{
+                                background: "var(--gradient-primary)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-primary)",
+                                color: "var(--color-text-on-primary)",
+                            }}
+                        >
+                            {finalizing ? "生成中…" : "查看我的推荐"}
+                        </button>
+                    </div>
+                ) : null}
+            </div>
         </div>
     );
 }

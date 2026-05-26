@@ -34,26 +34,15 @@
         "ctaSecondary": "先看看是怎么工作的"
     },
     "intakeHub": {
-        "stepTag": "Step 1 · 选个入口",
-        "title": "请选择你开启留学副本的方式",
-        "subtitle": "三道门，通往同一份属于你的报告。挑一道喜欢的，进去就行——中途想换也随时可以。",
-        "comingSoon": "敬请期待",
-        "doors": {
-            "form": {
-                "title": "填个表",
-                "tagline": "我对一切都了如指掌",
-                "hint": "30 秒勾几个选项，立刻翻开你的报告。"
-            },
-            "upload": {
-                "title": "传个文件",
-                "tagline": "我有迹可循的远大前程",
-                "hint": "简历 / 成绩单 / 录取信丢进来，让 AI 帮你抠重点。"
-            },
-            "chat": {
-                "title": "聊会天",
-                "tagline": "未来的我有话要说？去看看！",
-                "hint": "一问一答，AI 陪你把想法慢慢理清楚。"
-            }
+        "stepTag": "Step 1 · 准备起飞",
+        "title": "准备起飞",
+        "subtitle": "一艘小火箭，载你直奔 AI 顾问。点下面的按钮即可起飞。",
+        "rocket": {
+            "cta": "起飞",
+            "hint": "点击下方按钮即可起飞",
+            "charging": "点火中…",
+            "launched": "起飞！",
+            "formLink": "想直接填表？这里走 →"
         }
     },
     "report": {

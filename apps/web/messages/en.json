@@ -34,26 +34,15 @@
         "ctaSecondary": "See how it works"
     },
     "intakeHub": {
-        "stepTag": "Step 1 · Pick a door",
-        "title": "How would you like to start?",
-        "subtitle": "Three doors, one report tailored to you. Pick whichever fits you best — you can swap mid-way.",
-        "comingSoon": "Coming soon",
-        "doors": {
-            "form": {
-                "title": "Fill a form",
-                "tagline": "I already know what I want",
-                "hint": "Tick a few options in 30 seconds and see your report."
-            },
-            "upload": {
-                "title": "Upload a file",
-                "tagline": "I have receipts to show",
-                "hint": "Drop in your CV / transcript / offer letter and let AI surface the highlights."
-            },
-            "chat": {
-                "title": "Have a chat",
-                "tagline": "Help me figure it out",
-                "hint": "A short Q&A, AI helps you turn vibes into a plan."
-            }
+        "stepTag": "Step 1 · Ready for liftoff",
+        "title": "Ready for liftoff",
+        "subtitle": "One little rocket flies you straight to the AI advisor. Tap the button below to launch.",
+        "rocket": {
+            "cta": "Launch",
+            "hint": "Tap the button below to launch",
+            "charging": "Igniting…",
+            "launched": "Liftoff!",
+            "formLink": "Prefer a form instead? →"
         }
     },
     "report": {

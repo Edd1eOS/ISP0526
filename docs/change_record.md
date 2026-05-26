@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-05-26 — Intake hub: rocket launcher + chat resume gate
+
+- `feat(intake)`: Hub 三门入口换成单一长按蓄力火箭（`features/intake-hub/rocket-launcher.tsx`）—指针/键盘 hold 1.5s 蓄满后火箭起飞 + 渐隐过渡进入 `/intake/chat`；释放重置。角落保留小号"想直接填表？"链接到 `/intake/form`
+- `feat(intake-chat)`: 聊天模块开场新增简历 gate（`features/intake-chat/resume-upload-panel.tsx`）：先问"有简历吗？"，上传 PDF/.docx 后用 Gemini 抽取并映射到 `ClarifyPatch`（`target_level/target_field/gpa/ielts_overall/annual_budget_aud`），写入 `sessionStorage` 后再启动 LLM 第一轮，跳过已锁定字段；不上传则正常开聊
+- `feat(intake-chat)`: 聊天页两栏布局，右侧持久上传面板，任意时刻拖入文件都会合并进 accumulated 并触发"已补充 N 条"提示
+- `feat(intake-chat)`: 新增 server action `extractResumeForChatAction(text)` —— 走 `extractProfileFromText` + `enrichExtraction`，输出仅是 `ClarifyPatch`，不写入 intake session store（与 upload door 解耦）
+- `chore(i18n)`: `intakeHub` 文案改写为火箭蓄力引导（zh/en），删除旧的 `doors.form/upload/chat` 子树
+
 ## 2026-05-26 — Landing globe (SVG scrolling strip, supersedes R3F attempt)
 
 - `feat(landing)`: Landing 页面 hero 改为纯 SVG 滚动地球——把等距矩形大陆条纹（含北美 / 中美 / 南美 / 欧亚 / 非洲 / 澳洲 + 不列颠 / 日本 / 马达加斯加 / 印尼 / 菲律宾 / 冰岛 / 斯里兰卡 / 古巴 / 塔斯曼尼亚 / 新西兰 + 南极 + 撒哈拉 / 亚马逊 / 刚果 / 阿拉伯沙漠 / 澳洲内陆 biomes + 落基 / 安第斯 / 阿尔卑斯 / 喜马拉雅山点）并排平铺两份，在圆形 clipPath 内做 36s 线性 `translateX(0 → -640)` 无缝循环，配合径向高光假装球面

@@ -17,10 +17,15 @@ let pdfjsModule: typeof import("pdfjs-dist") | undefined;
 async function loadPdfjs(): Promise<typeof import("pdfjs-dist")> {
     if (pdfjsModule) return pdfjsModule;
     const mod = await import("pdfjs-dist");
-    // reason: empty workerSrc tells pdfjs to skip spawning a worker; combined
-    // with `disableWorker:true` in getDocument options, this avoids any
-    // worker URL resolution under Turbopack.
-    mod.GlobalWorkerOptions.workerSrc = "";
+    // reason: Turbopack/Next can resolve the ESM worker via new URL(...,
+    // import.meta.url). Pointing GlobalWorkerOptions.workerSrc at it lets
+    // pdfjs spawn its real worker rather than failing the assertion that
+    // workerSrc be non-empty.
+    const workerUrl = new URL(
+        "pdfjs-dist/build/pdf.worker.min.mjs",
+        import.meta.url,
+    );
+    mod.GlobalWorkerOptions.workerSrc = workerUrl.toString();
     pdfjsModule = mod;
     return mod;
 }
@@ -31,10 +36,7 @@ export async function extractPdfText(
 ): Promise<string> {
     const pdfjs = await loadPdfjs();
     const buf = await file.arrayBuffer();
-    const doc = await pdfjs.getDocument({
-        data: buf,
-        disableWorker: true,
-    } as Parameters<typeof pdfjs.getDocument>[0]).promise;
+    const doc = await pdfjs.getDocument({ data: buf }).promise;
 
     const pages: string[] = [];
     for (let i = 1; i <= doc.numPages; i += 1) {

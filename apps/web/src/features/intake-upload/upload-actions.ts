@@ -1,10 +1,16 @@
 "use server";
 
-import { extractProfileFromText, type ExtractedProfile } from "@isp0526/core";
+import {
+    extractProfileFromText,
+    summarizeUploadDocument,
+    type ExtractedProfile,
+    type UploadDocumentSummary,
+} from "@isp0526/core";
 import {
     isGoogleConfigured,
 } from "../../lib/ai/google-narrative";
 import { buildGoogleExtractionGenerator } from "../../lib/ai/google-extraction";
+import { buildGoogleUploadSummaryGenerator } from "../../lib/ai/google-upload-summary";
 import { enrichExtraction } from "../../lib/ai/intake-enricher";
 import {
     newSessionId,
@@ -103,4 +109,69 @@ function countFields(extracted: ExtractedProfile): number {
     for (const v of Object.values(extracted.academic)) if (v) n += 1;
     for (const v of Object.values(extracted.budget)) if (v) n += 1;
     return n;
+}
+
+const MAX_SUMMARY_CHARS = 60_000;
+
+export interface SummarizeUploadResult {
+    readonly ok: boolean;
+    readonly llmUsed: boolean;
+    readonly summary?: UploadDocumentSummary;
+    readonly error?: string;
+}
+
+/**
+ * Summarize a document the user dropped into the upload step. Uses the LLM
+ * to classify the document and surface 3-7 key points the user can confirm.
+ * Unlike the resume extraction path, this does NOT produce a ClarifyPatch;
+ * it returns a free-form summary so non-resume documents (brochures,
+ * recommendation letters, offer letters) read sensibly to the user.
+ */
+export async function summarizeUploadAction(input: {
+    readonly text: string;
+    readonly fileName: string;
+}): Promise<SummarizeUploadResult> {
+    const text = input.text.slice(0, MAX_SUMMARY_CHARS).trim();
+    if (text.length === 0) {
+        return { ok: false, error: "empty text", llmUsed: false };
+    }
+
+    if (!isGoogleConfigured()) {
+        return {
+            ok: false,
+            llmUsed: false,
+            error: "LLM not configured",
+        };
+    }
+
+    try {
+        const r = await summarizeUploadDocument({
+            locale: "zh",
+            fileName: input.fileName,
+            text,
+            generate: buildGoogleUploadSummaryGenerator(),
+        });
+        if (!r.ok) {
+            // eslint-disable-next-line no-console
+            console.warn(
+                "[upload-summary] LLM soft-failed",
+                r.error.kind,
+                r.error.message,
+            );
+            return {
+                ok: false,
+                llmUsed: false,
+                error: r.error.message,
+            };
+        }
+        return { ok: true, llmUsed: true, summary: r.value };
+    } catch (cause) {
+        // eslint-disable-next-line no-console
+        console.error("[upload-summary] LLM call threw", cause);
+        return {
+            ok: false,
+            llmUsed: false,
+            error: cause instanceof Error ? cause.message : "unknown error",
+        };
+    }
 }
