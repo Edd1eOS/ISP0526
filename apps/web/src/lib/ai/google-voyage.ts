@@ -89,6 +89,16 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 `voyage: response did not match schema at ${path}: ${issue?.message ?? "unknown"}`,
             );
         }
+        // Half-baked turn: model said the conversation is not done but
+        // didn't supply a question. Treat as a retryable schema-drift
+        // failure so runTextWithFallback can try again / fall back to
+        // the next provider before we resort to the synthesized
+        // fallback in the core adapter.
+        if (!result.data.done && !result.data.question) {
+            throw new Error(
+                "voyage: response did not match schema at question: Required when done=false",
+            );
+        }
         return { object: result.data };
     };
 }

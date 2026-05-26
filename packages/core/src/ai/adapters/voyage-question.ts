@@ -69,14 +69,17 @@ export async function nextVoyageTurn(
     // Defense in depth: if done=false, the model must include a question.
     // When the model forgets (some providers occasionally omit the field
     // even though done=false), synthesize a neutral open-ended question
-    // so the voyage can keep going instead of dead-ending the user.
+    // in the user's locale so the voyage can keep going instead of
+    // dead-ending the user.
     if (!parsed.data.done && !parsed.data.question) {
+        const isZh = input.locale === "zh";
         parsed.data.question = {
-            topic: "next_step",
-            prompt:
-                "Could you share a bit more about what matters most to you next — anything about budget, location, program focus, or campus life?",
+            topic: isZh ? "下一步" : "next_step",
+            prompt: isZh
+                ? "可以再多说一点你最在意的方向吗？比如预算、地点、专业方向，或校园生活的某个细节。"
+                : "Could you share a bit more about what matters most to you next — anything about budget, location, program focus, or campus life?",
             kind: "free",
-            placeholder: "Type a few sentences",
+            placeholder: isZh ? "写几句话" : "Type a few sentences",
         };
     }
 
