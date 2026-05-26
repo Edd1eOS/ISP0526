@@ -71,7 +71,7 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 "voyage: model did not return a JSON object (no {...} block found in response).",
             );
         }
-        let parsed: unknown;
+        let parsed: any;
         try {
             parsed = JSON.parse(raw);
         } catch (cause) {
@@ -79,6 +79,57 @@ export function buildGoogleVoyageGenerator(): GenerateObjectFn {
                 `voyage: model JSON failed to parse: ${cause instanceof Error ? cause.message : String(cause)}`,
             );
         }
+        // --- AUTO-FIX: 修正常见 LLM schema 错误 ---
+        // 1. question: null/{} → undefined
+        if (parsed && typeof parsed.question === "object" && parsed.question && Object.keys(parsed.question).length === 0) {
+            parsed.question = undefined;
+        }
+        if (parsed && parsed.question === null) {
+            parsed.question = undefined;
+        }
+        // 2. patch.stage.current_education: null → "other"
+        if (parsed && parsed.patch && parsed.patch.stage && parsed.patch.stage.current_education == null) {
+            parsed.patch.stage.current_education = "other";
+        }
+        // 3. patch.stage: null → undefined
+        if (parsed && parsed.patch && parsed.patch.stage === null) {
+            delete parsed.patch.stage;
+        }
+        // 4. patch: null → {}
+        if (parsed && parsed.patch === null) {
+            parsed.patch = {};
+        }
+        // 5. question.topic: null → "other"
+        if (parsed && parsed.question && parsed.question.topic == null) {
+            parsed.question.topic = "other";
+        }
+        // 6. question.kind: null → "free"
+        if (parsed && parsed.question && parsed.question.kind == null) {
+            parsed.question.kind = "free";
+        }
+        // 7. question.prompt: null → "Please clarify."
+        if (parsed && parsed.question && parsed.question.prompt == null) {
+            parsed.question.prompt = "Please clarify.";
+        }
+        // 8. question.options: null → undefined
+        if (parsed && parsed.question && parsed.question.options == null) {
+            delete parsed.question.options;
+        }
+        // 9. question.placeholder: null → undefined
+        if (parsed && parsed.question && parsed.question.placeholder == null) {
+            delete parsed.question.placeholder;
+        }
+        // 10. question.landmark: null → undefined
+        if (parsed && parsed.question && parsed.question.landmark == null) {
+            delete parsed.question.landmark;
+        }
+        // 11. patch.*: null → undefined (shallow)
+        if (parsed && parsed.patch && typeof parsed.patch === "object") {
+            for (const k of Object.keys(parsed.patch)) {
+                if (parsed.patch[k] === null) parsed.patch[k] = undefined;
+            }
+        }
+        // --- END AUTO-FIX ---
         const result = VoyageTurnSchema.safeParse(parsed);
         if (!result.success) {
             // Surface the first validation issue so the upstream retry
