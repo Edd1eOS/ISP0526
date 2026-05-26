@@ -9,11 +9,13 @@
  * contents before moving on. Supports multiple uploads in one session.
  */
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import type { UploadDocumentSummary } from "@isp0526/core";
 import { useRouter } from "../../i18n/navigation";
 import { trackEvent } from "../../lib/analytics/track";
 import { UploadPortal } from "./upload-portal";
+
+const UPLOAD_SUMMARIES_KEY = "isp_intake_upload_summaries_v1";
 
 const DOC_KIND_LABEL: Record<UploadDocumentSummary["doc_kind"], string> = {
     resume: "简历",
@@ -39,6 +41,20 @@ export function UploadStep() {
     const [portalKey, setPortalKey] = useState(0);
     const [, startTransition] = useTransition();
 
+    // Persist summaries so the downstream voyage step can use them as
+    // grounding context for confirmation questions.
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        try {
+            window.sessionStorage.setItem(
+                UPLOAD_SUMMARIES_KEY,
+                JSON.stringify(uploads),
+            );
+        } catch {
+            // ignore quota / private-mode errors
+        }
+    }, [uploads]);
+
     const goToAssessment = () => {
         trackEvent("intake_step_start", { channel: "assessment", step: 0 });
         startTransition(() => {
@@ -50,8 +66,8 @@ export function UploadStep() {
     const handleUploadAnother = () => setPortalKey((k) => k + 1);
 
     return (
-        <main className="bg-bg min-h-screen w-full px-6 py-12 sm:px-12">
-            <div className="mx-auto flex max-w-3xl flex-col gap-8">
+        <main className="bg-bg flex min-h-screen w-full items-center justify-center px-6 py-12 sm:px-12">
+            <div className="mx-auto flex w-full max-w-4xl flex-col gap-8">
                 <header className="space-y-2 text-center">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
                         Step 2 · 喂点资料

@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-05-26 — Voyage profile spec + remove turn cap
+
+- `docs`: add `docs/voyage-profile-spec.md`, the authoritative coverage spec for the voyage step. It lists every dimension (goals / field / geography / funding / credentials / signals / personality_check), and for each subfield specifies the required positive cell, negative cell, and confirmation cell — together with per-dimension required thresholds, weighted completeness scoring, and the proper stop conditions. This is now the source of truth that the voyage prompt and adapter both reference.
+- `refactor(intake-voyage)`: remove the hard 8-turn cap. The voyage no longer terminates by turn count. `maxTurns` is downgraded to a runaway guard (60) only. The system prompt's stop conditions are rewritten to: completeness >= 0.9 AND the six load-bearing dimensions each reach their positive+negative+confirmation thresholds; OR the user explicitly says they want to stop; OR two consecutive "I don't know" answers have been recorded into notes. Completeness scoring is rewritten as a weighted per-dimension threshold (0/1) rather than an axis-by-axis fraction.
+- `refactor(intake-voyage)`: `voyage-stage.tsx` progress bar is now driven entirely by LLM-reported completeness (no turn ratio). `canEarlyFinalize` no longer references a turn ceiling — it just unlocks the manual "结束航行" button once the user has answered three turns or the model thinks coverage > 0.6.
+
+## 2026-05-26 — Intake voyage (first-person sailing UI)
+
+- `feat(intake-voyage)`: dedicated voyage prompt + adapter that fill an "extremely detailed" `VoyageProfile` (positive AND negative preferences, dealbreakers, decisive factors, upload confirmation). New `packages/core/src/ai/prompts/voyage-question.ts` defines `VoyageProfileSchema` covering goals (motivations / post-grad intent / PhD intent / employability vs passion / urgency), field (primary / secondary / avoid / capstone-vs-thesis / pace / teaching likes+dislikes / assessment likes+dislikes / class size / supervisor / peer competitiveness), geography (target / excluded countries with love-to-hate direction and reasons, city size, climate likes+dislikes, distance, safety, food, transit, accommodation, social scene), funding (budget + flexibility + sources + scholarship priority + work intent + price-vs-rank), credentials (gpa with scale and self-confidence, language with sub-scores and retake plan, other tests, work years, research experience), signals (must-haves, avoid list, liked / disliked institutions, decisive factors), and a 5-axis personality_check. `VoyageQuestionSchema` covers `choice | multi | scale | number | free` with optional landmark hint. `nextVoyageTurn` adapter wires it to `getModel("extraction")`; `apps/web/src/lib/ai/google-voyage.ts` provides the SDK binding via `generateText` + `Output.object`.
+- `feat(intake-voyage)`: server action `nextVoyageTurnAction` + projection helper `projectVoyageToClarifyPatch` that maps the rich profile down to existing `ClarifyPatch` overlays without overwriting captured values (gpa / ielts / budget / city_size / teaching_style / preferred_tags). Voyage stage now uses this dedicated path instead of the legacy chat action so the LLM can fill the full profile directly.
+- `feat(intake-voyage)`: `voyage-stage.tsx` rewritten to dispatch on `question.kind` — `choice` (chip row + free fallback), `multi` (toggle chips with confirm), new `ScaleInput` (5-button Likert with model-supplied poles), `number`, `free`. Reads upload summaries from `isp_intake_upload_summaries_v1` (added by `upload-step.tsx`) and feeds them into the prompt so the LLM can ask confirmation questions about extracted values before importing them. Persists `VoyageProfile` and history per session.
+- `feat(intake-voyage)`: water-surface polish — sun reflection lane (vertical pulsing light strip from horizon centre), three horizontal wave bands at different depths and speeds, V-shaped boat wake with foam-pulse keyframe under the viewer, plus a new `reef` waypoint silhouette for negative-preference questions. All animations respect `prefers-reduced-motion`.
+
+---
+
 ## 2026-05-26 — Intake hub: rocket launcher + chat resume gate
 
 - `feat(intake)`: Hub 三门入口换成单一长按蓄力火箭（`features/intake-hub/rocket-launcher.tsx`）—指针/键盘 hold 1.5s 蓄满后火箭起飞 + 渐隐过渡进入 `/intake/chat`；释放重置。角落保留小号"想直接填表？"链接到 `/intake/form`

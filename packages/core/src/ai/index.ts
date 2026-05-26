@@ -14,6 +14,8 @@ export * from "./prompts/intake-extraction";
 export * from "./adapters/intake-extraction";
 export * from "./prompts/upload-summary";
 export * from "./adapters/upload-summary";
+export * from "./prompts/voyage-question";
+export * from "./adapters/voyage-question";
 export {
     ChatCitationSchema,
     ReportChatReplySchema,

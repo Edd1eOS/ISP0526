@@ -7,7 +7,7 @@
 import "server-only";
 import { generateText, Output } from "ai";
 import type { LanguageModel } from "ai";
-import { google } from "@ai-sdk/google";
+import { google, createGoogleGenerativeAI } from "@ai-sdk/google";
 import { groq } from "@ai-sdk/groq";
 import {
     BatchNarrativeSchema,
@@ -22,10 +22,33 @@ const GOOGLE_MODEL_ID =
 const GROQ_MODEL_ID =
     process.env.GROQ_MODEL_ID || "openai/gpt-oss-120b";
 
-export function isLLMConfigured(): boolean {
-    return Boolean(
-        process.env.GROQ_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+// Resolve a Gemini API key from any of the supported env names without
+// reading the .env file directly. The fallback name FALLBACK_TO_GEMINI_KEY
+// is the project-specific convention for the backup Gemini credential.
+function getGeminiApiKey(): string | undefined {
+    return (
+        process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+        process.env.FALLBACK_TO_GEMINI_KEY ||
+        process.env.GEMINI_API_KEY
     );
+}
+
+// Build the Gemini language model with whichever key is available.
+// When GOOGLE_GENERATIVE_AI_API_KEY is set, the default google() factory
+// picks it up automatically; otherwise we pass the key explicitly via
+// createGoogleGenerativeAI so FALLBACK_TO_GEMINI_KEY also works.
+function buildGeminiModel(): LanguageModel | null {
+    const key = getGeminiApiKey();
+    if (!key) return null;
+    if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+        return google(GOOGLE_MODEL_ID);
+    }
+    const provider = createGoogleGenerativeAI({ apiKey: key });
+    return provider(GOOGLE_MODEL_ID);
+}
+
+export function isLLMConfigured(): boolean {
+    return Boolean(process.env.GROQ_API_KEY || getGeminiApiKey());
 }
 
 // Backward-compatible alias. Some callers still import this name; both
@@ -50,8 +73,98 @@ export function getTextModel(): LanguageModel {
         logProviderOnce("groq", GROQ_MODEL_ID);
         return groq(GROQ_MODEL_ID);
     }
+    const gemini = buildGeminiModel();
+    if (!gemini) {
+        throw new Error(
+            "No LLM provider configured (set GROQ_API_KEY or FALLBACK_TO_GEMINI_KEY / GOOGLE_GENERATIVE_AI_API_KEY).",
+        );
+    }
     logProviderOnce("google", GOOGLE_MODEL_ID);
-    return google(GOOGLE_MODEL_ID);
+    return gemini;
+}
+
+// Returns an ordered list of candidate models for per-request fallback.
+// Groq is preferred when configured, but its free-tier daily token cap
+// (200K TPD) is small and easy to exhaust during a single voyage session
+// (~20-40 turns x ~8K tokens). When Groq returns 429 / quota / overload
+// errors and Gemini is also configured, callers SHOULD retry with the
+// next candidate. See runTextWithFallback below.
+export function getTextModelCandidates(): ReadonlyArray<{
+    readonly provider: "groq" | "google";
+    readonly model: LanguageModel;
+    readonly modelId: string;
+}> {
+    const list: Array<{
+        readonly provider: "groq" | "google";
+        readonly model: LanguageModel;
+        readonly modelId: string;
+    }> = [];
+    if (process.env.GROQ_API_KEY) {
+        list.push({
+            provider: "groq",
+            model: groq(GROQ_MODEL_ID),
+            modelId: GROQ_MODEL_ID,
+        });
+    }
+    const gemini = buildGeminiModel();
+    if (gemini) {
+        list.push({
+            provider: "google",
+            model: gemini,
+            modelId: GOOGLE_MODEL_ID,
+        });
+    }
+    return list;
+}
+
+// Heuristic: does this error look like a transient quota / rate-limit
+// from the upstream provider? If yes, the next candidate is worth
+// trying. Anything else (auth, schema validation, network) should NOT
+// silently swallow — re-throw so the caller surfaces it.
+function isQuotaError(err: unknown): boolean {
+    const msg =
+        err instanceof Error
+            ? err.message
+            : typeof err === "string"
+                ? err
+                : "";
+    return /\b(rate.?limit|quota|429|TPD|RPD|tokens? per (day|minute)|over.?capacity|overloaded|try again)\b/i.test(
+        msg,
+    );
+}
+
+// Run a generate-text call against each configured provider in order.
+// Falls back to the next provider only on quota / rate-limit / overload
+// errors. The caller passes a closure because Output.object needs the
+// schema bound at call time.
+export async function runTextWithFallback<T>(
+    run: (model: LanguageModel) => Promise<T>,
+): Promise<T> {
+    const candidates = getTextModelCandidates();
+    if (candidates.length === 0) {
+        throw new Error("No LLM provider configured.");
+    }
+    let lastErr: unknown;
+    for (let i = 0; i < candidates.length; i += 1) {
+        const cand = candidates[i];
+        if (!cand) continue;
+        try {
+            return await run(cand.model);
+        } catch (err) {
+            lastErr = err;
+            const isLast = i === candidates.length - 1;
+            if (isLast || !isQuotaError(err)) throw err;
+            // eslint-disable-next-line no-console
+            console.warn(
+                `[ai] provider ${cand.provider} (${cand.modelId}) hit quota / rate-limit; falling back to next provider.`,
+            );
+        }
+    }
+    // Unreachable: the loop always either returns or throws, but TS
+    // doesn't know that.
+    throw lastErr instanceof Error
+        ? lastErr
+        : new Error("All LLM providers failed.");
 }
 
 // Returns a generate function bound to the batch schema. We bind the schema

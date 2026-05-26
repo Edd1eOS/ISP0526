@@ -164,7 +164,7 @@ export function AssessmentFlow() {
 
     return (
         <main className="bg-bg min-h-screen w-full">
-            <div className="mx-auto flex min-h-screen max-w-xl flex-col px-4 py-6 sm:px-6 sm:py-10">
+            <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4 py-6 sm:px-6 sm:py-10">
                 <ProgressHeader
                     cursor={cursor}
                     total={total}
@@ -180,7 +180,7 @@ export function AssessmentFlow() {
                     基于 Big Five 人格量表（TIPI · Gosling, Rentfrow &amp; Swann, 2003）＋Holland 职业兴趣框架（1959）＋学习/生活偏好量表
                 </p>
 
-                <div key={cursor} className="mt-8 flex-1" style={{ animation: "isp-fade-up 220ms ease-out" }}>
+                <div key={cursor} className="mt-4 flex-1" style={{ animation: "isp-fade-up 220ms ease-out" }}>
                     <p className="text-text-muted text-xs uppercase tracking-widest">
                         {sectionTag} · {cursor + 1} / {total}
                     </p>

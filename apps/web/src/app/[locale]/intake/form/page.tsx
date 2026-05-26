@@ -3,8 +3,8 @@ import { IntakeForm } from "../../../../features/intake/intake-form";
 
 export default function IntakeFormPage() {
     return (
-        <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
-            <div className="mx-auto max-w-2xl space-y-10">
+        <main className="bg-bg flex min-h-screen w-full items-center justify-center px-6 py-16 sm:px-12">
+            <div className="mx-auto w-full max-w-3xl space-y-10">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
                         填个表

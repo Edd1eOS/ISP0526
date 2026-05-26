@@ -165,7 +165,7 @@ export function AssessmentResultReview() {
     const b = scored.big_five;
     return (
         <main className="bg-bg min-h-screen w-full">
-            <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4 py-8 sm:px-6 sm:py-12">
+            <div className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-4 py-8 sm:px-6 sm:py-12">
                 <header className="text-center">
                     <p
                         className="text-text-muted text-[11px] uppercase tracking-widest"
