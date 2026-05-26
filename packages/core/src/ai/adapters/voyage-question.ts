@@ -67,12 +67,17 @@ export async function nextVoyageTurn(
     }
 
     // Defense in depth: if done=false, the model must include a question.
+    // When the model forgets (some providers occasionally omit the field
+    // even though done=false), synthesize a neutral open-ended question
+    // so the voyage can keep going instead of dead-ending the user.
     if (!parsed.data.done && !parsed.data.question) {
-        return err({
-            kind: "validation_failed",
-            message:
-                "voyage turn marked done=false but missing question field",
-        });
+        parsed.data.question = {
+            topic: "next_step",
+            prompt:
+                "Could you share a bit more about what matters most to you next — anything about budget, location, program focus, or campus life?",
+            kind: "free",
+            placeholder: "Type a few sentences",
+        };
     }
 
     return ok(parsed.data);
