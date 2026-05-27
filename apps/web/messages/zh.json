@@ -31,7 +31,61 @@
         "heroTitle": "ISP0526",
         "heroSubtitle": "绕着地球，看你的下一站在哪里亮起。",
         "ctaStart": "开启你的留学副本",
-        "ctaSecondary": "先看看是怎么工作的"
+        "ctaSecondary": "我们如何提供专业的指导"
+    },
+    "methodology": {
+        "eyebrow": "方法论",
+        "title": "我们如何提供专业的指导",
+        "intro": "我们不是又一个聊天机器人。每一条推荐都来自可追溯的数据 + 学术化的人格框架 + 透明的评分公式。下面是我们用来回答你的问题的全部依据。",
+        "backToHome": "回首页",
+        "sections": {
+            "personality": {
+                "heading": "01 · 人格与生活偏好评估",
+                "body": "性格维度我们采用 Big Five（五大人格）模型——心理学界过去三十年最被广泛复证的人格理论。具体量表用的是 TIPI（十题简版），开放性 / 尽责性 / 外向性 / 宜人性 / 神经质五个维度各两题，回答时长约 1 分钟，但效度已被多项跨文化研究验证。我们不诊断你，只在 5 维空间里定位一个点，再用它去对齐项目的教学风格（理论 / 平衡 / 应用）。",
+                "citations": [
+                    "Goldberg, L. R. (1990). An alternative \"description of personality\": The Big-Five factor structure. Journal of Personality and Social Psychology, 59(6), 1216-1229.",
+                    "Costa, P. T., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R) and NEO Five-Factor Inventory (NEO-FFI) professional manual. Psychological Assessment Resources.",
+                    "Gosling, S. D., Rentfrow, P. J., & Swann, W. B. (2003). A very brief measure of the Big-Five personality domains (TIPI). Journal of Research in Personality, 37(6), 504-528."
+                ]
+            },
+            "career": {
+                "heading": "02 · 职业倾向与项目领域",
+                "body": "职业适配维度借鉴 Holland 的 RIASEC 模型（Realistic / Investigative / Artistic / Social / Enterprising / Conventional）。我们没有让你直接做 RIASEC 测试，而是把它作为评估项目领域（CS / 金融 / 设计 / 教育等）与你气质契合度的内部参考——这避免了把学生硬塞进一个职业代码，又保留了理论的解释力。同时叠加 spec FR-2.4 中嵌入式的回国 / 移民 / 实习偏好作为权重调节。",
+                "citations": [
+                    "Holland, J. L. (1997). Making vocational choices: A theory of vocational personalities and work environments (3rd ed.). Psychological Assessment Resources.",
+                    "Nauta, M. M. (2010). The development, evolution, and status of Holland's theory of vocational personalities. Journal of Counseling Psychology, 57(1), 11-22."
+                ]
+            },
+            "data": {
+                "heading": "03 · 院校数据：仅公开数据 + 人工 curate",
+                "body": "我们的院校与项目数据库（packages/core/data/）100% 来自公开渠道——招生官网、政府开放数据（CRICOS / IRCC DLI / gov.uk）、机构自发披露的排名摘要。每一条记录必须携带 source_id + URL + last_verified_date 三件套，否则会被加载时的 Zod 校验直接拒绝入库。我们写了一份 data-pipeline 规范来约束这件事：禁止 headless 浏览器、禁止模拟登录、禁止绕反爬、禁止抓取 PII、禁止 LLM 编造事实字段；任何写入生产库的行必须经过人工 review，CI 不允许自动 promote。",
+                "citations": [
+                    "docs/data-pipeline.md — Ingest pipeline spec: fetch -> parse -> normalize -> Zod validate -> diff -> draft -> human promote.",
+                    "docs/data-pipeline-sources.md — 来源手册：robots.txt 强制遵守、单 host >= 1 req/s、零 PII 入库。",
+                    "docs/spec.md FR-3.4 / FR-3.5 — 数据治理：每条记录可追溯，季度全量复核。"
+                ]
+            },
+            "scoring": {
+                "heading": "04 · 评分引擎：加权而非过滤",
+                "body": "我们刻意不让算法替你做剔除。除了极少数硬门槛（GPA 低于项目要求 15% 以上、用户明确拒绝某国），所有维度都是加权打分：学术契合 0.30、人格契合 0.15、生活契合 0.15、职业出口 0.15、预算 0.10、特色标签 0.10、声誉 0.05。这些权重还会根据你的偏好动态再分配——例如当你在测评中明确写下 \"预算非常紧张\"，budget_fit 权重会从 0.10 升到 0.20，其他维度按比例缩放。所有评分函数都是纯函数，输入相同则输出相同，可单测覆盖。",
+                "citations": [
+                    "docs/spec.md FR-4 — 评分公式与权重个性化规则。",
+                    "packages/core/src/rules/ — 所有评分逻辑（每维度独立文件 + 单测）。"
+                ]
+            },
+            "ai": {
+                "heading": "05 · AI 的边界",
+                "body": "LLM 在这里只做三件事：把规则引擎的输出翻译成自然语言、帮你抽取上传文档的关键字段、把你的自由表达拆解成结构化偏好。它不产生任何事实。每一次 LLM 调用的输出都要经过 Zod schema 校验 + post-filter：任何无法回指到具体 source_id 的字段都会被丢弃。这是写在项目硬约束里的红线，违反即拒绝入库。",
+                "citations": [
+                    "docs/prohibition.md — 红线第 2 条：禁止输出无 source_id 的推荐结论。",
+                    ".github/instructions/ai-layer.instructions.md — 所有 LLM 输出必须 Zod 校验 + 引用过滤。"
+                ]
+            }
+        },
+        "closing": {
+            "heading": "为什么这么严？",
+            "body": "留学是六位数级别的决策。我们宁愿少推荐几个项目，也不愿告诉你一个我们自己无法回答 \"这条信息是哪里来的\" 的项目。完整的工程规范、ADR 决策记录、变更日志都开放在仓库 docs/ 目录，欢迎你（或你的顾问）翻阅核对。"
+        }
     },
     "intakeHub": {
         "stepTag": "Step 1 · 准备起飞",
@@ -47,9 +101,8 @@
     },
     "report": {
         "contactCard": {
-            "title": "想找人聊聊？",
-            "body": "报告里任何想再深入聊的地方，把报告 ID 发给我们，几分钟内可以回到你。",
-            "cta": "联系我们",
+            "title": "联系我们的团队",
+            "body": "把你的报告 ID 发给我们，顾问会尽快与你联系，深入聊聊报告里的任何问题。",
             "idLabel": "你的报告 ID"
         },
         "expiryNote": "本分享链接将于 {date} 过期，过期后请通过 PDF 或长图查看留底。"

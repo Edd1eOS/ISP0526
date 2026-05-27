@@ -1,0 +1,1261 @@
+/* Star Chart — minimalist deep-night intake stage.
+   Self-contained palette; deliberately does not match the warm clay
+   landing. The transition between the two worlds is handled by a single
+   fade-to-black overlay in the parent. */
+
+.stage {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 110%,
+            rgba(68, 84, 132, 0.32) 0%,
+            rgba(11, 18, 38, 0) 60%),
+        linear-gradient(180deg, #060912 0%, #0b1226 55%, #0a1428 100%);
+    color: #f5efe2;
+    overflow: hidden;
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+}
+
+.starfield {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(245, 239, 226, 0.6), transparent 60%),
+        radial-gradient(1px 1px at 27% 64%, rgba(245, 239, 226, 0.5), transparent 60%),
+        radial-gradient(1px 1px at 39% 12%, rgba(245, 239, 226, 0.45), transparent 60%),
+        radial-gradient(1px 1px at 53% 84%, rgba(245, 239, 226, 0.5), transparent 60%),
+        radial-gradient(1px 1px at 68% 28%, rgba(245, 239, 226, 0.4), transparent 60%),
+        radial-gradient(1px 1px at 82% 70%, rgba(245, 239, 226, 0.55), transparent 60%),
+        radial-gradient(1px 1px at 91% 42%, rgba(245, 239, 226, 0.45), transparent 60%),
+        radial-gradient(1.5px 1.5px at 6% 80%, rgba(245, 239, 226, 0.5), transparent 60%),
+        radial-gradient(1px 1px at 60% 50%, rgba(245, 239, 226, 0.3), transparent 60%);
+    animation: ambient-twinkle 9s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-twinkle {
+    from {
+        opacity: 0.75;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.shootingStar {
+    position: absolute;
+    top: 14%;
+    left: -10%;
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(90deg,
+            rgba(245, 239, 226, 0) 0%,
+            rgba(245, 239, 226, 0.85) 50%,
+            rgba(245, 239, 226, 0) 100%);
+    transform: rotate(14deg);
+    opacity: 0;
+    animation: streak 12s linear infinite;
+}
+
+.shootingStar.b {
+    top: 32%;
+    animation-delay: 6s;
+    animation-duration: 14s;
+}
+
+@keyframes streak {
+    0% {
+        transform: translate(0, 0) rotate(14deg);
+        opacity: 0;
+    }
+
+    4% {
+        opacity: 0.9;
+    }
+
+    14% {
+        transform: translate(85vw, 22vh) rotate(14deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(85vw, 22vh) rotate(14deg);
+        opacity: 0;
+    }
+}
+
+.header {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.progress {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.progressDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(245, 239, 226, 0.22);
+    transition: background 0.4s ease, transform 0.4s ease;
+}
+
+.progressDot.active {
+    background: rgba(245, 239, 226, 0.9);
+    transform: scale(1.25);
+}
+
+.progressDot.done {
+    background: rgba(245, 239, 226, 0.55);
+}
+
+.nightLabel {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(245, 239, 226, 0.55);
+    text-transform: uppercase;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    margin: 6px 0 0;
+    opacity: 0;
+    animation: fade-in 0.9s ease-out 0.15s forwards;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: rgba(245, 239, 226, 0.55);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    opacity: 0;
+    animation: fade-in 0.9s ease-out 0.4s forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sky {
+    position: absolute;
+    inset: 18% 8% 22% 8%;
+    z-index: 2;
+}
+
+.lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.line {
+    stroke: rgba(245, 239, 226, 0.72);
+    stroke-width: 0.6;
+    stroke-linecap: round;
+    fill: none;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: draw-line 0.8s ease-out forwards;
+}
+
+@keyframes draw-line {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.star {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+}
+
+.starDot {
+    width: var(--dot, 8px);
+    height: var(--dot, 8px);
+    border-radius: 50%;
+    background: rgba(245, 239, 226, 0.72);
+    box-shadow: 0 0 8px rgba(245, 239, 226, 0.35);
+    transition:
+        width 0.35s ease,
+        height 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
+    animation: breathe 4.5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+
+    0%,
+    100% {
+        opacity: 0.78;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.star.picked .starDot {
+    width: calc(var(--dot, 8px) + 6px);
+    height: calc(var(--dot, 8px) + 6px);
+    background: #ffe9b8;
+    box-shadow:
+        0 0 14px rgba(255, 233, 184, 0.85),
+        0 0 28px rgba(255, 197, 110, 0.45);
+}
+
+.starLabel {
+    position: absolute;
+    top: calc(50% + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(245, 239, 226, 0.55);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.star:hover .starLabel,
+.star:focus-visible .starLabel,
+.star.picked .starLabel {
+    color: rgba(255, 233, 184, 0.95);
+}
+
+.haloLayer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* GPU-only blur halo; cheap on modern hardware. */
+    backdrop-filter: blur(0px);
+}
+
+.footer {
+    position: absolute;
+    bottom: 150px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.footerActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.undoBtn {
+    background: transparent;
+    border: 1px solid rgba(245, 239, 226, 0.18);
+    color: rgba(245, 239, 226, 0.45);
+    padding: 9px 18px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.undoBtn:hover {
+    color: rgba(245, 239, 226, 0.75);
+    border-color: rgba(245, 239, 226, 0.35);
+}
+
+.hint {
+    font-size: 12px;
+    color: rgba(245, 239, 226, 0.4);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    min-height: 16px;
+    transition: color 0.3s ease;
+}
+
+.advance {
+    pointer-events: auto;
+    background: transparent;
+    border: 1px solid rgba(245, 239, 226, 0.28);
+    color: rgba(245, 239, 226, 0.85);
+    padding: 10px 28px;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.2s ease;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+.advance:disabled {
+    color: rgba(245, 239, 226, 0.22);
+    border-color: rgba(245, 239, 226, 0.12);
+    cursor: not-allowed;
+}
+
+.advance:not(:disabled):hover {
+    background: rgba(245, 239, 226, 0.08);
+    border-color: rgba(245, 239, 226, 0.5);
+    transform: translateY(-1px);
+}
+
+.fadeOverlay {
+    position: absolute;
+    inset: 0;
+    background: #060912;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.6s ease;
+}
+
+.fadeOverlay.show {
+    opacity: 1;
+}
+
+.readout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px 96px;
+    z-index: 3;
+    animation: fade-in 0.9s ease-out 0.1s both;
+}
+
+.readoutInner {
+    max-width: 640px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.readoutTitle {
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    margin: 4px 0 24px;
+    text-align: center;
+    opacity: 0;
+    animation: fade-in 0.9s ease-out 0.25s forwards;
+}
+
+/* Profile summary grid — structured facts for user to review */
+.profileGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 6px;
+    opacity: 0;
+    animation: fade-in 0.7s ease-out 0.4s forwards;
+}
+
+.profileCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(255, 233, 184, 0.05);
+    border: 1px solid rgba(255, 233, 184, 0.16);
+    border-radius: 10px;
+    padding: 9px 14px 10px;
+    min-width: 100px;
+}
+
+.profileCardFaint {
+    border-color: rgba(245, 239, 226, 0.1);
+    background: rgba(245, 239, 226, 0.03);
+}
+
+.profileCardLabel {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 226, 0.38);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+.profileCardValue {
+    font-size: 14px;
+    color: rgba(255, 233, 184, 0.9);
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    line-height: 1.3;
+}
+
+.profileCardFaint .profileCardValue {
+    color: rgba(245, 239, 226, 0.52);
+}
+
+.readoutDivider {
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba(255, 233, 184, 0) 0%,
+        rgba(255, 233, 184, 0.14) 50%,
+        rgba(255, 233, 184, 0) 100%);
+    margin: 20px 0 24px;
+    opacity: 0;
+    animation: fade-in 0.6s ease-out 0.6s forwards;
+}
+
+.readoutLoading {
+    font-size: 13px;
+    color: rgba(245, 239, 226, 0.55);
+    text-align: center;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    animation: breathe 2.2s ease-in-out infinite;
+}
+
+.readoutError {
+    font-size: 13px;
+    color: #f0a4a4;
+    text-align: center;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+.readoutErrorRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.readoutPara {
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(245, 239, 226, 0.88);
+    margin: 0;
+}
+
+.readoutLabel {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(245, 239, 226, 0.45);
+    text-transform: uppercase;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    margin-bottom: 8px;
+}
+
+
+/* ===== Budget light-strip ===== */
+.budgetStrip {
+    position: relative;
+    width: min(78%, 720px);
+    height: 120px;
+    margin: 24px auto 0;
+}
+
+.budgetTrack {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            rgba(245, 239, 226, 0.06) 0%,
+            rgba(245, 239, 226, 0.35) 50%,
+            rgba(245, 239, 226, 0.06) 100%);
+    transform: translateY(-50%);
+}
+
+.budgetTraveler {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe9b8 0%, rgba(255, 233, 184, 0.6) 45%, rgba(255, 233, 184, 0) 75%);
+    box-shadow: 0 0 18px rgba(255, 233, 184, 0.65);
+    transform: translate(-50%, -50%);
+    transition: left 380ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.budgetAnchor {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: 0;
+    padding: 14px 6px;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+}
+
+.budgetAnchorDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(245, 239, 226, 0.35);
+    transition: background 220ms ease, transform 220ms ease;
+}
+
+.budgetAnchor:hover .budgetAnchorDot {
+    background: rgba(245, 239, 226, 0.75);
+    transform: scale(1.4);
+}
+
+.budgetAnchor.picked .budgetAnchorDot {
+    background: #ffe9b8;
+    transform: scale(1.6);
+}
+
+.budgetAnchorLabel {
+    position: absolute;
+    top: 32px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(245, 239, 226, 0.55);
+    white-space: nowrap;
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    transition: color 220ms ease;
+}
+
+.budgetAnchor.picked .budgetAnchorLabel {
+    color: rgba(245, 239, 226, 0.95);
+}
+
+/* ===== Wish input (persistent astrolabe overlay) ===== */
+.wishStage {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.wishStage>* {
+    pointer-events: auto;
+}
+
+.wishAstrolabe {
+    position: absolute;
+    left: 50%;
+    bottom: -170px;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%) translateY(0);
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        filter 520ms ease;
+    filter: drop-shadow(0 0 18px rgba(255, 233, 184, 0.1));
+    animation: wishBreathe 3.6s ease-in-out infinite;
+}
+
+.wishAstrolabe:hover {
+    filter: drop-shadow(0 0 36px rgba(255, 233, 184, 0.32));
+    transform: translateX(-50%) translateY(-6px);
+    animation: none;
+}
+
+.wishAstrolabeOpened {
+    animation: none;
+}
+
+@keyframes wishBreathe {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 18px rgba(255, 233, 184, 0.1));
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 28px rgba(255, 233, 184, 0.22));
+        transform: translateX(-50%) translateY(-4px);
+    }
+}
+
+.wishAstrolabeHint {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.36em;
+    padding-left: 0.36em;
+    color: rgba(245, 239, 226, 0.45);
+    pointer-events: none;
+    text-transform: uppercase;
+    transition: opacity 320ms ease, top 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.wishAstrolabe:hover .wishAstrolabeHint {
+    color: rgba(255, 233, 184, 0.85);
+}
+
+.wishAstrolabeOpened .wishAstrolabeHint {
+    opacity: 0;
+}
+
+.wishAstrolabeOpened {
+    transform: translateX(-50%) translateY(80px);
+    filter: drop-shadow(0 0 32px rgba(255, 233, 184, 0.28));
+}
+
+.wishAstrolabeSvg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: wishRotate 90s linear infinite;
+}
+
+.wishAstrolabeOpened .wishAstrolabeSvg {
+    animation-duration: 40s;
+}
+
+@keyframes wishRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wishRingOuter {
+    fill: none;
+    stroke: rgba(245, 239, 226, 0.22);
+    stroke-width: 0.6;
+}
+
+.wishRingMid {
+    fill: none;
+    stroke: rgba(245, 239, 226, 0.16);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 6;
+}
+
+.wishRingInner {
+    fill: none;
+    stroke: rgba(255, 233, 184, 0.35);
+    stroke-width: 0.6;
+}
+
+.wishCore {
+    fill: #ffe9b8;
+    filter: drop-shadow(0 0 4px rgba(255, 233, 184, 0.9));
+}
+
+.wishTick {
+    stroke: rgba(245, 239, 226, 0.55);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+}
+
+.wishAstrolabeLabel {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    font-size: 14px;
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+    color: rgba(245, 239, 226, 0.7);
+    pointer-events: none;
+    text-shadow: 0 0 12px rgba(255, 233, 184, 0.4);
+    transition: top 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        color 320ms ease;
+}
+
+.wishAstrolabeOpened .wishAstrolabeLabel {
+    top: 50%;
+    color: rgba(245, 239, 226, 0.92);
+}
+
+.wishFollowUp {
+    font-size: 12px;
+    color: rgba(245, 239, 226, 0.65);
+    background: rgba(245, 239, 226, 0.06);
+    border-left: 2px solid rgba(245, 239, 226, 0.25);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-style: italic;
+    animation: wishPanelIn 300ms ease both;
+}
+
+.wishAnswer {
+    font-size: 13px;
+    color: rgba(255, 233, 184, 0.92);
+    background: rgba(255, 233, 184, 0.07);
+    border: 1px solid rgba(255, 233, 184, 0.22);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+    animation: wishPanelIn 300ms ease both;
+}
+
+.wishPanel {
+    position: absolute;
+    left: 50%;
+    bottom: 180px;
+    transform: translateX(-50%);
+    width: min(78%, 620px);
+    animation: wishPanelIn 420ms ease both;
+    pointer-events: none;
+}
+
+.wishPanel > * {
+    pointer-events: auto;
+}
+
+@keyframes wishPanelIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.wishInput {
+    width: 100%;
+    background: transparent;
+    color: rgba(245, 239, 226, 0.92);
+    border: 0;
+    border-bottom: 1px solid rgba(245, 239, 226, 0.18);
+    padding: 14px 4px 16px;
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    resize: none;
+    outline: none;
+    transition: border-color 240ms ease;
+}
+
+.wishInput::placeholder {
+    color: rgba(245, 239, 226, 0.32);
+    font-style: italic;
+}
+
+.wishInput:focus {
+    border-bottom-color: rgba(255, 233, 184, 0.7);
+}
+
+.wishCount {
+    position: absolute;
+    right: 4px;
+    bottom: -22px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: rgba(245, 239, 226, 0.35);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------- */
+/* ConfirmView - LLM implication bullets card                              */
+/* ---------------------------------------------------------------------- */
+.confirmCard {
+    width: min(620px, 92%);
+    margin: 0 auto;
+    padding: 28px 32px;
+    border-radius: 16px;
+    background: rgba(11, 18, 38, 0.72);
+    border: 1px solid rgba(255, 233, 184, 0.18);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.45),
+        inset 0 0 24px rgba(255, 233, 184, 0.04);
+    backdrop-filter: blur(6px);
+    color: rgba(245, 239, 226, 0.9);
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+}
+
+.confirmLoading,
+.confirmError {
+    text-align: center;
+    color: rgba(245, 239, 226, 0.55);
+    font-size: 14px;
+    padding: 22px 0;
+}
+
+.confirmError {
+    color: rgba(255, 180, 160, 0.8);
+}
+
+.confirmHeadline {
+    margin: 0 0 18px;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    color: rgba(255, 233, 184, 0.95);
+    text-align: center;
+}
+
+.confirmList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.confirmItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 233, 184, 0.08);
+}
+
+.confirmItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.confirmBody {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(245, 239, 226, 0.86);
+}
+
+.confirmOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.confirmOption {
+    appearance: none;
+    background: rgba(255, 233, 184, 0.04);
+    border: 1px solid rgba(255, 233, 184, 0.22);
+    color: rgba(245, 239, 226, 0.85);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 180ms ease, border-color 180ms ease,
+        color 180ms ease;
+}
+
+.confirmOption:hover {
+    background: rgba(255, 233, 184, 0.1);
+    border-color: rgba(255, 233, 184, 0.45);
+}
+
+.confirmOptionPicked {
+    background: rgba(255, 233, 184, 0.18);
+    border-color: rgba(255, 233, 184, 0.7);
+    color: #ffe9b8;
+}
+
+.confirmFooterRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirmSkip {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: rgba(245, 239, 226, 0.4);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+.confirmSkip:hover {
+    color: rgba(245, 239, 226, 0.7);
+}
+
+/* ---------------------------------------------------------------------- */
+/* ResolveView - pre-readout conflict picker                              */
+/* ---------------------------------------------------------------------- */
+.resolveCard {
+    width: min(560px, 92%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px 28px;
+}
+
+.resolveOption {
+    appearance: none;
+    background: rgba(11, 18, 38, 0.72);
+    border: 1px solid rgba(255, 233, 184, 0.2);
+    border-radius: 14px;
+    padding: 18px 20px;
+    text-align: left;
+    color: rgba(245, 239, 226, 0.9);
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 200ms ease, background 200ms ease,
+        transform 200ms ease;
+}
+
+.resolveOption:hover {
+    border-color: rgba(255, 233, 184, 0.6);
+    background: rgba(11, 18, 38, 0.92);
+    transform: translateY(-1px);
+}
+
+.resolveValue {
+    font-size: 16px;
+    color: rgba(255, 233, 184, 0.95);
+    letter-spacing: 0.03em;
+}
+
+.resolveSource {
+    font-size: 12px;
+    color: rgba(245, 239, 226, 0.5);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------- */
+/* WishDialog — full-screen sub-page that opens when the user asks a       */
+/* question or triggers a backtrack. Blocks the main flow until closed.    */
+/* ---------------------------------------------------------------------- */
+.wishDialog {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 50% 110%,
+            rgba(68, 84, 132, 0.28) 0%,
+            rgba(11, 18, 38, 0) 60%),
+        rgba(6, 9, 18, 0.92);
+    backdrop-filter: blur(3px);
+    padding: 40px 24px;
+    animation: fade-in 0.35s ease both;
+}
+
+.wishDialogInner {
+    width: min(640px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.wishDialogUserBubble {
+    align-self: flex-end;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+}
+
+.wishDialogSystemBubble {
+    align-self: flex-start;
+    max-width: 84%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wishDialogSpeaker {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 226, 0.38);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+}
+
+.wishDialogUserText {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(245, 239, 226, 0.82);
+    background: rgba(245, 239, 226, 0.07);
+    border: 1px solid rgba(245, 239, 226, 0.15);
+    border-radius: 14px 14px 4px 14px;
+    padding: 12px 16px;
+    text-align: right;
+}
+
+.wishDialogResponseText {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 233, 184, 0.95);
+    background: rgba(255, 233, 184, 0.07);
+    border: 1px solid rgba(255, 233, 184, 0.22);
+    border-radius: 4px 14px 14px 14px;
+    padding: 14px 18px;
+}
+
+.wishDialogFollowUp {
+    margin: 0;
+    font-size: 13px;
+    font-style: italic;
+    color: rgba(245, 239, 226, 0.6);
+    padding: 6px 4px;
+}
+
+.wishDialogActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Holland/RIASEC highlight glow on the field picker stars                  */
+/* ---------------------------------------------------------------------- */
+.star.highlighted .starDot {
+    box-shadow:
+        0 0 10px rgba(255, 233, 184, 0.55),
+        0 0 22px rgba(255, 197, 110, 0.28);
+    background: rgba(255, 233, 184, 0.9);
+}
+
+.star.highlighted .starLabel {
+    color: rgba(255, 233, 184, 0.85);
+}
+
+/* ---------------------------------------------------------------------- */
+/* HollandRecommendCard — floating panel on field picker                    */
+/* ---------------------------------------------------------------------- */
+.hollandCard {
+    position: absolute;
+    right: 4%;
+    top: 10%;
+    width: min(164px, 26%);
+    background: rgba(11, 18, 38, 0.82);
+    border: 1px solid rgba(255, 233, 184, 0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    backdrop-filter: blur(6px);
+    animation: fade-in 0.7s ease 0.4s both;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.hollandCardTitle {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 226, 0.38);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    margin: 0 0 3px;
+}
+
+.hollandCardSub {
+    font-size: 12px;
+    color: rgba(255, 233, 184, 0.85);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+
+.hollandCardList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.hollandCardItem {
+    font-size: 13px;
+    color: rgba(245, 239, 226, 0.78);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    line-height: 1.4;
+}
+
+.hollandCardDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: rgba(255, 233, 184, 0.7);
+    box-shadow: 0 0 6px rgba(255, 233, 184, 0.38);
+}
+
+/* ---------------------------------------------------------------------- */
+/* AdaptiveQuestionView — quick-pick options as star-dot constellation      */
+/* ---------------------------------------------------------------------- */
+
+/* Override .starLabel for adaptive picks to allow text wrapping            */
+.adaptiveLabel {
+    white-space: normal;
+    max-width: 88px;
+    text-align: center;
+    line-height: 1.4;
+    font-size: 11px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Adaptive phase loading indicator                                         */
+/* ---------------------------------------------------------------------- */
+.adaptiveLoading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: rgba(245, 239, 226, 0.45);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    letter-spacing: 0.1em;
+    animation: breathe 2.2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------- */
+/* FollowUpDialog — full-screen blocking sub-page for clarifying questions  */
+/* ---------------------------------------------------------------------- */
+.followUpDialog {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 50% 110%,
+            rgba(68, 84, 132, 0.28) 0%,
+            rgba(11, 18, 38, 0) 60%),
+        rgba(6, 9, 18, 0.96);
+    backdrop-filter: blur(4px);
+    padding: 40px 24px;
+    animation: fade-in 0.35s ease both;
+}
+
+.followUpDialogInner {
+    width: min(640px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.followUpDialogLabel {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 226, 0.38);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    margin: 0;
+}
+
+.followUpDialogQuestion {
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    color: rgba(255, 233, 184, 0.92);
+    margin: 0;
+    opacity: 0;
+    animation: fade-in 0.7s ease 0.1s forwards;
+}
+
+.followUpDialogTextarea {
+    width: 100%;
+    background: transparent;
+    color: rgba(245, 239, 226, 0.92);
+    border: 0;
+    border-bottom: 1px solid rgba(245, 239, 226, 0.22);
+    padding: 14px 4px 16px;
+    font-family: var(--font-serif, ui-serif), Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    resize: none;
+    outline: none;
+    transition: border-color 240ms ease;
+}
+
+.followUpDialogTextarea::placeholder {
+    color: rgba(245, 239, 226, 0.3);
+    font-style: italic;
+}
+
+.followUpDialogTextarea:focus {
+    border-bottom-color: rgba(255, 233, 184, 0.7);
+}
+
+.followUpDialogActions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+}
+
+.followUpDialogSkip {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: rgba(245, 239, 226, 0.35);
+    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 8px 12px;
+    transition: color 200ms ease;
+}
+
+.followUpDialogSkip:hover {
+    color: rgba(245, 239, 226, 0.62);
+}

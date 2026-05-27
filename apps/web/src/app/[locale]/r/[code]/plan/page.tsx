@@ -217,7 +217,6 @@ export default async function PlanPage({ params, searchParams }: PlanPageProps) 
                     labels={{
                         title: t("contactCard.title"),
                         body: t("contactCard.body"),
-                        cta: t("contactCard.cta"),
                         idLabel: t("contactCard.idLabel"),
                     }}
                 />

@@ -53,6 +53,22 @@
 
 ---
 
+## 3.5 数据管线（Data Pipeline，规划中）
+
+> 详见 `docs/data-pipeline.md` 与 ADR 0005。落地前以 Proposed 状态登记于此。
+
+| 类别 | 选型 | 版本 | 用途 |
+|---|---|---|---|
+| Workspace | `packages/data-pipeline` | n/a | 独立 workspace，仅 dev / CI 使用，不被 runtime 引用 |
+| HTTP 客户端 | undici | ^7 | fetch + 限频 + cache，原生 Node，无浏览器依赖 |
+| HTML 解析 | linkedom（备选 cheerio） | latest | 服务端 DOM；零 JS 渲染 |
+| robots 解析 | robots-parser | latest | 每次 fetch 前校验目标路径 |
+| 校验 | 复用 `@isp0526/core` 的 Zod schemas | n/a | 单一事实源，避免 schema 漂移 |
+
+**硬约束**：禁止 puppeteer / playwright 等 headless 浏览器；禁止在该 workspace 引入 LLM SDK；任何来源新增须先在 `docs/data-pipeline-sources.md` 登记后再写代码。
+
+---
+
 ## 4. 基础设施
 
 | 类别 | 选型 | 备注 |

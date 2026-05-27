@@ -330,7 +330,10 @@ export function VoyageStage() {
             const nextHistory: VoyageHistoryTurn[] = [...history, turn];
             setHistory(nextHistory);
             writeSession(VOYAGE_HISTORY_KEY, nextHistory);
-            setPhase("submitting");
+            // Go straight to the sailing screen so the user immediately
+            // sees forward motion instead of being parked on the just-
+            // answered question card while the LLM is in flight.
+            setPhase("sailing");
             trackEvent("intake_step_start", {
                 channel: "chat",
                 step: turnIndex + 1,
