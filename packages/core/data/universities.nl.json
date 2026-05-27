@@ -1,0 +1,44 @@
+[
+    {
+        "id": "tudelft",
+        "name_en": "Delft University of Technology",
+        "name_zh": "代尔夫特理工大学",
+        "country": "NL",
+        "city": "Delft",
+        "city_size": "medium",
+        "climate": "temperate",
+        "reputation_score": 0.9,
+        "chinese_community_density": 0.4,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "tudelft_education_2026",
+                "kind": "url",
+                "url": "https://www.tudelft.nl/en/education",
+                "last_verified_date": "2026-05-27",
+                "note": "official education index"
+            }
+        ]
+    },
+    {
+        "id": "uva",
+        "name_en": "University of Amsterdam",
+        "name_zh": "阿姆斯特丹大学",
+        "country": "NL",
+        "city": "Amsterdam",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.88,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "uva_programmes_2026",
+                "kind": "url",
+                "url": "https://www.uva.nl/en/education/education.html",
+                "last_verified_date": "2026-05-27",
+                "note": "official education index"
+            }
+        ]
+    }
+]

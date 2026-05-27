@@ -1,0 +1,128 @@
+[
+    {
+        "id": "tcd-bachelor-computer-science",
+        "university_id": "tcd",
+        "name_en": "Computer Science BA",
+        "name_zh": "计算机科学本科",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "balanced",
+        "gpa_min": 2.8,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 45000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "tcd_cs_ba_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/",
+                "last_verified_date": "2026-05-27",
+                "note": "official courses index; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "ucd-msc-business-analytics",
+        "university_id": "ucd",
+        "name_en": "MSc Business Analytics",
+        "name_zh": "商业分析硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 44000
+        },
+        "tags": [
+            "career_pipeline",
+            "value_for_money"
+        ],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "ucd_msc_ba_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/quinn/programmes/masters/msc-business-analytics/",
+                "last_verified_date": "2026-05-27",
+                "note": "official programme page; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "tcd-phd-research",
+        "university_id": "tcd",
+        "name_en": "PhD Research",
+        "name_zh": "研究型博士",
+        "level": "phd",
+        "duration_years": 4,
+        "field": "Research",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 14000
+        },
+        "tags": [
+            "scholarship_rich"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "tcd_phd_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/study/postgraduate/research/",
+                "last_verified_date": "2026-05-27",
+                "note": "official postgraduate research page; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "ucd-international-foundation-year",
+        "university_id": "ucd",
+        "name_en": "International Foundation Year",
+        "name_zh": "国际预科年",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.0,
+        "language_min": {
+            "ielts_overall": 5.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 30000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "ucd_ifp_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/global/study-at-ucd/undergraduate/internationalfoundationyear/",
+                "last_verified_date": "2026-05-27",
+                "note": "official foundation year page; not an admission guarantee"
+            }
+        ]
+    }
+]

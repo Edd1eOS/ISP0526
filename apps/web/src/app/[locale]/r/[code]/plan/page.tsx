@@ -39,6 +39,14 @@ const COUNTRY_LABEL: Record<Country, string> = {
     NZ: "新西兰",
     HK: "香港",
     SG: "新加坡",
+    MY: "马来西亚",
+    TH: "泰国",
+    DE: "德国",
+    NL: "荷兰",
+    IE: "爱尔兰",
+    RU: "俄罗斯",
+    TW: "中国台湾",
+    MO: "中国澳门",
 };
 
 interface ParsedPick {

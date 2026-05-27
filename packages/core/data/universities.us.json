@@ -1,0 +1,44 @@
+[
+    {
+        "id": "mit",
+        "name_en": "Massachusetts Institute of Technology",
+        "name_zh": "麻省理工学院",
+        "country": "US",
+        "city": "Cambridge",
+        "city_size": "large",
+        "climate": "cold",
+        "reputation_score": 0.99,
+        "chinese_community_density": 0.55,
+        "safety_index": 0.82,
+        "sources": [
+            {
+                "source_id": "mit_homepage_2026",
+                "kind": "url",
+                "url": "https://www.mit.edu/",
+                "last_verified_date": "2026-05-27",
+                "note": "MIT official site; institutional shell"
+            }
+        ]
+    },
+    {
+        "id": "stanford",
+        "name_en": "Stanford University",
+        "name_zh": "斯坦福大学",
+        "country": "US",
+        "city": "Stanford",
+        "city_size": "medium",
+        "climate": "temperate",
+        "reputation_score": 0.99,
+        "chinese_community_density": 0.5,
+        "safety_index": 0.86,
+        "sources": [
+            {
+                "source_id": "stanford_homepage_2026",
+                "kind": "url",
+                "url": "https://www.stanford.edu/",
+                "last_verified_date": "2026-05-27",
+                "note": "Stanford official site; institutional shell"
+            }
+        ]
+    }
+]

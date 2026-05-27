@@ -1,0 +1,44 @@
+[
+    {
+        "id": "hku",
+        "name_en": "The University of Hong Kong",
+        "name_zh": "香港大学",
+        "country": "HK",
+        "city": "Hong Kong",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.93,
+        "chinese_community_density": 0.95,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "hku_programmes_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes",
+                "last_verified_date": "2026-05-27",
+                "note": "official admissions programme index"
+            }
+        ]
+    },
+    {
+        "id": "hkust",
+        "name_en": "The Hong Kong University of Science and Technology",
+        "name_zh": "香港科技大学",
+        "country": "HK",
+        "city": "Hong Kong",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.91,
+        "chinese_community_density": 0.95,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "hkust_program_catalog_2026",
+                "kind": "url",
+                "url": "https://prog-crs.hkust.edu.hk/ugprog",
+                "last_verified_date": "2026-05-27",
+                "note": "official program and course catalog"
+            }
+        ]
+    }
+]

@@ -1,0 +1,129 @@
+[
+    {
+        "id": "mit-bachelor-eecs",
+        "university_id": "mit",
+        "name_en": "Bachelor of Science in Electrical Engineering and Computer Science",
+        "name_zh": "电气工程与计算机科学学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computing",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.6,
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 93000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "scholarship_rich"
+        ],
+        "applied_ratio": 0.45,
+        "sources": [
+            {
+                "source_id": "mit_eecs_undergrad_2026",
+                "kind": "url",
+                "url": "https://www.eecs.mit.edu/academics/undergraduate-programs/",
+                "last_verified_date": "2026-05-27",
+                "note": "program page; tuition is conservative AUD sticker estimate"
+            }
+        ]
+    },
+    {
+        "id": "mit-master-business-analytics",
+        "university_id": "mit",
+        "name_en": "Master of Business Analytics",
+        "name_zh": "商业分析硕士",
+        "level": "master",
+        "duration_years": 1,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.5,
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 130000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "mit_mban_2026",
+                "kind": "url",
+                "url": "https://mitsloan.mit.edu/master-of-business-analytics",
+                "last_verified_date": "2026-05-27",
+                "note": "program page; tuition is conservative AUD sticker estimate"
+            }
+        ]
+    },
+    {
+        "id": "stanford-phd-computer-science",
+        "university_id": "stanford",
+        "name_en": "PhD in Computer Science",
+        "name_zh": "计算机科学博士",
+        "level": "phd",
+        "duration_years": 5,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.6,
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 98000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.35,
+        "sources": [
+            {
+                "source_id": "stanford_cs_phd_2026",
+                "kind": "url",
+                "url": "https://www.cs.stanford.edu/admissions/phd",
+                "last_verified_date": "2026-05-27",
+                "note": "program page; many PhD admits receive funding, sticker tuition kept for budget model"
+            }
+        ]
+    },
+    {
+        "id": "stanford-pre-collegiate-studies",
+        "university_id": "stanford",
+        "name_en": "Stanford Pre-Collegiate Studies",
+        "name_zh": "斯坦福大学预科拓展课程",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.8,
+        "language_min": {},
+        "tuition": {
+            "currency": "AUD",
+            "annual": 20000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "stanford_precollegiate_2026",
+                "kind": "url",
+                "url": "https://spcs.stanford.edu/",
+                "last_verified_date": "2026-05-27",
+                "note": "pre-collegiate pathway-style offering; not an admission guarantee"
+            }
+        ]
+    }
+]

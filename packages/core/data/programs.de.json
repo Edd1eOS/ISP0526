@@ -1,0 +1,132 @@
+[
+    {
+        "id": "tum-bsc-management-technology",
+        "university_id": "tum",
+        "name_en": "BSc Management and Technology",
+        "name_zh": "管理与技术理学学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Business",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.8,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 12000
+        },
+        "tags": [
+            "field_top",
+            "value_for_money",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "tum_bsc_mgttech_2026",
+                "kind": "url",
+                "url": "https://www.tum.de/en/studies/degree-programs",
+                "last_verified_date": "2026-05-27",
+                "note": "official degree programs index; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "tum-msc-data-engineering-analytics",
+        "university_id": "tum",
+        "name_en": "MSc Data Engineering and Analytics",
+        "name_zh": "数据工程与分析硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Data Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 15000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "value_for_money"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "tum_msc_dea_2026",
+                "kind": "url",
+                "url": "https://www.tum.de/en/studies/degree-programs",
+                "last_verified_date": "2026-05-27",
+                "note": "official degree programs index; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "lmu-phd-computer-science",
+        "university_id": "lmu",
+        "name_en": "Doctoral Studies in Computer Science",
+        "name_zh": "计算机科学博士",
+        "level": "phd",
+        "duration_years": 3,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 3000
+        },
+        "tags": [
+            "tuition_friendly",
+            "scholarship_rich"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "lmu_doctoral_studies_2026",
+                "kind": "url",
+                "url": "https://www.lmu.de/en/study/degree-students/doctoral-studies/",
+                "last_verified_date": "2026-05-27",
+                "note": "official doctoral studies page; tuition converted from EUR estimate"
+            }
+        ]
+    },
+    {
+        "id": "tum-studienkolleg",
+        "university_id": "tum",
+        "name_en": "Studienkolleg Preparatory Course",
+        "name_zh": "德国大学预科课程",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": {
+            "ielts_overall": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 5000
+        },
+        "tags": [
+            "tuition_friendly",
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "tum_studienkolleg_2026",
+                "kind": "url",
+                "url": "https://www.tum.de/en/studies/application/application-info-portal/school-leaving-certificates",
+                "last_verified_date": "2026-05-27",
+                "note": "official entry qualification guidance; preparatory route is not an admission guarantee"
+            }
+        ]
+    }
+]

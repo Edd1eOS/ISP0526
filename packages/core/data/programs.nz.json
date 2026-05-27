@@ -1,0 +1,135 @@
+[
+    {
+        "id": "auckland-bachelor-commerce",
+        "university_id": "auckland",
+        "name_en": "Bachelor of Commerce",
+        "name_zh": "商学学士",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Business",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": {
+            "ielts_overall": 6.0,
+            "ielts_min_band": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 43000
+        },
+        "tags": [
+            "value_for_money",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "auckland_bcom_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/bachelor-of-commerce-bcom.html",
+                "last_verified_date": "2026-05-27",
+                "note": "program page; tuition converted to AUD estimate"
+            }
+        ]
+    },
+    {
+        "id": "auckland-master-data-science",
+        "university_id": "auckland",
+        "name_en": "Master of Data Science",
+        "name_zh": "数据科学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50000
+        },
+        "tags": [
+            "field_top",
+            "migration_friendly",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "auckland_mds_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/master-of-data-science-mdats.html",
+                "last_verified_date": "2026-05-27",
+                "note": "program page; tuition converted to AUD estimate"
+            }
+        ]
+    },
+    {
+        "id": "otago-phd",
+        "university_id": "otago",
+        "name_en": "Doctor of Philosophy",
+        "name_zh": "哲学博士",
+        "level": "phd",
+        "duration_years": 3,
+        "field": "Research",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 9000
+        },
+        "tags": [
+            "tuition_friendly",
+            "scholarship_rich",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "otago_phd_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/study/qualifications/phd",
+                "last_verified_date": "2026-05-27",
+                "note": "PhD qualification page; NZ PhD international tuition can follow domestic-rate policy"
+            }
+        ]
+    },
+    {
+        "id": "auckland-foundation-studies",
+        "university_id": "auckland",
+        "name_en": "Certificate in Foundation Studies",
+        "name_zh": "大学预科证书课程",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.0,
+        "language_min": {
+            "ielts_overall": 5.0,
+            "ielts_min_band": 4.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 35000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "auckland_foundation_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/international-students/study-options-for-international-students/foundation-programmes.html",
+                "last_verified_date": "2026-05-27",
+                "note": "official foundation programmes page; not an admission guarantee"
+            }
+        ]
+    }
+]

@@ -1,0 +1,128 @@
+[
+    {
+        "id": "um-mo-bachelor-business-administration",
+        "university_id": "um-mo",
+        "name_en": "Bachelor of Business Administration",
+        "name_zh": "工商管理学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Business Administration",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 24000
+        },
+        "tags": [
+            "chinese_community",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "um_mo_bba_2026",
+                "kind": "url",
+                "url": "https://admissions.um.edu.mo/",
+                "last_verified_date": "2026-05-27",
+                "note": "official admissions site; tuition converted from MOP estimate"
+            }
+        ]
+    },
+    {
+        "id": "um-mo-msc-data-science",
+        "university_id": "um-mo",
+        "name_en": "MSc in Data Science",
+        "name_zh": "数据科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 26000
+        },
+        "tags": [
+            "career_pipeline",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "um_mo_mds_2026",
+                "kind": "url",
+                "url": "https://gradschool.um.edu.mo/",
+                "last_verified_date": "2026-05-27",
+                "note": "official graduate school site; tuition converted from MOP estimate"
+            }
+        ]
+    },
+    {
+        "id": "must-phd-management",
+        "university_id": "must",
+        "name_en": "PhD in Management",
+        "name_zh": "管理学博士",
+        "level": "phd",
+        "duration_years": 3,
+        "field": "Management",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 25000
+        },
+        "tags": [
+            "chinese_community",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.35,
+        "sources": [
+            {
+                "source_id": "must_phd_mgmt_2026",
+                "kind": "url",
+                "url": "https://www.must.edu.mo/en/admission",
+                "last_verified_date": "2026-05-27",
+                "note": "official admissions site; tuition converted from MOP estimate"
+            }
+        ]
+    },
+    {
+        "id": "um-mo-portuguese-preparatory",
+        "university_id": "um-mo",
+        "name_en": "Portuguese Language Preparatory Study",
+        "name_zh": "葡语预备学习",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.0,
+        "language_min": {},
+        "tuition": {
+            "currency": "AUD",
+            "annual": 12000
+        },
+        "tags": [
+            "stepping_stone",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "um_mo_lang_2026",
+                "kind": "url",
+                "url": "https://fah.um.edu.mo/",
+                "last_verified_date": "2026-05-27",
+                "note": "official faculty site; language/preparatory record, not degree admission"
+            }
+        ]
+    }
+]
