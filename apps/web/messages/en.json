@@ -47,9 +47,8 @@
     },
     "report": {
         "contactCard": {
-            "title": "Want to talk to someone?",
-            "body": "Anything in the report worth a deeper chat — send us your report ID and we'll get back to you in person.",
-            "cta": "Contact us",
+            "title": "Contact our team",
+            "body": "Share your report ID and our advisors will reach out to discuss anything in the report in depth.",
             "idLabel": "Your report ID"
         },
         "expiryNote": "This share link expires on {date}. Keep a PDF or share image as your permanent copy."
