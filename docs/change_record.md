@@ -5,6 +5,12 @@
 
 ---
 
+## 2026-05-27 — Data pipeline spec + ADR 0005
+
+- `docs`: add `docs/data-pipeline.md` defining the ingest pipeline (fetch -> parse -> normalize -> validate -> diff -> draft -> human promote), the `packages/data-pipeline` workspace layout, the SourceModule contract, the per-step hard constraints, the CLI surface, the freshness policy, and a 9-step handoff checklist for the next agent. Add `docs/data-pipeline-sources.md` with the new-source registration template, common fetch constraints (UA, rate limit, robots, fixtures), PII red lines, GPA / tuition / field normalization rules, and the priority list of first sources to onboard (studyaustralia providers, UKCISA fees, Canada DLI list, per-university handbooks, gov.uk student visa). Add ADR 0005 proposing `packages/data-pipeline` as a separate pnpm workspace that imports core schemas but is never imported by runtime; promotion to production JSON is human-only. Update `docs/techstack.md` with the planned Data Pipeline section (undici, linkedom, robots-parser; no headless browser, no LLM SDK in this layer).
+
+---
+
 ## 2026-05-26 — Voyage profile spec + remove turn cap
 
 - `docs`: add `docs/voyage-profile-spec.md`, the authoritative coverage spec for the voyage step. It lists every dimension (goals / field / geography / funding / credentials / signals / personality_check), and for each subfield specifies the required positive cell, negative cell, and confirmation cell — together with per-dimension required thresholds, weighted completeness scoring, and the proper stop conditions. This is now the source of truth that the voyage prompt and adapter both reference.

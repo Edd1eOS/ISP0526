@@ -77,7 +77,7 @@ export default async function Home({
           {t("ctaStart")}
         </Link>
         <Link
-          href="/intake"
+          href="/methodology"
           className="text-text px-7 py-3.5 text-base font-semibold transition-transform active:scale-95"
           style={{
             background: "var(--gradient-raised)",

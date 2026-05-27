@@ -31,7 +31,61 @@
         "heroTitle": "ISP0526",
         "heroSubtitle": "Circle the globe and watch your next stop light up.",
         "ctaStart": "Start your study-abroad quest",
-        "ctaSecondary": "See how it works"
+        "ctaSecondary": "How we deliver professional guidance"
+    },
+    "methodology": {
+        "eyebrow": "Methodology",
+        "title": "How we deliver professional guidance",
+        "intro": "We are not another chatbot. Every recommendation is grounded in traceable data, an academically validated personality framework, and a transparent scoring formula. Here is the full machinery behind any answer we give you.",
+        "backToHome": "Back to home",
+        "sections": {
+            "personality": {
+                "heading": "01 · Personality and lifestyle assessment",
+                "body": "We use the Big Five (Five-Factor Model), the most replicated personality framework of the last thirty years. The instrument is TIPI (Ten-Item Personality Inventory): two items per factor across Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. It takes about one minute and has been validated across multiple cross-cultural studies. We do not diagnose you; we locate a point in five-dimensional space and use it to align program teaching styles (theory / balanced / applied).",
+                "citations": [
+                    "Goldberg, L. R. (1990). An alternative \"description of personality\": The Big-Five factor structure. Journal of Personality and Social Psychology, 59(6), 1216-1229.",
+                    "Costa, P. T., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R) and NEO Five-Factor Inventory (NEO-FFI) professional manual. Psychological Assessment Resources.",
+                    "Gosling, S. D., Rentfrow, P. J., & Swann, W. B. (2003). A very brief measure of the Big-Five personality domains (TIPI). Journal of Research in Personality, 37(6), 504-528."
+                ]
+            },
+            "career": {
+                "heading": "02 · Career inclination and program field",
+                "body": "Career fit borrows from Holland's RIASEC model (Realistic / Investigative / Artistic / Social / Enterprising / Conventional). We do not ask you to take a RIASEC test; instead it is an internal reference for matching program fields (CS / finance / design / education, etc.) with your temperament. This avoids locking students into a vocational code while preserving the theory's explanatory power. Embedded preferences from spec FR-2.4 (migration vs return-home, internship, salary sensitivity) modulate the weights.",
+                "citations": [
+                    "Holland, J. L. (1997). Making vocational choices: A theory of vocational personalities and work environments (3rd ed.). Psychological Assessment Resources.",
+                    "Nauta, M. M. (2010). The development, evolution, and status of Holland's theory of vocational personalities. Journal of Counseling Psychology, 57(1), 11-22."
+                ]
+            },
+            "data": {
+                "heading": "03 · Institution data: public sources + human curation",
+                "body": "Our university and program dataset (packages/core/data/) comes 100% from public channels: admissions sites, government open data (CRICOS / IRCC DLI / gov.uk), and institutions' own published ranking summaries. Every row must carry source_id + URL + last_verified_date, otherwise the Zod validator at load time rejects it. We wrote a data-pipeline specification to enforce this: no headless browsers, no simulated logins, no anti-scraping bypass, no PII capture, no LLM-fabricated facts. Any write into production data must pass human review; CI is not allowed to auto-promote.",
+                "citations": [
+                    "docs/data-pipeline.md — Ingest pipeline spec: fetch -> parse -> normalize -> Zod validate -> diff -> draft -> human promote.",
+                    "docs/data-pipeline-sources.md — Source playbook: strict robots.txt, >=1 req/s per host, zero PII.",
+                    "docs/spec.md FR-3.4 / FR-3.5 — Data governance: every row traceable, quarterly full re-verification."
+                ]
+            },
+            "scoring": {
+                "heading": "04 · Scoring engine: weighted, not gated",
+                "body": "We deliberately do not let the algorithm filter for you. Aside from a few hard floors (GPA below 85% of program minimum, or a country you explicitly excluded), every dimension is a weighted score: academic 0.30, personality 0.15, lifestyle 0.15, career 0.15, budget 0.10, tag boost 0.10, reputation 0.05. Those weights re-balance based on your stated preferences — e.g. if you write \"budget is very tight\" during assessment, budget_fit rises from 0.10 to 0.20 and others scale down proportionally. All scoring functions are pure: same input, same output, unit-testable.",
+                "citations": [
+                    "docs/spec.md FR-4 — Scoring formula and personalization rules.",
+                    "packages/core/src/rules/ — All scoring logic (one file per dimension, with unit tests)."
+                ]
+            },
+            "ai": {
+                "heading": "05 · The boundary on AI",
+                "body": "LLMs do three things here: rewrite rule-engine output into natural language, extract structured fields from documents you upload, and parse your free-form text into structured preferences. They never produce facts. Every LLM response is validated against a Zod schema and runs through a post-filter that drops any field whose source_id cannot be resolved to our local catalog. This is a hard project rule; violations are rejected at the gate.",
+                "citations": [
+                    "docs/prohibition.md — Red line 2: no recommendation may be emitted without a source_id.",
+                    ".github/instructions/ai-layer.instructions.md — All LLM outputs go through Zod validation and citation filtering."
+                ]
+            }
+        },
+        "closing": {
+            "heading": "Why so strict?",
+            "body": "Studying abroad is a six-figure decision. We would rather recommend fewer programs than serve you one we cannot answer \"where did this come from?\" for. The full engineering spec, ADR records, and change log live in the repository's docs/ directory; you (or your advisor) are welcome to audit them."
+        }
     },
     "intakeHub": {
         "stepTag": "Step 1 · Ready for liftoff",
