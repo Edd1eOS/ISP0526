@@ -1,0 +1,133 @@
+[
+    {
+        "id": "nus-bachelor-business-analytics",
+        "university_id": "nus",
+        "name_en": "Bachelor of Science in Business Analytics",
+        "name_zh": "商业分析理学学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 52000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "nus_bba_analytics_2026",
+                "kind": "url",
+                "url": "https://nus.edu.sg/oam/undergraduate-programmes",
+                "last_verified_date": "2026-05-27",
+                "note": "programme index lists Business Analytics; tuition converted from SGD estimate"
+            }
+        ]
+    },
+    {
+        "id": "nus-master-computing",
+        "university_id": "nus",
+        "name_en": "Master of Computing",
+        "name_zh": "计算机硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Computing",
+        "teaching_style": "balanced",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 59000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "nus_mcomp_2026",
+                "kind": "url",
+                "url": "https://www.comp.nus.edu.sg/programmes/pg/",
+                "last_verified_date": "2026-05-27",
+                "note": "official School of Computing graduate programmes page; tuition converted from SGD estimate"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg-phd-computer-science",
+        "university_id": "ntu-sg",
+        "name_en": "PhD in Computer Science and Engineering",
+        "name_zh": "计算机科学与工程博士",
+        "level": "phd",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.3,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 55000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.35,
+        "sources": [
+            {
+                "source_id": "ntu_cse_phd_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/computing/admissions/graduate-programmes",
+                "last_verified_date": "2026-05-27",
+                "note": "official graduate programmes page; tuition converted from SGD estimate"
+            }
+        ]
+    },
+    {
+        "id": "nus-college-preparatory",
+        "university_id": "nus",
+        "name_en": "NUS College Preparatory Pathway",
+        "name_zh": "新加坡国立大学学院预备路径",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.8,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 30000
+        },
+        "tags": [
+            "stepping_stone",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "nus_college_2026",
+                "kind": "url",
+                "url": "https://nuscollege.nus.edu.sg/",
+                "last_verified_date": "2026-05-27",
+                "note": "preparatory/enrichment-style pathway record; not an admission guarantee"
+            }
+        ]
+    }
+]

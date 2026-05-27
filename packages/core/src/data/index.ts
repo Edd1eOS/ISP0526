@@ -22,6 +22,30 @@ import universitiesUkRaw from "../../data/universities.uk.json" with { type: "js
 import programsUkRaw from "../../data/programs.uk.json" with { type: "json" };
 import universitiesCaRaw from "../../data/universities.ca.json" with { type: "json" };
 import programsCaRaw from "../../data/programs.ca.json" with { type: "json" };
+import universitiesDeRaw from "../../data/universities.de.json" with { type: "json" };
+import programsDeRaw from "../../data/programs.de.json" with { type: "json" };
+import universitiesHkRaw from "../../data/universities.hk.json" with { type: "json" };
+import programsHkRaw from "../../data/programs.hk.json" with { type: "json" };
+import universitiesIeRaw from "../../data/universities.ie.json" with { type: "json" };
+import programsIeRaw from "../../data/programs.ie.json" with { type: "json" };
+import universitiesMoRaw from "../../data/universities.mo.json" with { type: "json" };
+import programsMoRaw from "../../data/programs.mo.json" with { type: "json" };
+import universitiesMyRaw from "../../data/universities.my.json" with { type: "json" };
+import programsMyRaw from "../../data/programs.my.json" with { type: "json" };
+import universitiesNlRaw from "../../data/universities.nl.json" with { type: "json" };
+import programsNlRaw from "../../data/programs.nl.json" with { type: "json" };
+import universitiesNzRaw from "../../data/universities.nz.json" with { type: "json" };
+import programsNzRaw from "../../data/programs.nz.json" with { type: "json" };
+import universitiesRuRaw from "../../data/universities.ru.json" with { type: "json" };
+import programsRuRaw from "../../data/programs.ru.json" with { type: "json" };
+import universitiesSgRaw from "../../data/universities.sg.json" with { type: "json" };
+import programsSgRaw from "../../data/programs.sg.json" with { type: "json" };
+import universitiesThRaw from "../../data/universities.th.json" with { type: "json" };
+import programsThRaw from "../../data/programs.th.json" with { type: "json" };
+import universitiesTwRaw from "../../data/universities.tw.json" with { type: "json" };
+import programsTwRaw from "../../data/programs.tw.json" with { type: "json" };
+import universitiesUsRaw from "../../data/universities.us.json" with { type: "json" };
+import programsUsRaw from "../../data/programs.us.json" with { type: "json" };
 import visaRoutesRaw from "../../data/visa-routes.json" with { type: "json" };
 
 const universities: readonly University[] = Object.freeze(
@@ -29,6 +53,18 @@ const universities: readonly University[] = Object.freeze(
         ...universitiesAuRaw,
         ...universitiesUkRaw,
         ...universitiesCaRaw,
+        ...universitiesUsRaw,
+        ...universitiesNzRaw,
+        ...universitiesHkRaw,
+        ...universitiesSgRaw,
+        ...universitiesMyRaw,
+        ...universitiesThRaw,
+        ...universitiesDeRaw,
+        ...universitiesNlRaw,
+        ...universitiesIeRaw,
+        ...universitiesRuRaw,
+        ...universitiesTwRaw,
+        ...universitiesMoRaw,
     ]),
 );
 
@@ -37,6 +73,18 @@ const programs: readonly Program[] = Object.freeze(
         ...programsAuRaw,
         ...programsUkRaw,
         ...programsCaRaw,
+        ...programsUsRaw,
+        ...programsNzRaw,
+        ...programsHkRaw,
+        ...programsSgRaw,
+        ...programsMyRaw,
+        ...programsThRaw,
+        ...programsDeRaw,
+        ...programsNlRaw,
+        ...programsIeRaw,
+        ...programsRuRaw,
+        ...programsTwRaw,
+        ...programsMoRaw,
     ]),
 );
 

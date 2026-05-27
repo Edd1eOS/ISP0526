@@ -1,0 +1,132 @@
+[
+    {
+        "id": "ntu-tw-bachelor-computer-science",
+        "university_id": "ntu-tw",
+        "name_en": "Bachelor in Computer Science and Information Engineering",
+        "name_zh": "资讯工程学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "balanced",
+        "gpa_min": 2.7,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 9000
+        },
+        "tags": [
+            "tuition_friendly",
+            "field_top",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "ntu_tw_csie_2026",
+                "kind": "url",
+                "url": "https://www.csie.ntu.edu.tw/",
+                "last_verified_date": "2026-05-27",
+                "note": "official department site; tuition converted from TWD estimate"
+            }
+        ]
+    },
+    {
+        "id": "nthu-msc-computer-science",
+        "university_id": "nthu",
+        "name_en": "Master in Computer Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 9000
+        },
+        "tags": [
+            "tuition_friendly",
+            "field_top",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.45,
+        "sources": [
+            {
+                "source_id": "nthu_cs_grad_2026",
+                "kind": "url",
+                "url": "https://dcs.site.nthu.edu.tw/",
+                "last_verified_date": "2026-05-27",
+                "note": "official computer science department site; tuition converted from TWD estimate"
+            }
+        ]
+    },
+    {
+        "id": "ntu-tw-phd-economics",
+        "university_id": "ntu-tw",
+        "name_en": "PhD in Economics",
+        "name_zh": "经济学博士",
+        "level": "phd",
+        "duration_years": 4,
+        "field": "Economics",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.2,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 9000
+        },
+        "tags": [
+            "tuition_friendly",
+            "scholarship_rich",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.3,
+        "sources": [
+            {
+                "source_id": "ntu_tw_econ_phd_2026",
+                "kind": "url",
+                "url": "https://www.econ.ntu.edu.tw/",
+                "last_verified_date": "2026-05-27",
+                "note": "official economics department site; tuition converted from TWD estimate"
+            }
+        ]
+    },
+    {
+        "id": "ntu-tw-chinese-language-foundation",
+        "university_id": "ntu-tw",
+        "name_en": "Chinese Language Division Preparatory Study",
+        "name_zh": "台大华语预备学习",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "gpa_min": 2.0,
+        "language_min": {},
+        "tuition": {
+            "currency": "AUD",
+            "annual": 7000
+        },
+        "tags": [
+            "tuition_friendly",
+            "stepping_stone",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "ntu_tw_cld_2026",
+                "kind": "url",
+                "url": "https://cld.liberal.ntu.edu.tw/",
+                "last_verified_date": "2026-05-27",
+                "note": "official language division site; language/preparatory record, not degree admission"
+            }
+        ]
+    }
+]

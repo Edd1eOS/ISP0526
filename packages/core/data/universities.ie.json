@@ -1,0 +1,44 @@
+[
+    {
+        "id": "tcd",
+        "name_en": "Trinity College Dublin",
+        "name_zh": "都柏林圣三一大学",
+        "country": "IE",
+        "city": "Dublin",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.86,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.86,
+        "sources": [
+            {
+                "source_id": "tcd_courses_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/",
+                "last_verified_date": "2026-05-27",
+                "note": "official courses index"
+            }
+        ]
+    },
+    {
+        "id": "ucd",
+        "name_en": "University College Dublin",
+        "name_zh": "都柏林大学学院",
+        "country": "IE",
+        "city": "Dublin",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.84,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.86,
+        "sources": [
+            {
+                "source_id": "ucd_courses_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/global/study-at-ucd/",
+                "last_verified_date": "2026-05-27",
+                "note": "official global study index"
+            }
+        ]
+    }
+]

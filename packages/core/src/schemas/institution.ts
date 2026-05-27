@@ -8,7 +8,23 @@ import { z } from "zod";
 import { ProgramIdSchema, UniversityIdSchema } from "./ids";
 import { SourceCitationSchema } from "./source";
 
-export const CountrySchema = z.enum(["AU", "US", "UK", "CA", "NZ", "HK", "SG"]);
+export const CountrySchema = z.enum([
+    "AU",
+    "US",
+    "UK",
+    "CA",
+    "NZ",
+    "HK",
+    "SG",
+    "MY",
+    "TH",
+    "DE",
+    "NL",
+    "IE",
+    "RU",
+    "TW",
+    "MO",
+]);
 export type Country = z.infer<typeof CountrySchema>;
 
 export const ProgramTagSchema = z.enum([
@@ -23,7 +39,7 @@ export const ProgramTagSchema = z.enum([
 ]);
 export type ProgramTag = z.infer<typeof ProgramTagSchema>;
 
-export const StudyLevelSchema = z.enum(["bachelor", "master", "phd"]);
+export const StudyLevelSchema = z.enum(["foundation", "bachelor", "master", "phd"]);
 export type StudyLevel = z.infer<typeof StudyLevelSchema>;
 
 export const TeachingStyleSchema = z.enum([

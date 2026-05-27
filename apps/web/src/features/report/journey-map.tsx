@@ -28,6 +28,14 @@ const TARGETS: Record<Country, { x: number; y: number }> = {
     SG: project(103.8, 1.3),
     AU: project(151.2, -33.9), // Sydney
     NZ: project(174.8, -36.8), // Auckland
+    MY: project(101.7, 3.1), // Kuala Lumpur
+    TH: project(100.5, 13.8), // Bangkok
+    DE: project(11.6, 48.1), // Munich
+    NL: project(4.9, 52.4), // Amsterdam
+    IE: project(-6.3, 53.3), // Dublin
+    RU: project(37.6, 55.8), // Moscow
+    TW: project(121.6, 25.0), // Taipei
+    MO: project(113.5, 22.2), // Macau
 };
 
 function arcPath(tx: number, ty: number): string {

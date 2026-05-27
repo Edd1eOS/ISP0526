@@ -1,0 +1,44 @@
+[
+    {
+        "id": "ntu-tw",
+        "name_en": "National Taiwan University",
+        "name_zh": "台湾大学",
+        "country": "TW",
+        "city": "Taipei",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.86,
+        "chinese_community_density": 0.95,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "ntu_tw_oia_2026",
+                "kind": "url",
+                "url": "https://oia.ntu.edu.tw/en/",
+                "last_verified_date": "2026-05-27",
+                "note": "official international affairs site"
+            }
+        ]
+    },
+    {
+        "id": "nthu",
+        "name_en": "National Tsing Hua University",
+        "name_zh": "清华大学（台湾）",
+        "country": "TW",
+        "city": "Hsinchu",
+        "city_size": "medium",
+        "climate": "subtropical",
+        "reputation_score": 0.82,
+        "chinese_community_density": 0.85,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "nthu_oia_2026",
+                "kind": "url",
+                "url": "https://oga.site.nthu.edu.tw/",
+                "last_verified_date": "2026-05-27",
+                "note": "official global affairs site"
+            }
+        ]
+    }
+]

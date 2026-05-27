@@ -1,0 +1,44 @@
+[
+    {
+        "id": "tum",
+        "name_en": "Technical University of Munich",
+        "name_zh": "慕尼黑工业大学",
+        "country": "DE",
+        "city": "Munich",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.92,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "tum_study_programs_2026",
+                "kind": "url",
+                "url": "https://www.tum.de/en/studies/degree-programs",
+                "last_verified_date": "2026-05-27",
+                "note": "official degree programs index"
+            }
+        ]
+    },
+    {
+        "id": "lmu",
+        "name_en": "Ludwig Maximilian University of Munich",
+        "name_zh": "慕尼黑大学",
+        "country": "DE",
+        "city": "Munich",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.9,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "lmu_degree_programs_2026",
+                "kind": "url",
+                "url": "https://www.lmu.de/en/study/all-degrees-and-programs/",
+                "last_verified_date": "2026-05-27",
+                "note": "official degree programs index"
+            }
+        ]
+    }
+]

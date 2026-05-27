@@ -1,0 +1,44 @@
+[
+    {
+        "id": "um-mo",
+        "name_en": "University of Macau",
+        "name_zh": "澳门大学",
+        "country": "MO",
+        "city": "Macau",
+        "city_size": "medium",
+        "climate": "subtropical",
+        "reputation_score": 0.76,
+        "chinese_community_density": 0.95,
+        "safety_index": 0.92,
+        "sources": [
+            {
+                "source_id": "um_mo_admissions_2026",
+                "kind": "url",
+                "url": "https://admissions.um.edu.mo/",
+                "last_verified_date": "2026-05-27",
+                "note": "official admissions site"
+            }
+        ]
+    },
+    {
+        "id": "must",
+        "name_en": "Macau University of Science and Technology",
+        "name_zh": "澳门科技大学",
+        "country": "MO",
+        "city": "Macau",
+        "city_size": "medium",
+        "climate": "subtropical",
+        "reputation_score": 0.68,
+        "chinese_community_density": 0.95,
+        "safety_index": 0.92,
+        "sources": [
+            {
+                "source_id": "must_admissions_2026",
+                "kind": "url",
+                "url": "https://www.must.edu.mo/en/admission",
+                "last_verified_date": "2026-05-27",
+                "note": "official admissions site"
+            }
+        ]
+    }
+]
