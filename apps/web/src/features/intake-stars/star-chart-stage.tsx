@@ -1478,8 +1478,32 @@ interface ReadoutViewProps {
     readonly onRetry: () => void;
 }
 
+const AUTO_FINALIZE_SECONDS = 15;
+
 function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }: ReadoutViewProps) {
     const profile = buildProfileSummary(ledger);
+    const [countdown, setCountdown] = useState(AUTO_FINALIZE_SECONDS);
+    const finalizeRef = useRef(onFinalize);
+    finalizeRef.current = onFinalize;
+
+    // Auto-trigger once diagnosis is ready and we're not already loading.
+    useEffect(() => {
+        if (!diagnosis || loading) return;
+        setCountdown(AUTO_FINALIZE_SECONDS);
+        const interval = setInterval(() => {
+            setCountdown((n) => {
+                if (n <= 1) {
+                    clearInterval(interval);
+                    finalizeRef.current();
+                    return 0;
+                }
+                return n - 1;
+            });
+        }, 1000);
+        return () => clearInterval(interval);
+    // Only restart when diagnosis first appears — not on every loading change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [diagnosis]);
 
     return (
         <section className={styles.readout} aria-live="polite">
@@ -1524,10 +1548,13 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                     </>
                 ) : null}
 
-                {/* Button lives inside the scroll container — never clipped on small screens */}
                 <div className={styles.readoutActions}>
-                    <button type="button" className={styles.advance} disabled={loading} onClick={onFinalize}>
-                        生成院校方案
+                    <button type="button" className={styles.advance} disabled={loading} onClick={() => { setCountdown(0); onFinalize(); }}>
+                        {diagnosis && countdown > 0
+                            ? `生成院校方案（${countdown}s）`
+                            : loading
+                                ? "生成中…"
+                                : "生成院校方案"}
                     </button>
                 </div>
             </div>
