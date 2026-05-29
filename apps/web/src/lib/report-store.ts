@@ -1,10 +1,7 @@
-// Phase 1 report store: JSON files on disk under apps/web/.data/reports,
-// with a per-process in-memory cache so the report page does not re-read
-// the file on every render. Single-machine, single-process; we will move
-// to Supabase when we need multi-instance or auth.
+// Report store: Supabase-backed with in-memory cache.
+// Falls back to local filesystem (.data/reports/) when Supabase env vars are
+// absent so local development works without a DB connection.
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import type {
     Candidate,
     RecommendationNarrative,
@@ -38,8 +35,6 @@ declare global {
     var __isp_report_cache: Map<string, ReportSnapshot> | undefined;
 }
 
-const DATA_DIR = path.join(process.cwd(), ".data", "reports");
-
 function cache(): Map<string, ReportSnapshot> {
     if (!globalThis.__isp_report_cache) {
         globalThis.__isp_report_cache = new Map();
@@ -51,27 +46,110 @@ function isReportCode(code: string): boolean {
     return /^[A-HJ-NP-Z2-9]{6}$/.test(code);
 }
 
-function filePath(code: string): string {
-    return path.join(DATA_DIR, `${code}.json`);
+function toSnapshot(p: PersistedSnapshot): ReportSnapshot {
+    return {
+        code: p.code as ReportCode,
+        created_at: p.created_at,
+        profile: p.profile,
+        set: p.set,
+        narratives: new Map(p.narratives),
+        narrative_sources: new Map(p.narrative_sources ?? []),
+        candidates: new Map(p.candidates),
+    };
 }
+
+function toPersisted(s: ReportSnapshot): PersistedSnapshot {
+    return {
+        code: s.code,
+        created_at: s.created_at,
+        profile: s.profile,
+        set: s.set,
+        narratives: [...s.narratives.entries()],
+        narrative_sources: [...s.narrative_sources.entries()],
+        candidates: [...s.candidates.entries()],
+    };
+}
+
+// ---- Supabase backend -------------------------------------------------------
+
+function isSupabaseConfigured(): boolean {
+    return Boolean(
+        process.env.NEXT_PUBLIC_SUPABASE_URL &&
+        process.env.SUPABASE_SERVICE_ROLE_KEY,
+    );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function getSupabaseAdmin(): Promise<any> {
+    // Dynamic import so TypeScript doesn't need the package at compile time on
+    // machines where @supabase/supabase-js isn't installed yet.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+    const { createClient } = require("@supabase/supabase-js");
+    return createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { persistSession: false } },
+    );
+}
+
+async function saveToSupabase(snapshot: ReportSnapshot): Promise<void> {
+    const sb = await getSupabaseAdmin();
+    const { error } = await sb.from("reports").upsert({
+        code: snapshot.code,
+        created_at: snapshot.created_at,
+        data: toPersisted(snapshot),
+    });
+    if (error) throw new Error(`Supabase saveReport: ${error.message}`);
+}
+
+async function loadFromSupabase(code: string): Promise<ReportSnapshot | undefined> {
+    const sb = await getSupabaseAdmin();
+    const { data, error } = await sb
+        .from("reports")
+        .select("data")
+        .eq("code", code)
+        .maybeSingle();
+    if (error) throw new Error(`Supabase loadReport: ${error.message}`);
+    if (!data) return undefined;
+    return toSnapshot(data.data as PersistedSnapshot);
+}
+
+// ---- Filesystem fallback (local dev) ----------------------------------------
+
+async function saveToFs(snapshot: ReportSnapshot): Promise<void> {
+    const { promises: fs } = await import("node:fs");
+    const path = await import("node:path");
+    const DATA_DIR = path.join(process.cwd(), ".data", "reports");
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.writeFile(
+        path.join(DATA_DIR, `${snapshot.code}.json`),
+        JSON.stringify(toPersisted(snapshot), null, 2),
+        "utf8",
+    );
+}
+
+async function loadFromFs(code: string): Promise<ReportSnapshot | undefined> {
+    const { promises: fs } = await import("node:fs");
+    const path = await import("node:path");
+    const DATA_DIR = path.join(process.cwd(), ".data", "reports");
+    try {
+        const raw = await fs.readFile(path.join(DATA_DIR, `${code}.json`), "utf8");
+        return toSnapshot(JSON.parse(raw) as PersistedSnapshot);
+    } catch (err: unknown) {
+        if ((err as NodeJS.ErrnoException).code === "ENOENT") return undefined;
+        throw err;
+    }
+}
+
+// ---- Public API -------------------------------------------------------------
 
 export async function saveReport(snapshot: ReportSnapshot): Promise<void> {
     cache().set(snapshot.code, snapshot);
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    const persisted: PersistedSnapshot = {
-        code: snapshot.code,
-        created_at: snapshot.created_at,
-        profile: snapshot.profile,
-        set: snapshot.set,
-        narratives: [...snapshot.narratives.entries()],
-        narrative_sources: [...snapshot.narrative_sources.entries()],
-        candidates: [...snapshot.candidates.entries()],
-    };
-    await fs.writeFile(
-        filePath(snapshot.code),
-        JSON.stringify(persisted, null, 2),
-        "utf8",
-    );
+    if (isSupabaseConfigured()) {
+        await saveToSupabase(snapshot);
+    } else {
+        await saveToFs(snapshot);
+    }
 }
 
 export async function loadReport(
@@ -80,23 +158,9 @@ export async function loadReport(
     if (!isReportCode(code)) return undefined;
     const cached = cache().get(code);
     if (cached) return cached;
-    let raw: string;
-    try {
-        raw = await fs.readFile(filePath(code), "utf8");
-    } catch (err: unknown) {
-        if ((err as NodeJS.ErrnoException).code === "ENOENT") return undefined;
-        throw err;
-    }
-    const persisted = JSON.parse(raw) as PersistedSnapshot;
-    const snapshot: ReportSnapshot = {
-        code: persisted.code as ReportCode,
-        created_at: persisted.created_at,
-        profile: persisted.profile,
-        set: persisted.set,
-        narratives: new Map(persisted.narratives),
-        narrative_sources: new Map(persisted.narrative_sources ?? []),
-        candidates: new Map(persisted.candidates),
-    };
-    cache().set(code, snapshot);
+    const snapshot = isSupabaseConfigured()
+        ? await loadFromSupabase(code)
+        : await loadFromFs(code);
+    if (snapshot) cache().set(code, snapshot);
     return snapshot;
 }

@@ -52,7 +52,6 @@ const TAGS = [
 // Field-priority list for the clarify chat. Earlier = asked first.
 const PRIORITY_FIELDS: ReadonlyArray<FormFieldKey> = [
     "target_field",
-    "annual_budget_aud",
     "preferred_tags",
     "gpa",
     "ielts_overall",
@@ -94,7 +93,6 @@ interface FormValues {
     ielts_overall: string;
     teaching_style: string;
     city_size: string;
-    annual_budget_aud: string;
     preferred_tags: string[];
 }
 
@@ -129,7 +127,6 @@ export function ReviewForm({
         }
         if (a.gpa) out.gpa = a.gpa;
         if (a.ielts_overall) out.ielts_overall = a.ielts_overall;
-        if (b.annual_aud) out.annual_budget_aud = b.annual_aud;
         return out;
     }, [extracted]);
 
@@ -144,10 +141,6 @@ export function ReviewForm({
                 : "",
         teaching_style: "",
         city_size: "",
-        annual_budget_aud:
-            signals.annual_budget_aud?.value !== undefined
-                ? String(signals.annual_budget_aud.value)
-                : "",
         preferred_tags: [],
     }));
 
@@ -193,8 +186,6 @@ export function ReviewForm({
             if (patch.teaching_style)
                 next.teaching_style = patch.teaching_style;
             if (patch.city_size) next.city_size = patch.city_size;
-            if (patch.annual_budget_aud !== undefined)
-                next.annual_budget_aud = String(patch.annual_budget_aud);
             if (patch.preferred_tags && patch.preferred_tags.length > 0)
                 next.preferred_tags = [...patch.preferred_tags];
             return next;
@@ -217,8 +208,6 @@ export function ReviewForm({
         if (values.ielts_overall) out.ielts_overall = Number(values.ielts_overall);
         if (values.teaching_style) out.teaching_style = values.teaching_style;
         if (values.city_size) out.city_size = values.city_size;
-        if (values.annual_budget_aud)
-            out.annual_budget_aud = Number(values.annual_budget_aud);
         if (values.preferred_tags.length > 0)
             out.preferred_tags = values.preferred_tags;
         return out;
@@ -382,27 +371,6 @@ export function ReviewForm({
                                 </option>
                             ))}
                         </select>
-                    </BadgedField>
-
-                    <BadgedField
-                        label="年度全包预算 AUD（学费 + 生活，可选）"
-                        signal={signals.annual_budget_aud}
-                        origin={origins.annual_budget_aud}
-                    >
-                        <input
-                            type="number"
-                            name="annual_budget_aud"
-                            step="1"
-                            min="0"
-                            inputMode="numeric"
-                            placeholder="70000"
-                            value={values.annual_budget_aud}
-                            onChange={(e) => {
-                                setField("annual_budget_aud", e.target.value);
-                                markEdited("annual_budget_aud");
-                            }}
-                            className="form-control"
-                        />
                     </BadgedField>
 
                     <fieldset className="space-y-3">

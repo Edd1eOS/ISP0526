@@ -12,7 +12,6 @@ export const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
     ielts_overall: "IELTS 总分",
     teaching_style: "学习风格（theory_heavy / balanced / applied_heavy）",
     city_size: "城市规模偏好（mega / large / medium / small）",
-    annual_budget_aud: "年度全包预算（AUD per year）",
     preferred_tags:
         "看重的方面（field_top / migration_friendly / career_pipeline / value_for_money / scholarship_rich / chinese_community 多选）",
 };
@@ -23,7 +22,6 @@ export const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
 export const CHAT_PRIORITY: ReadonlyArray<FormFieldKey> = [
     "target_level",
     "target_field",
-    "annual_budget_aud",
     "preferred_tags",
     "gpa",
     "ielts_overall",
@@ -161,7 +159,7 @@ export function renderPhaseBlock(
                 ? "这是第一轮对话，学生还没说话。开场必须先用一句话回应学生的测评结果（挑 1 个最突出特质），紧接着抛出第一个未锁定的最高优先级问题（看『剩余优先级缺口』列表第一项）。绝对不要再说\"我们做个测评吧\"。本轮 done 必须为 false——即使 accumulated 看起来已经齐全，也要先问一个问题确认而不是直接结束。"
                 : "这是第一轮对话，学生还没说话。一句温和的开场白 + 第一个未锁定的最高优先级问题（看『剩余优先级缺口』列表第一项）。本轮 done 必须为 false——即使 accumulated 看起来已经齐全，也要先问一个问题确认而不是直接结束。";
         case "GATHERING_CORE":
-            return "核心字段（target_level / target_field / annual_budget_aud）还有缺口。集中精力把核心问完，每轮只问一个；不要插入 teaching_style / city_size / preferred_tags 这类软性字段。";
+            return "核心字段（target_level / target_field）还有缺口。集中精力把核心问完，每轮只问一个；不要插入 teaching_style / city_size / preferred_tags 这类软性字段。";
         case "GATHERING_SOFT":
             return "核心三项已经齐了，可以问 1-2 个软性字段（preferred_tags / gpa / ielts_overall）来提高推荐准度。但每问完一项就评估一次是否够了，不要把学生问烦。";
         case "READY_TO_RECOMMEND":

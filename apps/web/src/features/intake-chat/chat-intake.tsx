@@ -75,7 +75,6 @@ function countSignals(p: ClarifyPatch): number {
     const skipped = new Set(p.skipped_fields ?? []);
     let n = 0;
     if (p.target_field || skipped.has("target_field")) n += 1;
-    if (p.annual_budget_aud || skipped.has("annual_budget_aud")) n += 1;
     if (
         (p.preferred_tags && p.preferred_tags.length > 0) ||
         skipped.has("preferred_tags")
@@ -599,7 +598,8 @@ function normalizeQuickReplies(
     inputMode: "single" | "multi" | "number",
     raw: ReadonlyArray<string>,
 ): ReadonlyArray<string> {
-    if (inputMode !== "number" || raw.length === 0) return raw;
+    if (inputMode !== "number") return raw;
+    // Always check overrides for number mode — LLM sometimes forgets quick_replies.
     for (const o of NUMBER_SPEC_OVERRIDES) {
         if (o.test.test(reply)) return [o.spec];
     }

@@ -36,7 +36,6 @@ export const FORM_FIELD_KEYS = [
     "ielts_overall",
     "teaching_style",
     "city_size",
-    "annual_budget_aud",
     "preferred_tags",
 ] as const;
 
@@ -86,7 +85,6 @@ export type FormFieldKey =
     | "ielts_overall"
     | "teaching_style"
     | "city_size"
-    | "annual_budget_aud"
     | "preferred_tags";
 
 export interface ClarifyMessage {

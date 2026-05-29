@@ -113,10 +113,6 @@ const FIELD_FALLBACK_COPY: Record<FormFieldKey, { q: string; qr?: string[] }> =
         q: "想读哪个方向？",
         qr: ["计算机", "数据科学", "金融", "商科", "工程", "设计"],
     },
-    annual_budget_aud: {
-        q: "一年大概能花多少？",
-        qr: ["20万人民币", "30万人民币", "40万人民币", "还在看"],
-    },
     preferred_tags: {
         q: "你最看重哪一项？",
         qr: ["好就业", "性价比", "想留下来", "顶尖学校"],
@@ -279,7 +275,6 @@ function canFinalize(p: ClarifyPatch): boolean {
     const skipped = new Set(p.skipped_fields ?? []);
     let signals = 0;
     if (p.target_field || skipped.has("target_field")) signals += 1;
-    if (p.annual_budget_aud || skipped.has("annual_budget_aud")) signals += 1;
     if (
         (p.preferred_tags && p.preferred_tags.length > 0) ||
         skipped.has("preferred_tags")
@@ -473,7 +468,6 @@ function extractedToClarifyPatch(extracted: ExtractedProfile): {
     }
     if (b.annual_aud) {
         patch.annual_budget_aud = b.annual_aud.value;
-        filled.push("annual_budget_aud");
     }
 
     return { patch: patch as ClarifyPatch, filledKeys: filled };

@@ -13,7 +13,6 @@ const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
     ielts_overall: "IELTS 总分",
     teaching_style: "学习风格（theory_heavy / balanced / applied_heavy）",
     city_size: "城市规模偏好（mega / large / medium / small）",
-    annual_budget_aud: "年度全包预算（AUD per year）",
     preferred_tags: "看重的方面（field_top / migration_friendly / career_pipeline / value_for_money / scholarship_rich / chinese_community 多选）",
 };
 
