@@ -131,6 +131,10 @@ export type Budget = z.infer<typeof BudgetSchema>;
 
 export const HardConstraintsSchema = z.object({
     excluded_countries: z.array(CountrySchema).default([]),
+    /** Countries the student explicitly wants to study in. When non-empty,
+     *  the recommend engine keeps only these countries + 1 engine-chosen
+     *  adjacent country. Empty = no preference (engine picks top 3). */
+    preferred_countries: z.array(CountrySchema).default([]),
     required_tags: z.array(ProgramTagSchema).default([]),
 });
 export type HardConstraints = z.infer<typeof HardConstraintsSchema>;

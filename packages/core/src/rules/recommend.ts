@@ -13,6 +13,7 @@ import {
     RecommendationSetSchema,
     type BandTier,
     type Candidate,
+    type Country,
     type RecommendationSet,
     type Score,
     type StudentProfile,
@@ -25,6 +26,63 @@ const LIMITS = {
     match: 4,
     safety: 4,
 } as const;
+
+// Maximum countries in the final set for each scenario:
+//   - user stated a preference → their countries + this many extras
+//   - user expressed no preference → pick this many top countries
+const MAX_EXTRA_WITH_PREF = 1;
+const MAX_COUNTRIES_NO_PREF = 3;
+
+/**
+ * Post-scoring country cap. Limits unique destination countries in the
+ * recommendation output so results stay focused.
+ *
+ * - Preference set non-empty: keep all preferred countries + 1 best-scoring
+ *   extra country (bridges gaps when the preferred pool is shallow).
+ * - No preference: keep programs from the top-3 countries by aggregate score.
+ */
+function capByCountry(
+    scores: readonly Score[],
+    preferredCountries: readonly Country[],
+    candidateIndex: ReadonlyMap<string, Candidate>,
+): Score[] {
+    const country = (s: Score) =>
+        candidateIndex.get(s.program_id)?.university.country ?? "";
+
+    const tally = (subset: readonly Score[]) => {
+        const m = new Map<string, number>();
+        for (const s of subset) {
+            const c = country(s);
+            m.set(c, (m.get(c) ?? 0) + s.final_score);
+        }
+        return m;
+    };
+
+    if (preferredCountries.length === 0) {
+        // No preference: top-N countries by aggregate score.
+        const totals = tally(scores);
+        const allowed = new Set(
+            [...totals.entries()]
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, MAX_COUNTRIES_NO_PREF)
+                .map(([c]) => c),
+        );
+        return scores.filter((s) => allowed.has(country(s)));
+    }
+
+    // Has preference: preferred + up to MAX_EXTRA extras.
+    const prefSet = new Set<string>(preferredCountries);
+    const extraTotals = tally(scores.filter((s) => !prefSet.has(country(s))));
+    const bestExtras = new Set(
+        [...extraTotals.entries()]
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, MAX_EXTRA_WITH_PREF)
+            .map(([c]) => c),
+    );
+    return scores.filter(
+        (s) => prefSet.has(country(s)) || bestExtras.has(country(s)),
+    );
+}
 
 export type ExcludedCandidate = {
     program_id: string;
@@ -44,6 +102,11 @@ export function recommend(
     const passing: Score[] = [];
     const excluded: ExcludedCandidate[] = [];
 
+    // Build index once — used by capByCountry and for narrative generation.
+    const candidateIndex = new Map(
+        candidates.map((c) => [c.program.id, c] as const),
+    );
+
     for (const candidate of candidates) {
         const threshold = applyHardThresholds(profile, candidate);
         if (threshold.kind === "exclude") {
@@ -57,7 +120,15 @@ export function recommend(
         passing.push(scoreCandidate(profile, candidate));
     }
 
-    const rebalanced = fillEmptyBands(passing);
+    // Apply country cap before band redistribution so fillEmptyBands
+    // only sees programs from the allowed country set.
+    const capped = capByCountry(
+        passing,
+        profile.hard_constraints.preferred_countries,
+        candidateIndex,
+    );
+
+    const rebalanced = fillEmptyBands(capped);
 
     const byBand = {
         stretch: rebalanced.filter((s) => s.band === "stretch"),
