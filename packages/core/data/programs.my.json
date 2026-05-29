@@ -9,28 +9,11 @@
         "field": "Computer Science",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": {
-            "ielts_overall": 5.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 14000
-        },
-        "tags": [
-            "tuition_friendly",
-            "value_for_money",
-            "chinese_community"
-        ],
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 14000 },
+        "tags": ["tuition_friendly", "value_for_money", "chinese_community"],
         "applied_ratio": 0.6,
-        "sources": [
-            {
-                "source_id": "um_bcs_2026",
-                "kind": "url",
-                "url": "https://fsktm.um.edu.my/",
-                "last_verified_date": "2026-05-27",
-                "note": "faculty/programme site; tuition converted from MYR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "um_bcs_2026", "kind": "url", "url": "https://fsktm.um.edu.my/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "um-my-mba",
@@ -42,28 +25,11 @@
         "field": "Business Administration",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 18000
-        },
-        "tags": [
-            "value_for_money",
-            "career_pipeline",
-            "chinese_community"
-        ],
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 18000 },
+        "tags": ["value_for_money", "career_pipeline", "chinese_community"],
         "applied_ratio": 0.75,
-        "sources": [
-            {
-                "source_id": "um_mba_2026",
-                "kind": "url",
-                "url": "https://business.um.edu.my/",
-                "last_verified_date": "2026-05-27",
-                "note": "business school official site; tuition converted from MYR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "um_mba_2026", "kind": "url", "url": "https://business.um.edu.my/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "utm-my-phd-engineering",
@@ -75,27 +41,11 @@
         "field": "Engineering",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.0,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 12000
-        },
-        "tags": [
-            "tuition_friendly",
-            "scholarship_rich"
-        ],
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["tuition_friendly", "scholarship_rich"],
         "applied_ratio": 0.35,
-        "sources": [
-            {
-                "source_id": "utm_phd_engineering_2026",
-                "kind": "url",
-                "url": "https://admission.utm.my/",
-                "last_verified_date": "2026-05-27",
-                "note": "official admissions site; tuition converted from MYR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "utm_phd_engineering_2026", "kind": "url", "url": "https://admission.utm.my/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "um-my-foundation-science",
@@ -107,27 +57,90 @@
         "field": "Foundation",
         "teaching_style": "balanced",
         "gpa_min": 2.0,
-        "language_min": {
-            "ielts_overall": 5.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 9000
-        },
-        "tags": [
-            "tuition_friendly",
-            "stepping_stone",
-            "chinese_community"
-        ],
+        "language_min": { "ielts_overall": 5.0 },
+        "tuition": { "currency": "AUD", "annual": 9000 },
+        "tags": ["tuition_friendly", "stepping_stone", "chinese_community"],
         "applied_ratio": 0.65,
-        "sources": [
-            {
-                "source_id": "um_foundation_2026",
-                "kind": "url",
-                "url": "https://asasi.um.edu.my/",
-                "last_verified_date": "2026-05-27",
-                "note": "official foundation centre site; not an admission guarantee"
-            }
-        ]
+        "sources": [{ "source_id": "um_foundation_2026", "kind": "url", "url": "https://asasi.um.edu.my/", "last_verified_date": "2026-05-27" }]
+    },
+    {
+        "id": "um-my-msc-data-science",
+        "university_id": "um-my",
+        "name_en": "MSc in Data Science",
+        "name_zh": "数据科学理学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.8,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 17000 },
+        "tags": ["value_for_money", "career_pipeline", "chinese_community"],
+        "applied_ratio": 0.7,
+        "sources": [{ "source_id": "um_msc_ds_2026", "kind": "url", "url": "https://fsktm.um.edu.my/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "utm-my-msc-computer-science",
+        "university_id": "utm-my",
+        "name_en": "MSc in Computer Science",
+        "name_zh": "计算机科学理学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Computing",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 13000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
+        "applied_ratio": 0.65,
+        "sources": [{ "source_id": "utm_msc_cs_2026", "kind": "url", "url": "https://www.utm.my/postgraduate/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "um-my-msc-finance",
+        "university_id": "um-my",
+        "name_en": "MSc in Finance",
+        "name_zh": "金融学理学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Finance",
+        "teaching_style": "balanced",
+        "gpa_min": 2.7,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 16000 },
+        "tags": ["value_for_money", "career_pipeline", "chinese_community"],
+        "applied_ratio": 0.6,
+        "sources": [{ "source_id": "um_msc_fin_2026", "kind": "url", "url": "https://business.um.edu.my/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "utm-my-msc-electrical-engineering",
+        "university_id": "utm-my",
+        "name_en": "MSc in Electrical Engineering",
+        "name_zh": "电气工程理学硕士",
+        "level": "master",
+        "duration_years": 1.5,
+        "field": "Electrical Engineering",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.5,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["tuition_friendly", "value_for_money"],
+        "applied_ratio": 0.55,
+        "sources": [{ "source_id": "utm_msc_ee_2026", "kind": "url", "url": "https://www.utm.my/postgraduate/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "um-my-bachelor-business-admin",
+        "university_id": "um-my",
+        "name_en": "Bachelor of Business Administration",
+        "name_zh": "工商管理学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Business",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.3,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 13000 },
+        "tags": ["value_for_money", "chinese_community"],
+        "applied_ratio": 0.65,
+        "sources": [{ "source_id": "um_bba_2026", "kind": "url", "url": "https://business.um.edu.my/", "last_verified_date": "2026-05-29" }]
     }
 ]

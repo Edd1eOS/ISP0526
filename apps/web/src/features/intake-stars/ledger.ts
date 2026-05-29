@@ -4,6 +4,7 @@
 // between sources are stored but NOT revealed mid-flow — they get
 // resolved as their own question type just before the readout.
 
+import type { Country } from "@isp0526/core";
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
 
 // ---------------------------------------------------------------------------
@@ -50,6 +51,7 @@ export interface LedgerFacts {
     teaching_style?: FactCell<TeachingStyle>;
     city_size?: FactCell<CitySize>;
     preferred_tags?: FactCell<ReadonlyArray<Tag>>;
+    preferred_countries?: FactCell<ReadonlyArray<Country>>;
 }
 
 /** Confirmation status for an implication topic.
@@ -383,6 +385,40 @@ export function mergeTags(
     };
 }
 
+export function mergeCountries(
+    l: KnowledgeLedger,
+    v: ReadonlyArray<Country>,
+    opt: MergeInput,
+): KnowledgeLedger {
+    // Countries are multi-pick; union new values into the primary cell.
+    const existing = l.facts.preferred_countries;
+    if (!existing) {
+        return {
+            ...l,
+            facts: {
+                ...l.facts,
+                preferred_countries: {
+                    value: v,
+                    source: opt.source,
+                    ...(opt.confidence != null ? { confidence: opt.confidence } : {}),
+                    confirmed: false,
+                    alternatives: [],
+                },
+            },
+        };
+    }
+    const merged: Country[] = [...existing.value];
+    for (const c of v) if (!merged.includes(c)) merged.push(c);
+    if (merged.length === existing.value.length) return l;
+    return {
+        ...l,
+        facts: {
+            ...l.facts,
+            preferred_countries: { ...existing, value: merged },
+        },
+    };
+}
+
 // ---------------------------------------------------------------------------
 // Confirmation + wish writers
 // ---------------------------------------------------------------------------
@@ -488,6 +524,9 @@ export function ledgerToClarifyPatch(l: KnowledgeLedger): ClarifyPatch {
     if (f.city_size) out.city_size = f.city_size.value;
     if (f.preferred_tags && f.preferred_tags.value.length > 0) {
         out.preferred_tags = [...f.preferred_tags.value];
+    }
+    if (f.preferred_countries && f.preferred_countries.value.length > 0) {
+        out.preferred_countries = [...f.preferred_countries.value];
     }
     return out;
 }

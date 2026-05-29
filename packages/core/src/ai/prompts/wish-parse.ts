@@ -29,6 +29,11 @@ export const TAG_VALUES = [
     "chinese_community",
 ] as const;
 
+export const COUNTRY_VALUES = [
+    "AU", "US", "UK", "CA", "NZ", "HK", "SG", "MY", "TH",
+    "DE", "NL", "IE", "RU", "TW", "MO",
+] as const;
+
 export const WishExtractedSchema = z
     .object({
         target_level: z.enum(["bachelor", "master", "phd"]).optional(),
@@ -36,7 +41,7 @@ export const WishExtractedSchema = z
          *  Omit if the field doesn't map cleanly to any of these. */
         target_field: z.string().max(40).optional(),
         city_size: z.enum(["mega", "large", "medium", "small"]).optional(),
-        /** AUD per year, rounded to nearest 5000. */
+        /** Annual study budget normalised to AUD. Round to nearest 5000. */
         annual_budget_aud: z
             .number()
             .int()
@@ -47,6 +52,9 @@ export const WishExtractedSchema = z
             .enum(["theory_heavy", "balanced", "applied_heavy"])
             .optional(),
         preferred_tags: z.array(z.enum(TAG_VALUES)).max(6).optional(),
+        /** ISO country codes the student explicitly said they want to study in.
+         *  Leave absent / empty when the student has no stated preference. */
+        preferred_countries: z.array(z.enum(COUNTRY_VALUES)).max(10).optional(),
     })
     .optional();
 
@@ -120,6 +128,12 @@ export const WISH_PARSE_SYSTEM_PROMPT = [
     "4. EXTRACT — extract structured fields ONLY when stated clearly.",
     "   Valid target_field values: Computing, Business, Design,",
     "   Data Science, TESOL. Omit any field you are not sure about.",
+    "   For preferred_countries: map country names / regions to ISO codes.",
+    "   Codes: AU=Australia, US=USA, UK=Britain/England/Scotland, CA=Canada,",
+    "   NZ=New Zealand, HK=Hong Kong, SG=Singapore, MY=Malaysia, TH=Thailand,",
+    "   DE=Germany, NL=Netherlands, IE=Ireland, RU=Russia, TW=Taiwan, MO=Macau.",
+    "   Only extract preferred_countries if the student clearly states a",
+    "   country preference. '都可以' / '还没想好' → leave absent.",
     "",
     "STRICT RULES:",
     "- Never invent universities, fees, IELTS scores, or visa rules.",

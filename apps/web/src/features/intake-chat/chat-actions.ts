@@ -312,11 +312,21 @@ function userRequestedStop(messages: ReadonlyArray<ChatMessage>): boolean {
 // big_five / learning / lifestyle / career; assessment values take
 // precedence over chat-only guesses on overlapping keys (teaching_style,
 // city_size) because the assessment forces an explicit answer.
+const ALL_COUNTRIES = [
+    "AU", "US", "UK", "CA", "NZ", "HK", "SG", "MY", "TH",
+    "DE", "NL", "IE", "RU", "TW", "MO",
+] as const;
+
 function patchToProfile(
     p: ClarifyPatch,
     assessment?: AssessmentAnswers,
 ): StudentProfile {
     const a = assessment ? scoreAssessment(assessment) : undefined;
+    // When the student picked specific countries, exclude everything else.
+    const preferredSet = new Set(p.preferred_countries ?? []);
+    const excluded = preferredSet.size > 0
+        ? ALL_COUNTRIES.filter((c) => !preferredSet.has(c))
+        : [];
     return StudentProfileSchema.parse({
         academic: {
             target_level: p.target_level ?? "master",
@@ -342,6 +352,10 @@ function patchToProfile(
                 : {}),
         },
         preferred_tags: p.preferred_tags ?? [],
+        hard_constraints: {
+            excluded_countries: excluded,
+            required_tags: [],
+        },
     });
 }
 

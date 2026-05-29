@@ -806,5 +806,206 @@
                 "note": "placeholder sticker price converted from CAD; verify before launch"
             }
         ]
+    },
+    {
+        "id": "ualberta-msc-cs",
+        "university_id": "ualberta",
+        "name_en": "MSc Computing Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.0,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 40000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.5,
+        "sources": [
+            {
+                "source_id": "ualberta_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.ualberta.ca/computing-science/graduate-studies/programs/index.html",
+                "last_verified_date": "2026-05-29",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "ualberta-mba",
+        "university_id": "ualberta",
+        "name_en": "MBA (Alberta School of Business)",
+        "name_zh": "工商管理硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Business Administration",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.8,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50000
+        },
+        "tags": [
+            "career_pipeline",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.55,
+        "sources": [
+            {
+                "source_id": "ualberta_mba_2026",
+                "kind": "url",
+                "url": "https://www.ualberta.ca/alberta-school-of-business/programs/mba/index.html",
+                "last_verified_date": "2026-05-29",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "uottawa-mcs-cs",
+        "university_id": "uottawa",
+        "name_en": "MSc Computer Science",
+        "name_zh": "计算机科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computer Science",
+        "teaching_style": "balanced",
+        "gpa_min": 2.8,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 38000
+        },
+        "tags": [
+            "value_for_money",
+            "migration_friendly",
+            "scholarship_rich"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "uottawa_mcs_cs_2026",
+                "kind": "url",
+                "url": "https://www.uottawa.ca/faculty-engineering/graduate-studies/programs/electrical-engineering-computing",
+                "last_verified_date": "2026-05-29",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "uottawa-mba",
+        "university_id": "uottawa",
+        "name_en": "MBA (Telfer School of Management)",
+        "name_zh": "工商管理硕士（泰尔弗商学院）",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Business Administration",
+        "teaching_style": "balanced",
+        "gpa_min": 2.7,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 42000
+        },
+        "tags": [
+            "value_for_money",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "uottawa_mba_2026",
+                "kind": "url",
+                "url": "https://telfer.uottawa.ca/en/programs/mba/",
+                "last_verified_date": "2026-05-29",
+                "note": "placeholder sticker price converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "seneca-diploma-it",
+        "university_id": "seneca",
+        "name_en": "Computer Programming and Analysis (Ontario College Advanced Diploma)",
+        "name_zh": "计算机编程与分析高级文凭",
+        "level": "foundation",
+        "duration_years": 3,
+        "field": "Information Technology",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 1.5,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 22000
+        },
+        "tags": [
+            "stepping_stone",
+            "value_for_money",
+            "migration_friendly",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.85,
+        "sources": [
+            {
+                "source_id": "seneca_cpan_2026",
+                "kind": "url",
+                "url": "https://www.senecapolytechnic.ca/programs/fulltime/CPA.html",
+                "last_verified_date": "2026-05-29",
+                "note": "DLI-registered Ontario college program; placeholder tuition converted from CAD; verify before launch"
+            }
+        ]
+    },
+    {
+        "id": "seneca-diploma-business",
+        "university_id": "seneca",
+        "name_en": "Business Administration (Ontario College Diploma)",
+        "name_zh": "工商管理文凭",
+        "level": "foundation",
+        "duration_years": 2,
+        "field": "Business",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 1.0,
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 20000
+        },
+        "tags": [
+            "stepping_stone",
+            "value_for_money",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.88,
+        "sources": [
+            {
+                "source_id": "seneca_ba_dip_2026",
+                "kind": "url",
+                "url": "https://www.senecapolytechnic.ca/programs/fulltime/BAB.html",
+                "last_verified_date": "2026-05-29",
+                "note": "DLI-registered Ontario college program; placeholder tuition converted from CAD; verify before launch"
+            }
+        ]
     }
 ]

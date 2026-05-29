@@ -9,28 +9,11 @@
         "field": "Business",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 12000
-        },
-        "tags": [
-            "field_top",
-            "value_for_money",
-            "career_pipeline"
-        ],
+        "language_min": { "ielts_overall": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["field_top", "value_for_money", "career_pipeline"],
         "applied_ratio": 0.7,
-        "sources": [
-            {
-                "source_id": "tum_bsc_mgttech_2026",
-                "kind": "url",
-                "url": "https://www.tum.de/en/studies/degree-programs",
-                "last_verified_date": "2026-05-27",
-                "note": "official degree programs index; tuition converted from EUR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "tum_bsc_mgttech_2026", "kind": "url", "url": "https://www.tum.de/en/studies/degree-programs", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "tum-msc-data-engineering-analytics",
@@ -42,28 +25,11 @@
         "field": "Data Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": {
-            "ielts_overall": 6.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 15000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "value_for_money"
-        ],
+        "language_min": { "ielts_overall": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 15000 },
+        "tags": ["field_top", "career_pipeline", "value_for_money"],
         "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "tum_msc_dea_2026",
-                "kind": "url",
-                "url": "https://www.tum.de/en/studies/degree-programs",
-                "last_verified_date": "2026-05-27",
-                "note": "official degree programs index; tuition converted from EUR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "tum_msc_dea_2026", "kind": "url", "url": "https://www.tum.de/en/studies/degree-programs", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "lmu-phd-computer-science",
@@ -75,27 +41,11 @@
         "field": "Computer Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": {
-            "ielts_overall": 6.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 3000
-        },
-        "tags": [
-            "tuition_friendly",
-            "scholarship_rich"
-        ],
+        "language_min": { "ielts_overall": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 3000 },
+        "tags": ["tuition_friendly", "scholarship_rich"],
         "applied_ratio": 0.25,
-        "sources": [
-            {
-                "source_id": "lmu_doctoral_studies_2026",
-                "kind": "url",
-                "url": "https://www.lmu.de/en/study/degree-students/doctoral-studies/",
-                "last_verified_date": "2026-05-27",
-                "note": "official doctoral studies page; tuition converted from EUR estimate"
-            }
-        ]
+        "sources": [{ "source_id": "lmu_doctoral_studies_2026", "kind": "url", "url": "https://www.lmu.de/en/study/degree-students/doctoral-studies/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "tum-studienkolleg",
@@ -107,26 +57,90 @@
         "field": "Foundation",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": {
-            "ielts_overall": 5.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 5000
-        },
-        "tags": [
-            "tuition_friendly",
-            "stepping_stone"
-        ],
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 5000 },
+        "tags": ["tuition_friendly", "stepping_stone"],
         "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "tum_studienkolleg_2026",
-                "kind": "url",
-                "url": "https://www.tum.de/en/studies/application/application-info-portal/school-leaving-certificates",
-                "last_verified_date": "2026-05-27",
-                "note": "official entry qualification guidance; preparatory route is not an admission guarantee"
-            }
-        ]
+        "sources": [{ "source_id": "tum_studienkolleg_2026", "kind": "url", "url": "https://www.tum.de/en/studies/application/application-info-portal/school-leaving-certificates", "last_verified_date": "2026-05-27" }]
+    },
+    {
+        "id": "tum-msc-computer-science",
+        "university_id": "tum",
+        "name_en": "MSc in Informatics",
+        "name_zh": "信息学理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computing",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 15000 },
+        "tags": ["field_top", "value_for_money", "career_pipeline"],
+        "applied_ratio": 0.5,
+        "sources": [{ "source_id": "tum_msc_informatics_2026", "kind": "url", "url": "https://www.cit.tum.de/en/cit/studies/degree-programs/master-informatics/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "lmu-msc-data-science",
+        "university_id": "lmu",
+        "name_en": "MSc in Data Science",
+        "name_zh": "数据科学理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "gpa_min": 2.8,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 13000 },
+        "tags": ["value_for_money", "career_pipeline"],
+        "applied_ratio": 0.6,
+        "sources": [{ "source_id": "lmu_msc_ds_2026", "kind": "url", "url": "https://www.lmu.de/en/study/degree-students/degree-programs/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "tum-msc-electrical-engineering",
+        "university_id": "tum",
+        "name_en": "MSc in Electrical Engineering and Information Technology",
+        "name_zh": "电气工程与信息技术理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Electrical Engineering",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 2.7,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 14000 },
+        "tags": ["value_for_money", "field_top"],
+        "applied_ratio": 0.45,
+        "sources": [{ "source_id": "tum_msc_eit_2026", "kind": "url", "url": "https://www.ei.tum.de/en/eit/programs/masters-programs/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "lmu-master-business-administration",
+        "university_id": "lmu",
+        "name_en": "MSc in Business Administration",
+        "name_zh": "工商管理理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Business",
+        "teaching_style": "balanced",
+        "gpa_min": 2.6,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["value_for_money"],
+        "applied_ratio": 0.65,
+        "sources": [{ "source_id": "lmu_mba_2026", "kind": "url", "url": "https://www.lmu.de/en/study/degree-students/degree-programs/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "tum-msc-civil-engineering",
+        "university_id": "tum",
+        "name_en": "MSc in Civil Engineering",
+        "name_zh": "土木工程理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Civil Engineering",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.5,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 13000 },
+        "tags": ["value_for_money"],
+        "applied_ratio": 0.5,
+        "sources": [{ "source_id": "tum_msc_civil_2026", "kind": "url", "url": "https://www.bgu.tum.de/en/cv/studies/master/", "last_verified_date": "2026-05-29" }]
     }
 ]
