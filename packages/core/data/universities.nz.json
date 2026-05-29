@@ -1,0 +1,44 @@
+[
+    {
+        "id": "auckland",
+        "name_en": "University of Auckland",
+        "name_zh": "奥克兰大学",
+        "country": "NZ",
+        "city": "Auckland",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.9,
+        "chinese_community_density": 0.7,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "auckland_study_options_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option.html",
+                "last_verified_date": "2026-05-27",
+                "note": "official study options index"
+            }
+        ]
+    },
+    {
+        "id": "otago",
+        "name_en": "University of Otago",
+        "name_zh": "奥塔哥大学",
+        "country": "NZ",
+        "city": "Dunedin",
+        "city_size": "medium",
+        "climate": "temperate",
+        "reputation_score": 0.82,
+        "chinese_community_density": 0.35,
+        "safety_index": 0.9,
+        "sources": [
+            {
+                "source_id": "otago_subjects_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/study/subjects",
+                "last_verified_date": "2026-05-27",
+                "note": "official subjects and papers index"
+            }
+        ]
+    }
+]

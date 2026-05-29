@@ -1,0 +1,44 @@
+[
+    {
+        "id": "chula",
+        "name_en": "Chulalongkorn University",
+        "name_zh": "朱拉隆功大学",
+        "country": "TH",
+        "city": "Bangkok",
+        "city_size": "mega",
+        "climate": "tropical",
+        "reputation_score": 0.78,
+        "chinese_community_density": 0.65,
+        "safety_index": 0.78,
+        "sources": [
+            {
+                "source_id": "chula_international_students_2026",
+                "kind": "url",
+                "url": "https://www.chula.ac.th/en/international-students/",
+                "last_verified_date": "2026-05-27",
+                "note": "official international students page"
+            }
+        ]
+    },
+    {
+        "id": "mahidol",
+        "name_en": "Mahidol University",
+        "name_zh": "玛希隆大学",
+        "country": "TH",
+        "city": "Nakhon Pathom",
+        "city_size": "large",
+        "climate": "tropical",
+        "reputation_score": 0.74,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.8,
+        "sources": [
+            {
+                "source_id": "mahidol_interprogram_2026",
+                "kind": "url",
+                "url": "https://op.mahidol.ac.th/ir/interprogram/",
+                "last_verified_date": "2026-05-27",
+                "note": "official international programs index"
+            }
+        ]
+    }
+]

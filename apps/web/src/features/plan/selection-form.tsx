@@ -302,6 +302,14 @@ const COUNTRY_INTAKES: Record<Country, ReadonlyArray<{ month: number; term: stri
     NZ: [{ month: 2, term: "S1 · 上学期" }],
     HK: [{ month: 9, term: "Fall · 秋季" }],
     SG: [{ month: 8, term: "Sem 1 · 秋季" }],
+    MY: [{ month: 9, term: "Main · 主入学" }],
+    TH: [{ month: 8, term: "Sem 1 · 秋季" }],
+    DE: [{ month: 10, term: "Winter · 冬季学期" }],
+    NL: [{ month: 9, term: "Fall · 秋季" }],
+    IE: [{ month: 9, term: "Fall · 秋季" }],
+    RU: [{ month: 9, term: "Fall · 秋季" }],
+    TW: [{ month: 9, term: "Fall · 秋季" }],
+    MO: [{ month: 8, term: "Fall · 秋季" }],
 };
 
 function buildIntakeOptions(

@@ -363,8 +363,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 64px 24px 96px;
+    /* Scrollable so content never clips on small viewports */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 56px 20px 60px;
     z-index: 3;
     animation: fade-in 0.9s ease-out 0.1s both;
 }
@@ -378,13 +380,22 @@
 }
 
 .readoutTitle {
-    font-size: 30px;
+    font-size: clamp(22px, 4vw, 30px);
     font-weight: 400;
     letter-spacing: 0.18em;
-    margin: 4px 0 24px;
+    margin: 4px 0 20px;
     text-align: center;
     opacity: 0;
     animation: fade-in 0.9s ease-out 0.25s forwards;
+}
+
+/* CTA row inside readoutInner scroll container */
+.readoutActions {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0 16px;
+    opacity: 0;
+    animation: fade-in 0.7s ease-out 0.9s forwards;
 }
 
 /* Profile summary grid — structured facts for user to review */

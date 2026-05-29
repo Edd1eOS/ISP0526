@@ -1,0 +1,44 @@
+[
+    {
+        "id": "um-my",
+        "name_en": "Universiti Malaya",
+        "name_zh": "马来亚大学",
+        "country": "MY",
+        "city": "Kuala Lumpur",
+        "city_size": "mega",
+        "climate": "tropical",
+        "reputation_score": 0.82,
+        "chinese_community_density": 0.75,
+        "safety_index": 0.82,
+        "sources": [
+            {
+                "source_id": "um_homepage_2026",
+                "kind": "url",
+                "url": "https://www.um.edu.my/",
+                "last_verified_date": "2026-05-27",
+                "note": "official university site"
+            }
+        ]
+    },
+    {
+        "id": "utm-my",
+        "name_en": "Universiti Teknologi Malaysia",
+        "name_zh": "马来西亚理工大学",
+        "country": "MY",
+        "city": "Johor Bahru",
+        "city_size": "large",
+        "climate": "tropical",
+        "reputation_score": 0.78,
+        "chinese_community_density": 0.6,
+        "safety_index": 0.82,
+        "sources": [
+            {
+                "source_id": "utm_homepage_2026",
+                "kind": "url",
+                "url": "https://www.utm.my/",
+                "last_verified_date": "2026-05-27",
+                "note": "official university site"
+            }
+        ]
+    }
+]

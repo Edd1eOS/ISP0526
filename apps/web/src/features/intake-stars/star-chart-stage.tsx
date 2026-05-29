@@ -42,6 +42,7 @@ import {
     ledgerToClarifyPatch,
     mergeBudget,
     mergeCitySize,
+    mergeCountries,
     mergeTags,
     mergeTargetField,
     mergeTargetLevel,
@@ -57,6 +58,7 @@ import {
     type TeachingStyle,
     type CitySize,
 } from "./ledger";
+import type { Country } from "@isp0526/core";
 import type { ClearableField } from "@isp0526/core";
 import type { FreeWishConfig, PickerNight, StarDef } from "./types";
 import type { StarDiagnosis, StarPickLine, WishExtracted } from "@isp0526/core";
@@ -80,20 +82,22 @@ const MIN_ADAPTIVE = 2;
 interface FallbackQuestion {
     readonly question: string;
     readonly quickPicks: ReadonlyArray<string>;
+    readonly multiSelect?: boolean;
 }
 
 const FALLBACK_ADAPTIVE_QUESTIONS: ReadonlyArray<FallbackQuestion> = [
     {
-        question: "你的年度预算大概在哪个区间（澳元 / 年）？",
-        quickPicks: ["≤ 2.5 万 AUD", "3-4 万 AUD", "5 万 AUD", "6-7 万 AUD", "≥ 8 万 AUD"],
+        question: "你在考虑哪些国家 / 地区？（可多选）",
+        quickPicks: ["仅澳大利亚", "英国 / 爱尔兰", "美国 / 加拿大", "新加坡 / 港澳", "德国 / 荷兰", "都可以"],
+        multiSelect: true,
     },
     {
-        question: "学完之后你最想做什么？",
-        quickPicks: ["留澳工作 / 移民", "回国发展", "继续深造", "创业", "还没想好"],
+        question: "你的年度留学预算大概在哪个区间？",
+        quickPicks: ["20 万以内", "20–30 万", "30–40 万", "40–50 万", "50 万以上"],
     },
     {
-        question: "有没有什么特别重要的限制条件？",
-        quickPicks: ["需要奖学金", "靠近亲属", "需要工签支持", "学校排名优先", "暂时没有"],
+        question: "学完之后你最希望做什么？",
+        quickPicks: ["当地就业 / 移民", "回国发展", "继续深造", "创业", "还没想好"],
     },
 ];
 
@@ -173,6 +177,9 @@ function hydrateLedger(): KnowledgeLedger {
         if (patch.preferred_tags && patch.preferred_tags.length > 0) {
             l = mergeTags(l, patch.preferred_tags as ReadonlyArray<Tag>, { source: src });
         }
+        if (patch.preferred_countries && patch.preferred_countries.length > 0) {
+            l = mergeCountries(l, patch.preferred_countries as ReadonlyArray<Country>, { source: src });
+        }
     }
     return l;
 }
@@ -237,6 +244,15 @@ function buildProfileSummary(ledger: KnowledgeLedger): ReadonlyArray<ProfileItem
         const map: Record<string, string> = { theory_heavy: "偏理论", balanced: "理论 · 实践均衡", applied_heavy: "偏实践" };
         items.push({ label: "教学风格", value: map[String(f.teaching_style.value)] ?? String(f.teaching_style.value) });
     }
+    if (f.preferred_countries?.value.length) {
+        const countryNames: Record<string, string> = {
+            AU: "澳大利亚", US: "美国", UK: "英国", CA: "加拿大", NZ: "新西兰",
+            HK: "香港", SG: "新加坡", MY: "马来西亚", TH: "泰国",
+            DE: "德国", NL: "荷兰", IE: "爱尔兰", RU: "俄罗斯", TW: "中国台湾", MO: "中国澳门",
+        };
+        const names = [...f.preferred_countries.value].map((c) => countryNames[c] ?? c);
+        items.push({ label: "目标国家", value: names.join(" · ") });
+    }
     if (f.preferred_tags?.value.length) {
         items.push({ label: "偏好", value: [...f.preferred_tags.value].join(" · ") });
     }
@@ -258,6 +274,7 @@ function buildPickLines(ledger: KnowledgeLedger): StarPickLine[] {
         const wan = (v / 10000).toFixed(v % 10000 === 0 ? 0 : 1);
         lines.push({ night: "预算", picks: [`${wan} 万 AUD/年`] });
     }
+    if (f.preferred_countries?.value.length) lines.push({ night: "目标国家", picks: [...f.preferred_countries.value] });
     if (f.preferred_tags?.value.length) lines.push({ night: "看重的事", picks: [...f.preferred_tags.value] });
     if (f.city_size) lines.push({ night: "城市规模", picks: [String(f.city_size.value)] });
     if (f.teaching_style) lines.push({ night: "教学风格", picks: [String(f.teaching_style.value)] });
@@ -287,6 +304,8 @@ function factsToStringRecord(facts: LedgerFacts): Record<string, string> {
     if (facts.annual_budget_aud) out.annual_budget_aud = String(facts.annual_budget_aud.value);
     if (facts.city_size) out.city_size = String(facts.city_size.value);
     if (facts.teaching_style) out.teaching_style = String(facts.teaching_style.value);
+    if (facts.preferred_countries?.value.length)
+        out.preferred_countries = [...facts.preferred_countries.value].join(",");
     return out;
 }
 
@@ -398,6 +417,8 @@ function applyExtractedFacts(l: KnowledgeLedger, extracted: WishExtracted): Know
         next = mergeTeachingStyle(next, extracted.teaching_style, { source: "wish", confidence: 0.65 });
     if (extracted.preferred_tags?.length)
         next = mergeTags(next, extracted.preferred_tags, { source: "wish" });
+    if (extracted.preferred_countries?.length)
+        next = mergeCountries(next, extracted.preferred_countries as ReadonlyArray<Country>, { source: "wish", confidence: 0.8 });
     return next;
 }
 
@@ -438,6 +459,7 @@ export function StarChartStage() {
         id: string;
         question: string;
         quickPicks: ReadonlyArray<string>;
+        multiSelect?: boolean;
     } | null>(null);
     const [adaptiveLoading, setAdaptiveLoading] = useState(false);
     const [adaptiveDone, setAdaptiveDone] = useState(false);
@@ -520,10 +542,12 @@ export function StarChartStage() {
                 const isDone = !res.ok || !res.result || res.result.done;
                 if (isDone && qCount < MIN_ADAPTIVE) {
                     // Find the first fallback question not yet covered by knownFacts.
+                    const hasCountries = !!knownFacts.preferred_countries;
                     const hasBudget = !!knownFacts.annual_budget_aud ||
                         Object.values(ledger.wishes).some((w) => /万|AUD|预算/i.test(w));
                     const fallbackPool = FALLBACK_ADAPTIVE_QUESTIONS.filter((_, i) => {
-                        if (i === 0 && hasBudget) return false; // skip budget if known
+                        if (i === 0 && hasCountries) return false;
+                        if (i === 1 && hasBudget) return false;
                         return true;
                     });
                     const fallback = fallbackPool[qCount] ?? fallbackPool[0];
@@ -532,6 +556,7 @@ export function StarChartStage() {
                             id: `adaptive_${qCount}`,
                             question: fallback.question,
                             quickPicks: fallback.quickPicks,
+                            multiSelect: fallback.multiSelect,
                         });
                         return;
                     }
@@ -544,17 +569,25 @@ export function StarChartStage() {
                     id: `adaptive_${qCount}`,
                     question: res.result!.question!,
                     quickPicks: res.result!.quickPicks ?? [],
+                    multiSelect: res.result!.multiSelect,
                 });
             })
             .catch(() => {
                 // On failure, use a fallback question rather than jumping to readout.
                 const qCount2 = ledger.adaptiveQuestionCount;
-                const fallback = FALLBACK_ADAPTIVE_QUESTIONS[qCount2] ?? FALLBACK_ADAPTIVE_QUESTIONS[0];
+                const kf2 = factsToStringRecord(ledger.facts);
+                const fallbackPool2 = FALLBACK_ADAPTIVE_QUESTIONS.filter((_, i) => {
+                    if (i === 0 && !!kf2.preferred_countries) return false;
+                    if (i === 1 && !!kf2.annual_budget_aud) return false;
+                    return true;
+                });
+                const fallback = fallbackPool2[qCount2] ?? fallbackPool2[0];
                 if (fallback && qCount2 < MIN_ADAPTIVE) {
                     setAdaptiveQuestion({
                         id: `adaptive_${qCount2}`,
                         question: fallback.question,
                         quickPicks: fallback.quickPicks,
+                        multiSelect: fallback.multiSelect,
                     });
                 } else {
                     setAdaptiveDone(true);
@@ -1022,7 +1055,7 @@ function pickerHint(night: PickerNight, picks: ReadonlyArray<string>): string {
 // ---------------------------------------------------------------------------
 
 interface AdaptiveQuestionViewProps {
-    readonly question: { id: string; question: string; quickPicks: ReadonlyArray<string> };
+    readonly question: { id: string; question: string; quickPicks: ReadonlyArray<string>; multiSelect?: boolean };
     readonly wishValue: string;
     readonly onAnswer: (answer: string) => void;
     readonly canUndo: boolean;
@@ -1030,37 +1063,55 @@ interface AdaptiveQuestionViewProps {
 }
 
 function AdaptiveQuestionView({ question, wishValue, onAnswer, canUndo, onUndo }: AdaptiveQuestionViewProps) {
-    const [pick, setPick] = useState<string | null>(null);
+    const [picks, setPicks] = useState<ReadonlyArray<string>>([]);
     const hasWish = wishValue.trim().length >= 2;
-    const canAdvance = pick !== null || hasWish;
+    const isMulti = question.multiSelect === true;
+    const canAdvance = picks.length > 0 || hasWish;
 
-    useEffect(() => { setPick(null); }, [question.id]);
+    useEffect(() => { setPicks([]); }, [question.id]);
+
+    const togglePick = (opt: string) => {
+        if (isMulti) {
+            setPicks((prev) => prev.includes(opt) ? prev.filter((p) => p !== opt) : [...prev, opt]);
+        } else {
+            setPicks((prev) => prev.length === 1 && prev[0] === opt ? [] : [opt]);
+        }
+    };
 
     const onAdvance = () => {
         if (!canAdvance) return;
-        onAnswer(pick ?? wishValue.trim());
+        onAnswer(picks.length > 0 ? picks.join("、") : wishValue.trim());
     };
 
     const count = Math.min(question.quickPicks.length, 6);
     const positions = QUICK_PICK_POSITIONS[count] ?? QUICK_PICK_POSITIONS[3];
 
+    let hint = "";
+    if (picks.length > 0) {
+        hint = isMulti ? `已选 ${picks.length} 项，可继续添加或点继续` : "点击继续确认";
+    } else if (hasWish) {
+        hint = "已用文字回答，可直接继续";
+    }
+
     return (
         <>
             <header className={styles.header}>
                 <h1 className={styles.title}>{question.question}</h1>
-                <p className={styles.subtitle}>点一下快速回答，或者在下方自由描述</p>
+                <p className={styles.subtitle}>
+                    {isMulti ? "可多选，点击继续确认" : "点一下快速回答，或者在下方自由描述"}
+                </p>
             </header>
             <section className={styles.sky} aria-label="自适应问题">
                 {question.quickPicks.slice(0, count).map((opt, i) => {
                     const [x, y] = positions[i] ?? [50, 50];
-                    const isPicked = pick === opt;
+                    const isPicked = picks.includes(opt);
                     return (
                         <button
                             key={opt}
                             type="button"
                             className={`${styles.star} ${isPicked ? styles.picked : ""}`}
                             style={{ left: `${x}%`, top: `${y}%`, "--dot": "8px" } as CSSProperties}
-                            onClick={() => setPick((p) => (p === opt ? null : opt))}
+                            onClick={() => togglePick(opt)}
                             aria-pressed={isPicked}
                             aria-label={opt}
                         >
@@ -1071,9 +1122,7 @@ function AdaptiveQuestionView({ question, wishValue, onAnswer, canUndo, onUndo }
                 })}
             </section>
             <footer className={styles.footer}>
-                <p className={styles.hint}>
-                    {hasWish && !pick ? "已用文字回答，可直接继续" : pick ? "点击继续确认" : ""}
-                </p>
+                <p className={styles.hint}>{hint}</p>
                 <div className={styles.footerActions}>
                     {canUndo ? (
                         <button type="button" className={styles.undoBtn} onClick={onUndo}>
@@ -1474,12 +1523,14 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                         </p>
                     </>
                 ) : null}
+
+                {/* Button lives inside the scroll container — never clipped on small screens */}
+                <div className={styles.readoutActions}>
+                    <button type="button" className={styles.advance} disabled={loading} onClick={onFinalize}>
+                        生成院校方案
+                    </button>
+                </div>
             </div>
-            <footer className={styles.footer}>
-                <button type="button" className={styles.advance} disabled={loading} onClick={onFinalize}>
-                    生成院校方案
-                </button>
-            </footer>
         </section>
     );
 }

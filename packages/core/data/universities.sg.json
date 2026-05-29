@@ -1,0 +1,44 @@
+[
+    {
+        "id": "nus",
+        "name_en": "National University of Singapore",
+        "name_zh": "新加坡国立大学",
+        "country": "SG",
+        "city": "Singapore",
+        "city_size": "mega",
+        "climate": "tropical",
+        "reputation_score": 0.97,
+        "chinese_community_density": 0.8,
+        "safety_index": 0.95,
+        "sources": [
+            {
+                "source_id": "nus_undergrad_programmes_2026",
+                "kind": "url",
+                "url": "https://nus.edu.sg/oam/undergraduate-programmes",
+                "last_verified_date": "2026-05-27",
+                "note": "official undergraduate programme index"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg",
+        "name_en": "Nanyang Technological University",
+        "name_zh": "南洋理工大学",
+        "country": "SG",
+        "city": "Singapore",
+        "city_size": "mega",
+        "climate": "tropical",
+        "reputation_score": 0.95,
+        "chinese_community_density": 0.8,
+        "safety_index": 0.95,
+        "sources": [
+            {
+                "source_id": "ntu_undergrad_programmes_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/admissions/undergraduate-programmes",
+                "last_verified_date": "2026-05-27",
+                "note": "official undergraduate programme index"
+            }
+        ]
+    }
+]

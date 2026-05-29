@@ -17,15 +17,26 @@ export const VisaStepSchema = z.object({
 });
 export type VisaStep = z.infer<typeof VisaStepSchema>;
 
+export const DestinationInfoSchema = z.object({
+    culture_zh: z.string().optional(),
+    study_style_zh: z.string().optional(),
+    safety_zh: z.string().optional(),
+    city_life_zh: z.string().optional(),
+});
+export type DestinationInfo = z.infer<typeof DestinationInfoSchema>;
+
 export const VisaRouteSchema = z.object({
     country_name_en: z.string().min(1),
     country_name_zh: z.string().min(1),
     visa_class: z.string().min(1),
     // Typical end-to-end weeks for a well-prepared applicant.
     total_weeks_typical: z.number().min(1).max(104),
+    // Best-case lower bound (fast lane / priority service).
+    weeks_min: z.number().min(1).max(104).optional(),
     // Available post-study work years; a proxy for migration friendliness.
     post_study_work_years: z.number().min(0).max(10),
-    steps: z.array(VisaStepSchema).min(1),
+    steps: z.array(VisaStepSchema).optional(),
+    destination_info: DestinationInfoSchema.optional(),
     source: SourceCitationSchema,
 });
 export type VisaRoute = z.infer<typeof VisaRouteSchema>;

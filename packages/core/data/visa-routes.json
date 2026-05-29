@@ -4,45 +4,27 @@
         "country_name_zh": "澳大利亚",
         "visa_class": "Subclass 500 Student Visa",
         "total_weeks_typical": 12,
+        "weeks_min": 7,
         "post_study_work_years": 2,
         "steps": [
-            {
-                "id": "coe",
-                "name_en": "Confirmation of Enrolment (CoE) from the institution",
-                "weeks": 2
-            },
-            {
-                "id": "oshc",
-                "name_en": "Purchase OSHC health cover",
-                "weeks": 1
-            },
-            {
-                "id": "gte",
-                "name_en": "Prepare Genuine Student (GS) statement and documents",
-                "weeks": 2
-            },
-            {
-                "id": "lodge",
-                "name_en": "Lodge Subclass 500 application online via ImmiAccount",
-                "weeks": 1
-            },
-            {
-                "id": "biometrics",
-                "name_en": "Biometrics and health examination",
-                "weeks": 2
-            },
-            {
-                "id": "grant",
-                "name_en": "Visa grant (median processing)",
-                "weeks": 4
-            }
+            { "id": "coe", "name_en": "Confirmation of Enrolment (CoE) from institution", "weeks": 2 },
+            { "id": "oshc", "name_en": "Purchase OSHC health cover", "weeks": 1 },
+            { "id": "gte", "name_en": "Prepare Genuine Student (GS) statement", "weeks": 2 },
+            { "id": "lodge", "name_en": "Lodge Subclass 500 online via ImmiAccount", "weeks": 1 },
+            { "id": "biometrics", "name_en": "Biometrics and health examination", "weeks": 2 },
+            { "id": "grant", "name_en": "Visa grant (median processing)", "weeks": 4 }
         ],
+        "destination_info": {
+            "culture_zh": "多元文化社会，户外运动氛围浓厚，当地人友善开放；华人社区完善，中餐馆和超市随处可见。",
+            "study_style_zh": "注重实践与批判性思维，小组项目多；GPA要求透明，作业量中等偏大，平时成绩占比高。",
+            "safety_zh": "主要城市治安良好，整体犯罪率低；悉尼墨尔本夜间少数街区需留意，总体对留学生友好。",
+            "city_life_zh": "悉尼租金偏高（约$2,000–3,000/月），公共交通尚可；墨尔本文化氛围佳，咖啡馆文化盛行。"
+        },
         "source": {
             "source_id": "homeaffairs_500_2026",
             "kind": "url",
             "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500",
-            "last_verified_date": "2026-05-23",
-            "note": "Australian Department of Home Affairs Subclass 500 overview; processing time medians vary by sector"
+            "last_verified_date": "2026-05-23"
         }
     },
     "UK": {
@@ -50,40 +32,26 @@
         "country_name_zh": "英国",
         "visa_class": "Student Route (Tier 4 successor)",
         "total_weeks_typical": 6,
+        "weeks_min": 3,
         "post_study_work_years": 2,
         "steps": [
-            {
-                "id": "cas",
-                "name_en": "Confirmation of Acceptance for Studies (CAS) issued by sponsor",
-                "weeks": 2
-            },
-            {
-                "id": "tb_test",
-                "name_en": "Tuberculosis test (mainland China applicants)",
-                "weeks": 1
-            },
-            {
-                "id": "lodge",
-                "name_en": "Online Student visa application and IHS payment",
-                "weeks": 1
-            },
-            {
-                "id": "biometrics",
-                "name_en": "Biometrics at VFS centre",
-                "weeks": 1
-            },
-            {
-                "id": "decision",
-                "name_en": "Visa decision (priority service available)",
-                "weeks": 3
-            }
+            { "id": "cas", "name_en": "Confirmation of Acceptance for Studies (CAS)", "weeks": 2 },
+            { "id": "tb_test", "name_en": "Tuberculosis test (mainland China applicants)", "weeks": 1 },
+            { "id": "lodge", "name_en": "Online Student visa application and IHS payment", "weeks": 1 },
+            { "id": "biometrics", "name_en": "Biometrics at VFS centre", "weeks": 1 },
+            { "id": "decision", "name_en": "Visa decision (priority service available)", "weeks": 3 }
         ],
+        "destination_info": {
+            "culture_zh": "传统与现代并存，校园多元开放；中国学生比例高，伦敦唐人街文化活跃，社群支持成熟。",
+            "study_style_zh": "英国硕士多为1年制高强度，阅读量大，论文要求严格；批判性写作是核心考核能力。",
+            "safety_zh": "伦敦整体安全，需避开个别治安较差街区；曼彻斯特、爱丁堡等城市总体安全，夜间出行注意即可。",
+            "city_life_zh": "伦敦生活费高（月均£2,500+），其他城市相对可负担；英国天气阴冷多雨，提前适应心理预期。"
+        },
         "source": {
             "source_id": "gov_uk_student_visa_2026",
             "kind": "url",
             "url": "https://www.gov.uk/student-visa",
-            "last_verified_date": "2026-05-23",
-            "note": "UK Government Student visa guidance; standard non-priority processing"
+            "last_verified_date": "2026-05-23"
         }
     },
     "CA": {
@@ -91,45 +59,333 @@
         "country_name_zh": "加拿大",
         "visa_class": "Study Permit",
         "total_weeks_typical": 14,
+        "weeks_min": 8,
         "post_study_work_years": 3,
         "steps": [
-            {
-                "id": "loa",
-                "name_en": "Letter of Acceptance from DLI",
-                "weeks": 2
-            },
-            {
-                "id": "pal",
-                "name_en": "Provincial Attestation Letter (PAL) where required",
-                "weeks": 3
-            },
-            {
-                "id": "gic",
-                "name_en": "GIC purchase and proof of funds",
-                "weeks": 1
-            },
-            {
-                "id": "lodge",
-                "name_en": "Online Study Permit application via IRCC portal",
-                "weeks": 1
-            },
-            {
-                "id": "biometrics",
-                "name_en": "Biometrics at VAC",
-                "weeks": 2
-            },
-            {
-                "id": "decision",
-                "name_en": "Decision (IRCC processing time)",
-                "weeks": 5
-            }
+            { "id": "loa", "name_en": "Letter of Acceptance from DLI", "weeks": 2 },
+            { "id": "pal", "name_en": "Provincial Attestation Letter (PAL) where required", "weeks": 3 },
+            { "id": "gic", "name_en": "GIC purchase and proof of funds", "weeks": 1 },
+            { "id": "lodge", "name_en": "Online Study Permit application via IRCC portal", "weeks": 1 },
+            { "id": "biometrics", "name_en": "Biometrics at VAC", "weeks": 2 },
+            { "id": "decision", "name_en": "IRCC processing decision", "weeks": 5 }
         ],
+        "destination_info": {
+            "culture_zh": "双语（英法）多元文化国家，华人社区高度集中于多伦多与温哥华，生活便利度极高。",
+            "study_style_zh": "课程体系较灵活，强调合作学习；co-op带薪实习项目丰富，就业导向明确，PR路径清晰。",
+            "safety_zh": "总体安全，但大城市市中心或部分区域夜间需注意；冬季极寒，出行注意路况与防寒装备。",
+            "city_life_zh": "多伦多、温哥华租金偏高（约$2,200–3,500/月）；四季分明，冬季漫长，户外活动丰富多样。"
+        },
         "source": {
             "source_id": "ircc_study_permit_2026",
             "kind": "url",
             "url": "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit.html",
-            "last_verified_date": "2026-05-23",
-            "note": "Immigration, Refugees and Citizenship Canada Study Permit guidance; processing times vary by visa office"
+            "last_verified_date": "2026-05-23"
+        }
+    },
+    "US": {
+        "country_name_en": "United States",
+        "country_name_zh": "美国",
+        "visa_class": "F-1 Student Visa",
+        "total_weeks_typical": 10,
+        "weeks_min": 6,
+        "post_study_work_years": 1,
+        "steps": [
+            { "id": "i20", "name_en": "I-20 issued by SEVIS-registered school", "weeks": 2 },
+            { "id": "sevis", "name_en": "Pay SEVIS I-901 fee", "weeks": 1 },
+            { "id": "ds160", "name_en": "Complete DS-160 Online Visa Application", "weeks": 1 },
+            { "id": "interview", "name_en": "Consular interview at US Embassy / Consulate", "weeks": 4 },
+            { "id": "visa_stamp", "name_en": "Visa stamp issuance and passport return", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "极度多元，各大学国际氛围浓厚；中美政治摩擦需持续关注签证政策与专业限制变化。",
+            "study_style_zh": "课程负担重，强调课堂参与和科研机会；STEM博士资助充足，竞争极为激烈，科研水平顶尖。",
+            "safety_zh": "校园内通常有安全保障，但不同城市和区域差异大；枪支问题客观存在，需提前了解居住地环境。",
+            "city_life_zh": "生活成本差异极大（纽约/旧金山极高，中西部相对实惠）；无全国性公共交通，驾照十分实用。"
+        },
+        "source": {
+            "source_id": "travel_state_gov_f1_2026",
+            "kind": "url",
+            "url": "https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "NZ": {
+        "country_name_en": "New Zealand",
+        "country_name_zh": "新西兰",
+        "visa_class": "Student Visa",
+        "total_weeks_typical": 5,
+        "weeks_min": 3,
+        "post_study_work_years": 3,
+        "steps": [
+            { "id": "offer", "name_en": "Offer of Place from provider", "weeks": 1 },
+            { "id": "funds", "name_en": "Prepare evidence of funds and health insurance", "weeks": 1 },
+            { "id": "lodge", "name_en": "Online Student Visa application via Immigration NZ", "weeks": 1 },
+            { "id": "decision", "name_en": "Visa decision (standard processing)", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "毛利文化与英国移民文化深度融合，自然环境壮丽；华人社区以奥克兰为中心，生活设施完善。",
+            "study_style_zh": "课程节奏相对轻松，注重实践与体验式学习；师生互动密切，班级规模小，学习氛围友善。",
+            "safety_zh": "全球最安全国家之一，犯罪率极低，夜间外出基本无忧；了解基本地震应急知识即可。",
+            "city_life_zh": "奥克兰节奏悠闲，租金适中（约$1,500–2,200/月）；自然景观极佳，周末登山冲浪选择极多。"
+        },
+        "source": {
+            "source_id": "immigration_nz_student_2026",
+            "kind": "url",
+            "url": "https://www.immigration.govt.nz/new-zealand-visas/visas/visa/student-visa",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "HK": {
+        "country_name_en": "Hong Kong SAR",
+        "country_name_zh": "香港特别行政区",
+        "visa_class": "Student Visa / Extension of Stay",
+        "total_weeks_typical": 4,
+        "weeks_min": 2,
+        "post_study_work_years": 1,
+        "steps": [
+            { "id": "admission", "name_en": "Unconditional offer from HK institution", "weeks": 1 },
+            { "id": "lodge", "name_en": "Apply via Immigration Department (online/ID 995A)", "weeks": 1 },
+            { "id": "decision", "name_en": "Processing and approval", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "粤语为主，普通话和英语通行；中西文化高度融合，购物、美食与娱乐生活极为便利。",
+            "study_style_zh": "港校学术竞争激烈，英语授课为主，教授背景雄厚；科研与国际合作机会丰富，就业资源优质。",
+            "safety_zh": "整体治安极佳，公共场所安全，夜间外出亦无明显风险；法治社会，规则意识强。",
+            "city_life_zh": "租金全球最贵之一（月HK$8,000–15,000），地铁四通八达；美食文化丰富，夜生活活跃多彩。"
+        },
+        "source": {
+            "source_id": "immd_hk_student_2026",
+            "kind": "url",
+            "url": "https://www.immd.gov.hk/eng/services/visas/study.html",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "SG": {
+        "country_name_en": "Singapore",
+        "country_name_zh": "新加坡",
+        "visa_class": "Student's Pass (STP)",
+        "total_weeks_typical": 5,
+        "weeks_min": 3,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "ica_apply", "name_en": "Receive ICA Student's Pass In-Principle Approval (IPA)", "weeks": 2 },
+            { "id": "entry", "name_en": "Enter Singapore and complete formalities at ICA", "weeks": 1 },
+            { "id": "issuance", "name_en": "Student's Pass issuance", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "华人占74%，中文通行度高；东西方文化交汇，多宗教融洽共存，城市秩序感极强。",
+            "study_style_zh": "NUS/NTU等顶尖学府科研导向强，竞争激烈；行业实习机会充裕，就业与金融科技生态成熟。",
+            "safety_zh": "全球最安全城市之一，犯罪率极低，夜间独行无忧；法律严格，公共行为规范需认真遵守。",
+            "city_life_zh": "生活极便利，MRT四通八达；租金较高（约SGD$2,500–4,000/月），但hawker小贩中心美食平价实惠。"
+        },
+        "source": {
+            "source_id": "ica_sg_stp_2026",
+            "kind": "url",
+            "url": "https://www.ica.gov.sg/student-pass",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "MY": {
+        "country_name_en": "Malaysia",
+        "country_name_zh": "马来西亚",
+        "visa_class": "Student Pass (VP(TE))",
+        "total_weeks_typical": 8,
+        "weeks_min": 5,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "offer", "name_en": "Offer letter from Malaysian institution", "weeks": 1 },
+            { "id": "emgs", "name_en": "EMGS health screening and application processing", "weeks": 4 },
+            { "id": "visa", "name_en": "Student Pass sticker at entry or ICA", "weeks": 3 }
+        ],
+        "destination_info": {
+            "culture_zh": "马来、华人、印度三族融合，中文（粤语/普通话/闽南语）流通广泛；与中华文化亲近感强。",
+            "study_style_zh": "课程以英语授课为主，学习压力相对适中；与澳洲、英国大学有双联课程，性价比突出。",
+            "safety_zh": "吉隆坡治安总体可控，注意钱包和手机安全；夜间避开偏僻街道，整体风险处于可管理范围内。",
+            "city_life_zh": "生活成本全球较低，Grab点餐外卖便宜；气候全年炎热多雨，市内出行以打车为主。"
+        },
+        "source": {
+            "source_id": "emgs_my_2026",
+            "kind": "url",
+            "url": "https://www.emgs.com.my/",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "TH": {
+        "country_name_en": "Thailand",
+        "country_name_zh": "泰国",
+        "visa_class": "Non-Immigrant ED Visa",
+        "total_weeks_typical": 4,
+        "weeks_min": 2,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "admission", "name_en": "Admission letter from Thai institution", "weeks": 1 },
+            { "id": "lodge", "name_en": "Apply at Royal Thai Consulate / Embassy", "weeks": 1 },
+            { "id": "entry", "name_en": "Enter Thailand and report to Immigration Bureau", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "佛教文化浓厚，寺庙遍布全城；泰国人热情友善，中泰关系近年升温，中国学生群体快速增长。",
+            "study_style_zh": "课程英语授课，学术压力适中；部分课程含泰语要求，报名前需确认课程主要语言政策。",
+            "safety_zh": "总体安全，但交通事故风险较高（摩托车文化盛行）；游客区扒手需防，注意随时了解当地动态。",
+            "city_life_zh": "曼谷生活成本极低，美食多样且廉价；BTS轻轨方便，高峰期拥堵严重，全年高温湿热。"
+        },
+        "source": {
+            "source_id": "mfa_th_edu_2026",
+            "kind": "url",
+            "url": "https://www.mfa.go.th/en/page/non-immigrant-visa-ed",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "DE": {
+        "country_name_en": "Germany",
+        "country_name_zh": "德国",
+        "visa_class": "National Visa D (Studium)",
+        "total_weeks_typical": 10,
+        "weeks_min": 7,
+        "post_study_work_years": 1.5,
+        "steps": [
+            { "id": "uni_letter", "name_en": "Admission / conditional offer from German university", "weeks": 2 },
+            { "id": "blocked_account", "name_en": "Open blocked account (Sperrkonto, €11 904/yr)", "weeks": 2 },
+            { "id": "appointment", "name_en": "Book consular appointment (can be weeks out)", "weeks": 3 },
+            { "id": "interview", "name_en": "Consular interview and document submission", "weeks": 1 },
+            { "id": "decision", "name_en": "Visa decision and passport return", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "严谨高效的工程文化，准时守规是基本礼仪；汉堡、慕尼黑等地华人社群活跃，啤酒节文化知名。",
+            "study_style_zh": "公立大学学费近乎免费（约€300/学期注册费），学制较长；工程/理科理论深度高，自学能力要求强。",
+            "safety_zh": "总体安全，大城市地铁站需注意扒手；日常生活安全感高，法治环境良好，治安整体稳定。",
+            "city_life_zh": "生活成本适中（柏林月均€1,000–1,500），公交系统完善；圣诞市场、啤酒节等文化活动氛围浓厚。"
+        },
+        "source": {
+            "source_id": "auswaertiges_amt_studium_2026",
+            "kind": "url",
+            "url": "https://www.auswaertiges-amt.de/en/visa-service/buerger/studium",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "NL": {
+        "country_name_en": "Netherlands",
+        "country_name_zh": "荷兰",
+        "visa_class": "MVV / Residence Permit (Study)",
+        "total_weeks_typical": 9,
+        "weeks_min": 6,
+        "post_study_work_years": 1,
+        "steps": [
+            { "id": "offer", "name_en": "Admission letter from Dutch institution", "weeks": 1 },
+            { "id": "ind_apply", "name_en": "University submits IND application on student's behalf", "weeks": 4 },
+            { "id": "mvv", "name_en": "Collect MVV entry visa at Dutch Embassy (if required)", "weeks": 2 },
+            { "id": "bsn", "name_en": "Register with municipality and obtain BSN on arrival", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "高度国际化，英语普及率欧洲最高；自行车文化鲜明，阿姆斯特丹华人社区成熟，出行欧洲极方便。",
+            "study_style_zh": "PBL（问题导向学习）为核心教学法，团队合作密集；课程紧凑，学生需高度自律，学习节奏快。",
+            "safety_zh": "总体非常安全；阿姆斯特丹红灯区或节庆时需注意个人财物；学习自行车交通规则是必要功课。",
+            "city_life_zh": "阿姆斯特丹租金偏高（€1,200–1,800/月），学生宿舍资源紧张；出行欧洲其他国家交通极为方便。"
+        },
+        "source": {
+            "source_id": "ind_nl_study_2026",
+            "kind": "url",
+            "url": "https://ind.nl/en/residence-permits/study",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "IE": {
+        "country_name_en": "Ireland",
+        "country_name_zh": "爱尔兰",
+        "visa_class": "Study Visa (D)",
+        "total_weeks_typical": 6,
+        "weeks_min": 4,
+        "post_study_work_years": 2,
+        "steps": [
+            { "id": "offer", "name_en": "Unconditional offer from Irish institution", "weeks": 1 },
+            { "id": "lodge", "name_en": "Online visa application via ISD", "weeks": 2 },
+            { "id": "decision", "name_en": "Visa decision at Irish Embassy", "weeks": 3 }
+        ],
+        "destination_info": {
+            "culture_zh": "爱尔兰人开朗幽默，pub文化是重要社交场景；都柏林汇聚谷歌、Meta、LinkedIn等科技巨头欧洲总部。",
+            "study_style_zh": "课程以应用型为主，与行业联系紧密；爱尔兰口音需适应期，师生关系友善，学习氛围相对轻松。",
+            "safety_zh": "都柏林总体安全，个别老城区夜间需注意；整体犯罪率低，国际学生普遍反映安全感良好。",
+            "city_life_zh": "都柏林租金近年大幅上涨（€1,500–2,500/月），是主要生活挑战；气候温和多雨，四季温差不大。"
+        },
+        "source": {
+            "source_id": "isd_ie_study_2026",
+            "kind": "url",
+            "url": "https://www.irishimmigration.ie/coming-to-study-in-ireland/",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "RU": {
+        "country_name_en": "Russia",
+        "country_name_zh": "俄罗斯",
+        "visa_class": "Student Visa (Category D)",
+        "total_weeks_typical": 6,
+        "weeks_min": 4,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "invitation", "name_en": "Invitation letter from Russian university via Ministry", "weeks": 3 },
+            { "id": "lodge", "name_en": "Apply at Russian Embassy / Consulate", "weeks": 1 },
+            { "id": "decision", "name_en": "Visa issuance", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "文化底蕴深厚，芭蕾、文学、建筑举世闻名；受当前地缘政治影响，赴俄前需充分评估风险。",
+            "study_style_zh": "理工科和艺术类院校学术水平优异（ITMO、莫斯科国立大学等），俄语环境为主，适应需一定时间。",
+            "safety_zh": "莫斯科市区日常安全度尚可，但当前地缘政治形势复杂；务必关注中国外交部最新旅行安全提醒。",
+            "city_life_zh": "生活成本极低，物价亲民；冬季极寒（-20°C以下），需做充分御寒准备；国际汇款受限，需提前规划。"
+        },
+        "source": {
+            "source_id": "russia_edu_visa_2026",
+            "kind": "url",
+            "url": "https://studyinrussia.ru/en/study-in-russia/visa/",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "TW": {
+        "country_name_en": "Taiwan",
+        "country_name_zh": "中国台湾",
+        "visa_class": "Resident Visa (Student) / ARC",
+        "total_weeks_typical": 4,
+        "weeks_min": 2,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "offer", "name_en": "Admission letter from Taiwanese university", "weeks": 1 },
+            { "id": "resident_visa", "name_en": "Apply for Resident Visa at TECO office", "weeks": 1 },
+            { "id": "arc", "name_en": "Enter Taiwan and apply for Alien Resident Certificate", "weeks": 2 }
+        ],
+        "destination_info": {
+            "culture_zh": "繁体中文为主，与大陆文化高度相通；夜市文化独特，台湾人热情友善，中华传统习俗保留完整。",
+            "study_style_zh": "国立大学学费低廉，科研水平较高；校园氛围友善开放，学生活动多元，师生互动密切。",
+            "safety_zh": "全亚洲最安全地区之一，犯罪率极低，夜间外出基本无忧；偶发地震，了解基本应急知识即可。",
+            "city_life_zh": "台北捷运系统完善，生活极便利；租金适中（约NT$8,000–15,000/月），美食物价低，夜生活丰富。"
+        },
+        "source": {
+            "source_id": "boca_tw_student_2026",
+            "kind": "url",
+            "url": "https://www.boca.gov.tw/cp-10-4412-7a53d-2.html",
+            "last_verified_date": "2026-05-29"
+        }
+    },
+    "MO": {
+        "country_name_en": "Macao SAR",
+        "country_name_zh": "澳门特别行政区",
+        "visa_class": "Student Visa / Non-Resident Status",
+        "total_weeks_typical": 3,
+        "weeks_min": 2,
+        "post_study_work_years": 0,
+        "steps": [
+            { "id": "offer", "name_en": "Admission letter from Macao institution", "weeks": 1 },
+            { "id": "lodge", "name_en": "Apply for entry permit at PSP (Public Security Police)", "weeks": 1 },
+            { "id": "residence", "name_en": "Receive non-resident student status", "weeks": 1 }
+        ],
+        "destination_info": {
+            "culture_zh": "葡萄牙与中华文化独特融合，历史街区入列世界遗产；繁体中文与葡语并行，旅游与博彩业发达。",
+            "study_style_zh": "澳大学、澳科大课程英语授课为主，小班教学，师生互动密切；学风轻松，与内地研究机构合作紧密。",
+            "safety_zh": "治安极佳，犯罪率全球最低之一；博彩业背景浓厚，需适度娱乐，不受赌场文化影响。",
+            "city_life_zh": "城市极小，步行可达大部分景点；租金适中但近年上升（约MOP$4,000–8,000/月），饮食融合中葡风味。"
+        },
+        "source": {
+            "source_id": "psp_mo_student_2026",
+            "kind": "url",
+            "url": "https://www.psp.gov.mo/en/",
+            "last_verified_date": "2026-05-29"
         }
     }
 }

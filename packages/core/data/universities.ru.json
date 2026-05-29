@@ -1,0 +1,44 @@
+[
+    {
+        "id": "hse",
+        "name_en": "HSE University",
+        "name_zh": "俄罗斯高等经济大学",
+        "country": "RU",
+        "city": "Moscow",
+        "city_size": "mega",
+        "climate": "cold",
+        "reputation_score": 0.74,
+        "chinese_community_density": 0.35,
+        "safety_index": 0.72,
+        "sources": [
+            {
+                "source_id": "hse_programmes_2026",
+                "kind": "url",
+                "url": "https://www.hse.ru/en/education/",
+                "last_verified_date": "2026-05-27",
+                "note": "official education programmes index"
+            }
+        ]
+    },
+    {
+        "id": "itmo",
+        "name_en": "ITMO University",
+        "name_zh": "圣彼得堡信息技术机械与光学大学",
+        "country": "RU",
+        "city": "Saint Petersburg",
+        "city_size": "mega",
+        "climate": "cold",
+        "reputation_score": 0.72,
+        "chinese_community_density": 0.3,
+        "safety_index": 0.74,
+        "sources": [
+            {
+                "source_id": "itmo_programmes_2026",
+                "kind": "url",
+                "url": "https://en.itmo.ru/en/education/",
+                "last_verified_date": "2026-05-27",
+                "note": "official education index"
+            }
+        ]
+    }
+]

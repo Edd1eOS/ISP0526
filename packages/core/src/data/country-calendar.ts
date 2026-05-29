@@ -35,6 +35,62 @@ export interface CountryCalendar {
     readonly milestones: readonly CalendarMilestone[];
 }
 
+function standardFallCalendar(
+    country: Country,
+    note_zh: string,
+    intakeMonth = 9,
+): CountryCalendar {
+    return {
+        country,
+        intakeMonth,
+        note_zh,
+        milestones: [
+            {
+                key: "application_open",
+                label_zh: "递交开放",
+                month: 10,
+                day: 1,
+                yearOffset: -1,
+            },
+            {
+                key: "application_deadline",
+                label_zh: "主要截止",
+                month: 2,
+                day: 15,
+                yearOffset: 0,
+            },
+            {
+                key: "decision_by",
+                label_zh: "Offer 落定",
+                month: 4,
+                day: 15,
+                yearOffset: 0,
+            },
+            {
+                key: "deposit_deadline",
+                label_zh: "押金截止",
+                month: 5,
+                day: 15,
+                yearOffset: 0,
+            },
+            {
+                key: "visa_window",
+                label_zh: "学签递交窗口",
+                month: 6,
+                day: 15,
+                yearOffset: 0,
+            },
+            {
+                key: "intake_start",
+                label_zh: "开学",
+                month: intakeMonth,
+                day: 1,
+                yearOffset: 0,
+            },
+        ],
+    };
+}
+
 // Each entry assumes the next available main intake. The plan UI projects
 // these onto a real-time axis using the upcoming intake year.
 export const COUNTRY_CALENDARS: Record<Country, CountryCalendar> = {
@@ -381,6 +437,14 @@ export const COUNTRY_CALENDARS: Record<Country, CountryCalendar> = {
             },
         ],
     },
+    MY: standardFallCalendar("MY", "马来西亚主入学通常为 9-10 月", 9),
+    TH: standardFallCalendar("TH", "泰国国际项目主入学通常为 8-9 月", 8),
+    DE: standardFallCalendar("DE", "德国冬季学期主入学通常为 10 月", 10),
+    NL: standardFallCalendar("NL", "荷兰主入学通常为 9 月", 9),
+    IE: standardFallCalendar("IE", "爱尔兰主入学通常为 9 月", 9),
+    RU: standardFallCalendar("RU", "俄罗斯主入学通常为 9 月", 9),
+    TW: standardFallCalendar("TW", "台湾主入学通常为 9 月", 9),
+    MO: standardFallCalendar("MO", "澳门主入学通常为 8-9 月", 8),
 };
 
 // Resolve a calendar milestone to a concrete Date in the upcoming intake.
