@@ -423,6 +423,68 @@ function applyExtractedFacts(l: KnowledgeLedger, extracted: WishExtracted): Know
 }
 
 // ---------------------------------------------------------------------------
+// Deterministic country extractor — runs synchronously on adaptive answers
+// so preferred_countries is never gated on LLM extraction success.
+// ---------------------------------------------------------------------------
+
+const NO_PREF_PHRASES = ["都可以", "还没想好", "没想好", "无所谓", "都行", "any"];
+
+// Ordered so that longer/more specific strings are checked first (e.g.
+// "新加坡" before any prefix that might shadow it).
+const COUNTRY_KEYWORDS: ReadonlyArray<readonly [string, Country]> = [
+    ["澳大利亚", "AU"],
+    ["australia", "AU"],
+    ["英国", "UK"],
+    ["britain", "UK"],
+    ["england", "UK"],
+    ["爱尔兰", "IE"],
+    ["ireland", "IE"],
+    ["美国", "US"],
+    ["america", "US"],
+    ["加拿大", "CA"],
+    ["canada", "CA"],
+    ["新西兰", "NZ"],
+    ["new zealand", "NZ"],
+    ["香港", "HK"],
+    ["hong kong", "HK"],
+    ["新加坡", "SG"],
+    ["singapore", "SG"],
+    ["马来西亚", "MY"],
+    ["malaysia", "MY"],
+    ["泰国", "TH"],
+    ["thailand", "TH"],
+    ["德国", "DE"],
+    ["germany", "DE"],
+    ["荷兰", "NL"],
+    ["netherlands", "NL"],
+    ["俄罗斯", "RU"],
+    ["russia", "RU"],
+    ["台湾", "TW"],
+    ["taiwan", "TW"],
+    ["澳门", "MO"],
+    ["macau", "MO"],
+] as const;
+
+// Extra entries for shorthand combos that map to multiple countries
+const SHORTHAND_MULTI: ReadonlyArray<readonly [string, ReadonlyArray<Country>]> = [
+    ["港澳", ["HK", "MO"]],
+    ["仅澳大利亚", ["AU"]],
+] as const;
+
+function extractCountriesFromAnswer(answer: string): ReadonlyArray<Country> | null {
+    const lower = answer.toLowerCase();
+    if (NO_PREF_PHRASES.some((p) => answer.includes(p) || lower.includes(p))) return null;
+    const found = new Set<Country>();
+    for (const [kw, codes] of SHORTHAND_MULTI) {
+        if (answer.includes(kw)) for (const c of codes) found.add(c);
+    }
+    for (const [kw, code] of COUNTRY_KEYWORDS) {
+        if (answer.includes(kw) || lower.includes(kw)) found.add(code);
+    }
+    return found.size > 0 ? [...found] : null;
+}
+
+// ---------------------------------------------------------------------------
 // StarChartStage
 // ---------------------------------------------------------------------------
 
@@ -767,8 +829,16 @@ export function StarChartStage() {
             };
             setLedger((l) => appendConversationTurn(l, turn));
             setAdaptiveQuestion(null);
-            // Extract structured facts from the answer using the question as
-            // context so the wish-parse LLM understands what was being asked.
+
+            // Deterministically extract preferred_countries from the answer text
+            // without relying on the LLM — country picks must never be dropped due
+            // to an LLM extraction failure.
+            const directCountries = extractCountriesFromAnswer(answer);
+            if (directCountries !== null && directCountries.length > 0) {
+                setLedger((l) => mergeCountries(l, directCountries, { source: "wish", confidence: 0.95 }));
+            }
+
+            // Extract other structured facts (budget, city_size, etc.) via LLM.
             const currentFacts = factsToStringRecord(ledger.facts);
             void parseWishAction({
                 locale: "zh",
