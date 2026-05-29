@@ -1478,32 +1478,39 @@ interface ReadoutViewProps {
     readonly onRetry: () => void;
 }
 
-const AUTO_FINALIZE_SECONDS = 15;
+const AUTO_FINALIZE_SECONDS = 12;
 
 function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }: ReadoutViewProps) {
     const profile = buildProfileSummary(ledger);
     const [countdown, setCountdown] = useState(AUTO_FINALIZE_SECONDS);
+    const [finalizing, setFinalizing] = useState(false);
     const finalizeRef = useRef(onFinalize);
     finalizeRef.current = onFinalize;
 
-    // Auto-trigger once diagnosis is ready and we're not already loading.
+    const go = useCallback(() => {
+        setFinalizing(true);
+        finalizeRef.current();
+    }, []);
+
+    // Start countdown as soon as diagnosis arrives.
     useEffect(() => {
-        if (!diagnosis || loading) return;
+        if (!diagnosis) return;
         setCountdown(AUTO_FINALIZE_SECONDS);
         const interval = setInterval(() => {
             setCountdown((n) => {
                 if (n <= 1) {
                     clearInterval(interval);
-                    finalizeRef.current();
+                    go();
                     return 0;
                 }
                 return n - 1;
             });
         }, 1000);
         return () => clearInterval(interval);
-    // Only restart when diagnosis first appears — not on every loading change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagnosis]);
+
+    const pct = diagnosis ? Math.round(((AUTO_FINALIZE_SECONDS - countdown) / AUTO_FINALIZE_SECONDS) * 100) : 0;
 
     return (
         <section className={styles.readout} aria-live="polite">
@@ -1548,15 +1555,50 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                     </>
                 ) : null}
 
-                <div className={styles.readoutActions}>
-                    <button type="button" className={styles.advance} disabled={loading} onClick={() => { setCountdown(0); onFinalize(); }}>
-                        {diagnosis && countdown > 0
-                            ? `生成院校方案（${countdown}s）`
-                            : loading
-                                ? "生成中…"
-                                : "生成院校方案"}
-                    </button>
-                </div>
+                {/* Auto-advance progress bar — no button */}
+                {diagnosis ? (
+                    <div className={styles.readoutActions}>
+                        {finalizing ? (
+                            <p className={styles.readoutLoading}>正在生成院校方案…</p>
+                        ) : (
+                            <div
+                                role="button"
+                                tabIndex={0}
+                                onClick={go}
+                                onKeyDown={(e) => e.key === "Enter" && go()}
+                                style={{ cursor: "pointer", width: "100%" }}
+                                aria-label="立即生成院校方案"
+                            >
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginBottom: 8,
+                                    fontSize: 12,
+                                    color: "rgba(255,255,255,0.45)",
+                                    letterSpacing: "0.08em",
+                                }}>
+                                    <span>即将生成院校方案</span>
+                                    <span>{countdown}s</span>
+                                </div>
+                                <div style={{
+                                    height: 3,
+                                    borderRadius: 99,
+                                    background: "rgba(255,255,255,0.1)",
+                                    overflow: "hidden",
+                                }}>
+                                    <div style={{
+                                        height: "100%",
+                                        width: `${pct}%`,
+                                        borderRadius: 99,
+                                        background: "linear-gradient(90deg, rgba(251,191,36,0.7), rgba(249,115,22,0.9))",
+                                        transition: "width 0.9s linear",
+                                    }} />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ) : null}
             </div>
         </section>
     );
