@@ -379,7 +379,7 @@ function LandmarkPin({
                     <header className="flex items-start justify-between gap-2">
                         <div className="space-y-0.5">
                             <p className="text-text-muted text-[10px]">
-                                {country} · {route.country_name_zh}
+                                {label}
                             </p>
                             <h3 className="text-text text-sm font-semibold">
                                 {label} · {route.visa_class}

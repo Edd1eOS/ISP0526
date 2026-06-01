@@ -7,13 +7,12 @@
  *   1. Fixed pickers: 学习阶段 → 阶段补充 → 方向
  *      (PickerSky constellation tap; 方向 stars are highlighted by RIASEC)
  *   2. Adaptive LLM questions (max 7) generated one at a time by
- *      generateNextAdaptiveQuestionAction — quick-pick buttons + WishInput.
+ *      generateNextAdaptiveQuestionAction — quick-pick buttons.
  *   3. Pre-readout conflict resolution if two sources disagree.
  *   4. Readout: star diagnosis + "查看推荐" button.
  *
- * WishInput is a persistent free-input astrolabe throughout questions 1-3.
- * WishDialog intercepts when the user asks a factual question or triggers
- * a backtrack so the main flow waits for acknowledgement.
+ * The astrolabe is decorative only; free-form search is intentionally
+ * disabled until the parser path is stable.
  */
 
 import {
@@ -26,7 +25,6 @@ import {
     type CSSProperties,
 } from "react";
 import styles from "./star-chart.module.css";
-import { FREE_WISH_CONFIG } from "./nights";
 import { nextFixedQuestion, nextConflictQuestion, type Question, type ResolveQuestion } from "./engine";
 import {
     diagnoseStarsAction,
@@ -36,7 +34,6 @@ import {
 } from "./stars-actions";
 import {
     appendConversationTurn,
-    clearFact,
     commitWish,
     emptyLedger,
     ledgerToClarifyPatch,
@@ -47,7 +44,6 @@ import {
     mergeTargetLevel,
     mergeTeachingStyle,
     resolveConflict,
-    setFreeNotes,
     setWish,
     type KnowledgeLedger,
     type LedgerFacts,
@@ -57,8 +53,7 @@ import {
     type TeachingStyle,
     type CitySize,
 } from "./ledger";
-import type { ClearableField } from "@isp0526/core";
-import type { FreeWishConfig, PickerNight, StarDef } from "./types";
+import type { PickerNight, StarDef } from "./types";
 import type { StarDiagnosis, StarPickLine, WishExtracted } from "@isp0526/core";
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
 import type { AssessmentAnswers } from "../assessment/items";
@@ -270,7 +265,7 @@ function combinedWish(ledger: KnowledgeLedger): string {
     for (const turn of ledger.conversationHistory) {
         if (turn.answer.trim()) parts.push(`问：${turn.question}\n答：${turn.answer}`);
     }
-    // Per-question wish texts (supplementary pickers + free typing)
+    // Per-question contextual text from supplementary pickers.
     for (const [, v] of Object.entries(ledger.wishes)) {
         const t = v.trim();
         if (t) parts.push(t);
@@ -347,42 +342,6 @@ function computeTopHollandFields(
     return out;
 }
 
-// ---------------------------------------------------------------------------
-// Backtrack helpers
-// ---------------------------------------------------------------------------
-
-const FIELD_TO_QUESTION_ID: Readonly<Partial<Record<ClearableField, string>>> = {
-    target_level: "level",
-    target_field: "field",
-    annual_budget_aud: "budget",
-    city_size: "city_size",
-    teaching_style: "teaching",
-    preferred_tags: "tags",
-};
-
-function applyBacktrack(
-    l: KnowledgeLedger,
-    fields: ReadonlyArray<ClearableField>,
-): KnowledgeLedger {
-    let next = l;
-    const confs = { ...next.confirmations };
-    for (const field of fields) {
-        next = clearFact(next, field as keyof LedgerFacts);
-        const qid = FIELD_TO_QUESTION_ID[field];
-        if (qid) {
-            next = {
-                ...next,
-                committedWishes: (next.committedWishes ?? []).filter((id) => id !== qid),
-                wishes: (() => { const w = { ...next.wishes }; delete w[qid]; return w; })(),
-            };
-        }
-        if (field === "target_field") delete confs.field_implications;
-        if (field === "city_size") delete confs.city_implications;
-        if (field === "annual_budget_aud") delete confs.budget_implications;
-    }
-    return { ...next, confirmations: confs };
-}
-
 function applyExtractedFacts(l: KnowledgeLedger, extracted: WishExtracted): KnowledgeLedger {
     if (!extracted) return l;
     let next = l;
@@ -420,18 +379,6 @@ export function StarChartStage() {
     const [factsHistory, setFactsHistory] = useState<ReadonlyArray<LedgerFacts>>([]);
     const prevFactsRef = useRef<LedgerFacts | null>(null);
     const undoingRef = useRef(false);
-
-    // WishInput Q&A dialogs
-    const [wishDialog, setWishDialog] = useState<{
-        userText: string;
-        answer: string | null;
-        backtrackedFields: ReadonlyArray<ClearableField>;
-    } | null>(null);
-    // Sub-question dialog — blocks until answered or skipped
-    const [followUpDialog, setFollowUpDialog] = useState<{
-        questionText: string;
-    } | null>(null);
-    const wishParseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Adaptive question state
     const [adaptiveQuestion, setAdaptiveQuestion] = useState<{
@@ -640,64 +587,6 @@ export function StarChartStage() {
         setLedger((l) => ({ ...l, facts: prev, confirmations: {} }));
     }, [factsHistory]);
 
-    // Wish value scoped to the current question
-    const activeId = currentQuestion?.id ?? adaptiveQuestion?.id ?? null;
-    const wishValue = activeId ? (ledger.wishes[activeId] ?? "") : ledger.freeNotes;
-
-    // Clear Q&A dialogs on question change
-    useEffect(() => {
-        setWishDialog(null);
-        setFollowUpDialog(null);
-    }, [activeId]);
-
-    // Debounced wish-parse: extracts facts + routes responses to dialogs
-    useEffect(() => {
-        if (phase !== "questions") return;
-        if (wishParseTimerRef.current) clearTimeout(wishParseTimerRef.current);
-        const trimmed = wishValue.trim();
-        if (trimmed.length < 4) return;
-
-        const factsSnapshot = ledger.facts;
-        const questionContext = currentQuestion
-            ? (currentQuestion.kind === "picker" ? currentQuestion.template.title : "解决冲突")
-            : adaptiveQuestion?.question ?? undefined;
-
-        wishParseTimerRef.current = setTimeout(() => {
-            const currentFacts = factsToStringRecord(factsSnapshot);
-            void parseWishAction({
-                locale: "zh",
-                wishText: trimmed,
-                ...(Object.keys(currentFacts).length > 0 ? { currentFacts } : {}),
-                ...(questionContext ? { currentQuestionContext: questionContext } : {}),
-            })
-                .then((res) => {
-                    if (!res.ok || !res.result) return;
-                    const { answer, followUp, clearFields } = res.result;
-                    if (clearFields && clearFields.length > 0) {
-                        setLedger((l) => applyBacktrack(l, clearFields));
-                    }
-                    if (answer || (clearFields && clearFields.length > 0)) {
-                        // Factual answer or backtrack → WishDialog notification
-                        setWishDialog({
-                            userText: trimmed,
-                            answer: answer ?? null,
-                            backtrackedFields: clearFields ?? [],
-                        });
-                    } else if (followUp) {
-                        // Clarifying sub-question → full-screen FollowUpDialog
-                        setFollowUpDialog({ questionText: followUp });
-                    }
-                    // Always try to extract structured facts silently
-                    if (res.result.extracted) {
-                        setLedger((l) => applyExtractedFacts(l, res.result!.extracted));
-                    }
-                })
-                .catch(() => {});
-        }, 1200);
-        return () => { if (wishParseTimerRef.current) clearTimeout(wishParseTimerRef.current); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wishValue, phase]);
-
     const finalize = useCallback(() => {
         const overlay = ledgerToClarifyPatch(ledger);
         const accumulated = readSession<ClarifyPatch>(INTAKE_PATCH_KEY) ?? {};
@@ -709,17 +598,6 @@ export function StarChartStage() {
             });
         });
     }, [ledger]);
-
-    const onWishChange = useCallback(
-        (text: string) => {
-            if (activeId) {
-                setLedger((l) => setWish(l, activeId, text));
-            } else {
-                setLedger((l) => setFreeNotes(l, text));
-            }
-        },
-        [activeId],
-    );
 
     // Called by AdaptiveQuestionView when the user submits an answer.
     // Stores the turn in conversationHistory AND tries to extract any
@@ -753,34 +631,6 @@ export function StarChartStage() {
         [adaptiveQuestion, ledger.facts],
     );
 
-    const handleFollowUpSubmit = useCallback(
-        (responseText: string, questionText: string) => {
-            setFollowUpDialog(null);
-            setLedger((l) =>
-                setFreeNotes(
-                    l,
-                    [l.freeNotes, `追问：${questionText}\n回答：${responseText}`]
-                        .filter(Boolean)
-                        .join("\n\n"),
-                ),
-            );
-            const currentFacts = factsToStringRecord(ledger.facts);
-            void parseWishAction({
-                locale: "zh",
-                wishText: responseText,
-                currentQuestionContext: questionText,
-                ...(Object.keys(currentFacts).length > 0 ? { currentFacts } : {}),
-            })
-                .then((res) => {
-                    if (res.ok && res.result?.extracted) {
-                        setLedger((l) => applyExtractedFacts(l, res.result!.extracted));
-                    }
-                })
-                .catch(() => {});
-        },
-        [ledger.facts],
-    );
-
     if (!mounted) {
         return <div className={styles.stage} aria-hidden />;
     }
@@ -795,11 +645,9 @@ export function StarChartStage() {
                 currentQuestion ? (
                     <QuestionView
                         question={currentQuestion}
-                        ledger={ledger}
                         setLedger={setLedger}
                         canUndo={canUndo}
                         onUndo={undo}
-                        wishValue={wishValue}
                         hollandHighlights={hollandHighlightsRef.current}
                     />
                 ) : adaptiveLoading ? (
@@ -809,7 +657,6 @@ export function StarChartStage() {
                 ) : adaptiveQuestion ? (
                     <AdaptiveQuestionView
                         question={adaptiveQuestion}
-                        wishValue={wishValue}
                         onAnswer={onAdaptiveAnswer}
                         canUndo={canUndo}
                         onUndo={undo}
@@ -828,29 +675,8 @@ export function StarChartStage() {
                 />
             )}
 
-            {phase === "questions" && wishDialog ? (
-                <WishDialog
-                    userText={wishDialog.userText}
-                    answer={wishDialog.answer}
-                    backtrackedFields={wishDialog.backtrackedFields}
-                    onClose={() => setWishDialog(null)}
-                />
-            ) : null}
-
-            {phase === "questions" && followUpDialog ? (
-                <FollowUpDialog
-                    questionText={followUpDialog.questionText}
-                    onSubmit={handleFollowUpSubmit}
-                    onSkip={() => setFollowUpDialog(null)}
-                />
-            ) : null}
-
             {phase === "questions" ? (
-                <WishInput
-                    config={FREE_WISH_CONFIG}
-                    value={wishValue}
-                    onChange={onWishChange}
-                />
+                <DecorativeAstrolabe />
             ) : null}
 
             <div className={`${styles.fadeOverlay} ${fading ? styles.show : ""}`} aria-hidden />
@@ -864,24 +690,20 @@ export function StarChartStage() {
 
 interface QuestionViewProps {
     readonly question: Question;
-    readonly ledger: KnowledgeLedger;
     readonly setLedger: React.Dispatch<React.SetStateAction<KnowledgeLedger>>;
     readonly canUndo: boolean;
     readonly onUndo: () => void;
-    readonly wishValue: string;
     readonly hollandHighlights: Set<string>;
 }
 
-function QuestionView({ question, ledger, setLedger, canUndo, onUndo, wishValue, hollandHighlights }: QuestionViewProps) {
+function QuestionView({ question, setLedger, canUndo, onUndo, hollandHighlights }: QuestionViewProps) {
     if (question.kind === "picker") {
         return (
             <PickerQuestionView
                 question={question}
-                ledger={ledger}
                 setLedger={setLedger}
                 canUndo={canUndo}
                 onUndo={onUndo}
-                wishValue={wishValue}
                 hollandHighlights={hollandHighlights}
             />
         );
@@ -895,15 +717,13 @@ function QuestionView({ question, ledger, setLedger, canUndo, onUndo, wishValue,
 
 interface PickerQuestionViewProps {
     readonly question: { kind: "picker"; id: string; template: PickerNight };
-    readonly ledger: KnowledgeLedger;
     readonly setLedger: React.Dispatch<React.SetStateAction<KnowledgeLedger>>;
     readonly canUndo: boolean;
     readonly onUndo: () => void;
-    readonly wishValue: string;
     readonly hollandHighlights: Set<string>;
 }
 
-function PickerQuestionView({ question, ledger, setLedger, canUndo, onUndo, wishValue, hollandHighlights }: PickerQuestionViewProps) {
+function PickerQuestionView({ question, setLedger, canUndo, onUndo, hollandHighlights }: PickerQuestionViewProps) {
     const night = question.template;
     const [picks, setPicks] = useState<ReadonlyArray<string>>([]);
 
@@ -920,49 +740,29 @@ function PickerQuestionView({ question, ledger, setLedger, canUndo, onUndo, wish
         [night.maxPicks],
     );
 
-    const hasWish = wishValue.trim().length >= 2;
-    const canAdvance = picks.length >= night.minPicks || hasWish;
+    const canAdvance = picks.length >= night.minPicks;
 
     const onAdvance = () => {
         if (!canAdvance) return;
-        if (picks.length > 0) {
-            if (night.storeAsWish) {
-                // Supplementary picker: store selected labels as wish text
-                const labels = picks
-                    .map((id) => night.stars.find((s) => s.id === id)?.label ?? id)
-                    .join("、");
-                setLedger((l) => {
-                    let next = setWish(l, question.id, labels);
-                    next = commitWish(next, question.id);
-                    return next;
-                });
-            } else {
-                const starMap = new Map(night.stars.map((s) => [s.id, s]));
-                setLedger((l) => {
-                    let next = l;
-                    for (const id of picks) {
-                        const s = starMap.get(id);
-                        if (s?.meta) next = applyStarMeta(next, s.meta);
-                    }
-                    return next;
-                });
-            }
+        if (night.storeAsWish) {
+            const labels = picks
+                .map((id) => night.stars.find((s) => s.id === id)?.label ?? id)
+                .join("、");
+            setLedger((l) => {
+                let next = setWish(l, question.id, labels);
+                next = commitWish(next, question.id);
+                return next;
+            });
         } else {
-            // Wish-only advance
-            setLedger((l) => commitWish(l, question.id));
-            const trimmed = wishValue.trim();
-            const currentFacts = factsToStringRecord(ledger.facts);
-            void parseWishAction({
-                locale: "zh",
-                wishText: trimmed,
-                ...(Object.keys(currentFacts).length > 0 ? { currentFacts } : {}),
-            })
-                .then((res) => {
-                    if (res.ok && res.result?.extracted) {
-                        setLedger((l) => applyExtractedFacts(l, res.result!.extracted));
-                    }
-                })
-                .catch(() => {});
+            const starMap = new Map(night.stars.map((s) => [s.id, s]));
+            setLedger((l) => {
+                let next = l;
+                for (const id of picks) {
+                    const s = starMap.get(id);
+                    if (s?.meta) next = applyStarMeta(next, s.meta);
+                }
+                return next;
+            });
         }
     };
 
@@ -982,11 +782,7 @@ function PickerQuestionView({ question, ledger, setLedger, canUndo, onUndo, wish
                 <HollandRecommendCard stars={night.stars} highlights={hollandHighlights} />
             ) : null}
             <footer className={styles.footer}>
-                <p className={styles.hint}>
-                    {hasWish && picks.length === 0
-                        ? "已用文字回答，可直接继续"
-                        : pickerHint(night, picks)}
-                </p>
+                <p className={styles.hint}>{pickerHint(night, picks)}</p>
                 <div className={styles.footerActions}>
                     {canUndo ? (
                         <button type="button" className={styles.undoBtn} onClick={onUndo}>
@@ -1023,22 +819,20 @@ function pickerHint(night: PickerNight, picks: ReadonlyArray<string>): string {
 
 interface AdaptiveQuestionViewProps {
     readonly question: { id: string; question: string; quickPicks: ReadonlyArray<string> };
-    readonly wishValue: string;
     readonly onAnswer: (answer: string) => void;
     readonly canUndo: boolean;
     readonly onUndo: () => void;
 }
 
-function AdaptiveQuestionView({ question, wishValue, onAnswer, canUndo, onUndo }: AdaptiveQuestionViewProps) {
+function AdaptiveQuestionView({ question, onAnswer, canUndo, onUndo }: AdaptiveQuestionViewProps) {
     const [pick, setPick] = useState<string | null>(null);
-    const hasWish = wishValue.trim().length >= 2;
-    const canAdvance = pick !== null || hasWish;
+    const canAdvance = pick !== null;
 
     useEffect(() => { setPick(null); }, [question.id]);
 
     const onAdvance = () => {
-        if (!canAdvance) return;
-        onAnswer(pick ?? wishValue.trim());
+        if (pick === null) return;
+        onAnswer(pick);
     };
 
     const count = Math.min(question.quickPicks.length, 6);
@@ -1048,7 +842,7 @@ function AdaptiveQuestionView({ question, wishValue, onAnswer, canUndo, onUndo }
         <>
             <header className={styles.header}>
                 <h1 className={styles.title}>{question.question}</h1>
-                <p className={styles.subtitle}>点一下快速回答，或者在下方自由描述</p>
+                <p className={styles.subtitle}>点一下快速回答</p>
             </header>
             <section className={styles.sky} aria-label="自适应问题">
                 {question.quickPicks.slice(0, count).map((opt, i) => {
@@ -1071,9 +865,7 @@ function AdaptiveQuestionView({ question, wishValue, onAnswer, canUndo, onUndo }
                 })}
             </section>
             <footer className={styles.footer}>
-                <p className={styles.hint}>
-                    {hasWish && !pick ? "已用文字回答，可直接继续" : pick ? "点击继续确认" : ""}
-                </p>
+                <p className={styles.hint}>{pick ? "点击继续确认" : ""}</p>
                 <div className={styles.footerActions}>
                     {canUndo ? (
                         <button type="button" className={styles.undoBtn} onClick={onUndo}>
@@ -1216,100 +1008,13 @@ function PickerSky({ night, current, onToggle, hollandHighlights }: PickerSkyPro
 }
 
 // ---------------------------------------------------------------------------
-// WishDialog — full-screen blocking sub-page
+// DecorativeAstrolabe — animation only, no free-form search input
 // ---------------------------------------------------------------------------
 
-interface WishDialogProps {
-    readonly userText: string;
-    readonly answer: string | null;
-    readonly backtrackedFields: ReadonlyArray<ClearableField>;
-    readonly onClose: () => void;
-}
-
-function WishDialog({ userText, answer, backtrackedFields, onClose }: WishDialogProps) {
-    const hasBacktrack = backtrackedFields.length > 0;
-    const fieldLabels: Record<ClearableField, string> = {
-        target_level: "学习阶段",
-        target_field: "专业方向",
-        annual_budget_aud: "预算",
-        city_size: "城市规模",
-        teaching_style: "教学风格",
-        preferred_tags: "偏好标签",
-    };
-    const backtrackLabel = hasBacktrack
-        ? backtrackedFields.map((f) => fieldLabels[f]).join("、")
-        : null;
-
+function DecorativeAstrolabe() {
     return (
-        <div className={styles.wishDialog}>
-            <div className={styles.wishDialogInner}>
-                <div className={styles.wishDialogUserBubble}>
-                    <span className={styles.wishDialogSpeaker}>你说</span>
-                    <p className={styles.wishDialogUserText}>{userText}</p>
-                </div>
-                <div className={styles.wishDialogSystemBubble}>
-                    <span className={styles.wishDialogSpeaker}>顾问</span>
-                    {answer ? (
-                        <p className={styles.wishDialogResponseText}>{answer}</p>
-                    ) : hasBacktrack ? (
-                        <p className={styles.wishDialogResponseText}>
-                            {`好，已帮你退回到「${backtrackLabel}」的选择，请重新回答。`}
-                        </p>
-                    ) : null}
-                </div>
-                <div className={styles.wishDialogActions}>
-                    <button type="button" className={styles.advance} onClick={onClose}>
-                        {hasBacktrack ? "好，重新选择" : "明白了，继续"}
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-// ---------------------------------------------------------------------------
-// WishInput — persistent free-input astrolabe
-// ---------------------------------------------------------------------------
-
-interface WishInputProps {
-    readonly config: FreeWishConfig;
-    readonly value: string;
-    readonly onChange: (text: string) => void;
-}
-
-function WishInput({ config, value, onChange }: WishInputProps) {
-    const [opened, setOpened] = useState(true);
-    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-    useEffect(() => {
-        if (opened && textareaRef.current) textareaRef.current.focus();
-    }, [opened]);
-
-    return (
-        <div className={styles.wishStage} aria-label={config.label}>
-            {opened ? (
-                <div className={styles.wishPanel} role="group">
-                    <textarea
-                        ref={textareaRef}
-                        className={styles.wishInput}
-                        value={value}
-                        onChange={(e) => onChange(e.target.value.slice(0, config.maxChars))}
-                        placeholder={config.placeholder}
-                        rows={4}
-                        aria-label={config.label}
-                    />
-                    <div className={styles.wishCount}>
-                        {value.length} / {config.maxChars}
-                    </div>
-                </div>
-            ) : null}
-            <button
-                type="button"
-                className={`${styles.wishAstrolabe} ${opened ? styles.wishAstrolabeOpened : ""}`}
-                onClick={() => setOpened((v) => !v)}
-                aria-expanded={opened}
-                aria-label={opened ? `收起${config.label}` : `展开${config.label}`}
-            >
+        <div className={styles.wishStage} aria-hidden="true">
+            <div className={styles.wishAstrolabe} style={{ pointerEvents: "none" }}>
                 <svg className={styles.wishAstrolabeSvg} viewBox="-110 -110 220 220" aria-hidden="true">
                     <circle r="100" className={styles.wishRingOuter} />
                     <circle r="78" className={styles.wishRingMid} />
@@ -1324,9 +1029,8 @@ function WishInput({ config, value, onChange }: WishInputProps) {
                         return <line key={deg} x1={x1} y1={y1} x2={x2} y2={y2} className={styles.wishTick} />;
                     })}
                 </svg>
-                <span className={styles.wishAstrolabeLabel}>{config.label}</span>
-                <span className={styles.wishAstrolabeHint}>{opened ? "" : "点击展开"}</span>
-            </button>
+                <span className={styles.wishAstrolabeLabel}>自由感知</span>
+            </div>
         </div>
     );
 }
@@ -1359,59 +1063,6 @@ function HollandRecommendCard({ stars, highlights }: HollandRecommendCardProps) 
                     </li>
                 ))}
             </ul>
-        </div>
-    );
-}
-
-// ---------------------------------------------------------------------------
-// FollowUpDialog — full-screen blocking sub-page for clarifying sub-questions
-// ---------------------------------------------------------------------------
-
-interface FollowUpDialogProps {
-    readonly questionText: string;
-    readonly onSubmit: (responseText: string, questionText: string) => void;
-    readonly onSkip: () => void;
-}
-
-function FollowUpDialog({ questionText, onSubmit, onSkip }: FollowUpDialogProps) {
-    const [response, setResponse] = useState("");
-    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-    useEffect(() => { textareaRef.current?.focus(); }, []);
-
-    const canSubmit = response.trim().length >= 2;
-
-    return (
-        <div className={styles.followUpDialog}>
-            <div className={styles.followUpDialogInner}>
-                <p className={styles.followUpDialogLabel}>需要进一步了解</p>
-                <p className={styles.followUpDialogQuestion}>{questionText}</p>
-                <textarea
-                    ref={textareaRef}
-                    className={styles.followUpDialogTextarea}
-                    value={response}
-                    onChange={(e) => setResponse(e.target.value.slice(0, 300))}
-                    placeholder="说说你的想法……"
-                    rows={4}
-                />
-                <div className={styles.followUpDialogActions}>
-                    <button
-                        type="button"
-                        className={styles.advance}
-                        disabled={!canSubmit}
-                        onClick={() => { if (canSubmit) onSubmit(response.trim(), questionText); }}
-                    >
-                        确认
-                    </button>
-                    <button
-                        type="button"
-                        className={styles.followUpDialogSkip}
-                        onClick={onSkip}
-                    >
-                        先跳过
-                    </button>
-                </div>
-            </div>
         </div>
     );
 }

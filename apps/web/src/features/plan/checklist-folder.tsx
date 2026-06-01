@@ -30,6 +30,7 @@ const VISA_LINKS: Record<string, { label: string; url: string }> = {
     NZ: { label: "NZ Student Visa · INZ", url: "https://www.immigration.govt.nz/new-zealand-visas/options/study" },
     HK: { label: "HK Study Entry · ImmD", url: "https://www.immd.gov.hk/eng/services/visas/study.html" },
     SG: { label: "SG Student Pass · ICA", url: "https://www.ica.gov.sg/enter-transit-depart/student-pass" },
+    MY: { label: "MY Student Pass · Immigration", url: "https://www.imi.gov.my/index.php/en/main-services/pass/student-pass/?format=pdf" },
 };
 
 function buildCategoryMeta(countries: readonly string[]): Record<string, CategoryMeta> {
@@ -422,7 +423,7 @@ export function ChecklistFolder({
                                                                                             borderRadius: 999,
                                                                                         }}
                                                                                     >
-                                                                                        {programNames[pid] ?? pid}
+                                                                                        {programNames[pid] ?? "未命名项目"}
                                                                                     </li>
                                                                                 ))}
                                                                             </ul>

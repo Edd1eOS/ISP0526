@@ -7,12 +7,11 @@
 //
 // At runtime, `resolveNights()` walks the candidate pool and only
 // returns the nights whose target field is still missing in the
-// accumulated patch / assessment. The free-input astrolabe is rendered
-// as a persistent overlay during the picking phase, not as a night.
+// accumulated patch / assessment. The decorative astrolabe is rendered
+// by StarChartStage during the picking phase, not as a night.
 
 import type {
     BudgetNight,
-    FreeWishConfig,
     NightDef,
     PickerNight,
     ResolverContext,
@@ -325,15 +324,6 @@ export const NIGHT_MASTER_BACKGROUND: PickerNight = {
         { id: "mb_intern", label: "实习积累", x: 56, y: 64, mag: 2 },
         { id: "mb_gap", label: "间隔 / 备考", x: 80, y: 58, mag: 1 },
     ],
-};
-
-/** Free-input astrolabe configuration. Rendered as a persistent
- * overlay during the picking phase; never a night, never gates
- * advance. */
-export const FREE_WISH_CONFIG: FreeWishConfig = {
-    maxChars: 280,
-    label: "自由感知",
-    placeholder: "还有什么想让我知道的？比如:想跟着某个老师做研究、家人希望我离亲戚近一点……",
 };
 
 /**

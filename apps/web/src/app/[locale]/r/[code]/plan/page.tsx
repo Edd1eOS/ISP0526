@@ -133,15 +133,15 @@ export default async function PlanPage({ params, searchParams }: PlanPageProps) 
             r.candidate.university.name_zh ?? r.candidate.university.name_en,
         programName:
             r.candidate.program.name_zh ?? r.candidate.program.name_en,
-        country: r.candidate.university.country,
+        country: COUNTRY_LABEL[r.candidate.university.country],
         city: r.candidate.university.city ?? null,
     }));
 
     const programNames: Record<string, string> = {};
     const countries = new Set<string>();
     for (const r of resolved) {
-        programNames[r.pick.programId] = r.candidate.university.name_zh ??
-            r.candidate.university.name_en;
+        programNames[r.pick.programId] =
+            r.candidate.program.name_zh ?? r.candidate.program.name_en;
         countries.add(r.candidate.university.country);
     }
 

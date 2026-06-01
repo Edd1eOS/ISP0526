@@ -83,13 +83,6 @@ export interface BudgetNight extends NightBase {
     readonly anchors: ReadonlyArray<BudgetAnchor>;
 }
 
-/** Configuration for the always-available free-input astrolabe. */
-export interface FreeWishConfig {
-    readonly maxChars: number;
-    readonly placeholder: string;
-    readonly label: string;
-}
-
 export type NightDef = PickerNight | BudgetNight;
 
 /** What the runtime resolver knows about the upstream state. */
