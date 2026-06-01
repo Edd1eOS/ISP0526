@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Country, VisaRoute, VisaRouteMap } from "@isp0526/core";
 
 interface JourneyMapProps {
@@ -28,14 +28,22 @@ const TARGETS: Record<Country, { x: number; y: number }> = {
     SG: project(103.8, 1.3),
     AU: project(151.2, -33.9), // Sydney
     NZ: project(174.8, -36.8), // Auckland
-    MY: project(101.7, 3.1), // Kuala Lumpur
-    TH: project(100.5, 13.8), // Bangkok
-    DE: project(11.6, 48.1), // Munich
-    NL: project(4.9, 52.4), // Amsterdam
-    IE: project(-6.3, 53.3), // Dublin
-    RU: project(37.6, 55.8), // Moscow
-    TW: project(121.6, 25.0), // Taipei
-    MO: project(113.5, 22.2), // Macau
+    MY: project(101.7, 3.1),   // Kuala Lumpur
+    TH: project(100.5, 13.8),  // Bangkok
+    DE: project(11.6, 48.1),   // Munich
+    NL: project(4.9, 52.4),    // Amsterdam
+    IE: project(-6.3, 53.3),   // Dublin
+    RU: project(37.6, 55.8),   // Moscow
+    TW: project(121.6, 25.0),  // Taipei
+    MO: project(113.5, 22.2),  // Macau
+};
+
+// Visual-only pin offsets for pins that cluster or appear inland on the simplified silhouette.
+// Arc endpoints still use TARGETS (geographic accuracy); only the HTML pin is nudged.
+const PIN_NUDGES: Partial<Record<Country, { dx: number; dy: number }>> = {
+    HK: { dx: 18, dy: 32 },   // Move south into Pearl River Delta waters
+    MO: { dx: -16, dy: 42 },  // Separate from HK, further into estuary
+    TW: { dx: 14, dy: 28 },   // Move south-east to appear as island, not mainland
 };
 
 function arcPath(tx: number, ty: number): string {
@@ -60,10 +68,15 @@ export function JourneyMap({ countries, routes, countryLabels }: JourneyMapProps
     const wrapRef = useRef<HTMLDivElement | null>(null);
 
     const items = countries
-        .map((c) => ({ country: c, route: routes[c], pos: TARGETS[c] }))
+        .map((c) => {
+            const geo = TARGETS[c];
+            const nudge = PIN_NUDGES[c];
+            const pin = nudge ? { x: geo.x + nudge.dx, y: geo.y + nudge.dy } : geo;
+            return { country: c, route: routes[c], arcPos: geo, pinPos: pin };
+        })
         .filter(
-            (i): i is { country: Country; route: VisaRoute; pos: { x: number; y: number } } =>
-                Boolean(i.route) && Boolean(i.pos),
+            (i): i is { country: Country; route: VisaRoute; arcPos: { x: number; y: number }; pinPos: { x: number; y: number } } =>
+                Boolean(i.route) && Boolean(i.arcPos),
         );
 
     useEffect(() => {
@@ -95,7 +108,7 @@ export function JourneyMap({ countries, routes, countryLabels }: JourneyMapProps
                     正在为你匹配合适的留学起点…
                 </h2>
                 <p className="text-text-muted text-sm">
-                    从北京出发，连线下列目的地。点击地标查看该国签证流程与申请节奏。
+                    从北京出发，连线下列目的地。点击地标查看签证周期与目的地概况。
                 </p>
             </div>
 
@@ -178,8 +191,8 @@ export function JourneyMap({ countries, routes, countryLabels }: JourneyMapProps
                     </g>
 
                     {/* arcs */}
-                    {items.map(({ country, pos }, i) => (
-                        <ArcPath key={country} d={arcPath(pos.x, pos.y)} delayMs={i * 220} />
+                    {items.map(({ country, arcPos }, i) => (
+                        <ArcPath key={country} d={arcPath(arcPos.x, arcPos.y)} delayMs={i * 220} />
                     ))}
 
                     {/* origin */}
@@ -219,10 +232,23 @@ export function JourneyMap({ countries, routes, countryLabels }: JourneyMapProps
                     </g>
                 </svg>
 
+                {/* Dim overlay — appears under pins when any pin is open */}
+                {openCountry && (
+                    <div
+                        className="absolute inset-0 pointer-events-auto"
+                        style={{
+                            background: "rgba(10,8,6,0.38)",
+                            borderRadius: "var(--radius-card-md)",
+                            zIndex: 8,
+                            animation: "jm-overlay-in 240ms ease-out",
+                        }}
+                    />
+                )}
+
                 {/* Landmark pins as absolutely positioned buttons */}
-                {items.map(({ country, route, pos }, i) => {
-                    const leftPct = (pos.x / VIEW_W) * 100;
-                    const topPct = (pos.y / VIEW_H) * 100;
+                {items.map(({ country, route, pinPos }, i) => {
+                    const leftPct = (pinPos.x / VIEW_W) * 100;
+                    const topPct = (pinPos.y / VIEW_H) * 100;
                     const isOpen = openCountry === country;
                     return (
                         <LandmarkPin
@@ -260,6 +286,15 @@ export function JourneyMap({ countries, routes, countryLabels }: JourneyMapProps
                 @keyframes jm-pop-in {
                     from { opacity: 0; transform: scale(0.92); }
                     to   { opacity: 1; transform: scale(1); }
+                }
+                @keyframes jm-bubble-in {
+                    0%   { opacity: 0; transform: scale(0.45) translateY(8px); }
+                    65%  { transform: scale(1.05) translateY(-2px); }
+                    100% { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                @keyframes jm-overlay-in {
+                    from { opacity: 0; }
+                    to   { opacity: 1; }
                 }
             `}</style>
         </section>
@@ -318,13 +353,13 @@ function LandmarkPin({
     return (
         <div
             className="absolute"
-            style={{ left: `${leftPct}%`, top: `${topPct}%`, zIndex: open ? 30 : 10 }}
+            style={{ left: `${leftPct}%`, top: `${topPct}%`, zIndex: open ? 40 : 9 }}
         >
             <button
                 type="button"
                 data-jm-pin
                 onClick={onToggle}
-                aria-label={`${label} 签证与申请节奏`}
+                aria-label={`${label} — 签证周期与目的地概况`}
                 aria-expanded={open}
                 className="group cursor-pointer focus:outline-none"
                 style={{
@@ -362,14 +397,14 @@ function LandmarkPin({
                 <div
                     data-jm-popover
                     role="dialog"
-                    aria-label={`${label} 签证详情`}
-                    className="bg-surface text-text absolute w-72 space-y-3 p-4"
+                    aria-label={`${label} 目的地详情`}
+                    className="bg-surface text-text absolute w-80 space-y-3 p-4"
                     style={{
-                        // Anchor to the pin position; offset to the side that keeps it onscreen.
-                        left: popRight ? "auto" : "14px",
-                        right: popRight ? "14px" : "auto",
-                        bottom: popUp ? "8px" : "auto",
-                        top: popUp ? "auto" : "8px",
+                        // Explicit left/top so card bounds match BubbleCloud's cardRect() geometry.
+                        left: popRight ? `${-(CARD_W + 14)}px` : "14px",
+                        right: "auto",
+                        top: popUp ? `${-(CARD_H + 8)}px` : "8px",
+                        bottom: "auto",
                         borderRadius: "var(--radius-card-md)",
                         boxShadow: "var(--shadow-clay-card)",
                         transformOrigin: `${popRight ? "right" : "left"} ${popUp ? "bottom" : "top"}`,
@@ -396,59 +431,148 @@ function LandmarkPin({
                     </header>
 
                     <div className="grid grid-cols-2 gap-2 text-[11px]">
-                        <Stat label="典型周期" value={`${route.total_weeks_typical} 周`} />
+                        <Stat
+                            label="签证周期"
+                            value={
+                                route.weeks_min != null
+                                    ? `约 ${route.weeks_min}–${route.total_weeks_typical} 周`
+                                    : `约 ${route.total_weeks_typical} 周`
+                            }
+                        />
                         <Stat
                             label="毕业工签"
-                            value={`${route.post_study_work_years} 年`}
+                            value={
+                                route.post_study_work_years > 0
+                                    ? `${route.post_study_work_years} 年`
+                                    : "暂无工签"
+                            }
                         />
                     </div>
 
-                    <section className="space-y-1.5">
-                        <h4 className="text-text text-xs font-semibold">申请节奏</h4>
-                        <ol className="space-y-1.5">
-                            {route.steps.map((step, idx) => {
-                                const pct =
-                                    (step.weeks / route.total_weeks_typical) * 100;
-                                return (
-                                    <li key={step.id} className="space-y-0.5">
-                                        <div className="flex justify-between text-[11px]">
-                                            <span className="truncate">
-                                                {idx + 1}. {step.name_en}
-                                            </span>
-                                            <span className="text-text-muted ml-2 shrink-0">
-                                                ~{step.weeks}w
-                                            </span>
-                                        </div>
-                                        <div
-                                            className="h-1.5 w-full overflow-hidden rounded-full"
-                                            style={{
-                                                background: "var(--color-surface-alt)",
-                                            }}
-                                        >
-                                            <div
-                                                className="h-full"
-                                                style={{
-                                                    width: `${Math.max(6, pct)}%`,
-                                                    background:
-                                                        "var(--gradient-primary)",
-                                                }}
-                                            />
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ol>
-                    </section>
-
                     <p className="text-text-muted text-[10px]">
-                        来源：{route.source.source_id}
+                        数据来源：{route.source.source_id}
                         {route.source.last_verified_date
                             ? ` · ${route.source.last_verified_date}`
                             : ""}
                     </p>
                 </div>
             )}
+
+            {/* Floating destination bubbles — rendered outside the card, in map space */}
+            {open && route.destination_info && (
+                <BubbleCloud info={route.destination_info} popRight={popRight} popUp={popUp} />
+            )}
         </div>
+    );
+}
+
+type InfoKey = "culture_zh" | "study_style_zh" | "safety_zh" | "city_life_zh";
+
+interface BubbleDef {
+    key: InfoKey;
+    label: string;
+    bg: string;
+    labelColor: string;
+    textColor: string;
+}
+
+const BUBBLE_DEFS: BubbleDef[] = [
+    { key: "culture_zh",     label: "风土人情", bg: "rgba(254,243,199,0.97)", labelColor: "#b45309", textColor: "#78350f" },
+    { key: "study_style_zh", label: "学业风格", bg: "rgba(255,228,230,0.97)", labelColor: "#be185d", textColor: "#881337" },
+    { key: "safety_zh",      label: "治安情况", bg: "rgba(209,250,229,0.97)", labelColor: "#065f46", textColor: "#064e3b" },
+    { key: "city_life_zh",   label: "城市生活", bg: "rgba(237,233,254,0.97)", labelColor: "#6d28d9", textColor: "#4c1d95" },
+];
+
+// Card geometry constants (must match the popover's w-80 width and estimated compiled height).
+const CARD_W = 320;
+const CARD_H = 192;   // conservative estimate; keeps bubbles clear even if card is shorter
+const BUB_W  = 152;
+const BUB_H  = 88;    // estimated; text varies but this is a safe upper bound
+const EDGE_GAP = 20;  // min gap between card edge and bubble
+
+/** Card bounds in pin-relative px (pin tip = origin). */
+function cardRect(popRight: boolean, popUp: boolean) {
+    const x = popRight ? -(CARD_W + 14) : 14;
+    const y = popUp ? -(CARD_H + 8) : 8;
+    return { x, y, x2: x + CARD_W, y2: y + CARD_H };
+}
+
+/**
+ * Base (dx, dy) for each bubble's top-left corner — one per card edge:
+ *   [0] top edge, [1] bottom edge, [2] left edge, [3] right edge.
+ * All horizontally/vertically centred on their respective edge.
+ * Jitter is added in BubbleCloud so the bubbles slide along the edge.
+ */
+function baseBubblePositions(popRight: boolean, popUp: boolean) {
+    const r = cardRect(popRight, popUp);
+    const midX = r.x + (CARD_W - BUB_W) / 2;
+    const midY = r.y + (CARD_H - BUB_H) / 2;
+    // For popRight pins the card's right edge nearly touches the pin (≈−14 px).
+    // Shift the "right" bubble past the pin into the open space instead.
+    const rightDx = popRight ? EDGE_GAP + 8 : r.x2 + EDGE_GAP;
+    return [
+        { dx: midX,                    dy: r.y  - EDGE_GAP - BUB_H },  // top
+        { dx: midX,                    dy: r.y2 + EDGE_GAP          },  // bottom
+        { dx: r.x - EDGE_GAP - BUB_W, dy: midY                     },  // left
+        { dx: rightDx,                 dy: midY                     },  // right
+    ];
+}
+
+function BubbleCloud({
+    info,
+    popRight,
+    popUp,
+}: {
+    info: NonNullable<VisaRoute["destination_info"]>;
+    popRight: boolean;
+    popUp: boolean;
+}) {
+    const bases = useMemo(() => baseBubblePositions(popRight, popUp), [popRight, popUp]);
+
+    // Re-randomised every mount (i.e. every time the pin opens).
+    // Top/bottom bubbles jitter horizontally along their edge;
+    // left/right bubbles jitter vertically.
+    const jitter = useMemo(() => [
+        { dx: (Math.random() - 0.5) * 64, dy: 0 },   // top
+        { dx: (Math.random() - 0.5) * 64, dy: 0 },   // bottom
+        { dx: 0, dy: (Math.random() - 0.5) * 52 },   // left
+        { dx: 0, dy: (Math.random() - 0.5) * 52 },   // right
+    ], []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    return (
+        <>
+            {BUBBLE_DEFS.map(({ key, label, bg, labelColor, textColor }, i) => {
+                const text = info[key];
+                if (!text) return null;
+                const { dx: bdx, dy: bdy } = bases[i];
+                const { dx: jdx, dy: jdy } = jitter[i];
+                return (
+                    <div
+                        key={key}
+                        className="absolute select-none"
+                        style={{
+                            left: bdx + jdx,
+                            top:  bdy + jdy,
+                            width: BUB_W,
+                            padding: "9px 12px",
+                            background: bg,
+                            borderRadius: 16,
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.08)",
+                            zIndex: 22,
+                            pointerEvents: "none",
+                            animation: `jm-bubble-in 420ms cubic-bezier(.34,1.56,.64,1) ${i * 72}ms backwards`,
+                        }}
+                    >
+                        <p style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: labelColor, marginBottom: 4 }}>
+                            {label}
+                        </p>
+                        <p style={{ fontSize: 9.5, lineHeight: 1.55, color: textColor }}>
+                            {text}
+                        </p>
+                    </div>
+                );
+            })}
+        </>
     );
 }
 

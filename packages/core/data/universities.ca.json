@@ -61,5 +61,65 @@
                 "note": "UBC official site"
             }
         ]
+    },
+    {
+        "id": "ualberta",
+        "name_en": "University of Alberta",
+        "name_zh": "阿尔伯塔大学",
+        "country": "CA",
+        "city": "Edmonton",
+        "city_size": "large",
+        "climate": "cold",
+        "reputation_score": 0.84,
+        "chinese_community_density": 0.50,
+        "safety_index": 0.86,
+        "sources": [
+            {
+                "source_id": "ualberta_homepage_2026",
+                "kind": "url",
+                "url": "https://www.ualberta.ca/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "uottawa",
+        "name_en": "University of Ottawa",
+        "name_zh": "渥太华大学",
+        "country": "CA",
+        "city": "Ottawa",
+        "city_size": "large",
+        "climate": "cold",
+        "reputation_score": 0.80,
+        "chinese_community_density": 0.40,
+        "safety_index": 0.87,
+        "sources": [
+            {
+                "source_id": "uottawa_homepage_2026",
+                "kind": "url",
+                "url": "https://www.uottawa.ca/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "seneca",
+        "name_en": "Seneca Polytechnic",
+        "name_zh": "塞内卡理工学院",
+        "country": "CA",
+        "city": "Toronto",
+        "city_size": "mega",
+        "climate": "cold",
+        "reputation_score": 0.60,
+        "chinese_community_density": 0.55,
+        "safety_index": 0.87,
+        "sources": [
+            {
+                "source_id": "seneca_homepage_2026",
+                "kind": "url",
+                "url": "https://www.senecapolytechnic.ca/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     }
 ]

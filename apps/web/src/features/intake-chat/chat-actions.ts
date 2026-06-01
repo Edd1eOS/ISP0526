@@ -113,10 +113,6 @@ const FIELD_FALLBACK_COPY: Record<FormFieldKey, { q: string; qr?: string[] }> =
         q: "想读哪个方向？",
         qr: ["计算机", "数据科学", "金融", "商科", "工程", "设计"],
     },
-    annual_budget_aud: {
-        q: "一年大概能花多少？",
-        qr: ["20万人民币", "30万人民币", "40万人民币", "还在看"],
-    },
     preferred_tags: {
         q: "你最看重哪一项？",
         qr: ["好就业", "性价比", "想留下来", "顶尖学校"],
@@ -279,7 +275,6 @@ function canFinalize(p: ClarifyPatch): boolean {
     const skipped = new Set(p.skipped_fields ?? []);
     let signals = 0;
     if (p.target_field || skipped.has("target_field")) signals += 1;
-    if (p.annual_budget_aud || skipped.has("annual_budget_aud")) signals += 1;
     if (
         (p.preferred_tags && p.preferred_tags.length > 0) ||
         skipped.has("preferred_tags")
@@ -312,11 +307,21 @@ function userRequestedStop(messages: ReadonlyArray<ChatMessage>): boolean {
 // big_five / learning / lifestyle / career; assessment values take
 // precedence over chat-only guesses on overlapping keys (teaching_style,
 // city_size) because the assessment forces an explicit answer.
+const ALL_COUNTRIES = [
+    "AU", "US", "UK", "CA", "NZ", "HK", "SG", "MY", "TH",
+    "DE", "NL", "IE", "RU", "TW", "MO",
+] as const;
+
 function patchToProfile(
     p: ClarifyPatch,
     assessment?: AssessmentAnswers,
 ): StudentProfile {
     const a = assessment ? scoreAssessment(assessment) : undefined;
+    // When the student picked specific countries, exclude everything else.
+    const preferredSet = new Set(p.preferred_countries ?? []);
+    const excluded = preferredSet.size > 0
+        ? ALL_COUNTRIES.filter((c) => !preferredSet.has(c))
+        : [];
     return StudentProfileSchema.parse({
         academic: {
             target_level: p.target_level ?? "master",
@@ -342,6 +347,10 @@ function patchToProfile(
                 : {}),
         },
         preferred_tags: p.preferred_tags ?? [],
+        hard_constraints: {
+            excluded_countries: excluded,
+            required_tags: [],
+        },
     });
 }
 
@@ -459,7 +468,6 @@ function extractedToClarifyPatch(extracted: ExtractedProfile): {
     }
     if (b.annual_aud) {
         patch.annual_budget_aud = b.annual_aud.value;
-        filled.push("annual_budget_aud");
     }
 
     return { patch: patch as ClarifyPatch, filledKeys: filled };

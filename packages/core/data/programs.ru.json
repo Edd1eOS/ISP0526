@@ -9,27 +9,11 @@
         "field": "Data Science",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 12000
-        },
-        "tags": [
-            "tuition_friendly",
-            "career_pipeline"
-        ],
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
         "applied_ratio": 0.7,
-        "sources": [
-            {
-                "source_id": "hse_bdsba_2026",
-                "kind": "url",
-                "url": "https://www.hse.ru/en/ba/data/",
-                "last_verified_date": "2026-05-27",
-                "note": "official programme page; tuition converted from RUB estimate"
-            }
-        ]
+        "sources": [{ "source_id": "hse_bdsba_2026", "kind": "url", "url": "https://www.hse.ru/en/ba/data/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "itmo-msc-ai",
@@ -41,28 +25,11 @@
         "field": "Artificial Intelligence",
         "teaching_style": "applied_heavy",
         "gpa_min": 3.0,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 13000
-        },
-        "tags": [
-            "field_top",
-            "tuition_friendly",
-            "career_pipeline"
-        ],
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 13000 },
+        "tags": ["field_top", "tuition_friendly", "career_pipeline"],
         "applied_ratio": 0.75,
-        "sources": [
-            {
-                "source_id": "itmo_msc_ai_2026",
-                "kind": "url",
-                "url": "https://en.itmo.ru/en/education/",
-                "last_verified_date": "2026-05-27",
-                "note": "official education index; tuition converted from RUB estimate"
-            }
-        ]
+        "sources": [{ "source_id": "itmo_msc_ai_2026", "kind": "url", "url": "https://en.itmo.ru/en/education/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "hse-phd-economics",
@@ -74,27 +41,11 @@
         "field": "Economics",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": {
-            "ielts_overall": 6.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 10000
-        },
-        "tags": [
-            "tuition_friendly",
-            "scholarship_rich"
-        ],
+        "language_min": { "ielts_overall": 6.5 },
+        "tuition": { "currency": "AUD", "annual": 10000 },
+        "tags": ["tuition_friendly", "scholarship_rich"],
         "applied_ratio": 0.3,
-        "sources": [
-            {
-                "source_id": "hse_phd_2026",
-                "kind": "url",
-                "url": "https://www.hse.ru/en/education/phd/",
-                "last_verified_date": "2026-05-27",
-                "note": "official doctoral programmes index; tuition converted from RUB estimate"
-            }
-        ]
+        "sources": [{ "source_id": "hse_phd_2026", "kind": "url", "url": "https://www.hse.ru/en/education/phd/", "last_verified_date": "2026-05-27" }]
     },
     {
         "id": "hse-preparatory-year",
@@ -107,23 +58,89 @@
         "teaching_style": "balanced",
         "gpa_min": 2.0,
         "language_min": {},
-        "tuition": {
-            "currency": "AUD",
-            "annual": 8000
-        },
-        "tags": [
-            "tuition_friendly",
-            "stepping_stone"
-        ],
+        "tuition": { "currency": "AUD", "annual": 8000 },
+        "tags": ["tuition_friendly", "stepping_stone"],
         "applied_ratio": 0.6,
-        "sources": [
-            {
-                "source_id": "hse_prep_2026",
-                "kind": "url",
-                "url": "https://www.hse.ru/en/admissions/preparatory/",
-                "last_verified_date": "2026-05-27",
-                "note": "official preparatory programme page; not an admission guarantee"
-            }
-        ]
+        "sources": [{ "source_id": "hse_prep_2026", "kind": "url", "url": "https://www.hse.ru/en/admissions/preparatory/", "last_verified_date": "2026-05-27" }]
+    },
+    {
+        "id": "hse-msc-computer-science",
+        "university_id": "hse",
+        "name_en": "MSc in Computer Science",
+        "name_zh": "计算机科学理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Computing",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 3.0,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 14000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
+        "applied_ratio": 0.6,
+        "sources": [{ "source_id": "hse_msc_cs_2026", "kind": "url", "url": "https://www.hse.ru/en/ma/sc/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "itmo-msc-data-science",
+        "university_id": "itmo",
+        "name_en": "Master's in Data Science",
+        "name_zh": "数据科学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.7,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 11000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
+        "applied_ratio": 0.7,
+        "sources": [{ "source_id": "itmo_msc_ds_2026", "kind": "url", "url": "https://en.itmo.ru/en/education/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "hse-msc-business-analytics",
+        "university_id": "hse",
+        "name_en": "MSc in Business Analytics and Big Data",
+        "name_zh": "商业分析与大数据理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Business Analytics",
+        "teaching_style": "applied_heavy",
+        "gpa_min": 2.8,
+        "language_min": { "ielts_overall": 6.0 },
+        "tuition": { "currency": "AUD", "annual": 12000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
+        "applied_ratio": 0.65,
+        "sources": [{ "source_id": "hse_msc_ba_2026", "kind": "url", "url": "https://www.hse.ru/en/ma/bigdata/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "itmo-msc-information-technology",
+        "university_id": "itmo",
+        "name_en": "MSc in Information Technology and Management",
+        "name_zh": "信息技术与管理理学硕士",
+        "level": "master",
+        "duration_years": 2,
+        "field": "Information Technology",
+        "teaching_style": "balanced",
+        "gpa_min": 2.5,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 10000 },
+        "tags": ["tuition_friendly", "value_for_money"],
+        "applied_ratio": 0.7,
+        "sources": [{ "source_id": "itmo_msc_itm_2026", "kind": "url", "url": "https://en.itmo.ru/en/education/", "last_verified_date": "2026-05-29" }]
+    },
+    {
+        "id": "hse-bachelor-computer-science",
+        "university_id": "hse",
+        "name_en": "Bachelor in Computer Science",
+        "name_zh": "计算机科学本科",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computing",
+        "teaching_style": "theory_heavy",
+        "gpa_min": 2.5,
+        "language_min": { "ielts_overall": 5.5 },
+        "tuition": { "currency": "AUD", "annual": 11000 },
+        "tags": ["tuition_friendly", "career_pipeline"],
+        "applied_ratio": 0.65,
+        "sources": [{ "source_id": "hse_bsc_cs_2026", "kind": "url", "url": "https://www.hse.ru/en/ba/icss/", "last_verified_date": "2026-05-29" }]
     }
 ]

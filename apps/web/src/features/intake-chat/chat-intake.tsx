@@ -75,7 +75,6 @@ function countSignals(p: ClarifyPatch): number {
     const skipped = new Set(p.skipped_fields ?? []);
     let n = 0;
     if (p.target_field || skipped.has("target_field")) n += 1;
-    if (p.annual_budget_aud || skipped.has("annual_budget_aud")) n += 1;
     if (
         (p.preferred_tags && p.preferred_tags.length > 0) ||
         skipped.has("preferred_tags")
@@ -463,61 +462,11 @@ export function ChatIntake() {
                     </div>
                 ) : null}
 
-                <form
-                    onSubmit={onSubmit}
-                    className="flex items-end gap-2 border-t px-4 py-3 sm:px-5"
-                    style={{ borderColor: "rgba(0,0,0,0.04)" }}
-                >
-                    <textarea
-                        value={draft}
-                        onChange={(e) => setDraft(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (
-                                e.key === "Enter" &&
-                                !e.shiftKey &&
-                                !e.nativeEvent.isComposing
-                            ) {
-                                e.preventDefault();
-                                onSubmit(e);
-                            }
-                        }}
-                        placeholder={
-                            done
-                                ? "已经聊够了，可以看推荐了"
-                                : "写点什么…（Shift+Enter 换行）"
-                        }
-                        rows={1}
-                        disabled={isBusy || done}
-                        className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
-                        style={{
-                            background: "var(--color-surface-alt)",
-                            borderRadius: "var(--radius-card-sm)",
-                            boxShadow: "var(--shadow-clay-inset)",
-                            maxHeight: 120,
-                        }}
-                    />
-                    <button
-                        type="submit"
-                        disabled={
-                            isBusy ||
-                            done ||
-                            draft.trim().length === 0
-                        }
-                        className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
-                        style={{
-                            background: "var(--gradient-primary)",
-                            borderRadius: "var(--radius-button)",
-                            boxShadow: "var(--shadow-clay-primary)",
-                            color: "var(--color-text-on-primary)",
-                        }}
-                    >
-                        发送
-                    </button>
-                </form>
-
                 {done ? (
+                    // Finalize CTA replaces the input form entirely so it never
+                    // gets clipped by the container's overflow:hidden boundary.
                     <div
-                        className="border-t px-4 py-3 sm:px-5"
+                        className="shrink-0 border-t px-4 py-3 sm:px-5"
                         style={{ borderColor: "rgba(0,0,0,0.04)" }}
                     >
                         <button
@@ -535,7 +484,51 @@ export function ChatIntake() {
                             {finalizing ? "生成中…" : "查看我的推荐"}
                         </button>
                     </div>
-                ) : null}
+                ) : (
+                    <form
+                        onSubmit={onSubmit}
+                        className="shrink-0 flex items-end gap-2 border-t px-4 py-3 sm:px-5"
+                        style={{ borderColor: "rgba(0,0,0,0.04)" }}
+                    >
+                        <textarea
+                            value={draft}
+                            onChange={(e) => setDraft(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (
+                                    e.key === "Enter" &&
+                                    !e.shiftKey &&
+                                    !e.nativeEvent.isComposing
+                                ) {
+                                    e.preventDefault();
+                                    onSubmit(e);
+                                }
+                            }}
+                            placeholder="写点什么…（Shift+Enter 换行）"
+                            rows={1}
+                            disabled={isBusy}
+                            className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
+                            style={{
+                                background: "var(--color-surface-alt)",
+                                borderRadius: "var(--radius-card-sm)",
+                                boxShadow: "var(--shadow-clay-inset)",
+                                maxHeight: 120,
+                            }}
+                        />
+                        <button
+                            type="submit"
+                            disabled={isBusy || draft.trim().length === 0}
+                            className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
+                            style={{
+                                background: "var(--gradient-primary)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-primary)",
+                                color: "var(--color-text-on-primary)",
+                            }}
+                        >
+                            发送
+                        </button>
+                    </form>
+                )}
             </div>
         </div>
     );
@@ -622,7 +615,8 @@ function normalizeQuickReplies(
     raw: ReadonlyArray<string>,
 ): ReadonlyArray<string> {
     const filtered = filterFuzzyLocationReplies(reply, raw);
-    if (inputMode !== "number" || filtered.length === 0) return filtered;
+    if (inputMode !== "number") return filtered;
+    // Always check overrides for number mode — LLM sometimes forgets quick_replies.
     for (const o of NUMBER_SPEC_OVERRIDES) {
         if (o.test.test(reply)) return [o.spec];
     }

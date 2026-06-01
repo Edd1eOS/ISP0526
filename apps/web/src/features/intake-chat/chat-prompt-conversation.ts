@@ -91,7 +91,6 @@ Rules:
    - city_size -> ["超大城市", "大城市", "中等就行", "小城市没问题"]
    - teaching_style -> ["偏理论", "都行", "偏实践"]
    - preferred_tags -> ["好就业", "性价比", "想留下来", "顶尖学校", "实习多", "城市生活"]，input_mode="multi"
-   - annual_budget_aud -> input_mode="number"，quick_replies=["20000,200000,5000,AUD"]
    - gpa -> ["高考分", "本科 GPA", "WAM", "A-level", "AP", "证书"]（学业成绩问法用 "学业成绩你是哪种体系?"，不要问 "GPA 多少?"）
    - ielts_overall -> input_mode="number"，quick_replies=["4,9,0.5,分"]
 5. done=true ONLY when target_level is set AND accumulated has at least ${MIN_SUPPORTING_SIGNALS} other non-empty fields (preferred_tags counts as 1 if non-empty; each skipped_fields entry counts as 1), OR the student explicitly says they want the report ("够了" / "可以了" / "直接看推荐" / "就这样"). When done=true, reply must be one short sentence like "好的，我去给你拉推荐了。"

@@ -99,5 +99,145 @@
                 "last_verified_date": "2026-05-23"
             }
         ]
+    },
+    {
+        "id": "monash",
+        "name_en": "Monash University",
+        "name_zh": "莫纳什大学",
+        "country": "AU",
+        "city": "Melbourne",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.88,
+        "chinese_community_density": 0.75,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "monash_homepage_2026",
+                "kind": "url",
+                "url": "https://www.monash.edu/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "rmit",
+        "name_en": "RMIT University",
+        "name_zh": "皇家墨尔本理工大学",
+        "country": "AU",
+        "city": "Melbourne",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.75,
+        "chinese_community_density": 0.70,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "rmit_homepage_2026",
+                "kind": "url",
+                "url": "https://www.rmit.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "uts",
+        "name_en": "University of Technology Sydney",
+        "name_zh": "悉尼科技大学",
+        "country": "AU",
+        "city": "Sydney",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.80,
+        "chinese_community_density": 0.75,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "uts_homepage_2026",
+                "kind": "url",
+                "url": "https://www.uts.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "griffith",
+        "name_en": "Griffith University",
+        "name_zh": "格里菲斯大学",
+        "country": "AU",
+        "city": "Brisbane",
+        "city_size": "large",
+        "climate": "subtropical",
+        "reputation_score": 0.68,
+        "chinese_community_density": 0.50,
+        "safety_index": 0.87,
+        "sources": [
+            {
+                "source_id": "griffith_homepage_2026",
+                "kind": "url",
+                "url": "https://www.griffith.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "deakin",
+        "name_en": "Deakin University",
+        "name_zh": "迪肯大学",
+        "country": "AU",
+        "city": "Geelong",
+        "city_size": "medium",
+        "climate": "temperate",
+        "reputation_score": 0.69,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.88,
+        "sources": [
+            {
+                "source_id": "deakin_homepage_2026",
+                "kind": "url",
+                "url": "https://www.deakin.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "tafe-nsw",
+        "name_en": "TAFE NSW",
+        "name_zh": "新南威尔士州技术与继续教育学院",
+        "country": "AU",
+        "city": "Sydney",
+        "city_size": "mega",
+        "climate": "subtropical",
+        "reputation_score": 0.60,
+        "chinese_community_density": 0.50,
+        "safety_index": 0.85,
+        "sources": [
+            {
+                "source_id": "tafe_nsw_homepage_2026",
+                "kind": "url",
+                "url": "https://www.tafensw.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "tafe-qld",
+        "name_en": "TAFE Queensland",
+        "name_zh": "昆士兰州技术与继续教育学院",
+        "country": "AU",
+        "city": "Brisbane",
+        "city_size": "large",
+        "climate": "subtropical",
+        "reputation_score": 0.58,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.87,
+        "sources": [
+            {
+                "source_id": "tafe_qld_homepage_2026",
+                "kind": "url",
+                "url": "https://tafeqld.edu.au/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     }
 ]

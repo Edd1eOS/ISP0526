@@ -27,7 +27,6 @@ export type IntakePhase =
 const CORE_FIELDS: ReadonlyArray<FormFieldKey> = [
     "target_level",
     "target_field",
-    "annual_budget_aud",
 ];
 
 // A field is considered "filled" (locked) when accumulated carries a real

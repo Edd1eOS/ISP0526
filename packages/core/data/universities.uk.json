@@ -61,5 +61,85 @@
                 "note": "University of Manchester official site"
             }
         ]
+    },
+    {
+        "id": "ucl",
+        "name_en": "University College London",
+        "name_zh": "伦敦大学学院",
+        "country": "UK",
+        "city": "London",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.96,
+        "chinese_community_density": 0.65,
+        "safety_index": 0.80,
+        "sources": [
+            {
+                "source_id": "ucl_homepage_2026",
+                "kind": "url",
+                "url": "https://www.ucl.ac.uk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "kcl",
+        "name_en": "King's College London",
+        "name_zh": "伦敦国王学院",
+        "country": "UK",
+        "city": "London",
+        "city_size": "mega",
+        "climate": "temperate",
+        "reputation_score": 0.90,
+        "chinese_community_density": 0.60,
+        "safety_index": 0.80,
+        "sources": [
+            {
+                "source_id": "kcl_homepage_2026",
+                "kind": "url",
+                "url": "https://www.kcl.ac.uk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "warwick",
+        "name_en": "The University of Warwick",
+        "name_zh": "华威大学",
+        "country": "UK",
+        "city": "Coventry",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.86,
+        "chinese_community_density": 0.50,
+        "safety_index": 0.82,
+        "sources": [
+            {
+                "source_id": "warwick_homepage_2026",
+                "kind": "url",
+                "url": "https://warwick.ac.uk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "bristol",
+        "name_en": "University of Bristol",
+        "name_zh": "布里斯托大学",
+        "country": "UK",
+        "city": "Bristol",
+        "city_size": "large",
+        "climate": "temperate",
+        "reputation_score": 0.87,
+        "chinese_community_density": 0.45,
+        "safety_index": 0.83,
+        "sources": [
+            {
+                "source_id": "bristol_homepage_2026",
+                "kind": "url",
+                "url": "https://www.bristol.ac.uk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     }
 ]

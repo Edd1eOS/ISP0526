@@ -66,7 +66,7 @@ export function explain(
         ];
     }
     const reasons: string[] = [
-        `${route.country_name_zh ?? route.country_name_en} ${route.visa_class}：全流程约 ${route.total_weeks_typical} 周，共 ${route.steps.length} 个步骤。`,
+        `${route.country_name_zh ?? route.country_name_en} ${route.visa_class}：全流程约 ${route.total_weeks_typical} 周${route.steps ? `，共 ${route.steps.length} 个步骤` : ""}。`,
         `毕业后工作签最长 ${route.post_study_work_years} 年。`,
     ];
     if (candidate.program.tags.includes("migration_friendly")) {

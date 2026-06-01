@@ -218,8 +218,6 @@ function parseTargetLevel(
 const QUESTIONS: Record<FormFieldKey, string> = {
     target_field:
         "先确认下专业方向：IT、数据、计算机、商科、金融、工程、设计、TESOL，最近的是哪个？",
-    annual_budget_aud:
-        "预算一年留多少？给个数字就行，例如「6 万 AUD」或「20 万人民币」我帮你换算。",
     preferred_tags:
         "你最看重哪两三点？可以直接说，也可以报数字（多选）：1 学科顶尖 / 2 利于移民 / 3 就业渠道 / 4 性价比 / 5 奖学金 / 6 华人社区。",
     gpa: "GPA 大概多少？4 分制说就行（百分制也可以，我来换）。",
@@ -236,8 +234,6 @@ const QUESTIONS: Record<FormFieldKey, string> = {
 const RETRY_QUESTIONS: Record<FormFieldKey, string> = {
     target_field:
         "刚才没看懂，可以直接说个最近的：IT、数据、商科、工程、金融、设计、TESOL；或者打「跳过」。",
-    annual_budget_aud:
-        "我换算不了这个币种，给个 AUD 或人民币的数字试试？打「跳过」也行。",
     preferred_tags:
         "直接说一个最看重的就行，比如「就业」「移民」「性价比」；或者打「跳过」。",
     gpa: "给个 4 分制数字就行，例如 3.6；没把握就打「跳过」。",
@@ -325,14 +321,6 @@ function applyAnswer(
             const v = parseTargetField(answer);
             if (v) {
                 patch.target_field = v;
-                return true;
-            }
-            return false;
-        }
-        case "annual_budget_aud": {
-            const v = parseBudget(answer);
-            if (v !== undefined) {
-                patch.annual_budget_aud = v;
                 return true;
             }
             return false;

@@ -5,7 +5,7 @@
 // the form options 1:1 so the patch can be applied without translation.
 
 import { z } from "zod";
-import { AcademicCredentialSchema } from "@isp0526/core";
+import { AcademicCredentialSchema, CountrySchema } from "@isp0526/core";
 import { FIELD_OPTIONS } from "../intake/field-options";
 
 const fieldEnumValues = FIELD_OPTIONS
@@ -36,7 +36,6 @@ export const FORM_FIELD_KEYS = [
     "ielts_overall",
     "teaching_style",
     "city_size",
-    "annual_budget_aud",
     "preferred_tags",
 ] as const;
 
@@ -56,6 +55,9 @@ export const ClarifyPatchSchema = z
         city_size: z.enum(CITY_SIZE_VALUES).optional(),
         annual_budget_aud: z.number().int().min(1000).max(500000).optional(),
         preferred_tags: z.array(z.enum(TAG_VALUES)).optional(),
+        /** Countries the student explicitly wants to study in. When non-empty,
+         *  all other countries are excluded from recommendations. */
+        preferred_countries: z.array(CountrySchema).optional(),
         // Fields the user explicitly declined or that we gave up asking about
         // after repeated misses. Used by the chat layer to stop re-asking the
         // same question. Never written to the final StudentProfile.
@@ -83,7 +85,6 @@ export type FormFieldKey =
     | "ielts_overall"
     | "teaching_style"
     | "city_size"
-    | "annual_budget_aud"
     | "preferred_tags";
 
 export interface ClarifyMessage {
