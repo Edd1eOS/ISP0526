@@ -40,6 +40,7 @@ import {
     mergeBudget,
     mergeCitySize,
     mergeCountries,
+    mergeFieldGroup,
     mergeTags,
     mergeTargetField,
     mergeTargetLevel,
@@ -50,9 +51,6 @@ import {
     type LedgerFacts,
     type Source,
     type Tag,
-    type TargetLevel,
-    type TeachingStyle,
-    type CitySize,
 } from "./ledger";
 import type { Country } from "@isp0526/core";
 import type { PickerNight, StarDef } from "./types";
@@ -189,6 +187,7 @@ function applyStarMeta(
 ): KnowledgeLedger {
     let l = ledger;
     if (meta.target_level) l = mergeTargetLevel(l, meta.target_level, { source: "star" });
+    if (meta.field_group) l = mergeFieldGroup(l, meta.field_group, { source: "star" });
     if (meta.target_field) l = mergeTargetField(l, meta.target_field, { source: "star" });
     if (meta.teaching_style) l = mergeTeachingStyle(l, meta.teaching_style, { source: "star" });
     if (meta.city_size) l = mergeCitySize(l, meta.city_size, { source: "star" });
@@ -216,12 +215,50 @@ function buildProfileSummary(ledger: KnowledgeLedger): ReadonlyArray<ProfileItem
         const map: Record<string, string> = { bachelor: "本科", master: "硕士", phd: "博士" };
         items.push({ label: "学习阶段", value: map[String(f.target_level.value)] ?? String(f.target_level.value) });
     }
+    if (f.field_group) {
+        const map: Record<string, string> = {
+            business: "商科 / 管理",
+            computing: "计算机 / 数据",
+            engineering: "工程",
+            design: "设计 / 建筑",
+            health: "健康 / 生命科学",
+            social: "社科 / 公共方向",
+            education: "教育 / 语言",
+            science: "科研 / 基础方向",
+        };
+        items.push({ label: "领域", value: map[String(f.field_group.value)] ?? String(f.field_group.value) });
+    }
     if (f.target_field) {
         const map: Record<string, string> = {
-            Computing: "计算机 / 工程",
-            Business: "商科 / 金融",
-            Design: "设计 / 创意",
-            "Data Science": "数据 / 分析",
+            Accounting: "会计",
+            Architecture: "建筑",
+            "Artificial Intelligence": "人工智能",
+            "Area Studies": "区域研究",
+            Bioinformatics: "生物信息",
+            Business: "商科",
+            "Business Administration": "工商管理 / MBA",
+            "Business Analytics": "商业分析",
+            "Civil Engineering": "土木工程",
+            "Computer Science": "计算机科学",
+            Computing: "计算机",
+            "Data Science": "数据科学",
+            Design: "设计",
+            Economics: "经济学",
+            Education: "教育",
+            "Electrical Engineering": "电气工程",
+            Engineering: "工程",
+            "Environmental Science": "环境科学",
+            Finance: "金融",
+            Forestry: "林业",
+            "Human Computer Interaction": "人机交互",
+            "Information Technology": "信息技术",
+            Management: "管理",
+            "Mechanical Engineering": "机械工程",
+            "Public Health": "公共卫生",
+            "Public Policy": "公共政策",
+            Research: "研究型方向",
+            "Software Engineering": "软件工程",
+            Statistics: "统计",
             TESOL: "教育 / 语言",
         };
         items.push({ label: "目标方向", value: map[String(f.target_field.value)] ?? String(f.target_field.value) });
@@ -263,6 +300,7 @@ function buildPickLines(ledger: KnowledgeLedger): StarPickLine[] {
     const lines: StarPickLine[] = [];
     const f = ledger.facts;
     if (f.target_level) lines.push({ night: "学习阶段", picks: [String(f.target_level.value)] });
+    if (f.field_group) lines.push({ night: "领域", picks: [String(f.field_group.value)] });
     if (f.target_field) lines.push({ night: "方向", picks: [String(f.target_field.value)] });
     if (f.annual_budget_aud) {
         const v = f.annual_budget_aud.value;
@@ -316,29 +354,57 @@ function factsToStringRecord(facts: LedgerFacts): Record<string, string> {
 // ---------------------------------------------------------------------------
 
 const FIELD_RIASEC_WEIGHTS: Readonly<Record<string, Readonly<Partial<Record<RiasecDim, number>>>>> = {
+    group_computing: { realistic: 0.55, investigative: 0.60, conventional: 0.25 },
+    group_business: { enterprising: 0.75, conventional: 0.60, investigative: 0.20 },
+    group_engineering: { realistic: 0.70, investigative: 0.45, conventional: 0.20 },
+    group_design: { artistic: 0.85, realistic: 0.25 },
+    group_health: { social: 0.65, investigative: 0.55, realistic: 0.20 },
+    group_social: { social: 0.55, enterprising: 0.35, investigative: 0.25 },
+    group_education: { social: 0.80, artistic: 0.25 },
+    group_science: { investigative: 0.85, realistic: 0.25, conventional: 0.20 },
     // Realistic(R): hands-on/technical. Investigative(I): analytical.
-    cs_eng:     { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
+    field_it:               { realistic: 0.50, investigative: 0.45, conventional: 0.35 },
+    field_computing:        { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
+    field_computer_science: { realistic: 0.55, investigative: 0.70, conventional: 0.15 },
+    field_software:         { realistic: 0.65, investigative: 0.50, conventional: 0.25 },
+    field_ai:               { investigative: 0.85, realistic: 0.35, conventional: 0.20 },
+    field_hci:              { artistic: 0.50, investigative: 0.45, social: 0.35 },
     // Investigative dominant; Conventional for statistics/modelling.
-    data:       { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
+    field_data_science:         { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
+    field_business_analytics:   { investigative: 0.55, conventional: 0.65, enterprising: 0.30 },
+    field_statistics:           { investigative: 0.70, conventional: 0.70 },
     // Pure Investigative; Realistic for lab/fieldwork side.
-    science:    { investigative: 0.90, realistic: 0.35 },
+    field_research:      { investigative: 0.90, realistic: 0.35 },
+    field_environmental: { investigative: 0.70, realistic: 0.45, social: 0.20 },
+    field_forestry:      { realistic: 0.55, investigative: 0.45 },
     // Social for care/nursing; Investigative for research medicine.
-    health:     { social: 0.65, investigative: 0.50, realistic: 0.20 },
+    field_public_health:   { social: 0.65, investigative: 0.50, realistic: 0.20 },
+    field_bioinformatics:  { investigative: 0.75, realistic: 0.35, conventional: 0.25 },
     // Enterprising dominant; Conventional for accounting/finance.
-    business:   { enterprising: 0.80, conventional: 0.65, investigative: 0.15 },
+    field_business:   { enterprising: 0.80, conventional: 0.50, investigative: 0.15 },
+    field_finance:    { conventional: 0.75, enterprising: 0.55, investigative: 0.30 },
+    field_accounting: { conventional: 0.85, enterprising: 0.30 },
+    field_management: { enterprising: 0.85, social: 0.35, conventional: 0.25 },
+    field_economics:  { investigative: 0.55, conventional: 0.50, enterprising: 0.30 },
+    field_mba:        { enterprising: 0.85, social: 0.35, conventional: 0.25 },
     // Artistic dominant; Realistic for craft/production skills.
-    design:     { artistic: 0.90, realistic: 0.25 },
+    field_design:       { artistic: 0.90, realistic: 0.25 },
+    field_architecture: { artistic: 0.65, realistic: 0.55, investigative: 0.25 },
+    field_design_hci:   { artistic: 0.55, investigative: 0.40, social: 0.35 },
     // Social dominant for teaching/counselling; Artistic for language arts.
-    education:  { social: 0.80, artistic: 0.30 },
+    field_education: { social: 0.80, artistic: 0.30 },
+    field_tesol:     { social: 0.70, artistic: 0.35 },
     // Artistic + Social + Investigative blend (varies by sub-discipline).
-    humanities: { artistic: 0.55, social: 0.45, investigative: 0.30 },
+    field_public_policy:    { social: 0.50, enterprising: 0.45, investigative: 0.30 },
+    field_area_studies:     { artistic: 0.45, social: 0.45, investigative: 0.35 },
+    field_social_economics: { investigative: 0.55, conventional: 0.45, enterprising: 0.30 },
 };
 
 // Return the top-N field IDs whose weighted Holland score is highest.
 // Only fields that clear a minimum threshold are included.
 function computeTopHollandFields(
     riasec: Readonly<Partial<Record<RiasecDim, number>>> | undefined,
-    maxFields = 3,
+    maxFields = 5,
     minScore = 0.28,
 ): Set<string> {
     const out = new Set<string>();
@@ -395,6 +461,7 @@ export function StarChartStage() {
     const [fading, setFading] = useState(false);
     const [, startTransition] = useTransition();
     const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const diagAttemptedRef = useRef(false);
 
     // Undo stack
     const [factsHistory, setFactsHistory] = useState<ReadonlyArray<LedgerFacts>>([]);
@@ -412,26 +479,32 @@ export function StarChartStage() {
     const [adaptiveDone, setAdaptiveDone] = useState(false);
     const adaptiveFetchingRef = useRef(false);
 
-    // RIASEC scores derived from assessment (stable after mount)
-    const riasecRef = useRef<Readonly<Partial<Record<RiasecDim, number>>> | undefined>(undefined);
-    const hollandHighlightsRef = useRef<Set<string>>(new Set());
+    // RIASEC scores derived from assessment after client hydration.
+    const [riasec, setRiasec] = useState<Readonly<Partial<Record<RiasecDim, number>>> | undefined>(undefined);
+    const hollandHighlights = useMemo(() => computeTopHollandFields(riasec), [riasec]);
 
     useEffect(() => {
-        setMounted(true);
-        const l = hydrateLedger();
-        setLedger(l);
-        const answers = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
-        if (answers) {
-            try {
-                const s = scoreAssessment(answers);
-                if (s.career.interests) {
-                    riasecRef.current = s.career.interests as Readonly<Partial<Record<RiasecDim, number>>>;
-                    hollandHighlightsRef.current = computeTopHollandFields(riasecRef.current);
+        let cancelled = false;
+        queueMicrotask(() => {
+            if (cancelled) return;
+            const l = hydrateLedger();
+            setLedger(l);
+            const answers = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
+            if (answers) {
+                try {
+                    const s = scoreAssessment(answers);
+                    if (s.career.interests) {
+                        setRiasec(s.career.interests as Readonly<Partial<Record<RiasecDim, number>>>);
+                    }
+                } catch {
+                    // ignore
                 }
-            } catch {
-                // ignore
             }
-        }
+            setMounted(true);
+        });
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     useEffect(() => {
@@ -481,7 +554,7 @@ export function StarChartStage() {
             history,
             questionCount: qCount,
             maxQuestions: MAX_ADAPTIVE,
-            riasec: riasecRef.current,
+            riasec,
             freeNotes,
         })
             .then((res) => {
@@ -545,7 +618,7 @@ export function StarChartStage() {
                 adaptiveFetchingRef.current = false;
             });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mounted, fixedQuestion, adaptiveDone, adaptiveQuestion, adaptiveLoading, ledger.adaptiveQuestionCount, ledger.facts]);
+    }, [mounted, fixedQuestion, adaptiveDone, adaptiveQuestion, adaptiveLoading, ledger.adaptiveQuestionCount, ledger.facts, riasec]);
 
     // Transition to readout once adaptive is done and no conflicts remain
     useEffect(() => {
@@ -556,42 +629,64 @@ export function StarChartStage() {
         if (conflictQuestion !== null) return;
         if (adaptiveQuestion !== null) return;
 
-        setFading(true);
-        fadeTimer.current = setTimeout(() => {
-            setPhase("readout");
-            setFading(false);
-        }, 420);
+        let cancelled = false;
+        queueMicrotask(() => {
+            if (cancelled) return;
+            setFading(true);
+            fadeTimer.current = setTimeout(() => {
+                setPhase("readout");
+                setFading(false);
+            }, 420);
+        });
+        return () => {
+            cancelled = true;
+            if (fadeTimer.current) {
+                clearTimeout(fadeTimer.current);
+                fadeTimer.current = null;
+            }
+        };
     }, [mounted, phase, fixedQuestion, adaptiveDone, conflictQuestion, adaptiveQuestion]);
 
     // Fire diagnosis once when entering readout
     useEffect(() => {
         if (phase !== "readout") return;
         if (diagnosis || diagLoading) return;
-        const answers = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
-        let bigFive: Record<string, number> | undefined;
-        if (answers) {
-            try {
-                bigFive = scoreAssessment(answers).big_five as unknown as Record<string, number>;
-            } catch { bigFive = undefined; }
-        }
-        const wish = combinedWish(ledger);
-        setDiagLoading(true);
-        setDiagError(null);
-        void diagnoseStarsAction({
-            locale: "zh",
-            lines: buildPickLines(ledger),
-            ...(bigFive ? { bigFive } : {}),
-            ...(wish ? { wishText: wish } : {}),
-        })
-            .then((res) => {
-                if (res.ok && res.diagnosis) setDiagnosis(res.diagnosis);
-                else setDiagError(res.error ?? "生成失败");
+        if (diagAttemptedRef.current) return;
+        diagAttemptedRef.current = true;
+        queueMicrotask(() => {
+            const answers = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
+            let bigFive: Record<string, number> | undefined;
+            if (answers) {
+                try {
+                    bigFive = scoreAssessment(answers).big_five as unknown as Record<string, number>;
+                } catch { bigFive = undefined; }
+            }
+            const wish = combinedWish(ledger);
+            setDiagLoading(true);
+            setDiagError(null);
+            void diagnoseStarsAction({
+                locale: "zh",
+                lines: buildPickLines(ledger),
+                ...(bigFive ? { bigFive } : {}),
+                ...(wish ? { wishText: wish } : {}),
             })
-            .catch((cause: unknown) => {
-                setDiagError(cause instanceof Error ? cause.message : "网络错误");
-            })
-            .finally(() => setDiagLoading(false));
+                .then((res) => {
+                    if (res.ok && res.diagnosis) setDiagnosis(res.diagnosis);
+                    else setDiagError(res.error ?? "生成失败，请稍后重试");
+                })
+                .catch((cause: unknown) => {
+                    setDiagError(cause instanceof Error ? cause.message : "网络异常，请稍后重试");
+                })
+                .finally(() => setDiagLoading(false));
+        });
     }, [phase, ledger, diagnosis, diagLoading]);
+
+    const retryDiagnosis = useCallback(() => {
+        diagAttemptedRef.current = false;
+        setDiagnosis(null);
+        setDiagError(null);
+        setDiagLoading(false);
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -627,7 +722,7 @@ export function StarChartStage() {
         const assessment = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
         startTransition(() => {
             void finalizeStarsAction(overlay, accumulated, assessment).catch((cause: unknown) => {
-                setDiagError(cause instanceof Error ? cause.message : "提交失败,请重试");
+                setDiagError(cause instanceof Error ? cause.message : "提交失败，请重试");
             });
         });
     }, [ledger]);
@@ -677,18 +772,20 @@ export function StarChartStage() {
             {phase === "questions" ? (
                 currentQuestion ? (
                     <QuestionView
+                        key={`${currentQuestion.kind}:${currentQuestion.id}`}
                         question={currentQuestion}
                         setLedger={setLedger}
                         canUndo={canUndo}
                         onUndo={undo}
-                        hollandHighlights={hollandHighlightsRef.current}
+                        hollandHighlights={hollandHighlights}
                     />
                 ) : adaptiveLoading ? (
                     <section className={styles.sky} aria-label="生成中">
-                        <p className={styles.adaptiveLoading}>正在思考下一个问题……</p>
+                        <p className={styles.adaptiveLoading}>正在生成下一个问题...</p>
                     </section>
                 ) : adaptiveQuestion ? (
                     <AdaptiveQuestionView
+                        key={adaptiveQuestion.id}
                         question={adaptiveQuestion}
                         onAnswer={onAdaptiveAnswer}
                         canUndo={canUndo}
@@ -704,7 +801,7 @@ export function StarChartStage() {
                     error={diagError}
                     ledger={ledger}
                     onFinalize={finalize}
-                    onRetry={() => { setDiagnosis(null); setDiagError(null); }}
+                    onRetry={retryDiagnosis}
                 />
             )}
 
@@ -759,8 +856,7 @@ interface PickerQuestionViewProps {
 function PickerQuestionView({ question, setLedger, canUndo, onUndo, hollandHighlights }: PickerQuestionViewProps) {
     const night = question.template;
     const [picks, setPicks] = useState<ReadonlyArray<string>>([]);
-
-    useEffect(() => { setPicks([]); }, [question.id]);
+    const isFieldNight = night.id === "field_group" || night.id.startsWith("field_detail_");
 
     const onToggle = useCallback(
         (starId: string) => {
@@ -809,9 +905,9 @@ function PickerQuestionView({ question, setLedger, canUndo, onUndo, hollandHighl
                 night={night}
                 current={picks}
                 onToggle={onToggle}
-                hollandHighlights={night.id === "field" ? hollandHighlights : undefined}
+                hollandHighlights={isFieldNight ? hollandHighlights : undefined}
             />
-            {question.id === "field" && hollandHighlights.size > 0 ? (
+            {isFieldNight && hollandHighlights.size > 0 ? (
                 <HollandRecommendCard stars={night.stars} highlights={hollandHighlights} />
             ) : null}
             <footer className={styles.footer}>
@@ -861,8 +957,6 @@ function AdaptiveQuestionView({ question, onAnswer, canUndo, onUndo }: AdaptiveQ
     const [picks, setPicks] = useState<ReadonlyArray<string>>([]);
     const isMulti = question.multiSelect === true;
     const canAdvance = picks.length > 0;
-
-    useEffect(() => { setPicks([]); }, [question.id]);
 
     const togglePick = (opt: string) => {
         if (isMulti) {
@@ -952,9 +1046,9 @@ function ResolveView({ question, setLedger }: ResolveViewProps) {
     return (
         <>
             <header className={styles.header}>
-                <h1 className={styles.title}>有处需要你来定夺</h1>
+                <h1 className={styles.title}>请确认一项信息</h1>
                 <p className={styles.subtitle}>
-                    {`关于「${question.fieldLabel}」,我们听到了两种说法,挑一个为准`}
+                    {`关于「${question.fieldLabel}」，目前有两个不同结果。请选择以哪个为准。`}
                 </p>
             </header>
             <section className={styles.sky} aria-label="conflict picker">
@@ -973,7 +1067,7 @@ function ResolveView({ question, setLedger }: ResolveViewProps) {
                 </div>
             </section>
             <footer className={styles.footer}>
-                <p className={styles.hint}>选一个继续,另一个会被记到备注里</p>
+                <p className={styles.hint}>选择后继续，另一个结果会保留在备注中。</p>
             </footer>
         </>
     );
@@ -982,10 +1076,10 @@ function ResolveView({ question, setLedger }: ResolveViewProps) {
 function sourceLabel(s: Source): string {
     return (
         ({
-            star: "刚刚星图选的",
-            assessment: "问卷里测出来的",
-            upload: "材料里看到的",
-            wish: "你自己写的",
+            star: "星图选择",
+            assessment: "测评结果",
+            upload: "上传材料",
+            wish: "补充回答",
         } as Record<Source, string>)[s] ?? s
     );
 }
@@ -1063,7 +1157,7 @@ function PickerSky({ night, current, onToggle, hollandHighlights }: PickerSkyPro
 function DecorativeAstrolabe() {
     return (
         <div className={styles.wishStage} aria-hidden="true">
-            <div className={styles.wishAstrolabe} style={{ pointerEvents: "none" }}>
+            <div className={styles.wishAstrolabe}>
                 <svg className={styles.wishAstrolabeSvg} viewBox="-110 -110 220 220" aria-hidden="true">
                     <circle r="100" className={styles.wishRingOuter} />
                     <circle r="78" className={styles.wishRingMid} />
@@ -1078,7 +1172,6 @@ function DecorativeAstrolabe() {
                         return <line key={deg} x1={x1} y1={y1} x2={x2} y2={y2} className={styles.wishTick} />;
                     })}
                 </svg>
-                <span className={styles.wishAstrolabeLabel}>自由感知</span>
             </div>
         </div>
     );
@@ -1135,12 +1228,15 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
     const profile = buildProfileSummary(ledger);
     const [countdown, setCountdown] = useState(AUTO_FINALIZE_SECONDS);
     const finalizeRef = useRef(onFinalize);
-    finalizeRef.current = onFinalize;
+
+    useEffect(() => {
+        finalizeRef.current = onFinalize;
+    }, [onFinalize]);
 
     // Auto-trigger once diagnosis is ready and we're not already loading.
     useEffect(() => {
         if (!diagnosis || loading) return;
-        setCountdown(AUTO_FINALIZE_SECONDS);
+        queueMicrotask(() => setCountdown(AUTO_FINALIZE_SECONDS));
         const interval = setInterval(() => {
             setCountdown((n) => {
                 if (n <= 1) {
@@ -1159,8 +1255,8 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
     return (
         <section className={styles.readout} aria-live="polite">
             <div className={styles.readoutInner}>
-                <div className={styles.nightLabel}>READOUT</div>
-                <h1 className={styles.readoutTitle}>你的星图</h1>
+                <div className={styles.nightLabel}>申请画像</div>
+                <h1 className={styles.readoutTitle}>你的申请画像</h1>
 
                 {profile.length > 0 ? (
                     <div className={styles.profileGrid}>
@@ -1176,7 +1272,7 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                 <div className={styles.readoutDivider} aria-hidden />
 
                 {loading ? (
-                    <p className={styles.readoutLoading}>正在分析你的星图……</p>
+                    <p className={styles.readoutLoading}>正在整理你的申请画像...</p>
                 ) : null}
 
                 {error && !diagnosis ? (
@@ -1189,11 +1285,11 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                 {diagnosis ? (
                     <>
                         <p className={styles.readoutPara}>
-                            <span className={styles.readoutLabel}>综合画像</span>
+                            <span className={styles.readoutLabel}>画像摘要</span>
                             {diagnosis.portrait}
                         </p>
                         <p className={styles.readoutPara}>
-                            <span className={styles.readoutLabel}>关键权衡</span>
+                            <span className={styles.readoutLabel}>需要权衡的点</span>
                             {diagnosis.tradeoffs}
                         </p>
                     </>
@@ -1202,10 +1298,10 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                 <div className={styles.readoutActions}>
                     <button type="button" className={styles.advance} disabled={loading} onClick={() => { setCountdown(0); onFinalize(); }}>
                         {diagnosis && countdown > 0
-                            ? `生成院校方案（${countdown}s）`
+                            ? `生成院校推荐（${countdown}s）`
                             : loading
                                 ? "生成中…"
-                                : "生成院校方案"}
+                                : "生成院校推荐"}
                     </button>
                 </div>
             </div>

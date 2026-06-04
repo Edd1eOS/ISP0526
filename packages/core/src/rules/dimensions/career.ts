@@ -35,8 +35,10 @@ const FIELD_GROUPS: ReadonlyArray<ReadonlySet<string>> = [
         "management",
         "business analytics",
         "economics",
+        "accounting",
+        "finance",
     ]),
-    new Set(["finance", "economics"]),
+    new Set(["finance", "economics", "accounting", "business analytics"]),
     new Set([
         "civil engineering",
         "electrical engineering",
@@ -51,7 +53,9 @@ const FIELD_GROUPS: ReadonlyArray<ReadonlySet<string>> = [
         "science",
         "bioinformatics",
     ]),
-    new Set(["public health", "health"]),
+    new Set(["public health", "health", "bioinformatics"]),
+    new Set(["public policy", "area studies", "economics"]),
+    new Set(["research", "statistics", "environmental science", "forestry"]),
 ];
 
 export function score(profile: StudentProfile, candidate: Candidate): number {
@@ -151,8 +155,12 @@ function fieldLabel(s: string): string {
         "Business Analytics": "商业分析",
         Business: "商科",
         "Business Administration": "工商管理",
+        Accounting: "会计",
+        Management: "管理",
         Finance: "金融",
         Economics: "经济学",
+        "Public Policy": "公共政策",
+        "Area Studies": "区域研究",
         "Civil Engineering": "土木工程",
         "Electrical Engineering": "电气工程",
         "Mechanical Engineering": "机械工程",
@@ -163,6 +171,7 @@ function fieldLabel(s: string): string {
         Education: "教育",
         "Public Health": "公共卫生",
         "Environmental Science": "环境科学",
+        Research: "研究型方向",
         Statistics: "统计",
         "Artificial Intelligence": "人工智能",
         "Software Engineering": "软件工程",

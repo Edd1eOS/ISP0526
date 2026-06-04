@@ -7,13 +7,13 @@ export default function IntakeFormPage() {
             <div className="mx-auto w-full max-w-3xl space-y-10">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        填个表
+                        填写信息
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        把你的故事勾几个选项给我
+                        补充你的申请偏好
                     </h1>
                     <p className="text-text-muted max-w-xl">
-                        每一项都可以跳过，但写得越多 AI 越懂你。提交后立刻翻开属于你的那张报告。
+                        不确定的项目可以先跳过。信息越完整，后续推荐越准确。
                     </p>
                 </header>
                 <IntakeForm action={submitIntakeAction} />

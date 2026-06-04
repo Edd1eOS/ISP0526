@@ -19,6 +19,9 @@ export default async function Home({
   const tCommon = await getTranslations("common");
   const tSwitcher = await getTranslations("common.localeSwitcher");
   const otherLocale = locale === "zh" ? "en" : "zh";
+  const switcherLabel = locale === "zh"
+    ? tSwitcher("switchToEn")
+    : tSwitcher("switchToZh");
 
   return (
     <main className="bg-bg relative min-h-screen w-full overflow-hidden">
@@ -36,7 +39,7 @@ export default async function Home({
             boxShadow: "var(--shadow-clay-raised)",
           }}
         >
-          {tSwitcher("label")}: {tSwitcher(otherLocale as "zh" | "en")}
+          {switcherLabel}
         </a>
       </div>
 

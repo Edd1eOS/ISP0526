@@ -529,15 +529,14 @@ function BubbleCloud({
 }) {
     const bases = useMemo(() => baseBubblePositions(popRight, popUp), [popRight, popUp]);
 
-    // Re-randomised every mount (i.e. every time the pin opens).
-    // Top/bottom bubbles jitter horizontally along their edge;
-    // left/right bubbles jitter vertically.
-    const jitter = useMemo(() => [
-        { dx: (Math.random() - 0.5) * 64, dy: 0 },   // top
-        { dx: (Math.random() - 0.5) * 64, dy: 0 },   // bottom
-        { dx: 0, dy: (Math.random() - 0.5) * 52 },   // left
-        { dx: 0, dy: (Math.random() - 0.5) * 52 },   // right
-    ], []); // eslint-disable-line react-hooks/exhaustive-deps
+    // Stable offsets keep bubbles from feeling mechanically aligned without
+    // making render output non-deterministic.
+    const jitter = [
+        { dx: -18, dy: 0 },  // top
+        { dx: 22, dy: 0 },   // bottom
+        { dx: 0, dy: -14 },  // left
+        { dx: 0, dy: 16 },   // right
+    ] as const;
 
     return (
         <>

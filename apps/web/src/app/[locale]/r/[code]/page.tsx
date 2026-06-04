@@ -6,7 +6,6 @@ import type {
     RecommendationNarrative,
     Score,
     ScoreBreakdown,
-    VisaRouteMap,
 } from "@isp0526/core";
 import { getVisaRoutes } from "@isp0526/core";
 import { loadReport } from "../../../../lib/report-store";
@@ -215,7 +214,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
                         </h1>
                         {totalCount > 0 ? (
                             <p className="text-text-muted text-xs">
-                                文案来源：Gemini {llmCount} 项 · 模板 {totalCount - llmCount} 项
+                                内容来源：自动生成 {llmCount} 项 · 模板 {totalCount - llmCount} 项
                             </p>
                         ) : null}
                     </div>
@@ -266,10 +265,10 @@ export default async function ReportPage({ params }: ReportPageProps) {
                 >
                     <div className="space-y-1">
                         <h2 className="text-text text-base font-semibold">
-                            选 6 所，拼出你的投递方案
+                            选择 6 所院校生成投递方案
                         </h2>
                         <p className="text-text-muted text-xs">
-                            2 冲 / 3 稳 / 1 保。自动排时间轴与资料清单。
+                            按 2 冲 / 3 稳 / 1 保整理时间轴和资料清单。
                         </p>
                     </div>
                     <Link
@@ -281,7 +280,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
                             boxShadow: "var(--shadow-clay-raised)",
                         }}
                     >
-                        制定方案
+                        开始选择
                     </Link>
                 </div>
                 <p className="text-text-muted text-xs">

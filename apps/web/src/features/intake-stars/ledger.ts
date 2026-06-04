@@ -6,6 +6,7 @@
 
 import type { Country } from "@isp0526/core";
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
+import type { FieldGroup } from "./types";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -43,6 +44,7 @@ export type Tag =
     | "chinese_community";
 
 export interface LedgerFacts {
+    field_group?: FactCell<FieldGroup>;
     target_level?: FactCell<TargetLevel>;
     target_field?: FactCell<string>;
     gpa?: FactCell<number>;
@@ -223,6 +225,26 @@ export function mergeTargetLevel(
             ...l.facts,
             target_level: updateCell(
                 l.facts.target_level,
+                v,
+                opt.source,
+                opt.confidence,
+                eqScalar,
+            ),
+        },
+    };
+}
+
+export function mergeFieldGroup(
+    l: KnowledgeLedger,
+    v: FieldGroup,
+    opt: MergeInput,
+): KnowledgeLedger {
+    return {
+        ...l,
+        facts: {
+            ...l.facts,
+            field_group: updateCell(
+                l.facts.field_group,
                 v,
                 opt.source,
                 opt.confidence,

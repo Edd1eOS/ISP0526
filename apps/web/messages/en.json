@@ -1,6 +1,6 @@
 {
     "common": {
-        "appName": "One-stop Study-Abroad Launcher",
+        "appName": "Study-Abroad Program Recommender",
         "tagline": "Make your own choice, grounded in verifiable data",
         "cta": {
             "start": "Start assessment",
@@ -17,31 +17,33 @@
         "localeSwitcher": {
             "label": "Language",
             "zh": "中文",
-            "en": "English"
+            "en": "English",
+            "switchToEn": "Change to English",
+            "switchToZh": "切换到中文"
         },
         "footer": {
             "privacy": "Privacy",
             "disclaimer": "Disclaimer",
             "terms": "Terms",
-            "tagline": "AI recommendations are not an admission guarantee."
+            "tagline": "Recommendations are informational and do not guarantee admission."
         }
     },
     "landing": {
         "sprintTag": "ISP0526",
         "heroTitle": "ISP0526",
-        "heroSubtitle": "Circle the globe and watch your next stop light up.",
-        "ctaStart": "Start your study-abroad quest",
-        "ctaSecondary": "How we deliver professional guidance"
+        "heroSubtitle": "Use your background and preferences to shortlist study-abroad programs worth a closer look.",
+        "ctaStart": "Start assessment",
+        "ctaSecondary": "View methodology"
     },
     "methodology": {
         "eyebrow": "Methodology",
-        "title": "How we deliver professional guidance",
-        "intro": "We are not another chatbot. Every recommendation is grounded in traceable data, an academically validated personality framework, and a transparent scoring formula. Here is the full machinery behind any answer we give you.",
+        "title": "Recommendation methodology",
+        "intro": "Each recommendation is grounded in traceable data, personality and career-preference signals, and transparent scoring rules. This page explains how the system uses those inputs.",
         "backToHome": "Back to home",
         "sections": {
             "personality": {
                 "heading": "01 · Personality and lifestyle assessment",
-                "body": "We use the Big Five (Five-Factor Model), the most replicated personality framework of the last thirty years. The instrument is TIPI (Ten-Item Personality Inventory): two items per factor across Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. It takes about one minute and has been validated across multiple cross-cultural studies. We do not diagnose you; we locate a point in five-dimensional space and use it to align program teaching styles (theory / balanced / applied).",
+                "body": "We use the Big Five model to understand your learning and lifestyle preferences. The assessment uses ten short questions. It does not diagnose you or label you; it helps the system judge whether theory-heavy, applied, or balanced programs are more suitable.",
                 "citations": [
                     "Goldberg, L. R. (1990). An alternative \"description of personality\": The Big-Five factor structure. Journal of Personality and Social Psychology, 59(6), 1216-1229.",
                     "Costa, P. T., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R) and NEO Five-Factor Inventory (NEO-FFI) professional manual. Psychological Assessment Resources.",
@@ -50,15 +52,15 @@
             },
             "career": {
                 "heading": "02 · Career inclination and program field",
-                "body": "Career fit borrows from Holland's RIASEC model (Realistic / Investigative / Artistic / Social / Enterprising / Conventional). We do not ask you to take a RIASEC test; instead it is an internal reference for matching program fields (CS / finance / design / education, etc.) with your temperament. This avoids locking students into a vocational code while preserving the theory's explanatory power. Embedded preferences from spec FR-2.4 (migration vs return-home, internship, salary sensitivity) modulate the weights.",
+                "body": "Career fit references Holland's RIASEC model to compare your tendencies with fields such as computing, finance, design, and education. The system does not lock you into a career type. It treats this as one signal and combines it with your preferences around work, migration, returning home, internships, and salary.",
                 "citations": [
                     "Holland, J. L. (1997). Making vocational choices: A theory of vocational personalities and work environments (3rd ed.). Psychological Assessment Resources.",
                     "Nauta, M. M. (2010). The development, evolution, and status of Holland's theory of vocational personalities. Journal of Counseling Psychology, 57(1), 11-22."
                 ]
             },
             "data": {
-                "heading": "03 · Institution data: public sources + human curation",
-                "body": "Our university and program dataset (packages/core/data/) comes 100% from public channels: admissions sites, government open data (CRICOS / IRCC DLI / gov.uk), and institutions' own published ranking summaries. Every row must carry source_id + URL + last_verified_date, otherwise the Zod validator at load time rejects it. We wrote a data-pipeline specification to enforce this: no headless browsers, no simulated logins, no anti-scraping bypass, no PII capture, no LLM-fabricated facts. Any write into production data must pass human review; CI is not allowed to auto-promote.",
+                "heading": "03 · Institution data: public sources + human review",
+                "body": "Institution and program data comes only from public sources such as admissions pages, government datasets, and university publications. Every record needs a source link and verification date. Unsourced content is excluded, production data requires human review, and generated content is never allowed to invent institution facts.",
                 "citations": [
                     "docs/data-pipeline.md — Ingest pipeline spec: fetch -> parse -> normalize -> Zod validate -> diff -> draft -> human promote.",
                     "docs/data-pipeline-sources.md — Source playbook: strict robots.txt, >=1 req/s per host, zero PII.",
@@ -67,15 +69,15 @@
             },
             "scoring": {
                 "heading": "04 · Scoring engine: weighted, not gated",
-                "body": "We deliberately do not let the algorithm filter for you. Aside from a few hard floors (GPA below 85% of program minimum, or a country you explicitly excluded), every dimension is a weighted score: academic 0.30, personality 0.15, lifestyle 0.15, career 0.15, budget 0.10, tag boost 0.10, reputation 0.05. Those weights re-balance based on your stated preferences — e.g. if you write \"budget is very tight\" during assessment, budget_fit rises from 0.10 to 0.20 and others scale down proportionally. All scoring functions are pure: same input, same output, unit-testable.",
+                "body": "The system does not rely on one filter. Unless you explicitly exclude a country or your grades are far below a program's requirement, recommendations are scored across academic fit, lifestyle, career direction, budget, program strengths, and reputation. Weights adjust when your preferences are clear, such as giving budget more influence when cost is a priority.",
                 "citations": [
                     "docs/spec.md FR-4 — Scoring formula and personalization rules.",
                     "packages/core/src/rules/ — All scoring logic (one file per dimension, with unit tests)."
                 ]
             },
             "ai": {
-                "heading": "05 · The boundary on AI",
-                "body": "LLMs do three things here: rewrite rule-engine output into natural language, extract structured fields from documents you upload, and parse your free-form text into structured preferences. They never produce facts. Every LLM response is validated against a Zod schema and runs through a post-filter that drops any field whose source_id cannot be resolved to our local catalog. This is a hard project rule; violations are rejected at the gate.",
+                "heading": "05 · Generated-content boundary",
+                "body": "Generative models only help with wording, extracting fields from uploaded material, and turning guided Q&A answers into preference signals. They do not create institution facts. Any information without a traceable source is filtered out before it can affect recommendations.",
                 "citations": [
                     "docs/prohibition.md — Red line 2: no recommendation may be emitted without a source_id.",
                     ".github/instructions/ai-layer.instructions.md — All LLM outputs go through Zod validation and citation filtering."
@@ -84,49 +86,49 @@
         },
         "closing": {
             "heading": "Why so strict?",
-            "body": "Studying abroad is a six-figure decision. We would rather recommend fewer programs than serve you one we cannot answer \"where did this come from?\" for. The full engineering spec, ADR records, and change log live in the repository's docs/ directory; you (or your advisor) are welcome to audit them."
+            "body": "Studying abroad is a high-cost decision. We would rather recommend fewer programs than include information whose source cannot be checked. The full specifications and change records are available in the repository's docs/ directory for review."
         }
     },
     "intakeHub": {
-        "stepTag": "Step 1 · Ready for liftoff",
-        "title": "Ready for liftoff",
-        "subtitle": "One little rocket flies you straight to the AI advisor. Tap the button below to launch.",
+        "stepTag": "Step 1 · Start",
+        "title": "Start assessment",
+        "subtitle": "Upload your material or answer a few questions so the system can generate program recommendations.",
         "rocket": {
-            "cta": "Launch",
-            "hint": "Tap the button below to launch",
-            "charging": "Igniting…",
-            "launched": "Liftoff!",
-            "formLink": "Prefer a form instead? →"
+            "cta": "Start",
+            "hint": "Go to upload and questions",
+            "charging": "Opening…",
+            "launched": "Opening…",
+            "formLink": "Use the form"
         }
     },
     "report": {
         "contactCard": {
             "title": "Contact our team",
-            "body": "Share your report ID and our advisors will reach out to discuss anything in the report in depth.",
+            "body": "Share your report ID and an advisor will respond based on the report content.",
             "idLabel": "Your report ID"
         },
         "expiryNote": "This share link expires on {date}. Keep a PDF or share image as your permanent copy."
     },
     "contactPage": {
         "eyebrow": "Contact",
-        "title": "Send us your report and we'll reply after reading it",
-        "intro": "Tell us in a few sentences what you'd like to dig into (field choice, budget reality check, application timing). We'll pull up your data and write you a real reply, not a template.",
+        "title": "Submit a question about your report",
+        "intro": "Tell us what you want to confirm, such as field choice, budget, or application timing. We will reply using the information in your report.",
         "reportIdLabel": "Your report ID",
-        "reportIdHint": "We use this to look up your full profile and recommendations.",
+        "reportIdHint": "We use this to find your report and recommendations.",
         "channelLabel": "How should we reach you?",
         "channelWhatsapp": "WhatsApp",
         "channelWeChat": "WeChat",
         "channelEither": "Either is fine",
-        "messageLabel": "What you'd like to talk about",
+        "messageLabel": "Question to confirm",
         "messagePlaceholder": "e.g. AU IT master vs CA? Is a RMB 250k budget realistic?",
         "submit": "Send",
         "submitting": "Sending…",
-        "successTitle": "Got it, we'll reach out",
-        "successBody": "We'll get back to you within 1–2 working days on the channel you picked. No agency push, AI recommendations are not an admission guarantee.",
+        "successTitle": "Received",
+        "successBody": "We'll reply within 1–2 working days through your selected channel. Recommendations are informational and do not guarantee admission.",
         "errorInvalid": "Please check the report ID and message length.",
         "errorNotFound": "We couldn't find that report. Please return to the original report page and try again.",
         "errorServer": "Something went wrong on our side. Please try again later.",
-        "disclaimer": "We never push commercial agents in this chat; recommendations are informational only.",
+        "disclaimer": "The reply is informational only. Please make final application decisions yourself.",
         "backToReport": "Back to my report"
     },
     "legal": {

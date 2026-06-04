@@ -10,8 +10,7 @@
 //     Fixed questions account for ~3, leaving ~7 adaptive turns.
 //   - When the student is sufficiently characterised, return done=true.
 //   - Each question must come with 2-6 quickPicks so the student can
-//     respond with one tap. The WishInput textarea is still available
-//     for free-form elaboration.
+//     respond with one tap. There is no free-form input in the star-chart UI.
 //   - Never re-ask facts already captured (passed in `knownFacts`).
 //   - Never invent facts (universities, fees, visa rules, IELTS thresholds).
 //   - Focus on information that genuinely differentiates program fit:
@@ -53,7 +52,7 @@ export interface AdaptiveQuestionPromptInput {
         "realistic" | "investigative" | "artistic" | "social" | "enterprising" | "conventional",
         number
     >>>;
-    /** Free text notes the student has typed in the astrolabe input. */
+    /** Legacy free text notes, retained for old sessions only. */
     readonly freeNotes?: string;
 }
 
