@@ -1,13 +1,10 @@
-// Top-level recommend(): apply hard thresholds, score the survivors, sort
-// into stretch / match / safety buckets capped at the spec's headcounts, and
-// return a validated RecommendationSet.
+// Top-level recommend(): apply hard thresholds, score the survivors, keep the
+// most suitable range by final_score, then sort those candidates into stretch /
+// match / safety buckets capped at the spec's headcounts.
 //
-// Band assignment is hybrid:
-//   1. classifyBand() gives each candidate its absolute band from academic_fit.
-//   2. If the pool has >= 3 survivors but a band came up empty, we
-//      redistribute by academic_fit rank so every band has at least one
-//      entry. This is the only place that touches band assignment globally;
-//      per-candidate band remains driven by classifyBand().
+// Band assignment is per-candidate application risk. We do not force every
+// report to have all three buckets; a "safety" label is worse than an empty
+// safety bucket when the suitable pool contains only highly selective schools.
 
 import {
     RecommendationSetSchema,
@@ -26,6 +23,9 @@ const LIMITS = {
     match: 4,
     safety: 4,
 } as const;
+const TOTAL_LIMIT = LIMITS.stretch + LIMITS.match + LIMITS.safety;
+const FIT_RANGE_MULTIPLIER = 2;
+const FIT_SCORE_WINDOW = 18;
 
 // Maximum countries in the final set for each scenario:
 //   - user stated a preference → their countries + this many extras
@@ -120,15 +120,18 @@ export function recommend(
         passing.push(scoreCandidate(profile, candidate));
     }
 
-    // Apply country cap before band redistribution so fillEmptyBands
-    // only sees programs from the allowed country set.
+    // 1. Country cap first so downstream stages only see allowed countries.
     const capped = capByCountry(
         passing,
         profile.hard_constraints.preferred_countries,
         candidateIndex,
     );
 
-    const rebalanced = fillEmptyBands(capped);
+    // 2. Keep the suitable fit-score window.
+    const fitRange = selectFitRange(capped);
+
+    // 3. Redistribute bands by academic_fit when any slot is empty.
+    const rebalanced = fillEmptyBands(fitRange);
 
     const byBand = {
         stretch: rebalanced.filter((s) => s.band === "stretch"),
@@ -145,6 +148,24 @@ export function recommend(
     });
 
     return { set, excluded };
+}
+
+function selectFitRange(scored: readonly Score[]): Score[] {
+    if (scored.length <= TOTAL_LIMIT) return [...scored];
+
+    const sorted = [...scored].sort(
+        (a, b) => b.final_score - a.final_score,
+    );
+    const top = sorted[0]?.final_score ?? 0;
+    const floor = top - FIT_SCORE_WINDOW;
+    const max = TOTAL_LIMIT * FIT_RANGE_MULTIPLIER;
+    const selected = sorted.filter(
+        (score, index) =>
+            index < TOTAL_LIMIT ||
+            (index < max && score.final_score >= floor),
+    );
+
+    return selected.length > 0 ? selected : sorted.slice(0, TOTAL_LIMIT);
 }
 
 // Rank-based redistribution. If the absolute thresholds left a band empty

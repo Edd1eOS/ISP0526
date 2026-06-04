@@ -17,7 +17,8 @@ import type { KnowledgeLedger, LedgerFacts, Source } from "./ledger";
 import { listConflicts } from "./ledger";
 import {
     NIGHT_LEVEL,
-    NIGHT_FIELD,
+    FIELD_DETAIL_NIGHTS,
+    NIGHT_FIELD_GROUP,
     NIGHT_BACHELOR_PATH,
     NIGHT_MASTER_BACKGROUND,
 } from "./nights";
@@ -54,6 +55,7 @@ function fieldLabel(field: keyof LedgerFacts): string {
     return (
         ({
             target_level: "学习阶段",
+            field_group: "领域",
             target_field: "方向",
             gpa: "GPA",
             ielts_overall: "雅思",
@@ -66,12 +68,50 @@ function fieldLabel(field: keyof LedgerFacts): string {
 }
 
 function valueLabel(field: keyof LedgerFacts, value: unknown): string {
+    if (field === "field_group" && typeof value === "string") {
+        const map: Readonly<Record<string, string>> = {
+            business: "商科 / 管理",
+            computing: "计算机 / 数据",
+            engineering: "工程",
+            design: "设计 / 建筑",
+            health: "健康 / 生命科学",
+            social: "社科 / 公共方向",
+            education: "教育 / 语言",
+            science: "科研 / 基础方向",
+        };
+        return map[value] ?? value;
+    }
     if (field === "target_field" && typeof value === "string") {
         const map: Readonly<Record<string, string>> = {
-            Computing: "计算机 / 工程",
-            Business: "商科 / 金融",
-            Design: "设计 / 创意",
-            "Data Science": "数据 / 分析",
+            Accounting: "会计",
+            Architecture: "建筑",
+            "Artificial Intelligence": "人工智能",
+            "Area Studies": "区域研究",
+            Bioinformatics: "生物信息",
+            Business: "商科",
+            "Business Administration": "工商管理 / MBA",
+            "Business Analytics": "商业分析",
+            "Civil Engineering": "土木工程",
+            "Computer Science": "计算机科学",
+            Computing: "计算机",
+            "Data Science": "数据科学",
+            Design: "设计",
+            Economics: "经济学",
+            Education: "教育",
+            "Electrical Engineering": "电气工程",
+            Engineering: "工程",
+            "Environmental Science": "环境科学",
+            Finance: "金融",
+            Forestry: "林业",
+            "Human Computer Interaction": "人机交互",
+            "Information Technology": "信息技术",
+            Management: "管理",
+            "Mechanical Engineering": "机械工程",
+            "Public Health": "公共卫生",
+            "Public Policy": "公共政策",
+            Research: "研究型方向",
+            "Software Engineering": "软件工程",
+            Statistics: "统计",
             TESOL: "教育 / 语言",
         };
         return map[value] ?? value;
@@ -136,9 +176,17 @@ export function nextFixedQuestion(ledger: KnowledgeLedger): PickerQuestion | nul
         }
     }
 
-    // 3. Field of study
-    if (!f.target_field && !wishedSkip(ledger, "field")) {
-        return { kind: "picker", id: "field", template: NIGHT_FIELD };
+    // 3. Field group, then immediate field detail. The group is internal
+    // routing only; the detail writes the canonical target_field.
+    if (!f.target_field && !f.field_group && !wishedSkip(ledger, "field_group")) {
+        return { kind: "picker", id: "field_group", template: NIGHT_FIELD_GROUP };
+    }
+
+    if (!f.target_field && f.field_group) {
+        const detail = FIELD_DETAIL_NIGHTS[f.field_group.value];
+        if (detail) {
+            return { kind: "picker", id: "field_detail", template: detail };
+        }
     }
 
     return null;

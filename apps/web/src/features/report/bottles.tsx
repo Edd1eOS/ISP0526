@@ -280,11 +280,11 @@ function CardDetailPanel({
                         style={{ background: "var(--color-surface-alt)" }}
                         title={
                             card.source === "llm"
-                                ? "本条推荐文案由 Gemini 2.0 Flash 生成，并经 Zod 校验 + 来源过滤"
-                                : "本条推荐文案由模板渲染（LLM 未启用或已回退）"
+                                ? "本条推荐说明由系统生成，并经过结构校验和来源过滤"
+                                : "本条推荐说明由模板生成"
                         }
                     >
-                        {card.source === "llm" ? "AI" : "模板"}
+                        {card.source === "llm" ? "生成" : "模板"}
                     </span>
                 ) : null}
             </div>

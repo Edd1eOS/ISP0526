@@ -101,6 +101,7 @@ Rules:
 10. 学生答非所问 / 反问 / 调侃 / 表情：用不同措辞重问一次并附 quick_replies。如果 accumulated.skipped_fields 已经包含当前字段，直接换到下一个优先级字段，不要再问被跳过的那个。
 11. NEVER apologise twice for the same limitation. If you already said you cannot convert 高考 to GPA, do NOT repeat — just move on.
 12. 不要客套词（"好的"、"明白了"、"了解"），除非真的在确认刚收到的信息。
+13. If the question is about region / country / city / destination / location / 去哪里, quick_replies MUST be concrete options only. Do NOT include vague chips like "都可以" / "随便" / "不限" / "无所谓" / "没偏好" / "无偏好" / "Any" / "No preference".
 
 Output strictly the JSON object matching the schema: {reply, quick_replies?, input_mode?, done}.`;
 }

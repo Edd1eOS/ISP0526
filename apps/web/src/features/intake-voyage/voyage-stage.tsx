@@ -219,41 +219,6 @@ export function VoyageStage() {
     const canEarlyFinalize =
         turnIndex >= 3 || completeness >= VOYAGE_EARLY_FINALIZE_THRESHOLD;
 
-    // -------- Initial boot --------
-    useEffect(() => {
-        if (bootedRef.current) return;
-        bootedRef.current = true;
-        const profile =
-            readSession<VoyageProfile>(VOYAGE_PROFILE_KEY) ?? {};
-        const hist =
-            readSession<VoyageHistoryTurn[]>(VOYAGE_HISTORY_KEY) ?? [];
-        const assessment = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
-        const clarify = readSession<ClarifyPatch>(INTAKE_PATCH_KEY) ?? {};
-        const uploads = readSession<ReadonlyArray<StoredUpload>>(
-            UPLOAD_SUMMARIES_KEY,
-        );
-
-        assessmentRef.current = assessment;
-        clarifyRef.current = clarify;
-        uploadsRef.current = (uploads ?? []).map((u) => ({
-            fileName: u.fileName,
-            doc_kind: u.summary.doc_kind,
-            about_applicant: u.summary.about_applicant,
-            title: u.summary.title,
-            key_points: u.summary.key_points,
-            applicant_summary: u.summary.applicant_summary,
-        }));
-
-        setVoyageProfile(profile);
-        setHistory(hist);
-
-        void requestNext({
-            profile,
-            history: hist,
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const requestNext = useCallback(
         async (args: {
             readonly profile: VoyageProfile;
@@ -317,6 +282,40 @@ export function VoyageStage() {
         },
         [],
     );
+
+    // -------- Initial boot --------
+    useEffect(() => {
+        if (bootedRef.current) return;
+        bootedRef.current = true;
+        const profile =
+            readSession<VoyageProfile>(VOYAGE_PROFILE_KEY) ?? {};
+        const hist =
+            readSession<VoyageHistoryTurn[]>(VOYAGE_HISTORY_KEY) ?? [];
+        const assessment = readSession<AssessmentAnswers>(ASSESSMENT_KEY);
+        const clarify = readSession<ClarifyPatch>(INTAKE_PATCH_KEY) ?? {};
+        const uploads = readSession<ReadonlyArray<StoredUpload>>(
+            UPLOAD_SUMMARIES_KEY,
+        );
+
+        assessmentRef.current = assessment;
+        clarifyRef.current = clarify;
+        uploadsRef.current = (uploads ?? []).map((u) => ({
+            fileName: u.fileName,
+            doc_kind: u.summary.doc_kind,
+            about_applicant: u.summary.about_applicant,
+            title: u.summary.title,
+            key_points: u.summary.key_points,
+            applicant_summary: u.summary.applicant_summary,
+        }));
+
+        setVoyageProfile(profile);
+        setHistory(hist);
+
+        void requestNext({
+            profile,
+            history: hist,
+        });
+    }, [requestNext]);
 
     const submitAnswer = useCallback(
         (raw: string) => {

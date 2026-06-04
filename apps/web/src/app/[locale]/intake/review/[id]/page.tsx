@@ -24,15 +24,15 @@ export default async function IntakeReviewPage({ params }: PageProps) {
             <div className="mx-auto max-w-6xl space-y-8">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        Step 2 · 核对装备
+                        Step 2 · 核对信息
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight sm:text-4xl">
-                        AI 替你拎了重点，瞄两眼再出发
+                        核对已提取的申请信息
                     </h1>
                     <p className="text-text-muted max-w-3xl">
-                        左边是 AI 读到的原文，右边是它整理出的字段。
-                        绿牌「AI 高置信」基本可信；黄牌「请核对」最好瞄一眼；
-                        改过的字段会变成灰色「已修改」。没问题就直接出报告。
+                        左侧是你提交的原文，右侧是系统整理出的字段。
+                        标记为「置信较高」的字段通常可直接使用；标记为「请核对」的字段建议确认。
+                        你修改过的字段会显示为「已修改」。
                     </p>
                 </header>
                 <ReviewForm

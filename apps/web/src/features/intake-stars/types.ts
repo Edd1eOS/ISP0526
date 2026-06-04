@@ -6,15 +6,23 @@
 //
 // Two kinds of nights:
 //   - "picker"  : tap stars in a constellation
-//   - "budget"  : a horizontal "light strip" with a traveling star,
-//                 representing a linear amount choice
+//   - "budget"  : legacy horizontal light strip, retained only for old
+//                 pure projection helpers.
 //
-// Free-form "wish" input is no longer a night: it lives as a
-// persistent astrolabe overlay that the user may open at any time
-// during the picking phase. Its text is merged into the final
-// diagnosis prompt only (no patch contribution).
+// Free-form wish input is no longer part of the star chart. The bottom
+// astrolabe is decorative and must not capture pointer events.
 
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
+
+export type FieldGroup =
+    | "business"
+    | "computing"
+    | "engineering"
+    | "design"
+    | "health"
+    | "social"
+    | "education"
+    | "science";
 
 /**
  * What a single picker star nudges the downstream profile toward.
@@ -23,6 +31,8 @@ import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
  */
 export interface StarMeta {
     readonly target_level?: "bachelor" | "master" | "phd";
+    /** Internal routing value used to show the immediate field-detail night. */
+    readonly field_group?: FieldGroup;
     /** Canonical FIELD_OPTIONS value, only when the star maps cleanly. */
     readonly target_field?: string;
     readonly teaching_style?: "theory_heavy" | "balanced" | "applied_heavy";
@@ -81,13 +91,6 @@ export interface PickerNight extends NightBase {
 export interface BudgetNight extends NightBase {
     readonly kind: "budget";
     readonly anchors: ReadonlyArray<BudgetAnchor>;
-}
-
-/** Configuration for the always-available free-input astrolabe. */
-export interface FreeWishConfig {
-    readonly maxChars: number;
-    readonly placeholder: string;
-    readonly label: string;
 }
 
 export type NightDef = PickerNight | BudgetNight;

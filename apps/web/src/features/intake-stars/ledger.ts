@@ -6,6 +6,7 @@
 
 import type { Country } from "@isp0526/core";
 import type { ClarifyPatch } from "../intake-clarify/clarify-schema";
+import type { FieldGroup } from "./types";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -43,6 +44,7 @@ export type Tag =
     | "chinese_community";
 
 export interface LedgerFacts {
+    field_group?: FactCell<FieldGroup>;
     target_level?: FactCell<TargetLevel>;
     target_field?: FactCell<string>;
     gpa?: FactCell<number>;
@@ -80,13 +82,12 @@ export interface ConversationTurn {
 export interface KnowledgeLedger {
     readonly facts: LedgerFacts;
     readonly confirmations: LedgerConfirmations;
-    /** Per-question wish text. Keys are Question.id. */
+    /** Per-question contextual text. Keys are Question.id. */
     readonly wishes: Readonly<Record<string, string>>;
-    /** Free notes not bound to any question (global astrolabe input). */
+    /** Legacy free notes not bound to any question. */
     readonly freeNotes: string;
-    /** Question IDs where the user explicitly chose to answer via WishInput
-     *  rather than tapping a star. Used by the engine's wishedSkip check.
-     *  Distinct from `wishes` (which updates on every keystroke). */
+    /** Supplementary picker IDs whose selected labels should be treated as
+     *  contextual text. Used by the engine's wishedSkip check. */
     readonly committedWishes: ReadonlyArray<string>;
     /** Ordered Q&A turns from the adaptive (LLM-generated) question phase.
      *  Passed as context to subsequent question generation and to diagnosis. */
@@ -124,8 +125,8 @@ export function appendConversationTurn(
     };
 }
 
-/** Mark a picker/budget question as answered via WishInput so the engine
- *  skips it. Called only when the user explicitly clicks "继续". */
+/** Mark a supplementary picker as answered via contextual text so the engine
+ *  skips it after the user clicks "继续". */
 export function commitWish(
     l: KnowledgeLedger,
     questionId: string,
@@ -224,6 +225,26 @@ export function mergeTargetLevel(
             ...l.facts,
             target_level: updateCell(
                 l.facts.target_level,
+                v,
+                opt.source,
+                opt.confidence,
+                eqScalar,
+            ),
+        },
+    };
+}
+
+export function mergeFieldGroup(
+    l: KnowledgeLedger,
+    v: FieldGroup,
+    opt: MergeInput,
+): KnowledgeLedger {
+    return {
+        ...l,
+        facts: {
+            ...l.facts,
+            field_group: updateCell(
+                l.facts.field_group,
                 v,
                 opt.source,
                 opt.confidence,

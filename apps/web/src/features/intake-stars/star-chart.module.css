@@ -98,29 +98,6 @@
     pointer-events: none;
 }
 
-.progress {
-    display: flex;
-    gap: 10px;
-    pointer-events: auto;
-}
-
-.progressDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(245, 239, 226, 0.22);
-    transition: background 0.4s ease, transform 0.4s ease;
-}
-
-.progressDot.active {
-    background: rgba(245, 239, 226, 0.9);
-    transform: scale(1.25);
-}
-
-.progressDot.done {
-    background: rgba(245, 239, 226, 0.55);
-}
-
 .nightLabel {
     font-size: 12px;
     letter-spacing: 0.3em;
@@ -160,7 +137,7 @@
 
 .sky {
     position: absolute;
-    inset: 18% 8% 22% 8%;
+    inset: 18% 9% 24% 9%;
     z-index: 2;
 }
 
@@ -192,8 +169,8 @@
 .star {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: 36px;
-    height: 36px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -244,7 +221,11 @@
     top: calc(50% + 14px);
     left: 50%;
     transform: translateX(-50%);
-    white-space: nowrap;
+    width: max-content;
+    max-width: 112px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
     font-size: 11px;
     letter-spacing: 0.12em;
     color: rgba(245, 239, 226, 0.55);
@@ -259,17 +240,9 @@
     color: rgba(255, 233, 184, 0.95);
 }
 
-.haloLayer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    /* GPU-only blur halo; cheap on modern hardware. */
-    backdrop-filter: blur(0px);
-}
-
 .footer {
     position: absolute;
-    bottom: 150px;
+    bottom: 136px;
     left: 0;
     right: 0;
     display: flex;
@@ -493,101 +466,16 @@
     margin-bottom: 8px;
 }
 
-
-/* ===== Budget light-strip ===== */
-.budgetStrip {
-    position: relative;
-    width: min(78%, 720px);
-    height: 120px;
-    margin: 24px auto 0;
-}
-
-.budgetTrack {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(90deg,
-            rgba(245, 239, 226, 0.06) 0%,
-            rgba(245, 239, 226, 0.35) 50%,
-            rgba(245, 239, 226, 0.06) 100%);
-    transform: translateY(-50%);
-}
-
-.budgetTraveler {
-    position: absolute;
-    top: 50%;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffe9b8 0%, rgba(255, 233, 184, 0.6) 45%, rgba(255, 233, 184, 0) 75%);
-    box-shadow: 0 0 18px rgba(255, 233, 184, 0.65);
-    transform: translate(-50%, -50%);
-    transition: left 380ms cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    z-index: 2;
-}
-
-.budgetAnchor {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: transparent;
-    border: 0;
-    padding: 14px 6px;
-    cursor: pointer;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    z-index: 1;
-}
-
-.budgetAnchorDot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(245, 239, 226, 0.35);
-    transition: background 220ms ease, transform 220ms ease;
-}
-
-.budgetAnchor:hover .budgetAnchorDot {
-    background: rgba(245, 239, 226, 0.75);
-    transform: scale(1.4);
-}
-
-.budgetAnchor.picked .budgetAnchorDot {
-    background: #ffe9b8;
-    transform: scale(1.6);
-}
-
-.budgetAnchorLabel {
-    position: absolute;
-    top: 32px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: rgba(245, 239, 226, 0.55);
-    white-space: nowrap;
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-    transition: color 220ms ease;
-}
-
-.budgetAnchor.picked .budgetAnchorLabel {
-    color: rgba(245, 239, 226, 0.95);
-}
-
-/* ===== Wish input (persistent astrolabe overlay) ===== */
+/* ===== Decorative astrolabe ===== */
 .wishStage {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
 }
 
 .wishStage>* {
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 .wishAstrolabe {
@@ -600,21 +488,10 @@
     border: 0;
     background: transparent;
     padding: 0;
-    cursor: pointer;
     transition: transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
         filter 520ms ease;
     filter: drop-shadow(0 0 18px rgba(255, 233, 184, 0.1));
     animation: wishBreathe 3.6s ease-in-out infinite;
-}
-
-.wishAstrolabe:hover {
-    filter: drop-shadow(0 0 36px rgba(255, 233, 184, 0.32));
-    transform: translateX(-50%) translateY(-6px);
-    animation: none;
-}
-
-.wishAstrolabeOpened {
-    animation: none;
 }
 
 @keyframes wishBreathe {
@@ -631,43 +508,11 @@
     }
 }
 
-.wishAstrolabeHint {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.36em;
-    padding-left: 0.36em;
-    color: rgba(245, 239, 226, 0.45);
-    pointer-events: none;
-    text-transform: uppercase;
-    transition: opacity 320ms ease, top 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.wishAstrolabe:hover .wishAstrolabeHint {
-    color: rgba(255, 233, 184, 0.85);
-}
-
-.wishAstrolabeOpened .wishAstrolabeHint {
-    opacity: 0;
-}
-
-.wishAstrolabeOpened {
-    transform: translateX(-50%) translateY(80px);
-    filter: drop-shadow(0 0 32px rgba(255, 233, 184, 0.28));
-}
-
 .wishAstrolabeSvg {
     width: 100%;
     height: 100%;
     display: block;
     animation: wishRotate 90s linear infinite;
-}
-
-.wishAstrolabeOpened .wishAstrolabeSvg {
-    animation-duration: 40s;
 }
 
 @keyframes wishRotate {
@@ -708,229 +553,6 @@
     stroke: rgba(245, 239, 226, 0.55);
     stroke-width: 0.8;
     stroke-linecap: round;
-}
-
-.wishAstrolabeLabel {
-    position: absolute;
-    top: 22%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--font-serif, ui-serif), Georgia, serif;
-    font-size: 14px;
-    letter-spacing: 0.5em;
-    padding-left: 0.5em;
-    color: rgba(245, 239, 226, 0.7);
-    pointer-events: none;
-    text-shadow: 0 0 12px rgba(255, 233, 184, 0.4);
-    transition: top 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
-        color 320ms ease;
-}
-
-.wishAstrolabeOpened .wishAstrolabeLabel {
-    top: 50%;
-    color: rgba(245, 239, 226, 0.92);
-}
-
-.wishFollowUp {
-    font-size: 12px;
-    color: rgba(245, 239, 226, 0.65);
-    background: rgba(245, 239, 226, 0.06);
-    border-left: 2px solid rgba(245, 239, 226, 0.25);
-    padding: 6px 10px;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    font-style: italic;
-    animation: wishPanelIn 300ms ease both;
-}
-
-.wishAnswer {
-    font-size: 13px;
-    color: rgba(255, 233, 184, 0.92);
-    background: rgba(255, 233, 184, 0.07);
-    border: 1px solid rgba(255, 233, 184, 0.22);
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    line-height: 1.6;
-    animation: wishPanelIn 300ms ease both;
-}
-
-.wishPanel {
-    position: absolute;
-    left: 50%;
-    bottom: 180px;
-    transform: translateX(-50%);
-    width: min(78%, 620px);
-    animation: wishPanelIn 420ms ease both;
-    pointer-events: none;
-}
-
-.wishPanel > * {
-    pointer-events: auto;
-}
-
-@keyframes wishPanelIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-.wishInput {
-    width: 100%;
-    background: transparent;
-    color: rgba(245, 239, 226, 0.92);
-    border: 0;
-    border-bottom: 1px solid rgba(245, 239, 226, 0.18);
-    padding: 14px 4px 16px;
-    font-family: var(--font-serif, ui-serif), Georgia, serif;
-    font-size: 16px;
-    line-height: 1.7;
-    resize: none;
-    outline: none;
-    transition: border-color 240ms ease;
-}
-
-.wishInput::placeholder {
-    color: rgba(245, 239, 226, 0.32);
-    font-style: italic;
-}
-
-.wishInput:focus {
-    border-bottom-color: rgba(255, 233, 184, 0.7);
-}
-
-.wishCount {
-    position: absolute;
-    right: 4px;
-    bottom: -22px;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    color: rgba(245, 239, 226, 0.35);
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-}
-
-/* ---------------------------------------------------------------------- */
-/* ConfirmView - LLM implication bullets card                              */
-/* ---------------------------------------------------------------------- */
-.confirmCard {
-    width: min(620px, 92%);
-    margin: 0 auto;
-    padding: 28px 32px;
-    border-radius: 16px;
-    background: rgba(11, 18, 38, 0.72);
-    border: 1px solid rgba(255, 233, 184, 0.18);
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.45),
-        inset 0 0 24px rgba(255, 233, 184, 0.04);
-    backdrop-filter: blur(6px);
-    color: rgba(245, 239, 226, 0.9);
-    font-family: var(--font-serif, ui-serif), Georgia, serif;
-}
-
-.confirmLoading,
-.confirmError {
-    text-align: center;
-    color: rgba(245, 239, 226, 0.55);
-    font-size: 14px;
-    padding: 22px 0;
-}
-
-.confirmError {
-    color: rgba(255, 180, 160, 0.8);
-}
-
-.confirmHeadline {
-    margin: 0 0 18px;
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    color: rgba(255, 233, 184, 0.95);
-    text-align: center;
-}
-
-.confirmList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.confirmItem {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(255, 233, 184, 0.08);
-}
-
-.confirmItem:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.confirmBody {
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: rgba(245, 239, 226, 0.86);
-}
-
-.confirmOptions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.confirmOption {
-    appearance: none;
-    background: rgba(255, 233, 184, 0.04);
-    border: 1px solid rgba(255, 233, 184, 0.22);
-    color: rgba(245, 239, 226, 0.85);
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 180ms ease, border-color 180ms ease,
-        color 180ms ease;
-}
-
-.confirmOption:hover {
-    background: rgba(255, 233, 184, 0.1);
-    border-color: rgba(255, 233, 184, 0.45);
-}
-
-.confirmOptionPicked {
-    background: rgba(255, 233, 184, 0.18);
-    border-color: rgba(255, 233, 184, 0.7);
-    color: #ffe9b8;
-}
-
-.confirmFooterRow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-}
-
-.confirmSkip {
-    appearance: none;
-    background: transparent;
-    border: none;
-    color: rgba(245, 239, 226, 0.4);
-    font-family: inherit;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 6px 10px;
-}
-
-.confirmSkip:hover {
-    color: rgba(245, 239, 226, 0.7);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -978,97 +600,6 @@
     font-size: 12px;
     color: rgba(245, 239, 226, 0.5);
     font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-}
-
-/* ---------------------------------------------------------------------- */
-/* WishDialog — full-screen sub-page that opens when the user asks a       */
-/* question or triggers a backtrack. Blocks the main flow until closed.    */
-/* ---------------------------------------------------------------------- */
-.wishDialog {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background:
-        radial-gradient(ellipse at 50% 110%,
-            rgba(68, 84, 132, 0.28) 0%,
-            rgba(11, 18, 38, 0) 60%),
-        rgba(6, 9, 18, 0.92);
-    backdrop-filter: blur(3px);
-    padding: 40px 24px;
-    animation: fade-in 0.35s ease both;
-}
-
-.wishDialogInner {
-    width: min(640px, 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.wishDialogUserBubble {
-    align-self: flex-end;
-    max-width: 80%;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-end;
-}
-
-.wishDialogSystemBubble {
-    align-self: flex-start;
-    max-width: 84%;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.wishDialogSpeaker {
-    font-size: 10px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(245, 239, 226, 0.38);
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-}
-
-.wishDialogUserText {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.7;
-    color: rgba(245, 239, 226, 0.82);
-    background: rgba(245, 239, 226, 0.07);
-    border: 1px solid rgba(245, 239, 226, 0.15);
-    border-radius: 14px 14px 4px 14px;
-    padding: 12px 16px;
-    text-align: right;
-}
-
-.wishDialogResponseText {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.8;
-    color: rgba(255, 233, 184, 0.95);
-    background: rgba(255, 233, 184, 0.07);
-    border: 1px solid rgba(255, 233, 184, 0.22);
-    border-radius: 4px 14px 14px 14px;
-    padding: 14px 18px;
-}
-
-.wishDialogFollowUp {
-    margin: 0;
-    font-size: 13px;
-    font-style: italic;
-    color: rgba(245, 239, 226, 0.6);
-    padding: 6px 4px;
-}
-
-.wishDialogActions {
-    display: flex;
-    justify-content: center;
-    margin-top: 8px;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1176,97 +707,91 @@
     animation: breathe 2.2s ease-in-out infinite;
 }
 
-/* ---------------------------------------------------------------------- */
-/* FollowUpDialog — full-screen blocking sub-page for clarifying questions  */
-/* ---------------------------------------------------------------------- */
-.followUpDialog {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background:
-        radial-gradient(ellipse at 50% 110%,
-            rgba(68, 84, 132, 0.28) 0%,
-            rgba(11, 18, 38, 0) 60%),
-        rgba(6, 9, 18, 0.96);
-    backdrop-filter: blur(4px);
-    padding: 40px 24px;
-    animation: fade-in 0.35s ease both;
+@media (max-width: 720px) {
+    .header {
+        top: 20px;
+        padding: 0 18px;
+        gap: 8px;
+    }
+
+    .title {
+        font-size: 22px;
+        letter-spacing: 0.08em;
+        line-height: 1.35;
+        text-align: center;
+    }
+
+    .subtitle {
+        max-width: 300px;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .sky {
+        inset: 20% 6% 28% 6%;
+    }
+
+    .star {
+        width: 56px;
+        height: 56px;
+    }
+
+    .starLabel {
+        max-width: 88px;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+    }
+
+    .adaptiveLabel {
+        max-width: 96px;
+    }
+
+    .footer {
+        bottom: 112px;
+        padding: 0 18px;
+    }
+
+    .footerActions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .advance,
+    .undoBtn {
+        min-height: 42px;
+    }
+
+    .wishAstrolabe {
+        bottom: -150px;
+        width: 220px;
+        height: 220px;
+    }
+
+    .hollandCard {
+        right: 50%;
+        top: auto;
+        bottom: -24px;
+        width: min(280px, 86%);
+        transform: translateX(50%);
+        padding: 10px 12px;
+    }
+
+    .hollandCardList {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
 
-.followUpDialogInner {
-    width: min(640px, 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
+@media (max-height: 680px) {
+    .sky {
+        inset: 22% 7% 29% 7%;
+    }
 
-.followUpDialogLabel {
-    font-size: 10px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(245, 239, 226, 0.38);
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-    margin: 0;
-}
+    .footer {
+        bottom: 92px;
+    }
 
-.followUpDialogQuestion {
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    line-height: 1.6;
-    color: rgba(255, 233, 184, 0.92);
-    margin: 0;
-    opacity: 0;
-    animation: fade-in 0.7s ease 0.1s forwards;
-}
-
-.followUpDialogTextarea {
-    width: 100%;
-    background: transparent;
-    color: rgba(245, 239, 226, 0.92);
-    border: 0;
-    border-bottom: 1px solid rgba(245, 239, 226, 0.22);
-    padding: 14px 4px 16px;
-    font-family: var(--font-serif, ui-serif), Georgia, serif;
-    font-size: 16px;
-    line-height: 1.7;
-    resize: none;
-    outline: none;
-    transition: border-color 240ms ease;
-}
-
-.followUpDialogTextarea::placeholder {
-    color: rgba(245, 239, 226, 0.3);
-    font-style: italic;
-}
-
-.followUpDialogTextarea:focus {
-    border-bottom-color: rgba(255, 233, 184, 0.7);
-}
-
-.followUpDialogActions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    justify-content: center;
-}
-
-.followUpDialogSkip {
-    appearance: none;
-    background: transparent;
-    border: none;
-    color: rgba(245, 239, 226, 0.35);
-    font-family: var(--font-sans, ui-sans-serif), system-ui, sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 8px 12px;
-    transition: color 200ms ease;
-}
-
-.followUpDialogSkip:hover {
-    color: rgba(245, 239, 226, 0.62);
+    .wishAstrolabe {
+        bottom: -170px;
+    }
 }

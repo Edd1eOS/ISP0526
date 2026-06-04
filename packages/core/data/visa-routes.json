@@ -387,5 +387,46 @@
             "url": "https://www.psp.gov.mo/en/",
             "last_verified_date": "2026-05-29"
         }
+    },
+    "MY": {
+        "country_name_en": "Malaysia",
+        "country_name_zh": "马来西亚",
+        "visa_class": "Student Pass",
+        "total_weeks_typical": 8,
+        "post_study_work_years": 1,
+        "steps": [
+            {
+                "id": "offer",
+                "name_en": "Receive offer and prepare Student Pass documents",
+                "weeks": 1
+            },
+            {
+                "id": "emgs",
+                "name_en": "Institution / applicant submits Student Pass application through EMGS",
+                "weeks": 2
+            },
+            {
+                "id": "eval",
+                "name_en": "Immigration Department reviews eVAL / Student Pass approval",
+                "weeks": 3
+            },
+            {
+                "id": "entry_visa",
+                "name_en": "Single Entry Visa where required, then travel after eVAL",
+                "weeks": 1
+            },
+            {
+                "id": "endorsement",
+                "name_en": "Post-arrival medical check and Student Pass endorsement",
+                "weeks": 1
+            }
+        ],
+        "source": {
+            "source_id": "my_student_pass_2026",
+            "kind": "url",
+            "url": "https://www.imi.gov.my/index.php/en/main-services/pass/student-pass/?format=pdf",
+            "last_verified_date": "2026-06-01",
+            "note": "Immigration Student Pass page; timing is a planning estimate and varies by institution. Post-study figure reflects EMGS Graduate Pass 12-month route for eligible graduates/nationalities checked on 2026-06-01."
+        }
     }
 }
