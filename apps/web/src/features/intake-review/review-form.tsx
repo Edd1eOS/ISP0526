@@ -112,7 +112,6 @@ export function ReviewForm({
 }: ReviewFormProps) {
     const signals = useMemo<Partial<Record<FormFieldKey, AISignal>>>(() => {
         const a = extracted.academic;
-        const b = extracted.budget;
         const out: Partial<Record<FormFieldKey, AISignal>> = {};
         if (a.target_level) out.target_level = a.target_level;
         if (a.target_field) {
@@ -452,15 +451,15 @@ function SourcePanel({
         >
             <div className="space-y-1">
                 <p className="text-text-muted text-xs uppercase tracking-widest">
-                    战利品来源
+                    资料来源
                 </p>
                 <h2 className="text-text text-lg font-semibold">{label}</h2>
                 <p className="text-text-muted text-xs">
                     {!llmUsed
-                        ? "AI 没启动（未配置或失败），右侧字段需要手动填写"
+                        ? "系统未能自动提取信息，请手动填写右侧字段。"
                         : fieldsExtracted === 0
-                            ? "AI 没从原文里直接锁定任何字段。下面会聊几句帮你补上。"
-                            : `AI 从这里抠出了 ${fieldsExtracted} 个字段，下面会接着追问`}
+                            ? "系统未从原文中提取到字段。请补充右侧信息。"
+                            : `已从原文提取 ${fieldsExtracted} 个字段，请核对后继续。`}
                 </p>
             </div>
 
@@ -489,7 +488,7 @@ function SourcePanel({
             {notes ? (
                 <div className="space-y-1">
                     <p className="text-text-muted text-xs uppercase tracking-widest">
-                        AI 的额外笔记
+                        补充说明
                     </p>
                     <p className="text-text text-xs leading-relaxed">{notes}</p>
                 </div>
@@ -541,7 +540,7 @@ function OriginBadge({ origin }: { origin: Origin }) {
                 className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider text-white"
                 style={{ background: "var(--color-success, #2f9461)" }}
             >
-                AI 追问已确认
+                已确认
             </span>
         );
     }
@@ -574,7 +573,7 @@ function ConfidenceBadge({
                 className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider text-white"
                 style={{ background: "var(--color-success, #2f9461)" }}
             >
-                AI 追问已确认
+                已确认
             </span>
         );
     }
@@ -601,9 +600,9 @@ function ConfidenceBadge({
                     ? "var(--color-success, #2f9461)"
                     : "var(--color-warning, #c0883a)",
             }}
-            title={`AI confidence: ${(signal.confidence * 100).toFixed(0)}%`}
+            title={`提取置信度：${(signal.confidence * 100).toFixed(0)}%`}
         >
-            {high ? "AI 高置信" : "AI 推测 · 请核对"}
+            {high ? "置信较高" : "请核对"}
         </span>
     );
 }
@@ -620,7 +619,7 @@ function SubmitButton() {
                 boxShadow: "var(--shadow-clay-primary)",
             }}
         >
-            {pending ? "正在生成报告…" : "看上去都对，开 BOSS 战"}
+            {pending ? "正在生成报告..." : "确认无误，生成推荐"}
         </button>
     );
 }

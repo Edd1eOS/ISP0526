@@ -27,6 +27,26 @@ describe("career.score", () => {
         );
         expect(v).toBeCloseTo(1, 2);
     });
+
+    it("connects target field to adjacent program fields", () => {
+        const csCandidate = {
+            ...fixtureCandidate,
+            program: {
+                ...fixtureCandidate.program,
+                field: "Computer Science",
+            },
+        };
+        const aligned = score(
+            buildProfile({ academic: { target_field: "Computing" } }),
+            csCandidate,
+        );
+        const mismatched = score(
+            buildProfile({ academic: { target_field: "Finance" } }),
+            csCandidate,
+        );
+        expect(aligned).toBeGreaterThan(mismatched);
+        expect(aligned).toBeGreaterThan(0.8);
+    });
 });
 
 describe("career.explain", () => {
@@ -36,5 +56,19 @@ describe("career.explain", () => {
             fixtureCandidate,
         );
         expect(reasons.some((r) => r.includes("移民"))).toBe(true);
+    });
+
+    it("explains field alignment when target_field is present", () => {
+        const reasons = explain(
+            buildProfile({ academic: { target_field: "Computing" } }),
+            {
+                ...fixtureCandidate,
+                program: {
+                    ...fixtureCandidate.program,
+                    field: "Computer Science",
+                },
+            },
+        );
+        expect(reasons.some((r) => r.includes("计算机"))).toBe(true);
     });
 });

@@ -37,7 +37,7 @@ export const COUNTRY_VALUES = [
 export const WishExtractedSchema = z
     .object({
         target_level: z.enum(["bachelor", "master", "phd"]).optional(),
-        /** Must be one of: Computing, Business, Design, Data Science, TESOL.
+        /** Must be one of the canonical program field values.
          *  Omit if the field doesn't map cleanly to any of these. */
         target_field: z.string().max(40).optional(),
         city_size: z.enum(["mega", "large", "medium", "small"]).optional(),
@@ -126,8 +126,14 @@ export const WISH_PARSE_SYSTEM_PROMPT = [
     "   city_size, teaching_style, preferred_tags.",
     "",
     "4. EXTRACT — extract structured fields ONLY when stated clearly.",
-    "   Valid target_field values: Computing, Business, Design,",
-    "   Data Science, TESOL. Omit any field you are not sure about.",
+    "   Valid target_field values: Information Technology, Computing, Computer Science,",
+    "   Software Engineering, Artificial Intelligence, Human Computer Interaction,",
+    "   Data Science, Business, Business Administration, Business Analytics, Finance,",
+    "   Accounting, Management, Economics, Engineering, Civil Engineering,",
+    "   Electrical Engineering, Mechanical Engineering, Design, Architecture,",
+    "   Public Health, Bioinformatics, Public Policy, Area Studies, Education,",
+    "   TESOL, Research, Statistics, Environmental Science, Forestry.",
+    "   Omit any field you are not sure about.",
     "   For preferred_countries: map country names / regions to ISO codes.",
     "   Codes: AU=Australia, US=USA, UK=Britain/England/Scotland, CA=Canada,",
     "   NZ=New Zealand, HK=Hong Kong, SG=Singapore, MY=Malaysia, TH=Thailand,",

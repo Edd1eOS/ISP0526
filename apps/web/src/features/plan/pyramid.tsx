@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import type { Country } from "@isp0526/core";
 
 export interface PyramidCard {
     readonly programId: string;
@@ -9,7 +8,7 @@ export interface PyramidCard {
     readonly score: number;
     readonly universityName: string;
     readonly programName: string;
-    readonly country: Country | undefined;
+    readonly country: string | undefined;
     readonly city: string | null;
 }
 

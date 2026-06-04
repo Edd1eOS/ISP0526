@@ -102,10 +102,13 @@ export function ChatIntake() {
     const [done, setDone] = useState(false);
     const [draft, setDraft] = useState("");
     const [pending, startTransition] = useTransition();
+    const [turnPending, setTurnPending] = useState(false);
     const [finalizing, setFinalizing] = useState(false);
     const [degraded, setDegraded] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const openedRef = useRef(false);
+    const turnSeqRef = useRef(0);
+    const turnLockedRef = useRef(false);
     const assessmentRef = useRef<
         Parameters<typeof finalizeChatIntakeAction>[1] | undefined
     >(undefined);
@@ -114,12 +117,13 @@ export function ChatIntake() {
     const signals = useMemo(() => countSignals(accumulated), [accumulated]);
     const hasLevel = Boolean(accumulated.target_level);
     const canFinalize = hasLevel && signals >= MIN_SUPPORTING_SIGNALS;
+    const isBusy = pending || turnPending;
 
     useEffect(() => {
         const el = scrollerRef.current;
         if (!el) return;
         el.scrollTop = el.scrollHeight;
-    }, [bubbles, pending]);
+    }, [bubbles, isBusy]);
 
     const sendTurn = useCallback(
         (history: ReadonlyArray<Bubble>, patch: ClarifyPatch) => {
@@ -127,6 +131,10 @@ export function ChatIntake() {
                 role: b.role,
                 content: b.content,
             }));
+            const seq = turnSeqRef.current + 1;
+            turnSeqRef.current = seq;
+            turnLockedRef.current = true;
+            setTurnPending(true);
             startTransition(async () => {
                 setError(null);
                 try {
@@ -135,6 +143,7 @@ export function ChatIntake() {
                         accumulated: patch,
                         assessment: assessmentRef.current,
                     });
+                    if (seq !== turnSeqRef.current) return;
                     if (!r.ok) {
                         setError(r.error ?? "出错了，再试一次？");
                         return;
@@ -168,9 +177,15 @@ export function ChatIntake() {
                     setMultiSelected([]);
                     if (r.done) setDone(true);
                 } catch (cause) {
+                    if (seq !== turnSeqRef.current) return;
                     // eslint-disable-next-line no-console
                     console.error("[chat-intake] turn failed", cause);
                     setError("网络好像不太顺，再试一次？");
+                } finally {
+                    if (seq === turnSeqRef.current) {
+                        turnLockedRef.current = false;
+                        setTurnPending(false);
+                    }
                 }
             });
         },
@@ -191,6 +206,7 @@ export function ChatIntake() {
     }, [sendTurn]);
 
     const pushUser = (text: string) => {
+        if (turnLockedRef.current) return;
         const trimmed = text.trim();
         if (!trimmed) return;
         const userBubble: Bubble = {
@@ -207,7 +223,7 @@ export function ChatIntake() {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (pending || done) return;
+        if (isBusy || done) return;
         pushUser(draft);
     };
 
@@ -341,7 +357,7 @@ export function ChatIntake() {
                     {bubbles.map((b) => (
                         <BubbleRow key={b.id} bubble={b} />
                     ))}
-                    {pending ? <TypingBubble /> : null}
+                    {isBusy ? <TypingBubble /> : null}
                     {error ? (
                         <p
                             className="text-center text-xs"
@@ -355,7 +371,7 @@ export function ChatIntake() {
                 {quickReplies.length > 0 && !done && inputMode === "number" ? (
                     <NumberSliderRow
                         spec={quickReplies[0]!}
-                        disabled={pending}
+                        disabled={isBusy}
                         onSubmit={(label) => pushUser(label)}
                     />
                 ) : null}
@@ -373,7 +389,7 @@ export function ChatIntake() {
                                     <button
                                         key={q}
                                         type="button"
-                                        disabled={pending}
+                                        disabled={isBusy}
                                         onClick={() =>
                                             setMultiSelected((prev) =>
                                                 prev.includes(q)
@@ -403,7 +419,7 @@ export function ChatIntake() {
                         <div className="mt-2 flex justify-end">
                             <button
                                 type="button"
-                                disabled={pending || multiSelected.length === 0}
+                                disabled={isBusy || multiSelected.length === 0}
                                 onClick={() =>
                                     pushUser(multiSelected.join("、"))
                                 }
@@ -431,7 +447,7 @@ export function ChatIntake() {
                             <button
                                 key={q}
                                 type="button"
-                                disabled={pending}
+                                disabled={isBusy}
                                 onClick={() => pushUser(q)}
                                 className="text-text px-3 py-1.5 text-xs font-medium transition-transform active:scale-95 disabled:opacity-40"
                                 style={{
@@ -489,7 +505,7 @@ export function ChatIntake() {
                             }}
                             placeholder="写点什么…（Shift+Enter 换行）"
                             rows={1}
-                            disabled={pending}
+                            disabled={isBusy}
                             className="text-text flex-1 resize-none px-3 py-2 text-sm leading-relaxed outline-none disabled:opacity-60"
                             style={{
                                 background: "var(--color-surface-alt)",
@@ -500,7 +516,7 @@ export function ChatIntake() {
                         />
                         <button
                             type="submit"
-                            disabled={pending || draft.trim().length === 0}
+                            disabled={isBusy || draft.trim().length === 0}
                             className="text-text-on-primary shrink-0 px-4 py-2 text-sm font-semibold transition-transform active:scale-95 disabled:opacity-40"
                             style={{
                                 background: "var(--gradient-primary)",
@@ -598,12 +614,26 @@ function normalizeQuickReplies(
     inputMode: "single" | "multi" | "number",
     raw: ReadonlyArray<string>,
 ): ReadonlyArray<string> {
-    if (inputMode !== "number") return raw;
+    const filtered = filterFuzzyLocationReplies(reply, raw);
+    if (inputMode !== "number") return filtered;
     // Always check overrides for number mode — LLM sometimes forgets quick_replies.
     for (const o of NUMBER_SPEC_OVERRIDES) {
         if (o.test.test(reply)) return [o.spec];
     }
-    return raw;
+    return filtered;
+}
+
+const LOCATION_QUESTION_RE =
+    /地区|国家|城市|地理|位置|目的地|哪里|哪儿|去哪|去哪里|在哪|region|country|city|location|destination/i;
+const FUZZY_LOCATION_REPLY_RE =
+    /^(都可以|都可|都行|都能接受|随便|无所谓|不限|不限制|没偏好|无偏好|没有偏好|没有特别偏好|any|no preference)$/i;
+
+function filterFuzzyLocationReplies(
+    reply: string,
+    raw: ReadonlyArray<string>,
+): ReadonlyArray<string> {
+    if (!LOCATION_QUESTION_RE.test(reply)) return raw;
+    return raw.filter((q) => !FUZZY_LOCATION_REPLY_RE.test(q.trim()));
 }
 
 function parseSliderSpec(spec: string): {

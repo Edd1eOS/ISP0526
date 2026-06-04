@@ -3,7 +3,7 @@
 // Server actions for the star-chart end flow.
 // - diagnoseStarsAction: single LLM call returning a short readout.
 // - generateNextAdaptiveQuestionAction: LLM-driven next question in the adaptive phase.
-// - parseWishAction: parse free-form wish text for extraction / backtrack / answer.
+// - parseWishAction: legacy parser for contextual answer extraction.
 // - finalizeStarsAction: projects picks to ClarifyPatch and hands off to
 //   the existing recommender pipeline.
 
@@ -16,7 +16,6 @@ import {
     type ConversationTurnInput,
     type StarDiagnosis,
     type StarPickLine,
-    type WishExtracted,
     type WishParseResult,
 } from "@isp0526/core";
 import { buildGoogleAdaptiveQuestionGenerator } from "../../lib/ai/google-adaptive-question";

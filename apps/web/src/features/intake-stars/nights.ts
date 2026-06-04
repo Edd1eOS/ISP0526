@@ -7,12 +7,12 @@
 //
 // At runtime, `resolveNights()` walks the candidate pool and only
 // returns the nights whose target field is still missing in the
-// accumulated patch / assessment. The free-input astrolabe is rendered
-// as a persistent overlay during the picking phase, not as a night.
+// accumulated patch / assessment. The decorative astrolabe is rendered
+// by StarChartStage during the picking phase, not as a night.
 
 import type {
     BudgetNight,
-    FreeWishConfig,
+    FieldGroup,
     NightDef,
     PickerNight,
     ResolverContext,
@@ -58,78 +58,199 @@ export const NIGHT_LEVEL: PickerNight = {
     ],
 };
 
-/** Field of study. */
-export const NIGHT_FIELD: PickerNight = {
+/** Field group. This does not write target_field; it routes to a detail night. */
+export const NIGHT_FIELD_GROUP: PickerNight = {
     kind: "picker",
-    id: "field",
-    title: "方向",
-    subtitle: "把你向往的领域点亮,1 到 3 颗",
+    id: "field_group",
+    title: "选择领域",
+    subtitle: "先选一个最接近的方向，下一步会细分专业",
     minPicks: 1,
-    maxPicks: 3,
+    maxPicks: 1,
     stars: [
         {
-            id: "cs_eng",
-            label: "计算机 / 工程",
+            id: "group_business",
+            label: "商科 / 管理",
             x: 22,
-            y: 32,
+            y: 28,
             mag: 3,
-            meta: { target_field: "Computing" },
+            meta: { field_group: "business" },
         },
         {
-            id: "business",
-            label: "商科 / 金融",
-            x: 48,
-            y: 24,
+            id: "group_computing",
+            label: "计算机 / 数据",
+            x: 50,
+            y: 20,
+            mag: 3,
+            meta: { field_group: "computing" },
+        },
+        {
+            id: "group_engineering",
+            label: "工程",
+            x: 76,
+            y: 30,
             mag: 2,
-            meta: { target_field: "Business" },
+            meta: { field_group: "engineering" },
         },
         {
-            id: "design",
-            label: "设计 / 创意",
-            x: 70,
-            y: 36,
+            id: "group_design",
+            label: "设计 / 建筑",
+            x: 18,
+            y: 54,
             mag: 2,
-            meta: { target_field: "Design" },
+            meta: { field_group: "design" },
         },
         {
-            id: "data",
-            label: "数据 / 分析",
-            x: 14,
-            y: 50,
-            mag: 2,
-            meta: { target_field: "Data Science" },
-        },
-        {
-            id: "humanities",
-            label: "人文 / 社科",
-            x: 34,
-            y: 58,
-            mag: 2,
-        },
-        {
-            id: "science",
-            label: "自然科学",
-            x: 60,
+            id: "group_health",
+            label: "健康 / 生命科学",
+            x: 40,
             y: 62,
             mag: 2,
+            meta: { field_group: "health" },
         },
         {
-            id: "health",
-            label: "医学 / 健康",
-            x: 80,
-            y: 56,
-            mag: 1,
+            id: "group_social",
+            label: "社科 / 公共方向",
+            x: 64,
+            y: 58,
+            mag: 2,
+            meta: { field_group: "social" },
         },
         {
-            id: "education",
+            id: "group_education",
             label: "教育 / 语言",
-            x: 50,
-            y: 78,
+            x: 82,
+            y: 52,
             mag: 1,
-            meta: { target_field: "TESOL" },
+            meta: { field_group: "education" },
+        },
+        {
+            id: "group_science",
+            label: "科研 / 基础方向",
+            x: 50,
+            y: 82,
+            mag: 1,
+            meta: { field_group: "science" },
         },
     ],
 };
+
+export const FIELD_DETAIL_NIGHTS: Readonly<Record<FieldGroup, PickerNight>> = {
+    business: {
+        kind: "picker",
+        id: "field_detail_business",
+        title: "细分商科方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_business", label: "商科", x: 18, y: 30, mag: 2, meta: { target_field: "Business" } },
+            { id: "field_finance", label: "金融", x: 42, y: 22, mag: 3, meta: { target_field: "Finance" } },
+            { id: "field_accounting", label: "会计", x: 68, y: 30, mag: 2, meta: { target_field: "Accounting" } },
+            { id: "field_business_analytics", label: "商业分析", x: 28, y: 58, mag: 3, meta: { target_field: "Business Analytics" } },
+            { id: "field_management", label: "管理", x: 54, y: 64, mag: 2, meta: { target_field: "Management" } },
+            { id: "field_economics", label: "经济学", x: 78, y: 58, mag: 2, meta: { target_field: "Economics" } },
+            { id: "field_mba", label: "工商管理 / MBA", x: 50, y: 82, mag: 1, meta: { target_field: "Business Administration" } },
+        ],
+    },
+    computing: {
+        kind: "picker",
+        id: "field_detail_computing",
+        title: "细分计算机方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_it", label: "信息技术", x: 18, y: 32, mag: 2, meta: { target_field: "Information Technology" } },
+            { id: "field_computing", label: "计算机", x: 42, y: 22, mag: 3, meta: { target_field: "Computing" } },
+            { id: "field_computer_science", label: "计算机科学", x: 68, y: 32, mag: 3, meta: { target_field: "Computer Science" } },
+            { id: "field_software", label: "软件工程", x: 26, y: 60, mag: 2, meta: { target_field: "Software Engineering" } },
+            { id: "field_ai", label: "人工智能", x: 50, y: 72, mag: 2, meta: { target_field: "Artificial Intelligence" } },
+            { id: "field_data_science", label: "数据科学", x: 74, y: 58, mag: 2, meta: { target_field: "Data Science" } },
+            { id: "field_hci", label: "人机交互", x: 50, y: 44, mag: 1, meta: { target_field: "Human Computer Interaction" } },
+        ],
+    },
+    engineering: {
+        kind: "picker",
+        id: "field_detail_engineering",
+        title: "细分工程方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_engineering", label: "工程", x: 24, y: 34, mag: 3, meta: { target_field: "Engineering" } },
+            { id: "field_civil", label: "土木工程", x: 48, y: 24, mag: 2, meta: { target_field: "Civil Engineering" } },
+            { id: "field_electrical", label: "电气工程", x: 72, y: 38, mag: 2, meta: { target_field: "Electrical Engineering" } },
+            { id: "field_mechanical", label: "机械工程", x: 38, y: 64, mag: 2, meta: { target_field: "Mechanical Engineering" } },
+        ],
+    },
+    design: {
+        kind: "picker",
+        id: "field_detail_design",
+        title: "细分设计方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_design", label: "设计", x: 28, y: 34, mag: 3, meta: { target_field: "Design" } },
+            { id: "field_architecture", label: "建筑", x: 52, y: 24, mag: 2, meta: { target_field: "Architecture" } },
+            { id: "field_design_hci", label: "人机交互", x: 70, y: 54, mag: 2, meta: { target_field: "Human Computer Interaction" } },
+        ],
+    },
+    health: {
+        kind: "picker",
+        id: "field_detail_health",
+        title: "细分健康方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_public_health", label: "公共卫生", x: 34, y: 34, mag: 3, meta: { target_field: "Public Health" } },
+            { id: "field_bioinformatics", label: "生物信息", x: 58, y: 24, mag: 2, meta: { target_field: "Bioinformatics" } },
+        ],
+    },
+    social: {
+        kind: "picker",
+        id: "field_detail_social",
+        title: "细分社科方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_public_policy", label: "公共政策", x: 24, y: 34, mag: 3, meta: { target_field: "Public Policy" } },
+            { id: "field_area_studies", label: "区域研究", x: 50, y: 24, mag: 2, meta: { target_field: "Area Studies" } },
+            { id: "field_social_economics", label: "经济学", x: 72, y: 52, mag: 2, meta: { target_field: "Economics" } },
+        ],
+    },
+    education: {
+        kind: "picker",
+        id: "field_detail_education",
+        title: "细分教育方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_education", label: "教育", x: 34, y: 34, mag: 3, meta: { target_field: "Education" } },
+            { id: "field_tesol", label: "TESOL", x: 58, y: 24, mag: 2, meta: { target_field: "TESOL" } },
+        ],
+    },
+    science: {
+        kind: "picker",
+        id: "field_detail_science",
+        title: "细分科研方向",
+        subtitle: "选择最接近你申请目标的专业",
+        minPicks: 1,
+        maxPicks: 1,
+        stars: [
+            { id: "field_research", label: "研究型方向", x: 20, y: 34, mag: 3, meta: { target_field: "Research" } },
+            { id: "field_statistics", label: "统计", x: 42, y: 24, mag: 2, meta: { target_field: "Statistics" } },
+            { id: "field_environmental", label: "环境科学", x: 66, y: 34, mag: 2, meta: { target_field: "Environmental Science" } },
+            { id: "field_forestry", label: "林业", x: 52, y: 64, mag: 1, meta: { target_field: "Forestry" } },
+        ],
+    },
+};
+
+/** Legacy alias for old projection helpers. Runtime uses NIGHT_FIELD_GROUP. */
+export const NIGHT_FIELD = NIGHT_FIELD_GROUP;
 
 /** Annual budget, AUD. Linear light-strip with five anchor points. */
 export const NIGHT_BUDGET: BudgetNight = {
@@ -325,15 +446,6 @@ export const NIGHT_MASTER_BACKGROUND: PickerNight = {
         { id: "mb_intern", label: "实习积累", x: 56, y: 64, mag: 2 },
         { id: "mb_gap", label: "间隔 / 备考", x: 80, y: 58, mag: 1 },
     ],
-};
-
-/** Free-input astrolabe configuration. Rendered as a persistent
- * overlay during the picking phase; never a night, never gates
- * advance. */
-export const FREE_WISH_CONFIG: FreeWishConfig = {
-    maxChars: 280,
-    label: "自由感知",
-    placeholder: "还有什么想让我知道的？比如:想跟着某个老师做研究、家人希望我离亲戚近一点……",
 };
 
 /**

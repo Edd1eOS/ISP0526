@@ -1,6 +1,6 @@
 {
     "common": {
-        "appName": "一站式留学启动器",
+        "appName": "留学项目推荐工具",
         "tagline": "用可验证的数据，做你自己的选择",
         "cta": {
             "start": "开始测评",
@@ -17,31 +17,33 @@
         "localeSwitcher": {
             "label": "语言",
             "zh": "中文",
-            "en": "English"
+            "en": "English",
+            "switchToEn": "Change to English",
+            "switchToZh": "切换到中文"
         },
         "footer": {
             "privacy": "隐私政策",
             "disclaimer": "免责声明",
             "terms": "服务条款",
-            "tagline": "AI 推荐不构成录取保证。"
+            "tagline": "推荐结果仅供参考，不代表录取承诺。"
         }
     },
     "landing": {
         "sprintTag": "ISP0526",
         "heroTitle": "ISP0526",
-        "heroSubtitle": "绕着地球，看你的下一站在哪里亮起。",
-        "ctaStart": "开启你的留学副本",
-        "ctaSecondary": "我们如何提供专业的指导"
+        "heroSubtitle": "用你的背景和偏好，筛出更值得优先考虑的留学项目。",
+        "ctaStart": "开始测评",
+        "ctaSecondary": "查看推荐方法"
     },
     "methodology": {
         "eyebrow": "方法论",
-        "title": "我们如何提供专业的指导",
-        "intro": "我们不是又一个聊天机器人。每一条推荐都来自可追溯的数据 + 学术化的人格框架 + 透明的评分公式。下面是我们用来回答你的问题的全部依据。",
+        "title": "推荐方法说明",
+        "intro": "每条推荐都基于可追溯数据、人格与职业偏好评估、以及透明的评分规则。下面说明系统如何使用这些信息。",
         "backToHome": "回首页",
         "sections": {
             "personality": {
                 "heading": "01 · 人格与生活偏好评估",
-                "body": "性格维度我们采用 Big Five（五大人格）模型——心理学界过去三十年最被广泛复证的人格理论。具体量表用的是 TIPI（十题简版），开放性 / 尽责性 / 外向性 / 宜人性 / 神经质五个维度各两题，回答时长约 1 分钟，但效度已被多项跨文化研究验证。我们不诊断你，只在 5 维空间里定位一个点，再用它去对齐项目的教学风格（理论 / 平衡 / 应用）。",
+                "body": "我们用五大人格模型理解你的学习与生活偏好。测评只用十道简短问题，不做诊断，也不会给你贴标签。它的作用是帮助系统判断你更适合偏理论、偏实践，还是两者平衡的项目。",
                 "citations": [
                     "Goldberg, L. R. (1990). An alternative \"description of personality\": The Big-Five factor structure. Journal of Personality and Social Psychology, 59(6), 1216-1229.",
                     "Costa, P. T., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R) and NEO Five-Factor Inventory (NEO-FFI) professional manual. Psychological Assessment Resources.",
@@ -50,15 +52,15 @@
             },
             "career": {
                 "heading": "02 · 职业倾向与项目领域",
-                "body": "职业适配维度借鉴 Holland 的 RIASEC 模型（Realistic / Investigative / Artistic / Social / Enterprising / Conventional）。我们没有让你直接做 RIASEC 测试，而是把它作为评估项目领域（CS / 金融 / 设计 / 教育等）与你气质契合度的内部参考——这避免了把学生硬塞进一个职业代码，又保留了理论的解释力。同时叠加 spec FR-2.4 中嵌入式的回国 / 移民 / 实习偏好作为权重调节。",
+                "body": "我们参考 Holland 职业兴趣模型来判断专业方向与你的倾向是否匹配，例如计算机、金融、设计、教育等。系统不会把你固定成某一种职业类型，只会把这个信号作为推荐权重之一，并结合你对就业、移民、回国发展、实习机会的偏好。",
                 "citations": [
                     "Holland, J. L. (1997). Making vocational choices: A theory of vocational personalities and work environments (3rd ed.). Psychological Assessment Resources.",
                     "Nauta, M. M. (2010). The development, evolution, and status of Holland's theory of vocational personalities. Journal of Counseling Psychology, 57(1), 11-22."
                 ]
             },
             "data": {
-                "heading": "03 · 院校数据：仅公开数据 + 人工 curate",
-                "body": "我们的院校与项目数据库（packages/core/data/）100% 来自公开渠道——招生官网、政府开放数据（CRICOS / IRCC DLI / gov.uk）、机构自发披露的排名摘要。每一条记录必须携带 source_id + URL + last_verified_date 三件套，否则会被加载时的 Zod 校验直接拒绝入库。我们写了一份 data-pipeline 规范来约束这件事：禁止 headless 浏览器、禁止模拟登录、禁止绕反爬、禁止抓取 PII、禁止 LLM 编造事实字段；任何写入生产库的行必须经过人工 review，CI 不允许自动 promote。",
+                "heading": "03 · 院校数据：公开来源 + 人工复核",
+                "body": "院校与项目数据只来自公开渠道，包括招生官网、政府开放数据和学校公开资料。每条数据都必须记录来源链接和核验日期；缺少来源的内容不会进入推荐库。生产数据需要人工复核，系统不会用模型编造院校事实。",
                 "citations": [
                     "docs/data-pipeline.md — Ingest pipeline spec: fetch -> parse -> normalize -> Zod validate -> diff -> draft -> human promote.",
                     "docs/data-pipeline-sources.md — 来源手册：robots.txt 强制遵守、单 host >= 1 req/s、零 PII 入库。",
@@ -67,15 +69,15 @@
             },
             "scoring": {
                 "heading": "04 · 评分引擎：加权而非过滤",
-                "body": "我们刻意不让算法替你做剔除。除了极少数硬门槛（GPA 低于项目要求 15% 以上、用户明确拒绝某国），所有维度都是加权打分：学术契合 0.30、人格契合 0.15、生活契合 0.15、职业出口 0.15、预算 0.10、特色标签 0.10、声誉 0.05。这些权重还会根据你的偏好动态再分配——例如当你在测评中明确写下 \"预算非常紧张\"，budget_fit 权重会从 0.10 升到 0.20，其他维度按比例缩放。所有评分函数都是纯函数，输入相同则输出相同，可单测覆盖。",
+                "body": "系统不会只按一个条件把项目筛掉。除非你明确排除某个国家，或成绩明显低于项目要求，否则推荐会综合学术匹配、生活偏好、职业方向、预算、项目特色和声誉等维度打分。权重会随你的偏好调整，例如你强调预算时，预算相关因素会被提高。",
                 "citations": [
                     "docs/spec.md FR-4 — 评分公式与权重个性化规则。",
                     "packages/core/src/rules/ — 所有评分逻辑（每维度独立文件 + 单测）。"
                 ]
             },
             "ai": {
-                "heading": "05 · AI 的边界",
-                "body": "LLM 在这里只做三件事：把规则引擎的输出翻译成自然语言、帮你抽取上传文档的关键字段、把你的自由表达拆解成结构化偏好。它不产生任何事实。每一次 LLM 调用的输出都要经过 Zod schema 校验 + post-filter：任何无法回指到具体 source_id 的字段都会被丢弃。这是写在项目硬约束里的红线，违反即拒绝入库。",
+                "heading": "05 · 生成内容边界",
+                "body": "生成模型只负责整理表达、提取你上传材料中的字段、把问答内容转成偏好信息。它不负责创造院校事实。任何没有来源可追溯的信息都会被过滤，不会进入推荐结果。",
                 "citations": [
                     "docs/prohibition.md — 红线第 2 条：禁止输出无 source_id 的推荐结论。",
                     ".github/instructions/ai-layer.instructions.md — 所有 LLM 输出必须 Zod 校验 + 引用过滤。"
@@ -84,49 +86,49 @@
         },
         "closing": {
             "heading": "为什么这么严？",
-            "body": "留学是六位数级别的决策。我们宁愿少推荐几个项目，也不愿告诉你一个我们自己无法回答 \"这条信息是哪里来的\" 的项目。完整的工程规范、ADR 决策记录、变更日志都开放在仓库 docs/ 目录，欢迎你（或你的顾问）翻阅核对。"
+            "body": "留学是高成本决策。我们宁愿少推荐几个项目，也不把来源不清的信息放进结果里。完整规范和变更记录在仓库 docs/ 目录，可供复核。"
         }
     },
     "intakeHub": {
-        "stepTag": "Step 1 · 准备起飞",
-        "title": "准备起飞",
-        "subtitle": "一艘小火箭，载你直奔 AI 顾问。点下面的按钮即可起飞。",
+        "stepTag": "Step 1 · 开始",
+        "title": "开始测评",
+        "subtitle": "先上传材料或回答几个问题，系统会据此生成项目推荐。",
         "rocket": {
-            "cta": "起飞",
-            "hint": "点击下方按钮即可起飞",
-            "charging": "点火中…",
-            "launched": "起飞！",
-            "formLink": "想直接填表？这里走 →"
+            "cta": "开始",
+            "hint": "进入资料上传与问答",
+            "charging": "进入中…",
+            "launched": "进入中…",
+            "formLink": "直接填表"
         }
     },
     "report": {
         "contactCard": {
             "title": "联系我们的团队",
-            "body": "把你的报告 ID 发给我们，顾问会尽快与你联系，深入聊聊报告里的任何问题。",
+            "body": "把报告 ID 发给我们，顾问会根据报告内容与你沟通。",
             "idLabel": "你的报告 ID"
         },
         "expiryNote": "本分享链接将于 {date} 过期，过期后请通过 PDF 或长图查看留底。"
     },
     "contactPage": {
         "eyebrow": "联系我们",
-        "title": "把报告发给我们，我们看完再回你",
-        "intro": "下面写几句你想聊的点（专业方向 / 预算疑问 / 申请节奏…都可以），我们会按你的报告调取数据，认真回你一条而不是群发模板。",
+        "title": "提交你的报告问题",
+        "intro": "写下你想确认的内容，例如专业方向、预算或申请节奏。我们会结合报告信息回复。",
         "reportIdLabel": "你的报告 ID",
-        "reportIdHint": "我们会用这串 ID 调取你完整的画像和推荐。",
+        "reportIdHint": "我们会用这串 ID 查找你的报告和推荐结果。",
         "channelLabel": "你方便我们用哪种方式回你？",
         "channelWhatsapp": "WhatsApp",
         "channelWeChat": "WeChat",
         "channelEither": "都可以",
-        "messageLabel": "你想聊的事",
+        "messageLabel": "你想确认的问题",
         "messagePlaceholder": "例如：澳洲 IT 硕士和加拿大对比？预算只够 RMB 25 万够不够？",
         "submit": "提交",
         "submitting": "提交中…",
-        "successTitle": "已收到，我们会主动联系你",
-        "successBody": "我们会在 1–2 个工作日内通过你选的渠道回你。回复中不会包含任何中介推介，AI 推荐不构成录取保证。",
+        "successTitle": "已收到",
+        "successBody": "我们会在 1–2 个工作日内通过你选择的渠道回复。推荐结果仅供参考，不代表录取承诺。",
         "errorInvalid": "请检查输入：报告 ID 与留言长度。",
         "errorNotFound": "找不到这份报告，请回到原始报告页重试。",
         "errorServer": "服务暂时出了点问题，请稍后再试。",
-        "disclaimer": "我们不在沟通中推销中介；推荐结果仅供参考，最终决策请你自己做。",
+        "disclaimer": "沟通内容仅供参考，最终申请决策请自行判断。",
         "backToReport": "回到我的报告"
     },
     "legal": {
