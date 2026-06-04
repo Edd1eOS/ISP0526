@@ -1,17 +1,13 @@
-// Top-level recommend(): apply hard thresholds, score the survivors, sort
-// into stretch / match / safety buckets capped at the spec's headcounts, and
-// return a validated RecommendationSet.
+// Top-level recommend(): apply hard thresholds, score the survivors, keep the
+// most suitable range by final_score, then sort those candidates into stretch /
+// match / safety buckets capped at the spec's headcounts.
 //
-// Band assignment is hybrid:
-//   1. classifyBand() gives each candidate its absolute band from academic_fit.
-//   2. If the pool has >= 3 survivors but a band came up empty, we
-//      redistribute by academic_fit rank so every band has at least one
-//      entry. This is the only place that touches band assignment globally;
-//      per-candidate band remains driven by classifyBand().
+// Band assignment is per-candidate application risk. We do not force every
+// report to have all three buckets; a "safety" label is worse than an empty
+// safety bucket when the suitable pool contains only highly selective schools.
 
 import {
     RecommendationSetSchema,
-    type BandTier,
     type Candidate,
     type RecommendationSet,
     type Score,
@@ -25,6 +21,9 @@ const LIMITS = {
     match: 4,
     safety: 4,
 } as const;
+const TOTAL_LIMIT = LIMITS.stretch + LIMITS.match + LIMITS.safety;
+const FIT_RANGE_MULTIPLIER = 2;
+const FIT_SCORE_WINDOW = 18;
 
 export type ExcludedCandidate = {
     program_id: string;
@@ -57,12 +56,12 @@ export function recommend(
         passing.push(scoreCandidate(profile, candidate));
     }
 
-    const rebalanced = fillEmptyBands(passing);
+    const fitRange = selectFitRange(passing);
 
     const byBand = {
-        stretch: rebalanced.filter((s) => s.band === "stretch"),
-        match: rebalanced.filter((s) => s.band === "match"),
-        safety: rebalanced.filter((s) => s.band === "safety"),
+        stretch: fitRange.filter((s) => s.band === "stretch"),
+        match: fitRange.filter((s) => s.band === "match"),
+        safety: fitRange.filter((s) => s.band === "safety"),
     };
 
     const sortByFinalDesc = (a: Score, b: Score) => b.final_score - a.final_score;
@@ -76,37 +75,20 @@ export function recommend(
     return { set, excluded };
 }
 
-// Rank-based redistribution. If the absolute thresholds left a band empty
-// while >= 3 candidates passed, split the pool into three roughly equal
-// slices by academic_fit ascending. Lowest fit -> stretch (hardest reach),
-// highest fit -> safety. The returned scores carry the new band but their
-// `breakdown` and `final_score` are unchanged.
-function fillEmptyBands(scored: readonly Score[]): Score[] {
-    if (scored.length < 3) return [...scored];
-
-    const present = new Set(scored.map((s) => s.band));
-    if (
-        present.has("stretch") &&
-        present.has("match") &&
-        present.has("safety")
-    ) {
-        return [...scored];
-    }
+function selectFitRange(scored: readonly Score[]): Score[] {
+    if (scored.length <= TOTAL_LIMIT) return [...scored];
 
     const sorted = [...scored].sort(
-        (a, b) => a.breakdown.academic_fit - b.breakdown.academic_fit,
+        (a, b) => b.final_score - a.final_score,
     );
-    const n = sorted.length;
-    // Smallest tertile floors at 1 so every band gets at least one entry.
-    const stretchSize = Math.max(1, Math.floor(n / 3));
-    const safetySize = Math.max(1, Math.floor(n / 3));
-    return sorted.map((s, i): Score => {
-        const band: BandTier =
-            i < stretchSize
-                ? "stretch"
-                : i >= n - safetySize
-                    ? "safety"
-                    : "match";
-        return { ...s, band };
-    });
+    const top = sorted[0]?.final_score ?? 0;
+    const floor = top - FIT_SCORE_WINDOW;
+    const max = TOTAL_LIMIT * FIT_RANGE_MULTIPLIER;
+    const selected = sorted.filter(
+        (score, index) =>
+            index < TOTAL_LIMIT ||
+            (index < max && score.final_score >= floor),
+    );
+
+    return selected.length > 0 ? selected : sorted.slice(0, TOTAL_LIMIT);
 }

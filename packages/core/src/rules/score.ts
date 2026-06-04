@@ -15,7 +15,7 @@ import {
     type VisaRouteMap,
 } from "../schemas/index";
 import { getVisaRoutes } from "../data/index";
-import { classifyBand } from "./bands";
+import { classifyApplicationBand } from "./bands";
 import {
     score as academicFitScore,
     explain as academicFitExplain,
@@ -113,7 +113,7 @@ export function scoreCandidate(
     return ScoreSchema.parse({
         program_id: candidate.program.id,
         university_id: candidate.university.id,
-        band: classifyBand(breakdown.academic_fit),
+        band: classifyApplicationBand(profile, candidate, breakdown.academic_fit),
         final_score: Math.round(finalScore * 100) / 100,
         breakdown,
         reasons,
