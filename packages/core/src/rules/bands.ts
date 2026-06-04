@@ -15,6 +15,10 @@ import { BAND_THRESHOLDS } from "./weights";
 const ELITE_REPUTATION = 0.96;
 const ELITE_DIFFICULTY_FLOOR = 0.88;
 const SAFETY_DIFFICULTY_CEILING = 0.74;
+// Difficulty above this is treated as "selective" for safety-eligibility
+// purposes. Selective programs cannot be labeled safety without full evidence
+// (GPA + language when required).
+const SELECTIVE_DIFFICULTY_FLOOR = 0.78;
 
 export function classifyBand(academicFit: number): BandTier {
     if (academicFit < BAND_THRESHOLDS.stretch_max) return "stretch";
@@ -39,7 +43,43 @@ export function classifyApplicationBand(
     if (risk >= BAND_THRESHOLDS.match_max) return "stretch";
     if (risk >= BAND_THRESHOLDS.stretch_max) return "match";
     if (difficulty >= SAFETY_DIFFICULTY_CEILING) return "match";
+    // Do not claim "safety" on a selective program when the evidence is
+    // incomplete (missing GPA or missing required-language score).
+    if (!safetyEligible(profile, candidate)) return "match";
     return "safety";
+}
+
+/**
+ * Whether a candidate may carry the "safety" label given the available
+ * student evidence. Returns true for non-selective programs unconditionally;
+ * for selective programs requires GPA evidence and, when the program lists a
+ * language requirement, a corresponding student score.
+ *
+ * Pure: no I/O. Used by both classifyApplicationBand() (per-candidate) and
+ * fillEmptyBands() (post-redistribution guard).
+ */
+export function safetyEligible(
+    profile: StudentProfile,
+    candidate: Candidate,
+): boolean {
+    const difficulty = estimateAdmissionDifficulty(candidate);
+    if (difficulty < SELECTIVE_DIFFICULTY_FLOOR) return true;
+
+    const hasGpa =
+        profile.academic.gpa !== undefined ||
+        profile.academic.credentials.length > 0;
+    if (!hasGpa) return false;
+
+    const langRequired =
+        candidate.program.language_min.ielts_overall !== undefined ||
+        candidate.program.language_min.toefl_total !== undefined;
+    if (langRequired) {
+        const hasLang =
+            profile.academic.ielts_overall !== undefined ||
+            profile.academic.toefl_total !== undefined;
+        if (!hasLang) return false;
+    }
+    return true;
 }
 
 export function estimateAdmissionDifficulty(candidate: Candidate): number {

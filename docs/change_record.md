@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-06-04 — Recommendation engine P0 hardening
+
+- `fix(rules/bands)`: add `safetyEligible(profile, candidate)` and apply it in `classifyApplicationBand` so selective programs (admission difficulty >= 0.78) cannot land in the "safety" band when the student is missing GPA evidence or, for language-required programs, has neither IELTS nor TOEFL on file. Elite programs (>= 0.88) continue to short-circuit to "stretch".
+- `fix(rules/recommend)`: `fillEmptyBands` now takes the candidate index and refuses to relabel any candidate as "safety" if (a) its original band was "stretch" or (b) `safetyEligible` rejects it. This closes the redistribution path that previously could undo the per-candidate safety guard.
+- `feat(rules/dimensions/academic-fit)`: add `toeflHeadroom` and combine with `ieltsHeadroom` via `Math.max`, so TOEFL-only programs and TOEFL-only students get a real language signal instead of degrading to NEUTRAL. `explain()` now emits a TOEFL line when both program and student have TOEFL data.
+- `fix(rules/thresholds)`: introduce `gpaToleranceFor(candidate)` so elite programs use a 0.95 GPA tolerance and selective programs use 0.90, while normal programs keep the existing 0.85. Applicants far below an elite floor are now excluded by `gpa_far_below_min` rather than shown as reachable stretch.
+- `feat(rules/recommend)`: extend `RecommendOutput` with a `coverage` field reporting passing count, post-country-cap count, post-fit-range count, per-band counts, a `sparse` flag, and English diagnostic reasons. Downstream UI can use this to surface "results are limited" notices instead of silently returning a thin set.
+- `test(rules/recommend)`: five new regression tests covering: elite-program exclusion at the stricter GPA floor, coverage diagnostics shape, selective-TOEFL-only without student language can't be safety, selective program without GPA can't be safety, TOEFL headroom modulates academic-fit on TOEFL-only programs. Suite is now 19 files / 101 tests passing.
+
+---
+
 ## 2026-05-27 — Data pipeline spec + ADR 0005
 
 - `docs`: add `docs/data-pipeline.md` defining the ingest pipeline (fetch -> parse -> normalize -> validate -> diff -> draft -> human promote), the `packages/data-pipeline` workspace layout, the SourceModule contract, the per-step hard constraints, the CLI surface, the freshness policy, and a 9-step handoff checklist for the next agent. Add `docs/data-pipeline-sources.md` with the new-source registration template, common fetch constraints (UA, rate limit, robots, fixtures), PII red lines, GPA / tuition / field normalization rules, and the priority list of first sources to onboard (studyaustralia providers, UKCISA fees, Canada DLI list, per-university handbooks, gov.uk student visa). Add ADR 0005 proposing `packages/data-pipeline` as a separate pnpm workspace that imports core schemas but is never imported by runtime; promotion to production JSON is human-only. Update `docs/techstack.md` with the planned Data Pipeline section (undici, linkedom, robots-parser; no headless browser, no LLM SDK in this layer).

@@ -40,11 +40,39 @@ function ieltsHeadroom(profile: StudentProfile, candidate: Candidate): number {
     return (diff + 1) / 2.5;
 }
 
+// TOEFL iBT headroom on the same 0..1 curve as IELTS, but expressed in raw
+// score points. The bandwidth (~20 points) mirrors the IELTS bandwidth
+// (2.5 bands) so the two curves are comparable in shape.
+function toeflHeadroom(profile: StudentProfile, candidate: Candidate): number {
+    const required = candidate.program.language_min.toefl_total;
+    const observed = profile.academic.toefl_total;
+    if (required === undefined || observed === undefined) return NEUTRAL;
+    const diff = observed - required;
+    if (diff <= -8) return 0;
+    if (diff >= 12) return 1;
+    return (diff + 8) / 20;
+}
+
+// Combined language headroom: take the better of IELTS / TOEFL signals so a
+// program listing both requirements and a student providing either test get a
+// usable signal. NEUTRAL acts as the floor when neither test pair lines up.
+function languageHeadroom(
+    profile: StudentProfile,
+    candidate: Candidate,
+): number {
+    const ielts = ieltsHeadroom(profile, candidate);
+    const toefl = toeflHeadroom(profile, candidate);
+    // If only one of the two pairs has real data, the other returns NEUTRAL.
+    // Math.max keeps the informative signal and falls back to NEUTRAL when
+    // neither pair matched.
+    return Math.max(ielts, toefl);
+}
+
 export function score(profile: StudentProfile, candidate: Candidate): number {
     const gpa = getEffectiveGpa4(profile);
     const gpaPart =
         gpa === undefined ? NEUTRAL : gpaFitCurve(gpa - candidate.program.gpa_min);
-    const langPart = ieltsHeadroom(profile, candidate);
+    const langPart = languageHeadroom(profile, candidate);
     // GPA dominates academic fit (0.75) with language as a smaller modulator.
     return clamp01(gpaPart * 0.75 + langPart * 0.25);
 }
@@ -88,6 +116,21 @@ export function explain(
         } else {
             reasons.push(
                 `雅思总分 ${ielts_overall.toFixed(1)} 低于项目要求的 ${ieltsRequired.toFixed(1)}。`,
+            );
+        }
+    }
+
+    const toeflRequired = program.language_min.toefl_total;
+    const toeflObserved = profile.academic.toefl_total;
+    if (toeflRequired !== undefined && toeflObserved !== undefined) {
+        const headroom = toeflObserved - toeflRequired;
+        if (headroom >= 0) {
+            reasons.push(
+                `托福总分 ${toeflObserved} 达到项目要求的 ${toeflRequired}。`,
+            );
+        } else {
+            reasons.push(
+                `托福总分 ${toeflObserved} 低于项目要求的 ${toeflRequired}。`,
             );
         }
     }
