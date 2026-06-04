@@ -70,8 +70,14 @@ function languageHeadroom(
 
 export function score(profile: StudentProfile, candidate: Candidate): number {
     const gpa = getEffectiveGpa4(profile);
+    // Prefer the program's competitive (typical-cohort) GPA when available,
+    // since gpa_min is often a published floor rather than what admits look
+    // like in practice. Falls back to gpa_min otherwise.
+    const reference =
+        candidate.program.admission_profile?.competitive_gpa_4 ??
+        candidate.program.gpa_min;
     const gpaPart =
-        gpa === undefined ? NEUTRAL : gpaFitCurve(gpa - candidate.program.gpa_min);
+        gpa === undefined ? NEUTRAL : gpaFitCurve(gpa - reference);
     const langPart = languageHeadroom(profile, candidate);
     // GPA dominates academic fit (0.75) with language as a smaller modulator.
     return clamp01(gpaPart * 0.75 + langPart * 0.25);

@@ -77,6 +77,7 @@
         "tuition": { "currency": "AUD", "annual": 54000 },
         "tags": ["field_top", "career_pipeline", "chinese_community"],
         "applied_ratio": 0.7,
+        "admission_profile": { "selectivity": "highly_selective", "competitive_gpa_4": 3.5 },
         "sources": [{ "source_id": "hkust_dst_2026", "kind": "url", "url": "https://dst.ust.hk/", "last_verified_date": "2026-05-29" }]
     },
     {
@@ -125,6 +126,7 @@
         "tuition": { "currency": "AUD", "annual": 53000 },
         "tags": ["field_top", "career_pipeline", "chinese_community"],
         "applied_ratio": 0.6,
+        "admission_profile": { "selectivity": "highly_selective", "competitive_gpa_4": 3.5 },
         "sources": [{ "source_id": "hku_msc_cs_2026", "kind": "url", "url": "https://www.cs.hku.hk/programmes/msc-cs/", "last_verified_date": "2026-05-29" }]
     },
     {

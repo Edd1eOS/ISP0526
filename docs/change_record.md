@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-06-04 — Recommendation engine P1: admission_profile
+
+- `feat(schemas/institution)`: add optional `AdmissionProfileSchema` to `ProgramSchema` with `selectivity` (open / standard / selective / highly_selective / elite), optional `competitive_gpa_4`, `required_tests` (gre/gmat/sat/act/lsat/mcat), `portfolio_required`, `research_required`, and `prerequisites`. The field is backward-compatible: every existing program continues to validate without modification, and the rule engine treats absence as "unknown".
+- `feat(rules/bands)`: `estimateAdmissionDifficulty` now consults `admission_profile.selectivity` first when present, mapping each tier to an anchor difficulty (open 0.4 → elite 0.97) with tiny +0.01 nudges for `field_top` and `phd` so ties sort sensibly without crossing tier bands. Falls back to the existing reputation+gpa_min proxy when the field is absent.
+- `feat(rules/dimensions/academic-fit)`: `score()` prefers `competitive_gpa_4` over `gpa_min` as the GPA reference when the program supplies the competitive figure, so an MIT-style 3.5 floor but 3.85 competitive cohort no longer reads as "comfortable" for a 3.6 applicant.
+- `data`: seed `admission_profile` on the highest-risk rows in `programs.us.json` (all MIT and Stanford entries — elite), `programs.uk.json` (UCL CS/DS/Finance — highly_selective), `programs.sg.json` (NUS Computing and Data Science — highly_selective), `programs.hk.json` (HKU CS, HKUST Data Science & Technology — highly_selective), and `programs.ca.json` (UofT MSc CS — selective). 16 programs seeded. Unseeded programs continue to use the proxy.
+- `test(rules/recommend)`: three new tests verifying (a) a declared-elite program is "stretch" even with low reputation_score, (b) `competitive_gpa_4` drives academic-fit (3.2 vs 3.9 GPA against a competitive_gpa_4 of 3.9 yields a clear delta), (c) seeded elite US programs and the seeded UCL/NUS programs cannot land in safety for any applicant. Suite now 19 files / 104 tests passing.
+
+---
+
 ## 2026-06-04 — Recommendation engine P0 hardening
 
 - `fix(rules/bands)`: add `safetyEligible(profile, candidate)` and apply it in `classifyApplicationBand` so selective programs (admission difficulty >= 0.78) cannot land in the "safety" band when the student is missing GPA evidence or, for language-required programs, has neither IELTS nor TOEFL on file. Elite programs (>= 0.88) continue to short-circuit to "stretch".

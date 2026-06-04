@@ -23,6 +23,7 @@
             "migration_friendly"
         ],
         "applied_ratio": 0.4,
+        "admission_profile": { "selectivity": "selective", "competitive_gpa_4": 3.6 },
         "sources": [
             {
                 "source_id": "utoronto_msc_cs_2026",

@@ -9,7 +9,7 @@
 // can be a very good fit and still be a stretch if the institution/program is
 // highly selective.
 
-import type { BandTier, Candidate, StudentProfile } from "../schemas/index";
+import type { BandTier, Candidate, SelectivityTier, StudentProfile } from "../schemas/index";
 import { BAND_THRESHOLDS } from "./weights";
 
 const ELITE_REPUTATION = 0.96;
@@ -19,6 +19,18 @@ const SAFETY_DIFFICULTY_CEILING = 0.74;
 // purposes. Selective programs cannot be labeled safety without full evidence
 // (GPA + language when required).
 const SELECTIVE_DIFFICULTY_FLOOR = 0.78;
+
+// Anchor difficulties for each selectivity tier. When a program carries an
+// explicit admission_profile.selectivity we use this anchor directly instead
+// of the reputation/gpa_min proxy, since admit-rate-driven tiers are the more
+// trustworthy selectivity signal.
+const SELECTIVITY_ANCHOR: Record<SelectivityTier, number> = {
+    open: 0.4,
+    standard: 0.6,
+    selective: 0.8,
+    highly_selective: 0.9,
+    elite: 0.97,
+};
 
 export function classifyBand(academicFit: number): BandTier {
     if (academicFit < BAND_THRESHOLDS.stretch_max) return "stretch";
@@ -83,6 +95,18 @@ export function safetyEligible(
 }
 
 export function estimateAdmissionDifficulty(candidate: Candidate): number {
+    // Explicit selectivity tier wins over proxy-based estimation.
+    const tier = candidate.program.admission_profile?.selectivity;
+    if (tier !== undefined) {
+        const anchor = SELECTIVITY_ANCHOR[tier];
+        // Small boost from field_top / phd so multiple programs at the same
+        // tier still sort sensibly, but the boost cannot move a program out
+        // of its declared tier band.
+        const fieldTopBonus = candidate.program.tags.includes("field_top") ? 0.01 : 0;
+        const phdBonus = candidate.program.level === "phd" ? 0.01 : 0;
+        return clamp01(anchor + fieldTopBonus + phdBonus);
+    }
+
     const reputation = candidate.university.reputation_score;
     const gpaFloor = candidate.program.gpa_min / 4;
     const fieldTopBonus = candidate.program.tags.includes("field_top") ? 0.04 : 0;

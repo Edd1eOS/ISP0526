@@ -266,3 +266,102 @@ describe("scoreCandidate safety-eligibility guard", () => {
         );
     });
 });
+
+describe("admission_profile integration", () => {
+    // A program declared elite via admission_profile must be treated as elite
+    // even if its raw reputation/gpa_min proxies would have placed it lower.
+    const lowReputationElite: Candidate = {
+        university: UniversitySchema.parse({
+            id: "low-rep-elite-u",
+            name_en: "Low-Rep Elite University",
+            name_zh: "Low-Rep Elite University",
+            country: "AU",
+            city: "Sydney",
+            city_size: "mega",
+            climate: "subtropical",
+            reputation_score: 0.7,
+            chinese_community_density: 0.6,
+            safety_index: 0.85,
+            sources: [{ source_id: "t", kind: "url", url: "https://example.com/" }],
+        }),
+        program: ProgramSchema.parse({
+            id: "low-rep-elite-master",
+            university_id: "low-rep-elite-u",
+            name_en: "Elite Master",
+            name_zh: "Elite Master",
+            level: "master",
+            duration_years: 2,
+            field: "Computer Science",
+            teaching_style: "theory_heavy",
+            gpa_min: 3.0,
+            language_min: { ielts_overall: 6.5 },
+            tuition: { currency: "AUD", annual: 60000 },
+            tags: ["career_pipeline"],
+            applied_ratio: 0.6,
+            admission_profile: {
+                selectivity: "elite",
+                competitive_gpa_4: 3.9,
+                required_tests: [],
+                prerequisites: [],
+            },
+            sources: [{ source_id: "t", kind: "url", url: "https://example.com/" }],
+        }),
+    };
+
+    it("treats a declared-elite program as stretch even with low reputation", () => {
+        const out = scoreCandidate(
+            buildProfile({
+                academic: {
+                    gpa: 3.95,
+                    ielts_overall: 8.0,
+                    target_level: "master",
+                },
+            }),
+            lowReputationElite,
+        );
+        expect(out.band).toBe("stretch");
+    });
+
+    it("uses competitive_gpa_4 (not gpa_min) for academic-fit", () => {
+        // gpa_min is 3.0, competitive is 3.9. A 3.2 GPA should look weak
+        // against competitive_gpa_4 rather than comfortable against gpa_min.
+        const weak = scoreCandidate(
+            buildProfile({
+                academic: { gpa: 3.2, ielts_overall: 7.0, target_level: "master" },
+            }),
+            lowReputationElite,
+        );
+        const strong = scoreCandidate(
+            buildProfile({
+                academic: { gpa: 3.9, ielts_overall: 7.0, target_level: "master" },
+            }),
+            lowReputationElite,
+        );
+        expect(strong.breakdown.academic_fit).toBeGreaterThan(
+            weak.breakdown.academic_fit,
+        );
+        // 3.2 is well below 3.9 competitive; academic_fit should be modest.
+        expect(weak.breakdown.academic_fit).toBeLessThan(0.55);
+    });
+
+    it("seeded elite US programs (mit-master-finance, stanford-master-computer-science) cannot be safety for a top applicant", () => {
+        const { set } = recommend(
+            buildProfile({
+                academic: {
+                    gpa: 3.95,
+                    ielts_overall: 8.0,
+                    toefl_total: 115,
+                    target_level: "master",
+                    target_field: "Computer Science",
+                },
+                budget: { annual_aud: 150000, flex: 0.2 },
+            }),
+            getCandidates(),
+        );
+        const safetyIds = set.safety.map((s) => s.program_id);
+        expect(safetyIds).not.toContain("mit-master-finance");
+        expect(safetyIds).not.toContain("stanford-master-computer-science");
+        expect(safetyIds).not.toContain("ucl-msc-cs");
+        expect(safetyIds).not.toContain("nus-master-computing");
+    });
+});

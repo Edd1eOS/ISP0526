@@ -13,6 +13,7 @@
         "tuition": { "currency": "AUD", "annual": 93000 },
         "tags": ["field_top", "career_pipeline", "scholarship_rich"],
         "applied_ratio": 0.45,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["sat"] },
         "sources": [{ "source_id": "mit_eecs_undergrad_2026", "kind": "url", "url": "https://www.eecs.mit.edu/academics/undergraduate-programs/", "last_verified_date": "2026-05-27" }]
     },
     {
@@ -29,6 +30,7 @@
         "tuition": { "currency": "AUD", "annual": 130000 },
         "tags": ["field_top", "career_pipeline"],
         "applied_ratio": 0.75,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre"] },
         "sources": [{ "source_id": "mit_mban_2026", "kind": "url", "url": "https://mitsloan.mit.edu/master-of-business-analytics", "last_verified_date": "2026-05-27" }]
     },
     {
@@ -45,6 +47,7 @@
         "tuition": { "currency": "AUD", "annual": 98000 },
         "tags": ["field_top", "scholarship_rich", "career_pipeline"],
         "applied_ratio": 0.35,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"], "research_required": true },
         "sources": [{ "source_id": "stanford_cs_phd_2026", "kind": "url", "url": "https://www.cs.stanford.edu/admissions/phd", "last_verified_date": "2026-05-27" }]
     },
     {
@@ -77,6 +80,7 @@
         "tuition": { "currency": "AUD", "annual": 105000 },
         "tags": ["field_top", "career_pipeline", "scholarship_rich"],
         "applied_ratio": 0.5,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"] },
         "sources": [{ "source_id": "stanford_mscs_2026", "kind": "url", "url": "https://cs.stanford.edu/academics/masters", "last_verified_date": "2026-05-29" }]
     },
     {
@@ -109,6 +113,7 @@
         "tuition": { "currency": "AUD", "annual": 100000 },
         "tags": ["field_top", "career_pipeline"],
         "applied_ratio": 0.6,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre"] },
         "sources": [{ "source_id": "stanford_mse_2026", "kind": "url", "url": "https://msande.stanford.edu/academics/ms-program", "last_verified_date": "2026-05-29" }]
     },
     {
@@ -125,6 +130,7 @@
         "tuition": { "currency": "AUD", "annual": 120000 },
         "tags": ["field_top", "career_pipeline"],
         "applied_ratio": 0.7,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre", "gmat"] },
         "sources": [{ "source_id": "mit_mfin_2026", "kind": "url", "url": "https://mitsloan.mit.edu/mfin", "last_verified_date": "2026-05-29" }]
     },
     {
@@ -141,6 +147,7 @@
         "tuition": { "currency": "AUD", "annual": 95000 },
         "tags": ["field_top", "career_pipeline"],
         "applied_ratio": 0.5,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["sat"] },
         "sources": [{ "source_id": "stanford_econ_2026", "kind": "url", "url": "https://economics.stanford.edu/", "last_verified_date": "2026-05-29" }]
     },
     {
@@ -157,6 +164,7 @@
         "tuition": { "currency": "AUD", "annual": 90000 },
         "tags": ["field_top", "scholarship_rich"],
         "applied_ratio": 0.3,
+        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"], "research_required": true },
         "sources": [{ "source_id": "mit_eecs_phd_2026", "kind": "url", "url": "https://www.eecs.mit.edu/academics/graduate-programs/doctoral-program/", "last_verified_date": "2026-05-29" }]
     }
 ]

@@ -113,6 +113,50 @@ export const ProgramDeadlinesSchema = z.object({
 });
 export type ProgramDeadlines = z.infer<typeof ProgramDeadlinesSchema>;
 
+// Application selectivity tier. Driven by admit rate / cohort competitiveness,
+// not by the published GPA floor. Used by the rule engine to decide hard
+// thresholds, band assignment, and safety-eligibility.
+//
+// open               admit rate effectively >= 60% or open-enrollment.
+// standard           admit rate ~30..60%.
+// selective          admit rate ~15..30%.
+// highly_selective   admit rate ~5..15%.
+// elite              admit rate < ~5% (Ivy/MIT/Stanford/Oxbridge/etc.).
+export const SelectivityTierSchema = z.enum([
+    "open",
+    "standard",
+    "selective",
+    "highly_selective",
+    "elite",
+]);
+export type SelectivityTier = z.infer<typeof SelectivityTierSchema>;
+
+export const StandardizedTestSchema = z.enum([
+    "gre",
+    "gmat",
+    "sat",
+    "act",
+    "lsat",
+    "mcat",
+]);
+export type StandardizedTest = z.infer<typeof StandardizedTestSchema>;
+
+// Optional, opt-in admission-realism profile for a program. Absent fields are
+// treated as "unknown" by the rule engine and never used to *increase* a
+// student's apparent fit; presence raises confidence in band assignment and
+// hard-threshold decisions.
+export const AdmissionProfileSchema = z.object({
+    selectivity: SelectivityTierSchema,
+    // Competitive (not minimum) GPA on the 4.0 scale, when the program reports
+    // a typical admitted cohort number.
+    competitive_gpa_4: gpa4.optional(),
+    required_tests: z.array(StandardizedTestSchema).default([]),
+    portfolio_required: z.boolean().optional(),
+    research_required: z.boolean().optional(),
+    prerequisites: z.array(z.string().min(1)).default([]),
+});
+export type AdmissionProfile = z.infer<typeof AdmissionProfileSchema>;
+
 export const ProgramSchema = z.object({
     id: ProgramIdSchema,
     university_id: UniversityIdSchema,
@@ -129,6 +173,7 @@ export const ProgramSchema = z.object({
     // Soft hint at applied vs theoretical; modulates personality fit.
     applied_ratio: unitInterval,
     deadlines: ProgramDeadlinesSchema.optional(),
+    admission_profile: AdmissionProfileSchema.optional(),
     sources: z.array(SourceCitationSchema).min(1),
 });
 export type Program = z.infer<typeof ProgramSchema>;
