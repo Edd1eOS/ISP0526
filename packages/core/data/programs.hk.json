@@ -9,11 +9,28 @@
         "field": "Engineering",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 41000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 41000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "hku_beng_2026", "kind": "url", "url": "https://admissions.hku.hk/programmes", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "hku_beng_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "hku-master-data-science",
@@ -25,11 +42,28 @@
         "field": "Data Science",
         "teaching_style": "balanced",
         "gpa_min": 3.1,
-        "language_min": { "ielts_overall": 6.0, "ielts_min_band": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 52000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.0,
+            "ielts_min_band": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 52000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "hku_mds_2026", "kind": "url", "url": "https://datascience.hku.hk/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "hku_mds_2026",
+                "kind": "url",
+                "url": "https://datascience.hku.hk/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "hkust-phd-computer-science",
@@ -41,11 +75,28 @@
         "field": "Computer Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.3,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 8500 },
-        "tags": ["field_top", "scholarship_rich", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 8500
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich",
+            "chinese_community"
+        ],
         "applied_ratio": 0.35,
-        "sources": [{ "source_id": "hkust_cse_phd_2026", "kind": "url", "url": "https://cse.hkust.edu.hk/pg/pg_programs/phd/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "hkust_cse_phd_2026",
+                "kind": "url",
+                "url": "https://cse.hkust.edu.hk/pg/pg_programs/phd/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "hku-space-foundation",
@@ -57,11 +108,26 @@
         "field": "Foundation",
         "teaching_style": "balanced",
         "gpa_min": 2.0,
-        "language_min": { "ielts_overall": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 28000 },
-        "tags": ["stepping_stone", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 28000
+        },
+        "tags": [
+            "stepping_stone",
+            "chinese_community"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "hku_space_ifp_2026", "kind": "url", "url": "https://hkuspace.hku.hk/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "hku_space_ifp_2026",
+                "kind": "url",
+                "url": "https://hkuspace.hku.hk/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "hkust-master-data-science-tech",
@@ -73,12 +139,31 @@
         "field": "Data Science",
         "teaching_style": "applied_heavy",
         "gpa_min": 3.2,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 54000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 54000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.7,
-        "admission_profile": { "selectivity": "highly_selective", "competitive_gpa_4": 3.5 },
-        "sources": [{ "source_id": "hkust_dst_2026", "kind": "url", "url": "https://dst.ust.hk/", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "highly_selective",
+            "competitive_gpa_4": 3.5
+        },
+        "sources": [
+            {
+                "source_id": "hkust_dst_2026",
+                "kind": "url",
+                "url": "https://dst.ust.hk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "hku-master-finance",
@@ -90,11 +175,27 @@
         "field": "Finance",
         "teaching_style": "balanced",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 55000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 55000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.55,
-        "sources": [{ "source_id": "hku_mfin_2026", "kind": "url", "url": "https://hku.hk/faculties/business/programmes", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "hku_mfin_2026",
+                "kind": "url",
+                "url": "https://hku.hk/faculties/business/programmes",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "hkust-master-business-management",
@@ -106,11 +207,26 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 50000 },
-        "tags": ["career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50000
+        },
+        "tags": [
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "hkust_ism_2026", "kind": "url", "url": "https://bm.hkust.edu.hk/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "hkust_ism_2026",
+                "kind": "url",
+                "url": "https://bm.hkust.edu.hk/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "hku-master-computer-science",
@@ -122,12 +238,31 @@
         "field": "Computing",
         "teaching_style": "balanced",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 53000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 53000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.6,
-        "admission_profile": { "selectivity": "highly_selective", "competitive_gpa_4": 3.5 },
-        "sources": [{ "source_id": "hku_msc_cs_2026", "kind": "url", "url": "https://www.cs.hku.hk/programmes/msc-cs/", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "highly_selective",
+            "competitive_gpa_4": 3.5
+        },
+        "sources": [
+            {
+                "source_id": "hku_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.cs.hku.hk/programmes/msc-cs/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "hkust-master-electronic-engineering",
@@ -139,11 +274,26 @@
         "field": "Electrical Engineering",
         "teaching_style": "theory_heavy",
         "gpa_min": 2.6,
-        "language_min": { "ielts_overall": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 47000 },
-        "tags": ["value_for_money", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 47000
+        },
+        "tags": [
+            "value_for_money",
+            "chinese_community"
+        ],
         "applied_ratio": 0.45,
-        "sources": [{ "source_id": "hkust_elec_2026", "kind": "url", "url": "https://ece.hkust.edu.hk/pg/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "hkust_elec_2026",
+                "kind": "url",
+                "url": "https://ece.hkust.edu.hk/pg/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "hku-bachelor-business-admin",
@@ -155,10 +305,26 @@
         "field": "Business",
         "teaching_style": "applied_heavy",
         "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 43000 },
-        "tags": ["field_top", "career_pipeline", "chinese_community"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 43000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
         "applied_ratio": 0.7,
-        "sources": [{ "source_id": "hku_bba_2026", "kind": "url", "url": "https://admissions.hku.hk/programmes", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "hku_bba_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     }
 ]

@@ -96,13 +96,13 @@ const FALLBACK_ADAPTIVE_QUESTIONS: ReadonlyArray<FallbackQuestion> = [
 
 // Preset star positions (x%, y%) in the sky area for 2-6 quick-pick options.
 const QUICK_PICK_POSITIONS: ReadonlyArray<ReadonlyArray<readonly [number, number]>> = [
-    /* 0 */ [],
-    /* 1 */ [[50, 44]],
-    /* 2 */ [[30, 42], [68, 36]],
-    /* 3 */ [[24, 36], [54, 26], [76, 48]],
-    /* 4 */ [[22, 40], [50, 24], [72, 36], [60, 62]],
-    /* 5 */ [[22, 38], [48, 22], [72, 30], [76, 56], [36, 62]],
-    /* 6 */ [[22, 38], [48, 22], [72, 30], [78, 56], [52, 64], [26, 60]],
+    /* 0 */[],
+    /* 1 */[[50, 44]],
+    /* 2 */[[30, 42], [68, 36]],
+    /* 3 */[[24, 36], [54, 26], [76, 48]],
+    /* 4 */[[22, 40], [50, 24], [72, 36], [60, 62]],
+    /* 5 */[[22, 38], [48, 22], [72, 30], [76, 56], [36, 62]],
+    /* 6 */[[22, 38], [48, 22], [72, 30], [78, 56], [52, 64], [26, 60]],
 ];
 
 type Phase = "questions" | "readout";
@@ -363,40 +363,40 @@ const FIELD_RIASEC_WEIGHTS: Readonly<Record<string, Readonly<Partial<Record<Rias
     group_education: { social: 0.80, artistic: 0.25 },
     group_science: { investigative: 0.85, realistic: 0.25, conventional: 0.20 },
     // Realistic(R): hands-on/technical. Investigative(I): analytical.
-    field_it:               { realistic: 0.50, investigative: 0.45, conventional: 0.35 },
-    field_computing:        { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
+    field_it: { realistic: 0.50, investigative: 0.45, conventional: 0.35 },
+    field_computing: { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
     field_computer_science: { realistic: 0.55, investigative: 0.70, conventional: 0.15 },
-    field_software:         { realistic: 0.65, investigative: 0.50, conventional: 0.25 },
-    field_ai:               { investigative: 0.85, realistic: 0.35, conventional: 0.20 },
-    field_hci:              { artistic: 0.50, investigative: 0.45, social: 0.35 },
+    field_software: { realistic: 0.65, investigative: 0.50, conventional: 0.25 },
+    field_ai: { investigative: 0.85, realistic: 0.35, conventional: 0.20 },
+    field_hci: { artistic: 0.50, investigative: 0.45, social: 0.35 },
     // Investigative dominant; Conventional for statistics/modelling.
-    field_data_science:         { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
-    field_business_analytics:   { investigative: 0.55, conventional: 0.65, enterprising: 0.30 },
-    field_statistics:           { investigative: 0.70, conventional: 0.70 },
+    field_data_science: { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
+    field_business_analytics: { investigative: 0.55, conventional: 0.65, enterprising: 0.30 },
+    field_statistics: { investigative: 0.70, conventional: 0.70 },
     // Pure Investigative; Realistic for lab/fieldwork side.
-    field_research:      { investigative: 0.90, realistic: 0.35 },
+    field_research: { investigative: 0.90, realistic: 0.35 },
     field_environmental: { investigative: 0.70, realistic: 0.45, social: 0.20 },
-    field_forestry:      { realistic: 0.55, investigative: 0.45 },
+    field_forestry: { realistic: 0.55, investigative: 0.45 },
     // Social for care/nursing; Investigative for research medicine.
-    field_public_health:   { social: 0.65, investigative: 0.50, realistic: 0.20 },
-    field_bioinformatics:  { investigative: 0.75, realistic: 0.35, conventional: 0.25 },
+    field_public_health: { social: 0.65, investigative: 0.50, realistic: 0.20 },
+    field_bioinformatics: { investigative: 0.75, realistic: 0.35, conventional: 0.25 },
     // Enterprising dominant; Conventional for accounting/finance.
-    field_business:   { enterprising: 0.80, conventional: 0.50, investigative: 0.15 },
-    field_finance:    { conventional: 0.75, enterprising: 0.55, investigative: 0.30 },
+    field_business: { enterprising: 0.80, conventional: 0.50, investigative: 0.15 },
+    field_finance: { conventional: 0.75, enterprising: 0.55, investigative: 0.30 },
     field_accounting: { conventional: 0.85, enterprising: 0.30 },
     field_management: { enterprising: 0.85, social: 0.35, conventional: 0.25 },
-    field_economics:  { investigative: 0.55, conventional: 0.50, enterprising: 0.30 },
-    field_mba:        { enterprising: 0.85, social: 0.35, conventional: 0.25 },
+    field_economics: { investigative: 0.55, conventional: 0.50, enterprising: 0.30 },
+    field_mba: { enterprising: 0.85, social: 0.35, conventional: 0.25 },
     // Artistic dominant; Realistic for craft/production skills.
-    field_design:       { artistic: 0.90, realistic: 0.25 },
+    field_design: { artistic: 0.90, realistic: 0.25 },
     field_architecture: { artistic: 0.65, realistic: 0.55, investigative: 0.25 },
-    field_design_hci:   { artistic: 0.55, investigative: 0.40, social: 0.35 },
+    field_design_hci: { artistic: 0.55, investigative: 0.40, social: 0.35 },
     // Social dominant for teaching/counselling; Artistic for language arts.
     field_education: { social: 0.80, artistic: 0.30 },
-    field_tesol:     { social: 0.70, artistic: 0.35 },
+    field_tesol: { social: 0.70, artistic: 0.35 },
     // Artistic + Social + Investigative blend (varies by sub-discipline).
-    field_public_policy:    { social: 0.50, enterprising: 0.45, investigative: 0.30 },
-    field_area_studies:     { artistic: 0.45, social: 0.45, investigative: 0.35 },
+    field_public_policy: { social: 0.50, enterprising: 0.45, investigative: 0.30 },
+    field_area_studies: { artistic: 0.45, social: 0.45, investigative: 0.35 },
     field_social_economics: { investigative: 0.55, conventional: 0.45, enterprising: 0.30 },
 };
 
@@ -679,7 +679,7 @@ export function StarChartStage() {
                 setAdaptiveLoading(false);
                 adaptiveFetchingRef.current = false;
             });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mounted, fixedQuestion, adaptiveDone, adaptiveQuestion, adaptiveLoading, ledger.adaptiveQuestionCount, ledger.facts, riasec]);
 
     // Transition to readout once adaptive is done and no conflicts remain
@@ -824,7 +824,7 @@ export function StarChartStage() {
                         setLedger((l) => applyExtractedFacts(l, res.result!.extracted));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
         [adaptiveQuestion, ledger.facts],
     );
@@ -1324,7 +1324,7 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
             });
         }, 1000);
         return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagnosis]);
 
     const pct = diagnosis ? Math.round(((AUTO_FINALIZE_SECONDS - countdown) / AUTO_FINALIZE_SECONDS) * 100) : 0;

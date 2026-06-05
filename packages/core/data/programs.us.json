@@ -9,12 +9,34 @@
         "field": "Computing",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.6,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 93000 },
-        "tags": ["field_top", "career_pipeline", "scholarship_rich"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 93000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.45,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["sat"] },
-        "sources": [{ "source_id": "mit_eecs_undergrad_2026", "kind": "url", "url": "https://www.eecs.mit.edu/academics/undergraduate-programs/", "last_verified_date": "2026-05-27" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.9,
+            "required_tests": [
+                "sat"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "mit_eecs_undergrad_2026",
+                "kind": "url",
+                "url": "https://www.eecs.mit.edu/academics/undergraduate-programs/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "mit-master-business-analytics",
@@ -26,12 +48,33 @@
         "field": "Business Analytics",
         "teaching_style": "applied_heavy",
         "gpa_min": 3.5,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 130000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 130000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.75,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre"] },
-        "sources": [{ "source_id": "mit_mban_2026", "kind": "url", "url": "https://mitsloan.mit.edu/master-of-business-analytics", "last_verified_date": "2026-05-27" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.85,
+            "required_tests": [
+                "gre"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "mit_mban_2026",
+                "kind": "url",
+                "url": "https://mitsloan.mit.edu/master-of-business-analytics",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "stanford-phd-computer-science",
@@ -43,12 +86,35 @@
         "field": "Computer Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.6,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 98000 },
-        "tags": ["field_top", "scholarship_rich", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 98000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.35,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"], "research_required": true },
-        "sources": [{ "source_id": "stanford_cs_phd_2026", "kind": "url", "url": "https://www.cs.stanford.edu/admissions/phd", "last_verified_date": "2026-05-27" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.9,
+            "required_tests": [
+                "gre"
+            ],
+            "research_required": true
+        },
+        "sources": [
+            {
+                "source_id": "stanford_cs_phd_2026",
+                "kind": "url",
+                "url": "https://www.cs.stanford.edu/admissions/phd",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "stanford-pre-collegiate-studies",
@@ -61,10 +127,22 @@
         "teaching_style": "balanced",
         "gpa_min": 2.8,
         "language_min": {},
-        "tuition": { "currency": "AUD", "annual": 20000 },
-        "tags": ["stepping_stone"],
+        "tuition": {
+            "currency": "AUD",
+            "annual": 20000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
         "applied_ratio": 0.55,
-        "sources": [{ "source_id": "stanford_precollegiate_2026", "kind": "url", "url": "https://spcs.stanford.edu/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "stanford_precollegiate_2026",
+                "kind": "url",
+                "url": "https://spcs.stanford.edu/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "stanford-master-computer-science",
@@ -76,12 +154,35 @@
         "field": "Computing",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.7,
-        "language_min": { "toefl_total": 100, "ielts_overall": 7.0 },
-        "tuition": { "currency": "AUD", "annual": 105000 },
-        "tags": ["field_top", "career_pipeline", "scholarship_rich"],
+        "language_min": {
+            "toefl_total": 100,
+            "ielts_overall": 7.0
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 105000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.5,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"] },
-        "sources": [{ "source_id": "stanford_mscs_2026", "kind": "url", "url": "https://cs.stanford.edu/academics/masters", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.9,
+            "required_tests": [
+                "gre"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "stanford_mscs_2026",
+                "kind": "url",
+                "url": "https://cs.stanford.edu/academics/masters",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "mit-master-data-science",
@@ -93,11 +194,26 @@
         "field": "Data Science",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": { "toefl_total": 90 },
-        "tuition": { "currency": "AUD", "annual": 75000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 90
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 75000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "mit_sds_2026", "kind": "url", "url": "https://micromasters.mit.edu/ds/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "mit_sds_2026",
+                "kind": "url",
+                "url": "https://micromasters.mit.edu/ds/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "stanford-master-management-science",
@@ -109,12 +225,33 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 3.4,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 100000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 100000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.6,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre"] },
-        "sources": [{ "source_id": "stanford_mse_2026", "kind": "url", "url": "https://msande.stanford.edu/academics/ms-program", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.85,
+            "required_tests": [
+                "gre"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "stanford_mse_2026",
+                "kind": "url",
+                "url": "https://msande.stanford.edu/academics/ms-program",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "mit-master-finance",
@@ -126,12 +263,34 @@
         "field": "Finance",
         "teaching_style": "applied_heavy",
         "gpa_min": 3.5,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 120000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 120000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.7,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.85, "required_tests": ["gre", "gmat"] },
-        "sources": [{ "source_id": "mit_mfin_2026", "kind": "url", "url": "https://mitsloan.mit.edu/mfin", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.85,
+            "required_tests": [
+                "gre",
+                "gmat"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "mit_mfin_2026",
+                "kind": "url",
+                "url": "https://mitsloan.mit.edu/mfin",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "stanford-bachelor-economics",
@@ -143,12 +302,33 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 3.5,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 95000 },
-        "tags": ["field_top", "career_pipeline"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 95000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.5,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["sat"] },
-        "sources": [{ "source_id": "stanford_econ_2026", "kind": "url", "url": "https://economics.stanford.edu/", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.9,
+            "required_tests": [
+                "sat"
+            ]
+        },
+        "sources": [
+            {
+                "source_id": "stanford_econ_2026",
+                "kind": "url",
+                "url": "https://economics.stanford.edu/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "mit-phd-electrical-engineering",
@@ -160,11 +340,33 @@
         "field": "Electrical Engineering",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.7,
-        "language_min": { "toefl_total": 100 },
-        "tuition": { "currency": "AUD", "annual": 90000 },
-        "tags": ["field_top", "scholarship_rich"],
+        "language_min": {
+            "toefl_total": 100
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 90000
+        },
+        "tags": [
+            "field_top",
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.3,
-        "admission_profile": { "selectivity": "elite", "competitive_gpa_4": 3.9, "required_tests": ["gre"], "research_required": true },
-        "sources": [{ "source_id": "mit_eecs_phd_2026", "kind": "url", "url": "https://www.eecs.mit.edu/academics/graduate-programs/doctoral-program/", "last_verified_date": "2026-05-29" }]
+        "admission_profile": {
+            "selectivity": "elite",
+            "competitive_gpa_4": 3.9,
+            "required_tests": [
+                "gre"
+            ],
+            "research_required": true
+        },
+        "sources": [
+            {
+                "source_id": "mit_eecs_phd_2026",
+                "kind": "url",
+                "url": "https://www.eecs.mit.edu/academics/graduate-programs/doctoral-program/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     }
 ]
