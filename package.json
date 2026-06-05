@@ -13,6 +13,8 @@
         "typecheck": "pnpm -r --if-present typecheck",
         "test": "pnpm -r --if-present test",
         "build": "pnpm -r --if-present build",
-        "dev": "pnpm --filter @isp0526/web dev"
+        "dev": "pnpm --filter @isp0526/web dev",
+        "pipeline": "npm run pipeline --workspace=@isp0526/data-pipeline",
+        "benchmark": "node test-300-statistical.js"
     }
 }
