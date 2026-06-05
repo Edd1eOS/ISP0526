@@ -1,0 +1,4 @@
+# Generated simulation artifacts. Reproducible from a fixed seed via `pnpm sim`.
+*.json
+*.md
+!.gitignore

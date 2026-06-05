@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-06-05 — Recommendation engine simulation harness
+
+- `test(rules)`: add `packages/core/sim/` — a seeded random-profile simulation that drives `recommend()` over a configurable corpus (default 300 profiles) and captures every returned school for analysis. `random-profile.ts` provides a deterministic mulberry32 PRNG and a `randomProfile()` generator spanning the full input surface (GPA, IELTS/TOEFL/none, field, budget, country preference, tags, lifestyle, career, big_five). `recommend-sim.test.ts` aggregates per-school appearance counts split by band, band/selectivity/country distributions, coverage sparsity, and avg score, then writes `results/summary.json` + `results/report.md`.
+- The harness doubles as a property test asserting the engine's hard invariants under fuzzing: no elite / highly-selective program ever lands in the safety band, every recommended school carries >= 3 cited reasons, per-band caps hold, and the empty-result rate stays below 50%. Initial run: 0 elite-safety violations across 300 profiles / 219 programs.
+- Run via `pnpm --filter @isp0526/core sim` (tune with `SIM_RUNS` / `SIM_SEED`). Generated artifacts under `sim/results/` are gitignored and reproducible from the recorded seed.
+
+---
+
 ## 2026-06-04 — Recommendation engine P1: admission_profile
 
 - `feat(schemas/institution)`: add optional `AdmissionProfileSchema` to `ProgramSchema` with `selectivity` (open / standard / selective / highly_selective / elite), optional `competitive_gpa_4`, `required_tests` (gre/gmat/sat/act/lsat/mcat), `portfolio_required`, `research_required`, and `prerequisites`. The field is backward-compatible: every existing program continues to validate without modification, and the rule engine treats absence as "unknown".
