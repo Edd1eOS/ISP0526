@@ -1,0 +1,22 @@
+{
+    "name": "@isp0526/data-pipeline",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "bin": {
+        "pipeline": "./src/cli.ts"
+    },
+    "scripts": {
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "pipeline": "tsx src/cli.ts"
+    },
+    "dependencies": {
+        "@isp0526/core": "file:../core"
+    },
+    "devDependencies": {
+        "tsx": "^4.19.4",
+        "typescript": "^5",
+        "vitest": "^2.1.9"
+    }
+}
