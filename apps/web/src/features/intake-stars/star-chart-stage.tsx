@@ -1312,7 +1312,7 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
     // Start countdown as soon as diagnosis arrives and loading clears.
     useEffect(() => {
         if (!diagnosis || loading) return;
-        setCountdown(AUTO_FINALIZE_SECONDS);
+        queueMicrotask(() => setCountdown(AUTO_FINALIZE_SECONDS));
         const interval = setInterval(() => {
             setCountdown((n) => {
                 if (n <= 1) {
