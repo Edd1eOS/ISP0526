@@ -96,13 +96,13 @@ const FALLBACK_ADAPTIVE_QUESTIONS: ReadonlyArray<FallbackQuestion> = [
 
 // Preset star positions (x%, y%) in the sky area for 2-6 quick-pick options.
 const QUICK_PICK_POSITIONS: ReadonlyArray<ReadonlyArray<readonly [number, number]>> = [
-    /* 0 */ [],
-    /* 1 */ [[50, 44]],
-    /* 2 */ [[30, 42], [68, 36]],
-    /* 3 */ [[24, 36], [54, 26], [76, 48]],
-    /* 4 */ [[22, 40], [50, 24], [72, 36], [60, 62]],
-    /* 5 */ [[22, 38], [48, 22], [72, 30], [76, 56], [36, 62]],
-    /* 6 */ [[22, 38], [48, 22], [72, 30], [78, 56], [52, 64], [26, 60]],
+    /* 0 */[],
+    /* 1 */[[50, 44]],
+    /* 2 */[[30, 42], [68, 36]],
+    /* 3 */[[24, 36], [54, 26], [76, 48]],
+    /* 4 */[[22, 40], [50, 24], [72, 36], [60, 62]],
+    /* 5 */[[22, 38], [48, 22], [72, 30], [76, 56], [36, 62]],
+    /* 6 */[[22, 38], [48, 22], [72, 30], [78, 56], [52, 64], [26, 60]],
 ];
 
 type Phase = "questions" | "readout";
@@ -363,40 +363,40 @@ const FIELD_RIASEC_WEIGHTS: Readonly<Record<string, Readonly<Partial<Record<Rias
     group_education: { social: 0.80, artistic: 0.25 },
     group_science: { investigative: 0.85, realistic: 0.25, conventional: 0.20 },
     // Realistic(R): hands-on/technical. Investigative(I): analytical.
-    field_it:               { realistic: 0.50, investigative: 0.45, conventional: 0.35 },
-    field_computing:        { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
+    field_it: { realistic: 0.50, investigative: 0.45, conventional: 0.35 },
+    field_computing: { realistic: 0.65, investigative: 0.55, conventional: 0.20 },
     field_computer_science: { realistic: 0.55, investigative: 0.70, conventional: 0.15 },
-    field_software:         { realistic: 0.65, investigative: 0.50, conventional: 0.25 },
-    field_ai:               { investigative: 0.85, realistic: 0.35, conventional: 0.20 },
-    field_hci:              { artistic: 0.50, investigative: 0.45, social: 0.35 },
+    field_software: { realistic: 0.65, investigative: 0.50, conventional: 0.25 },
+    field_ai: { investigative: 0.85, realistic: 0.35, conventional: 0.20 },
+    field_hci: { artistic: 0.50, investigative: 0.45, social: 0.35 },
     // Investigative dominant; Conventional for statistics/modelling.
-    field_data_science:         { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
-    field_business_analytics:   { investigative: 0.55, conventional: 0.65, enterprising: 0.30 },
-    field_statistics:           { investigative: 0.70, conventional: 0.70 },
+    field_data_science: { investigative: 0.75, conventional: 0.55, realistic: 0.25 },
+    field_business_analytics: { investigative: 0.55, conventional: 0.65, enterprising: 0.30 },
+    field_statistics: { investigative: 0.70, conventional: 0.70 },
     // Pure Investigative; Realistic for lab/fieldwork side.
-    field_research:      { investigative: 0.90, realistic: 0.35 },
+    field_research: { investigative: 0.90, realistic: 0.35 },
     field_environmental: { investigative: 0.70, realistic: 0.45, social: 0.20 },
-    field_forestry:      { realistic: 0.55, investigative: 0.45 },
+    field_forestry: { realistic: 0.55, investigative: 0.45 },
     // Social for care/nursing; Investigative for research medicine.
-    field_public_health:   { social: 0.65, investigative: 0.50, realistic: 0.20 },
-    field_bioinformatics:  { investigative: 0.75, realistic: 0.35, conventional: 0.25 },
+    field_public_health: { social: 0.65, investigative: 0.50, realistic: 0.20 },
+    field_bioinformatics: { investigative: 0.75, realistic: 0.35, conventional: 0.25 },
     // Enterprising dominant; Conventional for accounting/finance.
-    field_business:   { enterprising: 0.80, conventional: 0.50, investigative: 0.15 },
-    field_finance:    { conventional: 0.75, enterprising: 0.55, investigative: 0.30 },
+    field_business: { enterprising: 0.80, conventional: 0.50, investigative: 0.15 },
+    field_finance: { conventional: 0.75, enterprising: 0.55, investigative: 0.30 },
     field_accounting: { conventional: 0.85, enterprising: 0.30 },
     field_management: { enterprising: 0.85, social: 0.35, conventional: 0.25 },
-    field_economics:  { investigative: 0.55, conventional: 0.50, enterprising: 0.30 },
-    field_mba:        { enterprising: 0.85, social: 0.35, conventional: 0.25 },
+    field_economics: { investigative: 0.55, conventional: 0.50, enterprising: 0.30 },
+    field_mba: { enterprising: 0.85, social: 0.35, conventional: 0.25 },
     // Artistic dominant; Realistic for craft/production skills.
-    field_design:       { artistic: 0.90, realistic: 0.25 },
+    field_design: { artistic: 0.90, realistic: 0.25 },
     field_architecture: { artistic: 0.65, realistic: 0.55, investigative: 0.25 },
-    field_design_hci:   { artistic: 0.55, investigative: 0.40, social: 0.35 },
+    field_design_hci: { artistic: 0.55, investigative: 0.40, social: 0.35 },
     // Social dominant for teaching/counselling; Artistic for language arts.
     field_education: { social: 0.80, artistic: 0.30 },
-    field_tesol:     { social: 0.70, artistic: 0.35 },
+    field_tesol: { social: 0.70, artistic: 0.35 },
     // Artistic + Social + Investigative blend (varies by sub-discipline).
-    field_public_policy:    { social: 0.50, enterprising: 0.45, investigative: 0.30 },
-    field_area_studies:     { artistic: 0.45, social: 0.45, investigative: 0.35 },
+    field_public_policy: { social: 0.50, enterprising: 0.45, investigative: 0.30 },
+    field_area_studies: { artistic: 0.45, social: 0.45, investigative: 0.35 },
     field_social_economics: { investigative: 0.55, conventional: 0.45, enterprising: 0.30 },
 };
 
@@ -445,6 +445,68 @@ function applyExtractedFacts(l: KnowledgeLedger, extracted: WishExtracted): Know
     if (extracted.preferred_countries?.length)
         next = mergeCountries(next, extracted.preferred_countries as ReadonlyArray<Country>, { source: "wish", confidence: 0.8 });
     return next;
+}
+
+// ---------------------------------------------------------------------------
+// Deterministic country extractor — runs synchronously on adaptive answers
+// so preferred_countries is never gated on LLM extraction success.
+// ---------------------------------------------------------------------------
+
+const NO_PREF_PHRASES = ["都可以", "还没想好", "没想好", "无所谓", "都行", "any"];
+
+// Ordered so that longer/more specific strings are checked first (e.g.
+// "新加坡" before any prefix that might shadow it).
+const COUNTRY_KEYWORDS: ReadonlyArray<readonly [string, Country]> = [
+    ["澳大利亚", "AU"],
+    ["australia", "AU"],
+    ["英国", "UK"],
+    ["britain", "UK"],
+    ["england", "UK"],
+    ["爱尔兰", "IE"],
+    ["ireland", "IE"],
+    ["美国", "US"],
+    ["america", "US"],
+    ["加拿大", "CA"],
+    ["canada", "CA"],
+    ["新西兰", "NZ"],
+    ["new zealand", "NZ"],
+    ["香港", "HK"],
+    ["hong kong", "HK"],
+    ["新加坡", "SG"],
+    ["singapore", "SG"],
+    ["马来西亚", "MY"],
+    ["malaysia", "MY"],
+    ["泰国", "TH"],
+    ["thailand", "TH"],
+    ["德国", "DE"],
+    ["germany", "DE"],
+    ["荷兰", "NL"],
+    ["netherlands", "NL"],
+    ["俄罗斯", "RU"],
+    ["russia", "RU"],
+    ["台湾", "TW"],
+    ["taiwan", "TW"],
+    ["澳门", "MO"],
+    ["macau", "MO"],
+] as const;
+
+// Extra entries for shorthand combos that map to multiple countries
+const SHORTHAND_MULTI: ReadonlyArray<readonly [string, ReadonlyArray<Country>]> = [
+    ["港澳", ["HK", "MO"]],
+    ["仅澳大利亚", ["AU"]],
+] as const;
+
+function extractCountriesFromAnswer(answer: string): ReadonlyArray<Country> | null {
+    const lower = answer.toLowerCase();
+    if (NO_PREF_PHRASES.some((p) => answer.includes(p) || lower.includes(p))) return null;
+    const found = new Set<Country>();
+    for (const [kw, codes] of SHORTHAND_MULTI) {
+        if (answer.includes(kw)) for (const c of codes) found.add(c);
+    }
+    for (const [kw, code] of COUNTRY_KEYWORDS) {
+        if (answer.includes(kw) || lower.includes(kw)) found.add(code);
+    }
+    return found.size > 0 ? [...found] : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -617,7 +679,7 @@ export function StarChartStage() {
                 setAdaptiveLoading(false);
                 adaptiveFetchingRef.current = false;
             });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mounted, fixedQuestion, adaptiveDone, adaptiveQuestion, adaptiveLoading, ledger.adaptiveQuestionCount, ledger.facts, riasec]);
 
     // Transition to readout once adaptive is done and no conflicts remain
@@ -740,8 +802,16 @@ export function StarChartStage() {
             };
             setLedger((l) => appendConversationTurn(l, turn));
             setAdaptiveQuestion(null);
-            // Extract structured facts from the answer using the question as
-            // context so the wish-parse LLM understands what was being asked.
+
+            // Deterministically extract preferred_countries from the answer text
+            // without relying on the LLM — country picks must never be dropped due
+            // to an LLM extraction failure.
+            const directCountries = extractCountriesFromAnswer(answer);
+            if (directCountries !== null && directCountries.length > 0) {
+                setLedger((l) => mergeCountries(l, directCountries, { source: "wish", confidence: 0.95 }));
+            }
+
+            // Extract other structured facts (budget, city_size, etc.) via LLM.
             const currentFacts = factsToStringRecord(ledger.facts);
             void parseWishAction({
                 locale: "zh",
@@ -754,7 +824,7 @@ export function StarChartStage() {
                         setLedger((l) => applyExtractedFacts(l, res.result!.extracted));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
         [adaptiveQuestion, ledger.facts],
     );
@@ -1222,18 +1292,24 @@ interface ReadoutViewProps {
     readonly onRetry: () => void;
 }
 
-const AUTO_FINALIZE_SECONDS = 15;
+const AUTO_FINALIZE_SECONDS = 12;
 
 function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }: ReadoutViewProps) {
     const profile = buildProfileSummary(ledger);
     const [countdown, setCountdown] = useState(AUTO_FINALIZE_SECONDS);
+    const [finalizing, setFinalizing] = useState(false);
     const finalizeRef = useRef(onFinalize);
 
     useEffect(() => {
         finalizeRef.current = onFinalize;
     }, [onFinalize]);
 
-    // Auto-trigger once diagnosis is ready and we're not already loading.
+    const go = useCallback(() => {
+        setFinalizing(true);
+        finalizeRef.current();
+    }, []);
+
+    // Start countdown as soon as diagnosis arrives and loading clears.
     useEffect(() => {
         if (!diagnosis || loading) return;
         queueMicrotask(() => setCountdown(AUTO_FINALIZE_SECONDS));
@@ -1241,16 +1317,17 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
             setCountdown((n) => {
                 if (n <= 1) {
                     clearInterval(interval);
-                    finalizeRef.current();
+                    go();
                     return 0;
                 }
                 return n - 1;
             });
         }, 1000);
         return () => clearInterval(interval);
-    // Only restart when diagnosis first appears — not on every loading change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [diagnosis]);
+
+    const pct = diagnosis ? Math.round(((AUTO_FINALIZE_SECONDS - countdown) / AUTO_FINALIZE_SECONDS) * 100) : 0;
 
     return (
         <section className={styles.readout} aria-live="polite">
@@ -1295,15 +1372,50 @@ function ReadoutView({ loading, diagnosis, error, ledger, onFinalize, onRetry }:
                     </>
                 ) : null}
 
-                <div className={styles.readoutActions}>
-                    <button type="button" className={styles.advance} disabled={loading} onClick={() => { setCountdown(0); onFinalize(); }}>
-                        {diagnosis && countdown > 0
-                            ? `生成院校推荐（${countdown}s）`
-                            : loading
-                                ? "生成中…"
-                                : "生成院校推荐"}
-                    </button>
-                </div>
+                {/* Auto-advance progress bar — no button */}
+                {diagnosis ? (
+                    <div className={styles.readoutActions}>
+                        {finalizing ? (
+                            <p className={styles.readoutLoading}>正在生成院校方案…</p>
+                        ) : (
+                            <div
+                                role="button"
+                                tabIndex={0}
+                                onClick={go}
+                                onKeyDown={(e) => e.key === "Enter" && go()}
+                                style={{ cursor: "pointer", width: "100%" }}
+                                aria-label="立即生成院校方案"
+                            >
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginBottom: 8,
+                                    fontSize: 12,
+                                    color: "rgba(255,255,255,0.45)",
+                                    letterSpacing: "0.08em",
+                                }}>
+                                    <span>即将生成院校方案</span>
+                                    <span>{countdown}s</span>
+                                </div>
+                                <div style={{
+                                    height: 3,
+                                    borderRadius: 99,
+                                    background: "rgba(255,255,255,0.1)",
+                                    overflow: "hidden",
+                                }}>
+                                    <div style={{
+                                        height: "100%",
+                                        width: `${pct}%`,
+                                        borderRadius: 99,
+                                        background: "linear-gradient(90deg, rgba(251,191,36,0.7), rgba(249,115,22,0.9))",
+                                        transition: "width 0.9s linear",
+                                    }} />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ) : null}
             </div>
         </section>
     );

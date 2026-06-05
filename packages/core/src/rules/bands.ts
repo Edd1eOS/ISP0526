@@ -9,12 +9,28 @@
 // can be a very good fit and still be a stretch if the institution/program is
 // highly selective.
 
-import type { BandTier, Candidate, StudentProfile } from "../schemas/index";
+import type { BandTier, Candidate, SelectivityTier, StudentProfile } from "../schemas/index";
 import { BAND_THRESHOLDS } from "./weights";
 
 const ELITE_REPUTATION = 0.96;
 const ELITE_DIFFICULTY_FLOOR = 0.88;
 const SAFETY_DIFFICULTY_CEILING = 0.74;
+// Difficulty above this is treated as "selective" for safety-eligibility
+// purposes. Selective programs cannot be labeled safety without full evidence
+// (GPA + language when required).
+const SELECTIVE_DIFFICULTY_FLOOR = 0.78;
+
+// Anchor difficulties for each selectivity tier. When a program carries an
+// explicit admission_profile.selectivity we use this anchor directly instead
+// of the reputation/gpa_min proxy, since admit-rate-driven tiers are the more
+// trustworthy selectivity signal.
+const SELECTIVITY_ANCHOR: Record<SelectivityTier, number> = {
+    open: 0.4,
+    standard: 0.6,
+    selective: 0.8,
+    highly_selective: 0.9,
+    elite: 0.97,
+};
 
 export function classifyBand(academicFit: number): BandTier {
     if (academicFit < BAND_THRESHOLDS.stretch_max) return "stretch";
@@ -39,10 +55,58 @@ export function classifyApplicationBand(
     if (risk >= BAND_THRESHOLDS.match_max) return "stretch";
     if (risk >= BAND_THRESHOLDS.stretch_max) return "match";
     if (difficulty >= SAFETY_DIFFICULTY_CEILING) return "match";
+    // Do not claim "safety" on a selective program when the evidence is
+    // incomplete (missing GPA or missing required-language score).
+    if (!safetyEligible(profile, candidate)) return "match";
     return "safety";
 }
 
+/**
+ * Whether a candidate may carry the "safety" label given the available
+ * student evidence. Returns true for non-selective programs unconditionally;
+ * for selective programs requires GPA evidence and, when the program lists a
+ * language requirement, a corresponding student score.
+ *
+ * Pure: no I/O. Used by both classifyApplicationBand() (per-candidate) and
+ * fillEmptyBands() (post-redistribution guard).
+ */
+export function safetyEligible(
+    profile: StudentProfile,
+    candidate: Candidate,
+): boolean {
+    const difficulty = estimateAdmissionDifficulty(candidate);
+    if (difficulty < SELECTIVE_DIFFICULTY_FLOOR) return true;
+
+    const hasGpa =
+        profile.academic.gpa !== undefined ||
+        profile.academic.credentials.length > 0;
+    if (!hasGpa) return false;
+
+    const langRequired =
+        candidate.program.language_min.ielts_overall !== undefined ||
+        candidate.program.language_min.toefl_total !== undefined;
+    if (langRequired) {
+        const hasLang =
+            profile.academic.ielts_overall !== undefined ||
+            profile.academic.toefl_total !== undefined;
+        if (!hasLang) return false;
+    }
+    return true;
+}
+
 export function estimateAdmissionDifficulty(candidate: Candidate): number {
+    // Explicit selectivity tier wins over proxy-based estimation.
+    const tier = candidate.program.admission_profile?.selectivity;
+    if (tier !== undefined) {
+        const anchor = SELECTIVITY_ANCHOR[tier];
+        // Small boost from field_top / phd so multiple programs at the same
+        // tier still sort sensibly, but the boost cannot move a program out
+        // of its declared tier band.
+        const fieldTopBonus = candidate.program.tags.includes("field_top") ? 0.01 : 0;
+        const phdBonus = candidate.program.level === "phd" ? 0.01 : 0;
+        return clamp01(anchor + fieldTopBonus + phdBonus);
+    }
+
     const reputation = candidate.university.reputation_score;
     const gpaFloor = candidate.program.gpa_min / 4;
     const fieldTopBonus = candidate.program.tags.includes("field_top") ? 0.04 : 0;

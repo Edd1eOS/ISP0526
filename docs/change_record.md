@@ -5,6 +5,35 @@
 
 ---
 
+## 2026-06-05 — Recommendation engine simulation harness
+
+- `test(rules)`: add `packages/core/sim/` — a seeded random-profile simulation that drives `recommend()` over a configurable corpus (default 300 profiles) and captures every returned school for analysis. `random-profile.ts` provides a deterministic mulberry32 PRNG and a `randomProfile()` generator spanning the full input surface (GPA, IELTS/TOEFL/none, field, budget, country preference, tags, lifestyle, career, big_five). `recommend-sim.test.ts` aggregates per-school appearance counts split by band, band/selectivity/country distributions, coverage sparsity, and avg score, then writes `results/summary.json` + `results/report.md`.
+- The harness doubles as a property test asserting the engine's hard invariants under fuzzing: no elite / highly-selective program ever lands in the safety band, every recommended school carries >= 3 cited reasons, per-band caps hold, and the empty-result rate stays below 50%. Initial run: 0 elite-safety violations across 300 profiles / 219 programs.
+- Run via `pnpm --filter @isp0526/core sim` (tune with `SIM_RUNS` / `SIM_SEED`). Generated artifacts under `sim/results/` are gitignored and reproducible from the recorded seed.
+
+---
+
+## 2026-06-04 — Recommendation engine P1: admission_profile
+
+- `feat(schemas/institution)`: add optional `AdmissionProfileSchema` to `ProgramSchema` with `selectivity` (open / standard / selective / highly_selective / elite), optional `competitive_gpa_4`, `required_tests` (gre/gmat/sat/act/lsat/mcat), `portfolio_required`, `research_required`, and `prerequisites`. The field is backward-compatible: every existing program continues to validate without modification, and the rule engine treats absence as "unknown".
+- `feat(rules/bands)`: `estimateAdmissionDifficulty` now consults `admission_profile.selectivity` first when present, mapping each tier to an anchor difficulty (open 0.4 → elite 0.97) with tiny +0.01 nudges for `field_top` and `phd` so ties sort sensibly without crossing tier bands. Falls back to the existing reputation+gpa_min proxy when the field is absent.
+- `feat(rules/dimensions/academic-fit)`: `score()` prefers `competitive_gpa_4` over `gpa_min` as the GPA reference when the program supplies the competitive figure, so an MIT-style 3.5 floor but 3.85 competitive cohort no longer reads as "comfortable" for a 3.6 applicant.
+- `data`: seed `admission_profile` on the highest-risk rows in `programs.us.json` (all MIT and Stanford entries — elite), `programs.uk.json` (UCL CS/DS/Finance — highly_selective), `programs.sg.json` (NUS Computing and Data Science — highly_selective), `programs.hk.json` (HKU CS, HKUST Data Science & Technology — highly_selective), and `programs.ca.json` (UofT MSc CS — selective). 16 programs seeded. Unseeded programs continue to use the proxy.
+- `test(rules/recommend)`: three new tests verifying (a) a declared-elite program is "stretch" even with low reputation_score, (b) `competitive_gpa_4` drives academic-fit (3.2 vs 3.9 GPA against a competitive_gpa_4 of 3.9 yields a clear delta), (c) seeded elite US programs and the seeded UCL/NUS programs cannot land in safety for any applicant. Suite now 19 files / 104 tests passing.
+
+---
+
+## 2026-06-04 — Recommendation engine P0 hardening
+
+- `fix(rules/bands)`: add `safetyEligible(profile, candidate)` and apply it in `classifyApplicationBand` so selective programs (admission difficulty >= 0.78) cannot land in the "safety" band when the student is missing GPA evidence or, for language-required programs, has neither IELTS nor TOEFL on file. Elite programs (>= 0.88) continue to short-circuit to "stretch".
+- `fix(rules/recommend)`: `fillEmptyBands` now takes the candidate index and refuses to relabel any candidate as "safety" if (a) its original band was "stretch" or (b) `safetyEligible` rejects it. This closes the redistribution path that previously could undo the per-candidate safety guard.
+- `feat(rules/dimensions/academic-fit)`: add `toeflHeadroom` and combine with `ieltsHeadroom` via `Math.max`, so TOEFL-only programs and TOEFL-only students get a real language signal instead of degrading to NEUTRAL. `explain()` now emits a TOEFL line when both program and student have TOEFL data.
+- `fix(rules/thresholds)`: introduce `gpaToleranceFor(candidate)` so elite programs use a 0.95 GPA tolerance and selective programs use 0.90, while normal programs keep the existing 0.85. Applicants far below an elite floor are now excluded by `gpa_far_below_min` rather than shown as reachable stretch.
+- `feat(rules/recommend)`: extend `RecommendOutput` with a `coverage` field reporting passing count, post-country-cap count, post-fit-range count, per-band counts, a `sparse` flag, and English diagnostic reasons. Downstream UI can use this to surface "results are limited" notices instead of silently returning a thin set.
+- `test(rules/recommend)`: five new regression tests covering: elite-program exclusion at the stricter GPA floor, coverage diagnostics shape, selective-TOEFL-only without student language can't be safety, selective program without GPA can't be safety, TOEFL headroom modulates academic-fit on TOEFL-only programs. Suite is now 19 files / 101 tests passing.
+
+---
+
 ## 2026-05-27 — Data pipeline spec + ADR 0005
 
 - `docs`: add `docs/data-pipeline.md` defining the ingest pipeline (fetch -> parse -> normalize -> validate -> diff -> draft -> human promote), the `packages/data-pipeline` workspace layout, the SourceModule contract, the per-step hard constraints, the CLI surface, the freshness policy, and a 9-step handoff checklist for the next agent. Add `docs/data-pipeline-sources.md` with the new-source registration template, common fetch constraints (UA, rate limit, robots, fixtures), PII red lines, GPA / tuition / field normalization rules, and the priority list of first sources to onboard (studyaustralia providers, UKCISA fees, Canada DLI list, per-university handbooks, gov.uk student visa). Add ADR 0005 proposing `packages/data-pipeline` as a separate pnpm workspace that imports core schemas but is never imported by runtime; promotion to production JSON is human-only. Update `docs/techstack.md` with the planned Data Pipeline section (undici, linkedom, robots-parser; no headless browser, no LLM SDK in this layer).

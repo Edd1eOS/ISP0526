@@ -6,11 +6,25 @@
 import type { Candidate } from "../schemas/index";
 import type { StudentProfile } from "../schemas/index";
 import { getEffectiveGpa4 } from "./normalize/academic-grade";
+import { estimateAdmissionDifficulty } from "./bands";
 
 // Tolerance below program GPA minimum that still counts as "stretch reachable".
-// 0.85 keeps a 15% headroom so we surface aspirational candidates rather than
-// only safe matches.
+// 0.85 keeps a 15% headroom for normal programs so we surface aspirational
+// candidates rather than only safe matches. Selective and elite programs use
+// stricter floors so a far-below-line applicant is excluded rather than
+// presented as a reachable stretch.
 export const GPA_STRETCH_TOLERANCE = 0.85;
+const GPA_TOLERANCE_SELECTIVE = 0.9;
+const GPA_TOLERANCE_ELITE = 0.95;
+const SELECTIVE_DIFFICULTY_FLOOR = 0.78;
+const ELITE_DIFFICULTY_FLOOR = 0.88;
+
+function gpaToleranceFor(candidate: Candidate): number {
+    const difficulty = estimateAdmissionDifficulty(candidate);
+    if (difficulty >= ELITE_DIFFICULTY_FLOOR) return GPA_TOLERANCE_ELITE;
+    if (difficulty >= SELECTIVE_DIFFICULTY_FLOOR) return GPA_TOLERANCE_SELECTIVE;
+    return GPA_STRETCH_TOLERANCE;
+}
 
 export type ExclusionReason =
     | { kind: "gpa_far_below_min"; required: number; observed: number }
@@ -49,7 +63,7 @@ export function applyHardThresholds(
 
     const effectiveGpa = getEffectiveGpa4(profile);
     if (effectiveGpa !== undefined) {
-        const threshold = program.gpa_min * GPA_STRETCH_TOLERANCE;
+        const threshold = program.gpa_min * gpaToleranceFor(candidate);
         if (effectiveGpa < threshold) {
             return {
                 kind: "exclude",
