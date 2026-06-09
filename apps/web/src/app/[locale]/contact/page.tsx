@@ -20,51 +20,76 @@ export default async function ContactPage({
     const { code } = await searchParams;
     const t = await getTranslations({ locale, namespace: "contactPage" });
 
-    if (!code || !REPORT_CODE_RE.test(code)) {
-        return <MissingCode locale={locale} />;
-    }
-    const snapshot = await loadReport(code);
-    if (!snapshot) notFound();
+    const rawCode = (code ?? "").trim().toUpperCase();
+    const hasCode = REPORT_CODE_RE.test(rawCode);
+    const snapshot = hasCode ? await loadReport(rawCode) : null;
+    if (rawCode && hasCode && !snapshot) notFound();
+
+    const isZh = locale === "zh";
+    const title = snapshot
+        ? isZh
+            ? "基于报告提交申请"
+            : "Submit an enquiry for this report"
+        : isZh
+            ? "提交申请服务"
+            : "Submit an application enquiry";
+    const intro = snapshot
+        ? isZh
+            ? "把你的报告号带进来，我们会按你的结果继续跟进，做申请服务。"
+            : "Your report code is attached so we can follow up on the exact result set."
+        : isZh
+            ? "不需要微信或 WhatsApp 直链，直接填表就行。我们收到后会跟进申请服务。"
+            : "No direct chat link is needed. Fill in the form and we will follow up on the application service.";
 
     return (
         <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
             <div className="mx-auto max-w-2xl space-y-8">
                 <header className="space-y-2">
                     <span className="text-text-muted text-sm uppercase tracking-widest">
-                        {t("eyebrow")}
+                        {snapshot ? "Report follow-up" : "Enquiry form"}
                     </span>
                     <h1 className="text-text text-3xl font-bold leading-tight">
-                        {t("title")}
+                        {title}
                     </h1>
-                    <p className="text-text-muted">{t("intro")}</p>
+                    <p className="text-text-muted">{intro}</p>
                 </header>
 
-                <section
-                    className="space-y-3 p-6"
-                    style={{
-                        background: "var(--color-surface-alt)",
-                        borderRadius: "var(--radius-card-md)",
-                        boxShadow: "var(--shadow-clay-raised)",
-                    }}
-                >
-                    <p className="text-text-muted text-xs uppercase tracking-widest">
-                        {t("reportIdLabel")}
+                {rawCode && !hasCode ? (
+                    <p className="text-sm" style={{ color: "var(--color-warning)" }}>
+                        {isZh
+                            ? "报告号格式不正确，但你仍然可以直接提交通用申请。"
+                            : "The report code format is invalid, but you can still submit a general enquiry."}
                     </p>
-                    <div
-                        className="text-text inline-block px-4 py-2 font-mono text-base font-semibold"
+                ) : null}
+
+                {snapshot ? (
+                    <section
+                        className="space-y-3 p-6"
                         style={{
-                            background: "var(--color-surface)",
-                            borderRadius: "var(--radius-button)",
-                            boxShadow: "var(--shadow-clay-inset)",
+                            background: "var(--color-surface-alt)",
+                            borderRadius: "var(--radius-card-md)",
+                            boxShadow: "var(--shadow-clay-raised)",
                         }}
                     >
-                        {snapshot.code}
-                    </div>
-                    <p className="text-text-muted text-sm">{t("reportIdHint")}</p>
-                </section>
+                        <p className="text-text-muted text-xs uppercase tracking-widest">
+                            {t("reportIdLabel")}
+                        </p>
+                        <div
+                            className="text-text inline-block px-4 py-2 font-mono text-base font-semibold"
+                            style={{
+                                background: "var(--color-surface)",
+                                borderRadius: "var(--radius-button)",
+                                boxShadow: "var(--shadow-clay-inset)",
+                            }}
+                        >
+                            {snapshot.code}
+                        </div>
+                        <p className="text-text-muted text-sm">{t("reportIdHint")}</p>
+                    </section>
+                ) : null}
 
                 <ContactForm
-                    code={snapshot.code}
+                    code={snapshot?.code ?? (rawCode || undefined)}
                     locale={locale}
                     labels={{
                         channelLabel: t("channelLabel"),
@@ -86,30 +111,14 @@ export default async function ContactPage({
                 <p className="text-text-muted text-xs">{t("disclaimer")}</p>
 
                 <Link
-                    href={`/r/${snapshot.code}`}
+                    href={snapshot ? `/r/${snapshot.code}` : "/"}
                     className="text-text inline-block text-sm underline"
                 >
-                    {t("backToReport")}
-                </Link>
-            </div>
-        </main>
-    );
-}
-
-function MissingCode({ locale }: { locale: string }) {
-    return (
-        <main className="bg-bg min-h-screen w-full px-6 py-16 sm:px-12">
-            <div className="mx-auto max-w-2xl space-y-4">
-                <h1 className="text-text text-2xl font-semibold">
-                    {locale === "zh" ? "缺少报告 ID" : "Missing report ID"}
-                </h1>
-                <p className="text-text-muted">
-                    {locale === "zh"
-                        ? "请从你的报告页底部「想找人聊聊？」卡片进入。"
-                        : "Please enter from the contact card at the bottom of your report."}
-                </p>
-                <Link href="/" className="text-text inline-block text-sm underline">
-                    {locale === "zh" ? "回到首页" : "Back to home"}
+                    {snapshot
+                        ? t("backToReport")
+                        : isZh
+                            ? "回到首页"
+                            : "Back to home"}
                 </Link>
             </div>
         </main>

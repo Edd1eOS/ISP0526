@@ -90,6 +90,17 @@ export default async function Home({
         >
           {t("ctaSecondary")}
         </Link>
+        <Link
+          href="/contact"
+          className="text-text px-7 py-3.5 text-base font-semibold transition-transform active:scale-95"
+          style={{
+            background: "var(--gradient-raised)",
+            borderRadius: "var(--radius-button)",
+            boxShadow: "var(--shadow-clay-raised)",
+          }}
+        >
+          {locale === "zh" ? "提交申请服务" : "Submit enquiry"}
+        </Link>
       </section>
 
       {/* Footer tag */}

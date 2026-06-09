@@ -9,7 +9,7 @@ import {
 } from "./contact-actions";
 
 interface ContactFormProps {
-    readonly code: string;
+    readonly code?: string;
     readonly locale: string;
     readonly labels: {
         readonly channelLabel: string;
@@ -38,7 +38,10 @@ export function ContactForm({ code, locale, labels }: ContactFormProps) {
 
     useEffect(() => {
         if (state?.ok) {
-            trackEvent("contact_inquiry_submitted", { code, channel });
+            trackEvent("contact_inquiry_submitted", {
+                code: code ?? "general",
+                channel,
+            });
         }
     }, [state, code, channel]);
 
@@ -71,7 +74,7 @@ export function ContactForm({ code, locale, labels }: ContactFormProps) {
 
     return (
         <form action={action} className="space-y-4">
-            <input type="hidden" name="code" value={code} />
+            <input type="hidden" name="code" value={code ?? ""} />
             <input type="hidden" name="locale" value={locale} />
 
             <fieldset className="space-y-2">
