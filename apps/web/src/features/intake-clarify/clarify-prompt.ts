@@ -7,7 +7,7 @@
 import type { FormFieldKey } from "./clarify-schema";
 
 const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
-    target_level: "目标学位（bachelor / master / phd）",
+    target_level: "目标层级（foundation / pathway / diploma / bachelor / master / phd）",
     target_field: "目标方向（IT / Computing / Data Science / Business / Finance / Civil Engineering / Electrical Engineering / Mechanical Engineering / Design / TESOL 等）",
     gpa: "GPA（4 分制）",
     ielts_overall: "IELTS 总分",

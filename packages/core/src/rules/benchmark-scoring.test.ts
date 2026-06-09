@@ -71,19 +71,34 @@ function sampleProfiles(n: number) {
 }
 
 function stats(values: number[]) {
+    if (values.length === 0) {
+        throw new Error("stats requires at least one value");
+    }
     const sorted = [...values].sort((a, b) => a - b);
     const n = values.length;
     const mean = values.reduce((a, b) => a + b, 0) / n;
     const variance = values.reduce((a, b) => a + b ** 2, 0) / n - mean ** 2;
     const stdDev = Math.sqrt(Math.max(0, variance));
+    const median = sorted[Math.floor(n / 2)];
+    const min = sorted[0];
+    const max = sorted[n - 1];
     const q1 = sorted[Math.floor(n * 0.25)];
     const q3 = sorted[Math.floor(n * 0.75)];
+    if (
+        median === undefined ||
+        min === undefined ||
+        max === undefined ||
+        q1 === undefined ||
+        q3 === undefined
+    ) {
+        throw new Error("stats failed to resolve quantiles");
+    }
     return {
         mean,
-        median: sorted[Math.floor(n / 2)],
+        median,
         stdDev,
-        min: sorted[0],
-        max: sorted[n - 1],
+        min,
+        max,
         q1,
         q3,
         iqr: q3 - q1,
@@ -168,7 +183,7 @@ export function runScoringBenchmark(runs = 300) {
         categories,
         dimension_analysis: dimStats,
         histogram_bins: histogram(topScores, 10),
-        note: "Uses real scoreCandidate/recommend against packages/core/data (11 universities, 75 programs).",
+        note: `Uses real scoreCandidate/recommend against packages/core/data (${new Set(candidates.map((c) => c.university.id)).size} universities, ${candidates.length} programs).`,
     };
 }
 

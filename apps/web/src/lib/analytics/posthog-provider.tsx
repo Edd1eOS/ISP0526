@@ -1,5 +1,7 @@
 "use client";
 
+import "../uint8array-hex-polyfill";
+
 // PostHog provider. Initialises posthog-js once on the client, gated by a
 // consent flag stored in localStorage (see PrivacyBanner). When the consent
 // flag is not "accepted" the SDK is never loaded, so no network traffic

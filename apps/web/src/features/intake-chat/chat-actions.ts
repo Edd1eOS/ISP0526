@@ -107,7 +107,7 @@ const FIELD_FALLBACK_COPY: Record<FormFieldKey, { q: string; qr?: string[] }> =
 {
     target_level: {
         q: "你想去读什么学位？",
-        qr: ["硕士", "本科", "博士"],
+        qr: ["硕士", "本科", "预科", "衔接课程", "文凭课程", "博士"],
     },
     target_field: {
         q: "想读哪个方向？",
@@ -302,7 +302,7 @@ function userRequestedStop(messages: ReadonlyArray<ChatMessage>): boolean {
 
 // Promote a chat-derived patch into a full StudentProfile, applying safe
 // defaults for anything the chat did not capture. target_level defaults to
-// "master" because that is the only level with seed program data today.
+// "master" because it is still the best-covered level in the seed data today.
 // When an assessment payload is provided, its scored output is merged into
 // big_five / learning / lifestyle / career; assessment values take
 // precedence over chat-only guesses on overlapping keys (teaching_style,

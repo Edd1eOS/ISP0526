@@ -42,7 +42,7 @@
         "teaching_style": "balanced",
         "gpa_min": 3.2,
         "language_min": {
-            "ielts_overall": 6.0
+            "ielts_overall": 6
         },
         "tuition": {
             "currency": "AUD",
@@ -100,37 +100,6 @@
         ]
     },
     {
-        "id": "nus-college-preparatory",
-        "university_id": "nus",
-        "name_en": "NUS College Preparatory Pathway",
-        "name_zh": "新加坡国立大学学院预备路径",
-        "level": "foundation",
-        "duration_years": 1,
-        "field": "Foundation",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 30000
-        },
-        "tags": [
-            "stepping_stone",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "nus_college_2026",
-                "kind": "url",
-                "url": "https://nuscollege.nus.edu.sg/",
-                "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
         "id": "nus-master-data-science",
         "university_id": "nus",
         "name_en": "MSc in Data Science and Machine Learning",
@@ -139,9 +108,9 @@
         "duration_years": 1.5,
         "field": "Data Science",
         "teaching_style": "applied_heavy",
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "language_min": {
-            "ielts_overall": 6.0
+            "ielts_overall": 6
         },
         "tuition": {
             "currency": "AUD",
@@ -177,7 +146,7 @@
         "teaching_style": "balanced",
         "gpa_min": 2.8,
         "language_min": {
-            "ielts_overall": 6.0
+            "ielts_overall": 6
         },
         "tuition": {
             "currency": "AUD",
@@ -206,7 +175,7 @@
         "duration_years": 1,
         "field": "Finance",
         "teaching_style": "balanced",
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "language_min": {
             "ielts_overall": 6.5
         },
@@ -240,7 +209,7 @@
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
         "language_min": {
-            "ielts_overall": 6.0
+            "ielts_overall": 6
         },
         "tuition": {
             "currency": "AUD",
@@ -321,6 +290,247 @@
                 "kind": "url",
                 "url": "https://www.ntu.edu.sg/eee/admissions/graduate",
                 "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg-bachelor-data-science-ai",
+        "university_id": "ntu-sg",
+        "name_en": "Bachelor of Computing (Hons) in Data Science and Artificial Intelligence",
+        "name_zh": "数据科学与人工智能荣誉计算学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "language_min": {},
+        "tags": [
+            "field_top",
+            "career_pipeline",
+            "chinese_community"
+        ],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "ntu_sg_bcomp_dsai_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/education/undergraduate-programme/bachelor-of-science-in-data-science-artificial-intelligence",
+                "last_verified_date": "2026-06-08",
+                "note": "Official page confirms Bachelor of Computing title, 4-year direct honours duration, and admissions basis."
+            }
+        ]
+    },
+    {
+        "id": "nus-bachelor-information-systems",
+        "university_id": "nus",
+        "name_en": "Bachelor of Computing in Information Systems",
+        "name_zh": "淇℃伅绯荤粺瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Information Systems",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "nus_is_2026",
+                "kind": "url",
+                "url": "https://www.comp.nus.edu.sg/programmes/ug/is/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "nus-bachelor-information-security",
+        "university_id": "nus",
+        "name_en": "Bachelor of Computing in Information Security",
+        "name_zh": "淇℃伅瀹夊叏瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Cyber Security",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "nus_isc_2026",
+                "kind": "url",
+                "url": "https://www.comp.nus.edu.sg/programmes/ug/isc/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "nus-bachelor-artificial-intelligence",
+        "university_id": "nus",
+        "name_en": "Bachelor of Computing in Artificial Intelligence",
+        "name_zh": "浜哄伐鏅鸿兘瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Artificial Intelligence",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "nus_ai_2026",
+                "kind": "url",
+                "url": "https://www.comp.nus.edu.sg/programmes/ug/ai/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg-bachelor-computing-science",
+        "university_id": "ntu-sg",
+        "name_en": "Bachelor of Computing in Computer Science",
+        "name_zh": "璁＄畻鏈虹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "ntu_cs_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/education/undergraduate-programme/bachelor-of-computing-in-computer-science",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg-bachelor-computer-engineering",
+        "university_id": "ntu-sg",
+        "name_en": "Bachelor of Engineering in Computer Engineering",
+        "name_zh": "璁＄畻宸ョ▼瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Engineering",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "ntu_ce_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/education/undergraduate-programme/bachelor-of-engineering-in-computer-engineering",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "ntu-sg-bachelor-information-engineering-media",
+        "university_id": "ntu-sg",
+        "name_en": "Bachelor of Engineering in Information Engineering and Media",
+        "name_zh": "淇℃伅宸ョ▼涓庡獟浣撹绠楀澹?",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Information Engineering",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.58,
+        "sources": [
+            {
+                "source_id": "ntu_iem_2026",
+                "kind": "url",
+                "url": "https://www.ntu.edu.sg/education/undergraduate-programme/bachelor-of-engineering-in-information-engineering-and-media-iem",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "nus-bachelor-data-science-analytics",
+        "university_id": "nus",
+        "name_en": "Major in Data Science and Analytics",
+        "name_zh": "数据科学与分析主修",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.68,
+        "sources": [
+            {
+                "source_id": "nus_dsa_2026",
+                "kind": "url",
+                "url": "https://www.stat.nus.edu.sg/education/undergraduate/prospective-student/major-in-data-science-analytics/",
+                "last_verified_date": "2026-06-09",
+                "note": "official programme page"
+            }
+        ]
+    },
+    {
+        "id": "smu-bachelor-information-systems",
+        "university_id": "smu",
+        "name_en": "Bachelor of Science (Information Systems)",
+        "name_zh": "信息系统理学学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Information Systems",
+        "teaching_style": "applied_heavy",
+        "language_min": {},
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.75,
+        "sources": [
+            {
+                "source_id": "smu_bachelor_information_systems_2026",
+                "kind": "url",
+                "url": "https://computing.smu.edu.sg/bsc-information-systems",
+                "last_verified_date": "2026-06-09",
+                "note": "official program page"
             }
         ]
     }

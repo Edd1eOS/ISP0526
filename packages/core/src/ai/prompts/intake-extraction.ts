@@ -12,8 +12,8 @@
 //   - academic.gpa (normalized to 4.0 scale)
 //   - academic.ielts_overall
 //   - academic.toefl_total
-//   - academic.current_level   (bachelor / master / phd)
-//   - academic.target_level    (bachelor / master / phd)
+//   - academic.current_level   (foundation / pathway / diploma / bachelor / master / phd)
+//   - academic.target_level    (foundation / pathway / diploma / bachelor / master / phd)
 //   - academic.target_field    (free-text discipline)
 //   - budget.annual_aud        (AUD per year, integer)
 //
@@ -24,6 +24,7 @@
 import { z } from "zod";
 
 import type { Locale } from "./recommendation-narrative";
+import { StudyLevelSchema } from "../../schemas/institution";
 
 export type { Locale };
 
@@ -51,7 +52,7 @@ const stringField = z
 
 const levelField = z
     .object({
-        value: z.enum(["bachelor", "master", "phd"]),
+        value: StudyLevelSchema,
         confidence,
         source_excerpt: sourceExcerpt,
     })
@@ -99,6 +100,7 @@ Hard rules:
     3. source_excerpt - a verbatim quote from the source text (<= 240 chars) that supports the value. Do NOT paraphrase the source_excerpt.
 - GPA must be normalized to a 4.0 scale. If the source uses a 100-scale or another scale, convert and lower the confidence by 0.1.
 - IELTS overall is the overall band score, not a single sub-band.
+- current_level / target_level must be one of: foundation, pathway, diploma, bachelor, master, phd. Use foundation for foundation year / preparatory year, pathway for bridge / international year-one routes, and diploma for diploma / certificate / postgraduate diploma routes.
 - target_field is the discipline the student wants to study next (e.g. "Computer Science", "Public Health"), NOT the current major unless they are continuing. If the source uses a broad Chinese term like "工程" / "商科" / "计算机", normalize it to the closest English discipline name ("Engineering", "Business", "Computing") at confidence 0.55..0.7.
 - budget.annual_aud is in Australian dollars per year, integer. The student is applying to study in Australia, so when an amount is given WITHOUT an explicit currency (e.g. "20万", "200k", "二十万"), default to interpreting it as AUD per year at confidence 0.5..0.65. If the source clearly says CNY / RMB / 人民币 / $ USD / GBP, convert at a sensible recent exchange rate and lower confidence by 0.1.
 - Output language for unstructured_notes follows the top-level "locale" field (zh = Simplified Chinese, en = English). All other field values stay in their natural form (numbers, enums, English discipline names).

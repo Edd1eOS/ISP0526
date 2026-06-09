@@ -206,7 +206,10 @@ function parseTags(text: string): string[] | undefined {
 
 function parseTargetLevel(
     text: string,
-): "bachelor" | "master" | "phd" | undefined {
+): "foundation" | "pathway" | "diploma" | "bachelor" | "master" | "phd" | undefined {
+    if (/预科|foundation|foundation\s*year/i.test(text)) return "foundation";
+    if (/国际大一|桥梁|衔接|pathway/i.test(text)) return "pathway";
+    if (/文凭|证书|diploma|certificate|postgraduate\s*diploma/i.test(text)) return "diploma";
     if (/本科|学士|undergrad|bachelor/i.test(text)) return "bachelor";
     if (/硕士|master|研究生/i.test(text)) return "master";
     if (/博士|phd|doctor/i.test(text)) return "phd";
@@ -226,7 +229,7 @@ const QUESTIONS: Record<FormFieldKey, string> = {
         "你喜欢哪种上课风格？1 偏理论 / 2 平衡 / 3 偏实践。",
     city_size:
         "想去多大的城市？1 超大（悉尼/墨尔本）/ 2 大城市（布里斯班/珀斯）/ 3 中等（阿德莱德）/ 4 小城市。",
-    target_level: "目标学位：本科 / 硕士 / 博士？",
+    target_level: "目标层级：预科 / 衔接 / 文凭 / 本科 / 硕士 / 博士？",
 };
 
 // Second-attempt phrasings — shorter and more forgiving when the first
@@ -241,7 +244,7 @@ const RETRY_QUESTIONS: Record<FormFieldKey, string> = {
     teaching_style: "理论 / 平衡 / 实践 三选一；不确定就打「跳过」。",
     city_size:
         "超大 / 大 / 中 / 小 城市，挑一个；不确定就打「跳过」。",
-    target_level: "本科 / 硕士 / 博士，三选一。",
+    target_level: "预科 / 衔接 / 文凭 / 本科 / 硕士 / 博士，选最接近的。",
 };
 
 // --- main entry ----------------------------------------------------------

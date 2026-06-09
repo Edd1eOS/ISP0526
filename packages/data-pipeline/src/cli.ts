@@ -57,7 +57,7 @@ async function main() {
             break;
         }
         case "diff": {
-            const country = (args[0] ?? "au") as "au" | "uk" | "ca";
+            const country = args[0] ?? "au";
             const prod = loadProduction(country);
             const draftUniPath = path.join(DRAFTS_DIR, `universities.${country}.draft.json`);
             const draftProgPath = path.join(DRAFTS_DIR, `programs.${country}.draft.json`);

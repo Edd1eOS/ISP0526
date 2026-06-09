@@ -40,5 +40,26 @@
                 "note": "official undergraduate programme index"
             }
         ]
+    },
+    {
+        "id": "smu",
+        "name_en": "Singapore Management University",
+        "name_zh": "新加坡管理大学",
+        "country": "SG",
+        "city": "Singapore",
+        "city_size": "mega",
+        "climate": "tropical",
+        "reputation_score": 0.89,
+        "chinese_community_density": 0.8,
+        "safety_index": 0.95,
+        "sources": [
+            {
+                "source_id": "smu_home_2026",
+                "kind": "url",
+                "url": "https://www.smu.edu.sg/",
+                "last_verified_date": "2026-06-09",
+                "note": "official university homepage"
+            }
+        ]
     }
 ]

@@ -1,10 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { score, explain } from "./budget";
-import { buildProfile, fixtureCandidate } from "./__fixtures__";
+import { buildProfile, fixtureCandidate, fixtureProgram } from "./__fixtures__";
+
+const { tuition: _tuition, ...programWithoutTuition } = fixtureProgram;
+const candidateWithoutTuition = {
+    ...fixtureCandidate,
+    program: programWithoutTuition,
+};
 
 describe("budget.score", () => {
     it("returns neutral baseline when no budget is provided", () => {
         expect(score(buildProfile(), fixtureCandidate)).toBeCloseTo(0.5, 2);
+    });
+
+    it("returns neutral baseline when tuition is not verified", () => {
+        const v = score(
+            buildProfile({ budget: { annual_aud: 80000, flex: 0 } }),
+            candidateWithoutTuition,
+        );
+        expect(v).toBeCloseTo(0.5, 2);
     });
 
     it("rewards budgets comfortably above tuition", () => {
@@ -39,5 +53,12 @@ describe("budget.explain", () => {
             fixtureCandidate,
         );
         expect(reasons.some((r) => r.includes("年预算"))).toBe(true);
+    });
+    it("calls out neutral scoring when tuition is not verified", () => {
+        const reasons = explain(
+            buildProfile({ budget: { annual_aud: 80000, flex: 0 } }),
+            candidateWithoutTuition,
+        );
+        expect(reasons.some((r) => r.includes("学费尚未核实"))).toBe(true);
     });
 });

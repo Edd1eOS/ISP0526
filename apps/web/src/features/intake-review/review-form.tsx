@@ -20,7 +20,10 @@ interface ReviewFormProps {
 }
 
 const STUDY_LEVELS = [
-    { value: "bachelor", label: "本科（暂无项目数据）" },
+    { value: "foundation", label: "预科 / Foundation" },
+    { value: "pathway", label: "衔接 / Pathway" },
+    { value: "diploma", label: "文凭 / Diploma" },
+    { value: "bachelor", label: "本科（数据补齐中）" },
     { value: "master", label: "硕士" },
     { value: "phd", label: "博士（暂无项目数据）" },
 ] as const;

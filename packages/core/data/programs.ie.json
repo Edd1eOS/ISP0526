@@ -1,21 +1,5 @@
 [
     {
-        "id": "tcd-bachelor-computer-science",
-        "university_id": "tcd",
-        "name_en": "Computer Science BA",
-        "name_zh": "计算机科学本科",
-        "level": "bachelor",
-        "duration_years": 4,
-        "field": "Computer Science",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 45000 },
-        "tags": ["field_top", "career_pipeline"],
-        "applied_ratio": 0.6,
-        "sources": [{ "source_id": "tcd_cs_ba_2026", "kind": "url", "url": "https://www.tcd.ie/courses/", "last_verified_date": "2026-05-27" }]
-    },
-    {
         "id": "ucd-msc-business-analytics",
         "university_id": "ucd",
         "name_en": "MSc Business Analytics",
@@ -24,12 +8,27 @@
         "duration_years": 1,
         "field": "Business Analytics",
         "teaching_style": "applied_heavy",
-        "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 44000 },
-        "tags": ["career_pipeline", "value_for_money"],
+        "gpa_min": 3,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 44000
+        },
+        "tags": [
+            "career_pipeline",
+            "value_for_money"
+        ],
         "applied_ratio": 0.75,
-        "sources": [{ "source_id": "ucd_msc_ba_2026", "kind": "url", "url": "https://www.ucd.ie/quinn/programmes/masters/msc-business-analytics/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "ucd_msc_ba_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/quinn/programmes/masters/msc-business-analytics/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "tcd-phd-research",
@@ -41,11 +40,25 @@
         "field": "Research",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 14000 },
-        "tags": ["scholarship_rich"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 14000
+        },
+        "tags": [
+            "scholarship_rich"
+        ],
         "applied_ratio": 0.25,
-        "sources": [{ "source_id": "tcd_phd_2026", "kind": "url", "url": "https://www.tcd.ie/study/postgraduate/research/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "tcd_phd_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/study/postgraduate/research/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "ucd-international-foundation-year",
@@ -56,12 +69,26 @@
         "duration_years": 1,
         "field": "Foundation",
         "teaching_style": "balanced",
-        "gpa_min": 2.0,
-        "language_min": { "ielts_overall": 5.0 },
-        "tuition": { "currency": "AUD", "annual": 30000 },
-        "tags": ["stepping_stone"],
+        "gpa_min": 2,
+        "language_min": {
+            "ielts_overall": 5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 30000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "ucd_ifp_2026", "kind": "url", "url": "https://www.ucd.ie/global/study-at-ucd/undergraduate/internationalfoundationyear/", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "ucd_ifp_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/global/study-at-ucd/undergraduate/internationalfoundationyear/",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "tcd-msc-computer-science",
@@ -72,12 +99,27 @@
         "duration_years": 1,
         "field": "Computing",
         "teaching_style": "balanced",
-        "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 43000 },
-        "tags": ["field_top", "career_pipeline"],
+        "gpa_min": 3,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 43000
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "tcd_msc_cs_2026", "kind": "url", "url": "https://www.tcd.ie/courses/postgraduate/az/course.php?id=DTMCS-INFT-1F09", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "tcd_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/postgraduate/az/course.php?id=DTMCS-INFT-1F09",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "ucd-msc-data-analytics",
@@ -89,11 +131,26 @@
         "field": "Data Science",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 41000 },
-        "tags": ["career_pipeline", "value_for_money"],
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 41000
+        },
+        "tags": [
+            "career_pipeline",
+            "value_for_money"
+        ],
         "applied_ratio": 0.7,
-        "sources": [{ "source_id": "ucd_msc_da_2026", "kind": "url", "url": "https://www.ucd.ie/iss/study/graduateprogrammes/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "ucd_msc_da_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/iss/study/graduateprogrammes/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "tcd-msc-management",
@@ -105,11 +162,26 @@
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.6,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 40000 },
-        "tags": ["career_pipeline", "value_for_money"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 40000
+        },
+        "tags": [
+            "career_pipeline",
+            "value_for_money"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "tcd_msc_mgmt_2026", "kind": "url", "url": "https://www.tcd.ie/Business/msc-management/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "tcd_msc_mgmt_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/Business/msc-management/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "ucd-msc-computer-science",
@@ -121,11 +193,26 @@
         "field": "Computing",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 39000 },
-        "tags": ["career_pipeline", "value_for_money"],
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 39000
+        },
+        "tags": [
+            "career_pipeline",
+            "value_for_money"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "ucd_msc_cs_2026", "kind": "url", "url": "https://www.ucd.ie/cs/study/graduateprogrammes/msccomputerscience/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "ucd_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/cs/study/graduateprogrammes/msccomputerscience/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "ucd-msc-finance",
@@ -137,10 +224,238 @@
         "field": "Finance",
         "teaching_style": "balanced",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 42000 },
-        "tags": ["career_pipeline", "field_top"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 42000
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "ucd_msc_fin_2026", "kind": "url", "url": "https://www.ucd.ie/quinn/programmes/masters/msc-finance/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "ucd_msc_fin_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/quinn/programmes/masters/msc-finance/",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "tcd-bachelor-computer-science",
+        "university_id": "tcd",
+        "name_en": "Computer Science",
+        "name_zh": "璁＄畻鏈虹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "tcd_cs_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/undergraduate/courses/computer-science/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "tcd-foundation-international-foundation-programme",
+        "university_id": "tcd",
+        "name_en": "Trinity International Foundation Programme",
+        "name_zh": "鐗瑰姏灏冨鍩虹璇剧▼",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "language_min": {},
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "tcd_ifp_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/study/international/foundation-programme/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "ucd-bachelor-computer-science",
+        "university_id": "ucd",
+        "name_en": "Bachelor of Science in Computer Science",
+        "name_zh": "璁＄畻鏈虹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "ucd_cs_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/science/study/prospectiveundergraduatestudents/computerscience/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "tcd-msiss",
+        "university_id": "tcd",
+        "name_en": "Management Science and Information Systems Studies",
+        "name_zh": "绠＄悊绉戝涓庝俊鎭郴缁熺爺绌",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Information Systems",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.62,
+        "sources": [
+            {
+                "source_id": "tcd_msiss_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/undergraduate/courses/management-science-and-information-systems-studies/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "tcd-bachelor-computer-science-linguistics-language",
+        "university_id": "tcd",
+        "name_en": "Computer Science, Linguistics and a Language",
+        "name_zh": "璁＄畻鏈虹瀛︿笌璇█瀛︿笌涓€闂ㄨ瑷€",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "tcd_csll_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/slscs/undergraduate/computer-science-linguistics-and-a-language/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "ucd-bachelor-economics-finance",
+        "university_id": "ucd",
+        "name_en": "Bachelor of Science in Economics and Finance",
+        "name_zh": "缁忔祹涓庨噾铻嶅瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Finance",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.62,
+        "sources": [
+            {
+                "source_id": "ucd_bsef_2026",
+                "kind": "url",
+                "url": "https://www.ucd.ie/students/t4media/2001-2%20commerce_ug.pdf",
+                "last_verified_date": "2026-06-09",
+                "note": "official programme specification PDF"
+            }
+        ]
+    },
+    {
+        "id": "tcd-foundation-programme",
+        "university_id": "tcd",
+        "name_en": "Trinity International Foundation Programme",
+        "name_zh": "三一国际预科课程",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "language_min": {},
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "tcd_ifp_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/study/assets/PDF/IFPfoundation2020.pdf",
+                "last_verified_date": "2026-06-09",
+                "note": "official foundation programme PDF"
+            }
+        ]
+    },
+    {
+        "id": "tcd-bachelor-computer-engineering",
+        "university_id": "tcd",
+        "name_en": "Computer Engineering",
+        "name_zh": "计算机工程学士",
+        "level": "bachelor",
+        "duration_years": 5,
+        "field": "Engineering",
+        "teaching_style": "theory_heavy",
+        "language_min": {},
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "tcd_bachelor_computer_engineering_2026",
+                "kind": "url",
+                "url": "https://www.tcd.ie/courses/undergraduate/courses/computer-engineering/",
+                "last_verified_date": "2026-06-09",
+                "note": "official program page"
+            }
+        ]
     }
 ]

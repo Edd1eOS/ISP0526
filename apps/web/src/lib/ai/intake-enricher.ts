@@ -59,7 +59,13 @@ function detectField(text: string): Signal<string> | undefined {
 
 function detectLevel(
     text: string,
-): Signal<"bachelor" | "master" | "phd"> | undefined {
+): Signal<"foundation" | "pathway" | "diploma" | "bachelor" | "master" | "phd"> | undefined {
+    const foundation = /预科|foundation|foundation\s*year/i.exec(text);
+    if (foundation) return makeSignal("foundation", text, foundation);
+    const pathway = /国际大一|桥梁课程|衔接课|pathway/i.exec(text);
+    if (pathway) return makeSignal("pathway", text, pathway);
+    const diploma = /文凭|证书|diploma|certificate|postgraduate\s*diploma/i.exec(text);
+    if (diploma) return makeSignal("diploma", text, diploma);
     const phd = /(读|想读|攻读|去读)?\s*博士|phd|doctor/i.exec(text);
     if (phd) return makeSignal("phd", text, phd);
     const master = /(读|想读|攻读|去读)?\s*硕士|研究生|master/i.exec(text);

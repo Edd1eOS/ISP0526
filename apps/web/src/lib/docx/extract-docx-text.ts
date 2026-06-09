@@ -1,3 +1,5 @@
+import "../uint8array-hex-polyfill";
+
 // Client-side DOCX text extractor backed by mammoth's browser build.
 // mammoth.extractRawText drops styling, embedded images, headers and
 // footers; for our use case (resumes, transcripts) that is exactly what

@@ -131,7 +131,7 @@ export function programsForUni(seed: UniSeed, verifiedDate = "2026-06-05") {
     const countryTags: ProgramTag[] =
         seed.country === "AU" ? ["migration_friendly"] :
         seed.country === "CA" ? ["migration_friendly"] :
-        ["stepping_stone"];
+        [];
 
     return STANDARD_MASTER_TEMPLATES.map((t) => ({
         id: `${seed.id}-${t.slug}`,

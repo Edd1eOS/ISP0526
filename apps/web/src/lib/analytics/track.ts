@@ -1,5 +1,6 @@
 "use client";
 
+import "../uint8array-hex-polyfill";
 import posthog from "posthog-js";
 
 // Single safe entry-point for PostHog `capture` calls from client components.

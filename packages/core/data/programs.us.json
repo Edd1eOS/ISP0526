@@ -117,34 +117,6 @@
         ]
     },
     {
-        "id": "stanford-pre-collegiate-studies",
-        "university_id": "stanford",
-        "name_en": "Stanford Pre-Collegiate Studies",
-        "name_zh": "斯坦福大学预科拓展课程",
-        "level": "foundation",
-        "duration_years": 1,
-        "field": "Foundation",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {},
-        "tuition": {
-            "currency": "AUD",
-            "annual": 20000
-        },
-        "tags": [
-            "stepping_stone"
-        ],
-        "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "stanford_precollegiate_2026",
-                "kind": "url",
-                "url": "https://spcs.stanford.edu/",
-                "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
         "id": "stanford-master-computer-science",
         "university_id": "stanford",
         "name_en": "Master of Science in Computer Science",
@@ -156,7 +128,7 @@
         "gpa_min": 3.7,
         "language_min": {
             "toefl_total": 100,
-            "ielts_overall": 7.0
+            "ielts_overall": 7
         },
         "tuition": {
             "currency": "AUD",
@@ -189,21 +161,14 @@
         "university_id": "mit",
         "name_en": "MicroMasters in Statistics and Data Science",
         "name_zh": "统计学与数据科学微硕士",
-        "level": "master",
+        "level": "pathway",
         "duration_years": 1,
         "field": "Data Science",
         "teaching_style": "theory_heavy",
-        "gpa_min": 3.2,
-        "language_min": {
-            "toefl_total": 90
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 75000
-        },
+        "language_min": {},
         "tags": [
             "field_top",
-            "career_pipeline"
+            "stepping_stone"
         ],
         "applied_ratio": 0.65,
         "sources": [
@@ -211,7 +176,22 @@
                 "source_id": "mit_sds_2026",
                 "kind": "url",
                 "url": "https://micromasters.mit.edu/ds/",
-                "last_verified_date": "2026-05-29"
+                "last_verified_date": "2026-06-08",
+                "note": "Official page identifies this as a MicroMasters credential, not a campus master's degree."
+            },
+            {
+                "source_id": "mit_sds_pathway_2026",
+                "kind": "url",
+                "url": "https://micromasters.mit.edu/ds/pathways-graduate-programs/",
+                "last_verified_date": "2026-06-08",
+                "note": "Official pathway page says the credential can count for graduate credit at listed universities."
+            },
+            {
+                "source_id": "mit_sds_cost_2026",
+                "kind": "url",
+                "url": "https://mitx-micromasters.zendesk.com/hc/en-us/articles/360035902191-How-much-does-the-MITx-MicroMasters-Program-Credential-in-Statistics-and-Data-Science-SDS-cost-Is-financial-assistance-available",
+                "last_verified_date": "2026-06-08",
+                "note": "Cost is listed in USD; omitted from AUD annual tuition field to avoid untracked currency conversion."
             }
         ]
     },
@@ -288,44 +268,6 @@
                 "source_id": "mit_mfin_2026",
                 "kind": "url",
                 "url": "https://mitsloan.mit.edu/mfin",
-                "last_verified_date": "2026-05-29"
-            }
-        ]
-    },
-    {
-        "id": "stanford-bachelor-economics",
-        "university_id": "stanford",
-        "name_en": "Bachelor of Arts in Economics",
-        "name_zh": "经济学文学学士",
-        "level": "bachelor",
-        "duration_years": 4,
-        "field": "Business",
-        "teaching_style": "balanced",
-        "gpa_min": 3.5,
-        "language_min": {
-            "toefl_total": 100
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 95000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline"
-        ],
-        "applied_ratio": 0.5,
-        "admission_profile": {
-            "selectivity": "elite",
-            "competitive_gpa_4": 3.9,
-            "required_tests": [
-                "sat"
-            ]
-        },
-        "sources": [
-            {
-                "source_id": "stanford_econ_2026",
-                "kind": "url",
-                "url": "https://economics.stanford.edu/",
                 "last_verified_date": "2026-05-29"
             }
         ]

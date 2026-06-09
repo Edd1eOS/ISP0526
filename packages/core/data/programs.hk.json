@@ -1,71 +1,5 @@
 [
     {
-        "id": "hku-bachelor-engineering",
-        "university_id": "hku",
-        "name_en": "Bachelor of Engineering",
-        "name_zh": "工程学学士",
-        "level": "bachelor",
-        "duration_years": 4,
-        "field": "Engineering",
-        "teaching_style": "applied_heavy",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 5.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 41000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.65,
-        "sources": [
-            {
-                "source_id": "hku_beng_2026",
-                "kind": "url",
-                "url": "https://admissions.hku.hk/programmes",
-                "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
-        "id": "hku-master-data-science",
-        "university_id": "hku",
-        "name_en": "Master of Data Science",
-        "name_zh": "数据科学硕士",
-        "level": "master",
-        "duration_years": 1.5,
-        "field": "Data Science",
-        "teaching_style": "balanced",
-        "gpa_min": 3.1,
-        "language_min": {
-            "ielts_overall": 6.0,
-            "ielts_min_band": 5.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.65,
-        "sources": [
-            {
-                "source_id": "hku_mds_2026",
-                "kind": "url",
-                "url": "https://datascience.hku.hk/",
-                "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
         "id": "hkust-phd-computer-science",
         "university_id": "hkust",
         "name_en": "PhD in Computer Science and Engineering",
@@ -95,73 +29,6 @@
                 "kind": "url",
                 "url": "https://cse.hkust.edu.hk/pg/pg_programs/phd/",
                 "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
-        "id": "hku-space-foundation",
-        "university_id": "hku",
-        "name_en": "HKU SPACE International Foundation Programme",
-        "name_zh": "香港大学专业进修学院国际预科课程",
-        "level": "foundation",
-        "duration_years": 1,
-        "field": "Foundation",
-        "teaching_style": "balanced",
-        "gpa_min": 2.0,
-        "language_min": {
-            "ielts_overall": 5.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 28000
-        },
-        "tags": [
-            "stepping_stone",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.6,
-        "sources": [
-            {
-                "source_id": "hku_space_ifp_2026",
-                "kind": "url",
-                "url": "https://hkuspace.hku.hk/",
-                "last_verified_date": "2026-05-27"
-            }
-        ]
-    },
-    {
-        "id": "hkust-master-data-science-tech",
-        "university_id": "hkust",
-        "name_en": "MSc in Data Science and Technology",
-        "name_zh": "数据科学与技术理学硕士",
-        "level": "master",
-        "duration_years": 1.5,
-        "field": "Data Science",
-        "teaching_style": "applied_heavy",
-        "gpa_min": 3.2,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.7,
-        "admission_profile": {
-            "selectivity": "highly_selective",
-            "competitive_gpa_4": 3.5
-        },
-        "sources": [
-            {
-                "source_id": "hkust_dst_2026",
-                "kind": "url",
-                "url": "https://dst.ust.hk/",
-                "last_verified_date": "2026-05-29"
             }
         ]
     },
@@ -198,37 +65,6 @@
         ]
     },
     {
-        "id": "hkust-master-business-management",
-        "university_id": "hkust",
-        "name_en": "MSc in Information Systems Management",
-        "name_zh": "信息系统管理理学硕士",
-        "level": "master",
-        "duration_years": 1,
-        "field": "Business",
-        "teaching_style": "balanced",
-        "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.0
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
-        "tags": [
-            "career_pipeline",
-            "chinese_community"
-        ],
-        "applied_ratio": 0.6,
-        "sources": [
-            {
-                "source_id": "hkust_ism_2026",
-                "kind": "url",
-                "url": "https://bm.hkust.edu.hk/",
-                "last_verified_date": "2026-05-29"
-            }
-        ]
-    },
-    {
         "id": "hku-master-computer-science",
         "university_id": "hku",
         "name_en": "MSc in Computer Science",
@@ -237,9 +73,9 @@
         "duration_years": 1.5,
         "field": "Computing",
         "teaching_style": "balanced",
-        "gpa_min": 3.0,
+        "gpa_min": 3,
         "language_min": {
-            "ielts_overall": 6.0
+            "ielts_overall": 6
         },
         "tuition": {
             "currency": "AUD",
@@ -296,22 +132,15 @@
         ]
     },
     {
-        "id": "hku-bachelor-business-admin",
-        "university_id": "hku",
-        "name_en": "Bachelor of Business Administration",
-        "name_zh": "工商管理学士",
+        "id": "hkust-bachelor-data-science-technology",
+        "university_id": "hkust",
+        "name_en": "BSc in Data Science and Technology",
+        "name_zh": "数据科学与技术理学士",
         "level": "bachelor",
         "duration_years": 4,
-        "field": "Business",
-        "teaching_style": "applied_heavy",
-        "gpa_min": 3.0,
-        "language_min": {
-            "ielts_overall": 6.5
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 43000
-        },
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "language_min": {},
         "tags": [
             "field_top",
             "career_pipeline",
@@ -320,10 +149,223 @@
         "applied_ratio": 0.7,
         "sources": [
             {
-                "source_id": "hku_bba_2026",
+                "source_id": "hkust_bsc_dsct_2026",
                 "kind": "url",
-                "url": "https://admissions.hku.hk/programmes",
-                "last_verified_date": "2026-05-29"
+                "url": "https://prog-crs.hkust.edu.hk/ugprog/2024-25/DSCT",
+                "last_verified_date": "2026-06-08",
+                "note": "Official program catalog confirms BSc award title, joint offering unit, 4-year normative duration, and 120-credit requirement."
+            }
+        ]
+    },
+    {
+        "id": "hku-bachelor-computer-science",
+        "university_id": "hku",
+        "name_en": "Bachelor of Engineering in Computer Science",
+        "name_zh": "璁＄畻鏈虹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "hku_compsc_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes/undergraduate-programmes/computing-and-data-science",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hku-bachelor-ai-data-science",
+        "university_id": "hku",
+        "name_en": "Bachelor of Engineering in Artificial Intelligence and Data Science",
+        "name_zh": "浜哄伐鏅鸿兘涓庢暟鎹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Artificial Intelligence",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.68,
+        "sources": [
+            {
+                "source_id": "hku_aids_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes/undergraduate-programmes/computing-and-data-science",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hkust-bachelor-computer-science",
+        "university_id": "hkust",
+        "name_en": "BEng in Computer Science",
+        "name_zh": "璁＄畻鏈虹瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "hkust_comp_2026",
+                "kind": "url",
+                "url": "https://cse.hkust.edu.hk/ug/comp/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hku-bachelor-marketing-analytics-technology",
+        "university_id": "hku",
+        "name_en": "Bachelor of Science in Marketing Analytics and Technology",
+        "name_zh": "甯傚満鍒嗘瀽涓庣鐞嗙澹?",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Marketing",
+        "teaching_style": "applied_heavy",
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.62,
+        "sources": [
+            {
+                "source_id": "hku_mat_2026",
+                "kind": "url",
+                "url": "https://admissions.hku.hk/programmes/undergraduate-programmes/computing-and-data-science",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hkust-bachelor-computer-engineering",
+        "university_id": "hkust",
+        "name_en": "BEng in Computer Engineering",
+        "name_zh": "璁＄畻宸ョ▼瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Computer Engineering",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.64,
+        "sources": [
+            {
+                "source_id": "hkust_cpeg_2026",
+                "kind": "url",
+                "url": "https://cpeg.hkust.edu.hk/mobile.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hkust-bachelor-artificial-intelligence",
+        "university_id": "hkust",
+        "name_en": "BEng in Artificial Intelligence",
+        "name_zh": "浜哄伐鏅鸿兘宸ョ▼瀛﹀＋",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Artificial Intelligence",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.66,
+        "sources": [
+            {
+                "source_id": "hkust_ai_2026",
+                "kind": "url",
+                "url": "https://join.hkust.edu.hk/our-programs/school-of-engineering/artificial-intelligence",
+                "last_verified_date": "2026-06-09",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hkust-bachelor-quantitative-social-analysis",
+        "university_id": "hkust",
+        "name_en": "BSc in Quantitative Social Analysis",
+        "name_zh": "定量社会数据分析理学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Data Science",
+        "teaching_style": "balanced",
+        "language_min": {},
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "hkust_qsa_2026",
+                "kind": "url",
+                "url": "https://join.hkust.edu.hk//our-programs/school-of-humanities-and-social-science/quantitative-social-analysis",
+                "last_verified_date": "2026-06-09",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "hkust-bachelor-information-systems",
+        "university_id": "hkust",
+        "name_en": "BBA in Information Systems",
+        "name_zh": "信息系统工商管理学士",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Information Systems",
+        "teaching_style": "balanced",
+        "language_min": {},
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.62,
+        "sources": [
+            {
+                "source_id": "hkust_is_2026",
+                "kind": "url",
+                "url": "https://join.hkust.edu.hk/our-programs/school-of-business-and-management/information-systems",
+                "last_verified_date": "2026-06-09",
+                "note": "official program page"
             }
         ]
     }

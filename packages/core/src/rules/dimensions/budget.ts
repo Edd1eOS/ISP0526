@@ -18,7 +18,7 @@ export function score(profile: StudentProfile, candidate: Candidate): number {
     const { budget } = profile;
     const { tuition } = candidate.program;
 
-    if (budget.annual_aud === undefined) return NEUTRAL;
+    if (budget.annual_aud === undefined || tuition === undefined) return NEUTRAL;
 
     const effectiveBudget = budget.annual_aud * (1 + budget.flex);
     if (tuition.annual <= effectiveBudget) {
@@ -38,6 +38,9 @@ export function explain(
     const { budget } = profile;
     const { tuition } = candidate.program;
 
+    if (tuition === undefined) {
+        return ["学费尚未核实，预算匹配采用中性估值。"];
+    }
     if (budget.annual_aud === undefined) {
         return ["未提供年预算，预算匹配采用中性估值。"];
     }

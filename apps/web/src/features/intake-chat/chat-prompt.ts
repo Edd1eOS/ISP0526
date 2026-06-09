@@ -5,7 +5,7 @@
 import type { FormFieldKey } from "../intake-clarify/clarify-schema";
 
 export const FIELD_LABELS_ZH: Record<FormFieldKey, string> = {
-    target_level: "目标学位（bachelor / master / phd）",
+    target_level: "目标层级（foundation / pathway / diploma / bachelor / master / phd）",
     target_field:
         "目标方向（Information Technology / Computing / Data Science / Business / Business Administration / Finance / Civil Engineering / Electrical Engineering / Mechanical Engineering / Design / TESOL）",
     gpa: "学业成绩（GPA、WAM、高考、AP、A-level、IB、证书等任意类型）",

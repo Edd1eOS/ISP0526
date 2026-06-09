@@ -126,7 +126,14 @@ function valueLabel(field: keyof LedgerFacts, value: unknown): string {
         return `${wan} 万 AUD/年`;
     }
     if (field === "target_level" && typeof value === "string") {
-        return ({ bachelor: "本科", master: "硕士", phd: "博士" } as Record<string, string>)[value] ?? value;
+        return ({
+            foundation: "预科",
+            pathway: "衔接",
+            diploma: "文凭",
+            bachelor: "本科",
+            master: "硕士",
+            phd: "博士",
+        } as Record<string, string>)[value] ?? value;
     }
     if (field === "teaching_style" && typeof value === "string") {
         return (
@@ -161,7 +168,7 @@ export function nextFixedQuestion(ledger: KnowledgeLedger): PickerQuestion | nul
     //    Level must be known (either picked or wish-skipped).
     if (!wishedSkip(ledger, "level_supplement")) {
         const level = f.target_level?.value ?? null;
-        if (level === "bachelor") {
+        if (level === "foundation" || level === "pathway" || level === "diploma" || level === "bachelor") {
             return { kind: "picker", id: "level_supplement", template: NIGHT_BACHELOR_PATH };
         }
         if (level === "master" || level === "phd") {

@@ -1,0 +1,47 @@
+{
+  "universities": {
+    "total": 94,
+    "byCountry": {
+      "AU": 35,
+      "CA": 15,
+      "DE": 2,
+      "HK": 2,
+      "IE": 2,
+      "MO": 2,
+      "MY": 2,
+      "NL": 2,
+      "NZ": 2,
+      "RU": 2,
+      "SG": 2,
+      "TH": 2,
+      "TW": 2,
+      "UK": 20,
+      "US": 2
+    }
+  },
+  "programs": {
+    "total": 481,
+    "byCountry": {
+      "AU": 177,
+      "CA": 84,
+      "DE": 9,
+      "HK": 10,
+      "IE": 9,
+      "MO": 9,
+      "MY": 9,
+      "NL": 9,
+      "NZ": 9,
+      "RU": 9,
+      "SG": 10,
+      "TH": 9,
+      "TW": 9,
+      "UK": 109,
+      "US": 10
+    },
+    "missingGpa": 0,
+    "missingIelts": 12,
+    "missingTuition": 0,
+    "placeholderNotes": 369
+  },
+  "orphanPrograms": []
+}

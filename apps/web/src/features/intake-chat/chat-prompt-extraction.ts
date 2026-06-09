@@ -52,7 +52,7 @@ ${JSON.stringify(input.accumulated, null, 2)}
 EXTRACTION RULES:
 1. NEVER invent. If the student did not give a value for a field, OMIT it from the patch entirely.
 2. Use EXACT enum strings. Allowed enums:
-   - target_level: bachelor | master | phd
+   - target_level: foundation | pathway | diploma | bachelor | master | phd
    - target_field: Information Technology | Computing | Data Science | Business | Business Administration | Finance | Civil Engineering | Electrical Engineering | Mechanical Engineering | Design | TESOL
    - teaching_style: theory_heavy | balanced | applied_heavy
    - city_size: mega | large | medium | small
@@ -79,6 +79,9 @@ EXTRACTION RULES:
    - "金融" -> Finance
    - "设计" -> Design
 6. Chinese education context inference:
+   - "预科" / "foundation" / "foundation year" -> target_level = foundation.
+   - "国际大一" / "桥梁课程" / "衔接课" / "pathway" -> target_level = pathway.
+   - "文凭" / "diploma" / "certificate" / "postgraduate diploma" -> target_level = diploma.
    - "我是高考生" / "刚高考完" / "高三" / "高中生" -> target_level = bachelor.
    - "刚毕业" / "大四" / "本科在读" with study-abroad framing -> target_level = master (only if unambiguous).
    - "在读硕士" / "研究生在读" -> target_level = phd (only if context confirms).
