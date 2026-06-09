@@ -86,7 +86,7 @@ Rules:
 2. Opener behaviour follows the FSM 阶段 block above.
 3. NEVER re-ask anything in the locked list or in accumulated.skipped_fields.
 4. Provide quick_replies (2-6 short labels, each <= 12 Chinese chars) when the question has typical answers. Defaults by field:
-   - target_level -> ["硕士", "本科", "博士"]
+   - target_level -> ["硕士", "本科", "博士", "预科", "衔接课程", "文凭课程"]
    - target_field -> ["计算机", "数据科学", "金融", "商科", "工程", "设计"]
    - city_size -> ["超大城市", "大城市", "中等就行", "小城市没问题"]
    - teaching_style -> ["偏理论", "都行", "偏实践"]

@@ -1,0 +1,75 @@
+{
+  "universities": {
+    "total": 95,
+    "byCountry": {
+      "AU": 35,
+      "CA": 15,
+      "DE": 2,
+      "HK": 2,
+      "IE": 2,
+      "MO": 2,
+      "MY": 2,
+      "NL": 2,
+      "NZ": 2,
+      "RU": 2,
+      "SG": 3,
+      "TH": 2,
+      "TW": 2,
+      "UK": 20,
+      "US": 2
+    }
+  },
+  "programs": {
+    "total": 258,
+    "byCountry": {
+      "AU": 29,
+      "CA": 74,
+      "DE": 17,
+      "HK": 13,
+      "IE": 16,
+      "MO": 3,
+      "MY": 12,
+      "NL": 16,
+      "NZ": 18,
+      "RU": 9,
+      "SG": 18,
+      "TH": 3,
+      "UK": 22,
+      "US": 8
+    },
+    "missingGpa": 53,
+    "missingIelts": 26,
+    "missingTuition": 187,
+    "placeholderNotes": 0,
+    "genericSourcePrograms": 0,
+    "masterWithSteppingStone": 0,
+    "missingIeltsByCountry": {
+      "DE": 2,
+      "HK": 3,
+      "IE": 3,
+      "MY": 4,
+      "NL": 1,
+      "NZ": 3,
+      "RU": 1,
+      "SG": 2,
+      "US": 7
+    },
+    "missingTuitionByCountry": {
+      "AU": 28,
+      "CA": 73,
+      "DE": 8,
+      "HK": 9,
+      "IE": 8,
+      "MY": 12,
+      "NL": 7,
+      "NZ": 10,
+      "SG": 9,
+      "UK": 22,
+      "US": 1
+    },
+    "placeholderNotesByCountry": {},
+    "genericSourceProgramsByCountry": {},
+    "masterWithSteppingStoneByCountry": {}
+  },
+  "orphanPrograms": []
+}

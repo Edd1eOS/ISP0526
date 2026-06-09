@@ -39,7 +39,14 @@ export const ProgramTagSchema = z.enum([
 ]);
 export type ProgramTag = z.infer<typeof ProgramTagSchema>;
 
-export const StudyLevelSchema = z.enum(["foundation", "bachelor", "master", "phd"]);
+export const StudyLevelSchema = z.enum([
+    "foundation",
+    "pathway",
+    "diploma",
+    "bachelor",
+    "master",
+    "phd",
+]);
 export type StudyLevel = z.infer<typeof StudyLevelSchema>;
 
 export const TeachingStyleSchema = z.enum([
@@ -91,7 +98,7 @@ export type LanguageRequirement = z.infer<typeof LanguageRequirementSchema>;
 
 export const TuitionSchema = z.object({
     currency: z.literal("AUD"),
-    // Annual tuition, conservative public sticker price.
+    // Annual tuition, conservative public sticker price when verified.
     annual: z.number().int().positive(),
 });
 export type Tuition = z.infer<typeof TuitionSchema>;
@@ -166,9 +173,15 @@ export const ProgramSchema = z.object({
     duration_years: z.number().positive().max(8),
     field: z.string().min(1),
     teaching_style: TeachingStyleSchema,
-    gpa_min: gpa4,
+    // Optional because many undergraduate/pathway/diploma pages do not publish
+    // a normalized GPA floor. Missing GPA must remain blank instead of being
+    // replaced by an invented threshold.
+    gpa_min: gpa4.optional(),
     language_min: LanguageRequirementSchema,
-    tuition: TuitionSchema,
+    // Optional because unverified tuition must be left blank rather than filled
+    // with an invented placeholder. Budget scoring treats missing tuition as
+    // neutral.
+    tuition: TuitionSchema.optional(),
     tags: z.array(ProgramTagSchema).default([]),
     // Soft hint at applied vs theoretical; modulates personality fit.
     applied_ratio: unitInterval,

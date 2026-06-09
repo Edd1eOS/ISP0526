@@ -3,144 +3,541 @@
         "id": "auckland-bachelor-commerce",
         "university_id": "auckland",
         "name_en": "Bachelor of Commerce",
-        "name_zh": "商学学士",
+        "name_zh": "Bachelor of Commerce",
         "level": "bachelor",
         "duration_years": 3,
         "field": "Business",
         "teaching_style": "balanced",
         "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.0, "ielts_min_band": 5.5 },
-        "tuition": { "currency": "AUD", "annual": 43000 },
-        "tags": ["value_for_money", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 43000
+        },
+        "tags": [
+            "value_for_money",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "auckland_bcom_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/bachelor-of-commerce-bcom.html", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "auckland_bcom_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/bachelor-of-commerce-bcom.html",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "auckland-master-data-science",
         "university_id": "auckland",
         "name_en": "Master of Data Science",
-        "name_zh": "数据科学硕士",
+        "name_zh": "Master of Data Science",
         "level": "master",
         "duration_years": 1.5,
         "field": "Data Science",
         "teaching_style": "balanced",
-        "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 50000 },
-        "tags": ["field_top", "migration_friendly", "career_pipeline"],
+        "gpa_min": 3,
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 50000
+        },
+        "tags": [
+            "field_top",
+            "migration_friendly",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "auckland_mds_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/master-of-data-science-mdats.html", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "auckland_mds_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/master-of-data-science-mdats.html",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "otago-phd",
         "university_id": "otago",
         "name_en": "Doctor of Philosophy",
-        "name_zh": "哲学博士",
+        "name_zh": "Doctor of Philosophy",
         "level": "phd",
         "duration_years": 3,
         "field": "Research",
         "teaching_style": "theory_heavy",
         "gpa_min": 3.2,
-        "language_min": { "ielts_overall": 6.5, "ielts_min_band": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 9000 },
-        "tags": ["tuition_friendly", "scholarship_rich", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5,
+            "ielts_min_band": 6
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 9000
+        },
+        "tags": [
+            "tuition_friendly",
+            "scholarship_rich",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.25,
-        "sources": [{ "source_id": "otago_phd_2026", "kind": "url", "url": "https://www.otago.ac.nz/study/qualifications/phd", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "otago_phd_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/study/qualifications/phd",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "auckland-foundation-studies",
         "university_id": "auckland",
         "name_en": "Certificate in Foundation Studies",
-        "name_zh": "大学预科证书课程",
+        "name_zh": "Certificate in Foundation Studies",
         "level": "foundation",
         "duration_years": 1,
         "field": "Foundation",
         "teaching_style": "balanced",
-        "gpa_min": 2.0,
-        "language_min": { "ielts_overall": 5.0, "ielts_min_band": 4.5 },
-        "tuition": { "currency": "AUD", "annual": 35000 },
-        "tags": ["stepping_stone"],
+        "gpa_min": 2,
+        "language_min": {
+            "ielts_overall": 5,
+            "ielts_min_band": 4.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 35000
+        },
+        "tags": [
+            "stepping_stone"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "auckland_foundation_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/international-students/study-options-for-international-students/foundation-programmes.html", "last_verified_date": "2026-05-27" }]
+        "sources": [
+            {
+                "source_id": "auckland_foundation_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/international-students/study-options-for-international-students/foundation-programmes.html",
+                "last_verified_date": "2026-05-27"
+            }
+        ]
     },
     {
         "id": "auckland-master-computer-science",
         "university_id": "auckland",
         "name_en": "Master of Science in Computer Science",
-        "name_zh": "计算机科学理学硕士",
+        "name_zh": "Master of Science in Computer Science",
         "level": "master",
         "duration_years": 1.5,
         "field": "Computing",
         "teaching_style": "balanced",
-        "gpa_min": 3.0,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 49000 },
-        "tags": ["migration_friendly", "career_pipeline"],
+        "gpa_min": 3,
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 49000
+        },
+        "tags": [
+            "migration_friendly",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.6,
-        "sources": [{ "source_id": "auckland_msc_cs_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option.html", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "auckland_msc_cs_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option.html",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "otago-master-business-administration",
         "university_id": "otago",
         "name_en": "Master of Business Administration",
-        "name_zh": "工商管理硕士",
+        "name_zh": "Master of Business Administration",
         "level": "master",
         "duration_years": 1.5,
         "field": "Business",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 44000 },
-        "tags": ["value_for_money", "migration_friendly"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 44000
+        },
+        "tags": [
+            "value_for_money",
+            "migration_friendly"
+        ],
         "applied_ratio": 0.65,
-        "sources": [{ "source_id": "otago_mba_2026", "kind": "url", "url": "https://www.otago.ac.nz/study/programmes-courses/study-area/business-economics-and-finance", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "otago_mba_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/study/programmes-courses/study-area/business-economics-and-finance",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "auckland-master-information-technology",
         "university_id": "auckland",
         "name_en": "Master of Information Technology",
-        "name_zh": "信息技术硕士",
+        "name_zh": "Master of Information Technology",
         "level": "master",
         "duration_years": 1.5,
         "field": "Information Technology",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.7,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 46000 },
-        "tags": ["migration_friendly", "value_for_money"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 46000
+        },
+        "tags": [
+            "migration_friendly",
+            "value_for_money"
+        ],
         "applied_ratio": 0.7,
-        "sources": [{ "source_id": "auckland_mit_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option.html", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "auckland_mit_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option.html",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
     },
     {
         "id": "otago-master-applied-data-science",
         "university_id": "otago",
-        "name_en": "Postgraduate Diploma in Applied Data Science",
-        "name_zh": "应用数据科学研究生文凭",
-        "level": "master",
+        "name_en": "Diploma for Graduates (DipGrad) - Data Science pathway",
+        "name_zh": "Diploma for Graduates (DipGrad) - Data Science pathway",
+        "level": "diploma",
         "duration_years": 1,
         "field": "Data Science",
         "teaching_style": "applied_heavy",
-        "gpa_min": 2.5,
-        "language_min": { "ielts_overall": 6.0 },
-        "tuition": { "currency": "AUD", "annual": 38000 },
-        "tags": ["value_for_money", "migration_friendly"],
+        "language_min": {},
+        "tags": [
+            "stepping_stone"
+        ],
         "applied_ratio": 0.75,
-        "sources": [{ "source_id": "otago_pgdip_ds_2026", "kind": "url", "url": "https://www.otago.ac.nz/", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "otago_dipgrad_ds_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/courses/subjects/data-science",
+                "last_verified_date": "2026-06-08",
+                "note": "Official Data Science subject page lists Diploma for Graduates as a further study opportunity."
+            },
+            {
+                "source_id": "otago_dipgrad_regulations_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/courses/dipgrad/diploma-for-graduates",
+                "last_verified_date": "2026-06-08",
+                "note": "Official DipGrad page defines admission, structure, and one-year full-time duration."
+            },
+            {
+                "source_id": "otago_dipgrad_sciences_fees_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/future-students/fees-and-scholarships/fees/international-tuition-fees/sciences",
+                "last_verified_date": "2026-06-08",
+                "note": "Fees are listed in NZD range; omitted from AUD annual tuition field to avoid untracked currency conversion."
+            }
+        ]
     },
     {
         "id": "auckland-bachelor-engineering-specialised",
         "university_id": "auckland",
-        "name_en": "Bachelor of Engineering (Honours) – Electrical and Computer",
-        "name_zh": "电气与计算机工程荣誉学士",
+        "name_en": "Bachelor of Engineering (Honours) 闁?Electrical and Computer",
+        "name_zh": "Bachelor of Engineering (Honours) 闁?Electrical and Computer",
         "level": "bachelor",
         "duration_years": 4,
         "field": "Electrical Engineering",
         "teaching_style": "applied_heavy",
         "gpa_min": 2.8,
-        "language_min": { "ielts_overall": 6.5 },
-        "tuition": { "currency": "AUD", "annual": 48000 },
-        "tags": ["migration_friendly", "career_pipeline"],
+        "language_min": {
+            "ielts_overall": 6.5
+        },
+        "tuition": {
+            "currency": "AUD",
+            "annual": 48000
+        },
+        "tags": [
+            "migration_friendly",
+            "career_pipeline"
+        ],
         "applied_ratio": 0.5,
-        "sources": [{ "source_id": "auckland_beng_ece_2026", "kind": "url", "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/bachelor-of-engineering-honours.html", "last_verified_date": "2026-05-29" }]
+        "sources": [
+            {
+                "source_id": "auckland_beng_ece_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/bachelor-of-engineering-honours.html",
+                "last_verified_date": "2026-05-29"
+            }
+        ]
+    },
+    {
+        "id": "otago-bachelor-science-data-science",
+        "university_id": "otago",
+        "name_en": "Bachelor of Science (BSc) majoring in Data Science",
+        "name_zh": "Bachelor of Science (BSc) majoring in Data Science",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "language_min": {},
+        "tags": [
+            "career_pipeline",
+            "migration_friendly"
+        ],
+        "applied_ratio": 0.7,
+        "sources": [
+            {
+                "source_id": "otago_bsc_data_science_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/courses/subjects/data-science",
+                "last_verified_date": "2026-06-08",
+                "note": "Official subject page lists BSc Data Science as an undergraduate option and shows the 360-point programme structure."
+            },
+            {
+                "source_id": "otago_bsc_sciences_fees_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/future-students/fees-and-scholarships/fees/international-tuition-fees/sciences",
+                "last_verified_date": "2026-06-08",
+                "note": "Fees are listed in NZD; omitted from AUD annual tuition field to avoid untracked currency conversion."
+            }
+        ]
+    },
+    {
+        "id": "auckland-bachelor-science-computer-science",
+        "university_id": "auckland",
+        "name_en": "Bachelor of Science majoring in Computer Science",
+        "name_zh": "Bachelor of Science majoring in Computer Science",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "auckland_bsc_cs_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/computer-science/undergraduate.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "auckland-bachelor-science-data-science",
+        "university_id": "auckland",
+        "name_en": "Bachelor of Science specialising in Data Science",
+        "name_zh": "Bachelor of Science specialising in Data Science",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Data Science",
+        "teaching_style": "applied_heavy",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.68,
+        "sources": [
+            {
+                "source_id": "auckland_bsc_ds_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/data-science/undergraduate/bsc-data-science-from-2019.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "auckland-pathway-epus",
+        "university_id": "auckland",
+        "name_en": "English Pathway for Undergraduate Studies",
+        "name_zh": "English Pathway for Undergraduate Studies",
+        "level": "pathway",
+        "duration_years": 0.25,
+        "field": "Pathway",
+        "teaching_style": "balanced",
+        "language_min": {},
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.2,
+        "sources": [
+            {
+                "source_id": "auckland_epus_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/international-students/study-options-for-international-students/english-language-courses-international-students.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official pathway page"
+            }
+        ]
+    },
+    {
+        "id": "otago-foundation-studies-certificate",
+        "university_id": "otago",
+        "name_en": "Foundation Studies Certificate",
+        "name_zh": "Foundation Studies Certificate",
+        "level": "foundation",
+        "duration_years": 1,
+        "field": "Foundation",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 5.5,
+            "ielts_min_band": 5
+        },
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.25,
+        "sources": [
+            {
+                "source_id": "otago_fsc_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/uolcfy/pathway",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "otago-diploma-science",
+        "university_id": "otago",
+        "name_en": "Diploma in Science",
+        "name_zh": "Diploma in Science",
+        "level": "diploma",
+        "duration_years": 1,
+        "field": "Science",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 5.5,
+            "ielts_min_band": 5
+        },
+        "tags": [
+            "stepping_stone"
+        ],
+        "applied_ratio": 0.2,
+        "sources": [
+            {
+                "source_id": "otago_dipsc_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/courses/qualifications/diploma-in-science",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "auckland-bachelor-software-engineering",
+        "university_id": "auckland",
+        "name_en": "Bachelor of Engineering (Honours) in Software Engineering",
+        "name_zh": "Bachelor of Engineering (Honours) in Software Engineering",
+        "level": "bachelor",
+        "duration_years": 4,
+        "field": "Software Engineering",
+        "teaching_style": "applied_heavy",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tags": [
+            "field_top",
+            "career_pipeline"
+        ],
+        "applied_ratio": 0.66,
+        "sources": [
+            {
+                "source_id": "auckland_sofe_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/software-engineering/undergraduate.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "auckland-bachelor-information-systems",
+        "university_id": "auckland",
+        "name_en": "Bachelor of Commerce majoring in Information Systems",
+        "name_zh": "Bachelor of Commerce majoring in Information Systems",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Information Systems",
+        "teaching_style": "balanced",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.6,
+        "sources": [
+            {
+                "source_id": "auckland_is_2026",
+                "kind": "url",
+                "url": "https://www.auckland.ac.nz/en/study/study-options/find-a-study-option/information-systems.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page"
+            }
+        ]
+    },
+    {
+        "id": "otago-bachelor-computer-science",
+        "university_id": "otago",
+        "name_en": "Bachelor of Science majoring in Computer Science",
+        "name_zh": "Bachelor of Science majoring in Computer Science",
+        "level": "bachelor",
+        "duration_years": 3,
+        "field": "Computer Science",
+        "teaching_style": "theory_heavy",
+        "language_min": {
+            "ielts_overall": 6,
+            "ielts_min_band": 5.5
+        },
+        "tags": [
+            "career_pipeline",
+            "field_top"
+        ],
+        "applied_ratio": 0.65,
+        "sources": [
+            {
+                "source_id": "otago_cs_2026",
+                "kind": "url",
+                "url": "https://www.otago.ac.nz/courses/subjects/computer-science",
+                "last_verified_date": "2026-06-09",
+                "note": "official subject page"
+            }
+        ]
     }
 ]

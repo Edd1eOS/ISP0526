@@ -30,7 +30,13 @@ export type FieldGroup =
  * across picks, scalars are taken from the first pick that sets them.
  */
 export interface StarMeta {
-    readonly target_level?: "bachelor" | "master" | "phd";
+    readonly target_level?:
+        | "foundation"
+        | "pathway"
+        | "diploma"
+        | "bachelor"
+        | "master"
+        | "phd";
     /** Internal routing value used to show the immediate field-detail night. */
     readonly field_group?: FieldGroup;
     /** Canonical FIELD_OPTIONS value, only when the star maps cleanly. */

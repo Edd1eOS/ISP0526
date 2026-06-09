@@ -36,7 +36,13 @@ export function projectStarPicks(
     nights: ReadonlyArray<NightDef>,
 ): ProjectedPicks {
     const patch: {
-        target_level?: "bachelor" | "master" | "phd";
+        target_level?:
+            | "foundation"
+            | "pathway"
+            | "diploma"
+            | "bachelor"
+            | "master"
+            | "phd";
         target_field?: string;
         teaching_style?: "theory_heavy" | "balanced" | "applied_heavy";
         city_size?: "mega" | "large" | "medium" | "small";
@@ -90,7 +96,13 @@ export function projectStarPicks(
 
 function applyMeta(
     patch: {
-        target_level?: "bachelor" | "master" | "phd";
+        target_level?:
+            | "foundation"
+            | "pathway"
+            | "diploma"
+            | "bachelor"
+            | "master"
+            | "phd";
         target_field?: string;
         teaching_style?: "theory_heavy" | "balanced" | "applied_heavy";
         city_size?: "mega" | "large" | "medium" | "small";

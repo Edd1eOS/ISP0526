@@ -77,7 +77,9 @@ export function score(profile: StudentProfile, candidate: Candidate): number {
         candidate.program.admission_profile?.competitive_gpa_4 ??
         candidate.program.gpa_min;
     const gpaPart =
-        gpa === undefined ? NEUTRAL : gpaFitCurve(gpa - reference);
+        gpa === undefined || reference === undefined
+            ? NEUTRAL
+            : gpaFitCurve(gpa - reference);
     const langPart = languageHeadroom(profile, candidate);
     // GPA dominates academic fit (0.75) with language as a smaller modulator.
     return clamp01(gpaPart * 0.75 + langPart * 0.25);
@@ -92,7 +94,7 @@ export function explain(
     const { ielts_overall } = profile.academic;
     const { program } = candidate;
 
-    if (gpa !== undefined) {
+    if (gpa !== undefined && program.gpa_min !== undefined) {
         const delta = gpa - program.gpa_min;
         if (delta >= 0.5) {
             reasons.push(

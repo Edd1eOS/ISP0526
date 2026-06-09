@@ -212,7 +212,14 @@ function buildProfileSummary(ledger: KnowledgeLedger): ReadonlyArray<ProfileItem
     const items: ProfileItem[] = [];
     const f = ledger.facts;
     if (f.target_level) {
-        const map: Record<string, string> = { bachelor: "本科", master: "硕士", phd: "博士" };
+        const map: Record<string, string> = {
+            foundation: "预科",
+            pathway: "衔接",
+            diploma: "文凭",
+            bachelor: "本科",
+            master: "硕士",
+            phd: "博士",
+        };
         items.push({ label: "学习阶段", value: map[String(f.target_level.value)] ?? String(f.target_level.value) });
     }
     if (f.field_group) {

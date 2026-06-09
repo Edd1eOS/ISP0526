@@ -2,6 +2,8 @@
 // Falls back to local filesystem (.data/reports/) when Supabase env vars are
 // absent so local development works without a DB connection.
 
+import "./uint8array-hex-polyfill";
+
 import type {
     Candidate,
     RecommendationNarrative,

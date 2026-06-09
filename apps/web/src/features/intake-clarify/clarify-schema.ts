@@ -20,6 +20,15 @@ export const TEACHING_STYLE_VALUES = [
 
 export const CITY_SIZE_VALUES = ["mega", "large", "medium", "small"] as const;
 
+export const STUDY_LEVEL_VALUES = [
+    "foundation",
+    "pathway",
+    "diploma",
+    "bachelor",
+    "master",
+    "phd",
+] as const;
+
 export const TAG_VALUES = [
     "field_top",
     "migration_friendly",
@@ -41,7 +50,7 @@ export const FORM_FIELD_KEYS = [
 
 export const ClarifyPatchSchema = z
     .object({
-        target_level: z.enum(["bachelor", "master", "phd"]).optional(),
+        target_level: z.enum(STUDY_LEVEL_VALUES).optional(),
         target_field: z.enum(fieldEnumValues).optional(),
         // Legacy 4.0-scale GPA. Form path still uses this. Chat path should
         // populate `credentials` with the raw signal instead.

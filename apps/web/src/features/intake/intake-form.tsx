@@ -11,7 +11,7 @@ interface IntakeFormProps {
 // Values use AUD internally (server contract); the budget slider speaks
 // RMB and is converted just-in-time so users see familiar numbers.
 type Values = {
-    target_level: "bachelor" | "master" | "phd";
+    target_level: "foundation" | "pathway" | "diploma" | "bachelor" | "master" | "phd";
     target_field: string;
     gpa: number | null;
     ielts_overall: number | null;
@@ -36,7 +36,10 @@ const RMB_PER_AUD = 4.7;
 
 const LEVEL_TILES = [
     { value: "master", label: "硕士", caption: "目前覆盖完整的数据集", enabled: true },
-    { value: "bachelor", label: "本科", caption: "暂无项目数据", enabled: false },
+    { value: "bachelor", label: "本科", caption: "数据正在补齐", enabled: true },
+    { value: "foundation", label: "预科", caption: "Foundation / 国际大一", enabled: false },
+    { value: "pathway", label: "衔接", caption: "Pathway / 桥梁课程", enabled: false },
+    { value: "diploma", label: "文凭", caption: "Diploma / 证书路径", enabled: false },
     { value: "phd", label: "博士", caption: "暂无项目数据", enabled: false },
 ] as const;
 

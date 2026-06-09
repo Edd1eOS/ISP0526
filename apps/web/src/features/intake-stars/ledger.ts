@@ -32,7 +32,13 @@ export interface FactCell<T> {
     readonly alternatives: ReadonlyArray<FactAlternative<T>>;
 }
 
-export type TargetLevel = "bachelor" | "master" | "phd";
+export type TargetLevel =
+    | "foundation"
+    | "pathway"
+    | "diploma"
+    | "bachelor"
+    | "master"
+    | "phd";
 export type TeachingStyle = "theory_heavy" | "balanced" | "applied_heavy";
 export type CitySize = "mega" | "large" | "medium" | "small";
 export type Tag =

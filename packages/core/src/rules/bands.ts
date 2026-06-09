@@ -108,7 +108,10 @@ export function estimateAdmissionDifficulty(candidate: Candidate): number {
     }
 
     const reputation = candidate.university.reputation_score;
-    const gpaFloor = candidate.program.gpa_min / 4;
+    const gpaFloor =
+        candidate.program.gpa_min !== undefined
+            ? candidate.program.gpa_min / 4
+            : 0.5;
     const fieldTopBonus = candidate.program.tags.includes("field_top") ? 0.04 : 0;
     const phdBonus = candidate.program.level === "phd" ? 0.04 : 0;
     const eliteBonus = reputation >= ELITE_REPUTATION ? 0.05 : 0;

@@ -27,8 +27,8 @@ function mergeById<T extends { id: string }>(existing: readonly T[], incoming: r
 
 export function generateExpansionDrafts() {
     const allSeeds = [...AU_EXPANSION, ...UK_EXPANSION, ...CA_EXPANSION];
-    const newUniversities = allSeeds.map((s) => uniToUniversity(s));
-    const newPrograms = allSeeds.flatMap((s) => programsForUni(s));
+    const newUniversities = validateUniversities(allSeeds.map((s) => uniToUniversity(s)));
+    const newPrograms = validatePrograms(allSeeds.flatMap((s) => programsForUni(s)));
 
     const shards: Record<CountryShard, { universities: University[]; programs: Program[] }> = {
         au: { universities: [], programs: [] },

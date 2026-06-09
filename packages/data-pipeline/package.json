@@ -15,6 +15,7 @@
         "@isp0526/core": "file:../core"
     },
     "devDependencies": {
+        "@types/node": "^20.19.41",
         "tsx": "^4.19.4",
         "typescript": "^5",
         "vitest": "^2.1.9"

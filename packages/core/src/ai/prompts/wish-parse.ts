@@ -19,6 +19,7 @@
 
 import { z } from "zod";
 import type { Locale } from "./recommendation-narrative";
+import { StudyLevelSchema } from "../../schemas/institution";
 
 export const TAG_VALUES = [
     "field_top",
@@ -36,7 +37,7 @@ export const COUNTRY_VALUES = [
 
 export const WishExtractedSchema = z
     .object({
-        target_level: z.enum(["bachelor", "master", "phd"]).optional(),
+        target_level: StudyLevelSchema.optional(),
         /** Must be one of the canonical program field values.
          *  Omit if the field doesn't map cleanly to any of these. */
         target_field: z.string().max(40).optional(),
@@ -126,6 +127,8 @@ export const WISH_PARSE_SYSTEM_PROMPT = [
     "   city_size, teaching_style, preferred_tags.",
     "",
     "4. EXTRACT — extract structured fields ONLY when stated clearly.",
+    "   Valid target_level values: foundation, pathway, diploma, bachelor, master, phd.",
+    "   Use foundation for foundation/preparatory year, pathway for bridge/international year-one routes, and diploma for diploma/certificate routes.",
     "   Valid target_field values: Information Technology, Computing, Computer Science,",
     "   Software Engineering, Artificial Intelligence, Human Computer Interaction,",
     "   Data Science, Business, Business Administration, Business Analytics, Finance,",

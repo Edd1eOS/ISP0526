@@ -80,7 +80,7 @@ export async function POST(
                 city: cand.university.city,
                 program_name: cand.program.name_en,
                 university_name: cand.university.name_en,
-                tuition_annual_aud: cand.program.tuition.annual,
+                tuition_annual_aud: cand.program.tuition?.annual,
                 tags: cand.program.tags,
                 source_ids: [
                     ...cand.program.sources.map((src) => src.source_id),

@@ -42,7 +42,7 @@ export interface ReportChatContextProgram {
     readonly city: string;
     readonly program_name: string;
     readonly university_name: string;
-    readonly tuition_annual_aud: number;
+    readonly tuition_annual_aud?: number;
     readonly tags: ReadonlyArray<string>;
     readonly source_ids: ReadonlyArray<string>;
 }
@@ -69,7 +69,7 @@ export function buildUserPrompt(input: ReportChatPromptInput): string {
             `  ${i + 1}. [${p.band}] ${p.program_name} @ ${p.university_name}`,
             `     program_id=${p.program_id} university_id=${p.university_id}`,
             `     country=${p.country} city=${p.city} score=${p.final_score}`,
-            `     tuition_annual_aud=${p.tuition_annual_aud} tags=[${p.tags.join(",")}]`,
+            `     tuition_annual_aud=${p.tuition_annual_aud ?? "not_verified"} tags=[${p.tags.join(",")}]`,
             `     source_ids=[${p.source_ids.join(",")}]`,
         ].join("\n"),
     );

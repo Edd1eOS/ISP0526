@@ -20,69 +20,88 @@ import { scoreCandidate } from "./score";
 import { safetyEligible } from "./bands";
 
 const LIMITS = {
-    stretch: 4,
-    match: 4,
-    safety: 4,
+    stretch: 5,
+    match: 10,
+    safety: 5,
 } as const;
 const TOTAL_LIMIT = LIMITS.stretch + LIMITS.match + LIMITS.safety;
 const FIT_RANGE_MULTIPLIER = 2;
 const FIT_SCORE_WINDOW = 18;
+const COUNTRY_RANK_SAMPLE_SIZE = 3;
+const MAX_COUNTRY_SHARE_PER_BAND = 0.45;
 
 // Maximum countries in the final set for each scenario:
-//   - user stated a preference → their countries + this many extras
-//   - user expressed no preference → pick this many top countries
-const MAX_EXTRA_WITH_PREF = 1;
-const MAX_COUNTRIES_NO_PREF = 3;
+//   - user stated a preference: their countries + this many extras
+//   - user expressed no preference: pick this many top countries
+const MAX_EXTRA_WITH_PREF = 2;
+const MAX_COUNTRIES_NO_PREF = 4;
 
 /**
- * Post-scoring country cap. Limits unique destination countries in the
- * recommendation output so results stay focused.
+ * Post-scoring country focus cap. Limits unique destination countries in the
+ * recommendation pool so results stay focused.
  *
- * - Preference set non-empty: keep all preferred countries + 1 best-scoring
- *   extra country (bridges gaps when the preferred pool is shallow).
- * - No preference: keep programs from the top-3 countries by aggregate score.
+ * - Preference set non-empty: keep all preferred countries + a few
+ *   best-scoring extra countries (bridges gaps when the preferred pool is shallow).
+ * - No preference: keep programs from the top countries by top-candidate
+ *   average, not aggregate score. Aggregate score would reward countries only
+ *   for having more rows in the database.
  */
 function capByCountry(
     scores: readonly Score[],
     preferredCountries: readonly Country[],
     candidateIndex: ReadonlyMap<string, Candidate>,
 ): Score[] {
-    const country = (s: Score) =>
-        candidateIndex.get(s.program_id)?.university.country ?? "";
-
-    const tally = (subset: readonly Score[]) => {
-        const m = new Map<string, number>();
+    const rankCountries = (subset: readonly Score[]) => {
+        const m = new Map<string, number[]>();
         for (const s of subset) {
-            const c = country(s);
-            m.set(c, (m.get(c) ?? 0) + s.final_score);
+            const c = countryOf(s, candidateIndex);
+            const bucket = m.get(c) ?? [];
+            bucket.push(s.final_score);
+            m.set(c, bucket);
         }
-        return m;
+        return [...m.entries()]
+            .map(([country, countryScores]) => {
+                const topScores = countryScores
+                    .sort((a, b) => b - a)
+                    .slice(0, COUNTRY_RANK_SAMPLE_SIZE);
+                const rankScore =
+                    topScores.reduce((sum, score) => sum + score, 0) /
+                    topScores.length;
+                return { country, rankScore };
+            })
+            .sort((a, b) => b.rankScore - a.rankScore);
     };
 
     if (preferredCountries.length === 0) {
-        // No preference: top-N countries by aggregate score.
-        const totals = tally(scores);
         const allowed = new Set(
-            [...totals.entries()]
-                .sort((a, b) => b[1] - a[1])
+            rankCountries(scores)
                 .slice(0, MAX_COUNTRIES_NO_PREF)
-                .map(([c]) => c),
+                .map((r) => r.country),
         );
-        return scores.filter((s) => allowed.has(country(s)));
+        return scores.filter((s) => allowed.has(countryOf(s, candidateIndex)));
     }
 
     // Has preference: preferred + up to MAX_EXTRA extras.
     const prefSet = new Set<string>(preferredCountries);
-    const extraTotals = tally(scores.filter((s) => !prefSet.has(country(s))));
     const bestExtras = new Set(
-        [...extraTotals.entries()]
-            .sort((a, b) => b[1] - a[1])
+        rankCountries(
+            scores.filter((s) => !prefSet.has(countryOf(s, candidateIndex))),
+        )
             .slice(0, MAX_EXTRA_WITH_PREF)
-            .map(([c]) => c),
+            .map((r) => r.country),
     );
     return scores.filter(
-        (s) => prefSet.has(country(s)) || bestExtras.has(country(s)),
+        (s) =>
+            prefSet.has(countryOf(s, candidateIndex)) ||
+            bestExtras.has(countryOf(s, candidateIndex)),
     );
+}
+
+function countryOf(
+    score: Score,
+    candidateIndex: ReadonlyMap<string, Candidate>,
+): string {
+    return candidateIndex.get(score.program_id)?.university.country ?? "unknown";
 }
 
 export type ExcludedCandidate = {
@@ -100,6 +119,9 @@ export type RecommendCoverage = {
     after_fit_range: number;
     /** Final per-band counts after redistribution and slicing. */
     per_band: { stretch: number; match: number; safety: number };
+    /** True for a band when there were too few alternative-country candidates
+     *  to satisfy the country-share cap while filling available slots. */
+    country_diversity_limited: { stretch: boolean; match: boolean; safety: boolean };
     /** True when downstream UI should warn the user that the candidate pool is
      *  thin enough that confidence in the displayed set is limited. */
     sparse: boolean;
@@ -160,11 +182,26 @@ export function recommend(
     };
 
     const sortByFinalDesc = (a: Score, b: Score) => b.final_score - a.final_score;
+    const stretch = selectBandWithCountryShareCap(
+        byBand.stretch.sort(sortByFinalDesc),
+        LIMITS.stretch,
+        candidateIndex,
+    );
+    const match = selectBandWithCountryShareCap(
+        byBand.match.sort(sortByFinalDesc),
+        LIMITS.match,
+        candidateIndex,
+    );
+    const safety = selectBandWithCountryShareCap(
+        byBand.safety.sort(sortByFinalDesc),
+        LIMITS.safety,
+        candidateIndex,
+    );
 
     const set = RecommendationSetSchema.parse({
-        stretch: byBand.stretch.sort(sortByFinalDesc).slice(0, LIMITS.stretch),
-        match: byBand.match.sort(sortByFinalDesc).slice(0, LIMITS.match),
-        safety: byBand.safety.sort(sortByFinalDesc).slice(0, LIMITS.safety),
+        stretch: stretch.selected,
+        match: match.selected,
+        safety: safety.selected,
     });
 
     const coverage = buildCoverage({
@@ -172,6 +209,11 @@ export function recommend(
         afterCountryCap: capped.length,
         afterFitRange: fitRange.length,
         set,
+        countryDiversityLimited: {
+            stretch: stretch.diversityLimited,
+            match: match.diversityLimited,
+            safety: safety.diversityLimited,
+        },
     });
 
     return { set, excluded, coverage };
@@ -185,6 +227,7 @@ function buildCoverage(input: {
     readonly afterCountryCap: number;
     readonly afterFitRange: number;
     readonly set: RecommendationSet;
+    readonly countryDiversityLimited: RecommendCoverage["country_diversity_limited"];
 }): RecommendCoverage {
     const perBand = {
         stretch: input.set.stretch.length,
@@ -214,6 +257,11 @@ function buildCoverage(input: {
             if (perBand[band] <= SPARSE_PER_BAND_THRESHOLD) {
                 reasons.push(`${band} bucket has ${perBand[band]} entries`);
             }
+            if (input.countryDiversityLimited[band]) {
+                reasons.push(
+                    `${band} bucket exceeded the country-share cap because alternative countries were insufficient`,
+                );
+            }
         }
         if (total < SPARSE_TOTAL_THRESHOLD) {
             reasons.push(`final recommendation set has ${total} entries`);
@@ -225,9 +273,55 @@ function buildCoverage(input: {
         after_country_cap: input.afterCountryCap,
         after_fit_range: input.afterFitRange,
         per_band: perBand,
+        country_diversity_limited: input.countryDiversityLimited,
         sparse: reasons.length > 0,
         reasons,
     };
+}
+
+function selectBandWithCountryShareCap(
+    sortedScores: readonly Score[],
+    limit: number,
+    candidateIndex: ReadonlyMap<string, Candidate>,
+): { selected: Score[]; diversityLimited: boolean } {
+    const targetLength = Math.min(limit, sortedScores.length);
+    if (targetLength === 0) {
+        return { selected: [], diversityLimited: false };
+    }
+
+    const maxPerCountry = Math.max(
+        1,
+        Math.floor(targetLength * MAX_COUNTRY_SHARE_PER_BAND),
+    );
+    const selected: Score[] = [];
+    const deferred: Score[] = [];
+    const counts = new Map<string, number>();
+
+    for (const score of sortedScores) {
+        const country = countryOf(score, candidateIndex);
+        if ((counts.get(country) ?? 0) < maxPerCountry) {
+            selected.push(score);
+            counts.set(country, (counts.get(country) ?? 0) + 1);
+            if (selected.length === targetLength) break;
+        } else {
+            deferred.push(score);
+        }
+    }
+
+    let diversityLimited = false;
+    if (selected.length < targetLength) {
+        for (const score of deferred) {
+            if (selected.length === targetLength) break;
+            const country = countryOf(score, candidateIndex);
+            if ((counts.get(country) ?? 0) >= maxPerCountry) {
+                diversityLimited = true;
+            }
+            selected.push(score);
+            counts.set(country, (counts.get(country) ?? 0) + 1);
+        }
+    }
+
+    return { selected, diversityLimited };
 }
 
 function selectFitRange(scored: readonly Score[]): Score[] {

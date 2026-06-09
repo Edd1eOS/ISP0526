@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+    type Country,
     ProgramSchema,
+    type SelectivityTier,
+    StudentProfileSchema,
     UniversitySchema,
     type Candidate,
 } from "../schemas/index";
@@ -40,6 +43,70 @@ const accessibleCandidate: Candidate = {
         sources: [{ source_id: "t", kind: "url", url: "https://example.com/" }],
     }),
 };
+
+function makeCountryMixCandidate(input: {
+    band: "stretch" | "match" | "safety";
+    country: Country;
+    index: number;
+    selectivity: SelectivityTier;
+}): Candidate {
+    const id = `${input.band}-${input.country.toLowerCase()}-${input.index}`;
+    const universityId = `${id}-u`;
+    return {
+        university: UniversitySchema.parse({
+            id: universityId,
+            name_en: `${input.country} ${input.band} University ${input.index}`,
+            name_zh: `${input.country} ${input.band} University ${input.index}`,
+            country: input.country,
+            city: "Test City",
+            city_size: "large",
+            climate: "temperate",
+            reputation_score: 0.72,
+            chinese_community_density: 0.5,
+            safety_index: 0.82,
+            sources: [{ source_id: id, kind: "url", url: `https://example.com/${id}` }],
+        }),
+        program: ProgramSchema.parse({
+            id: `${id}-program`,
+            university_id: universityId,
+            name_en: `${input.band} Master`,
+            name_zh: `${input.band} Master`,
+            level: "master",
+            duration_years: 2,
+            field: "Information Technology",
+            teaching_style: "balanced",
+            gpa_min: 3.0,
+            language_min: { ielts_overall: 6.5 },
+            tuition: { currency: "AUD", annual: 52000 },
+            tags: ["career_pipeline"],
+            applied_ratio: 0.6,
+            admission_profile: { selectivity: input.selectivity },
+            sources: [{ source_id: id, kind: "url", url: `https://example.com/${id}` }],
+        }),
+    };
+}
+
+function countryMixCandidates(): Candidate[] {
+    const out: Candidate[] = [];
+    const specs: Array<{
+        band: "stretch" | "match" | "safety";
+        selectivity: SelectivityTier;
+    }> = [
+        { band: "stretch", selectivity: "elite" },
+        { band: "match", selectivity: "selective" },
+        { band: "safety", selectivity: "open" },
+    ];
+    for (const spec of specs) {
+        for (let i = 0; i < 4; i++) {
+            out.push(makeCountryMixCandidate({ ...spec, country: "AU", index: i }));
+        }
+        for (let i = 0; i < 3; i++) {
+            out.push(makeCountryMixCandidate({ ...spec, country: "UK", index: i }));
+            out.push(makeCountryMixCandidate({ ...spec, country: "CA", index: i }));
+        }
+    }
+    return out;
+}
 
 describe("scoreCandidate", () => {
     it("returns a Score that satisfies the schema (>=3 reasons each cited)", () => {
@@ -117,6 +184,38 @@ describe("recommend (against AU seed data)", () => {
         expect(set.stretch.length).toBeLessThanOrEqual(5);
         expect(set.match.length).toBeLessThanOrEqual(10);
         expect(set.safety.length).toBeLessThanOrEqual(5);
+    });
+
+    it("limits any one country to 45% of each recommendation band when alternatives exist", () => {
+        const candidates = countryMixCandidates();
+        const countryByProgram = new Map(
+            candidates.map((c) => [c.program.id, c.university.country] as const),
+        );
+        const profile = StudentProfileSchema.parse({
+            academic: {
+                target_level: "master",
+                gpa: 3.9,
+                ielts_overall: 7.5,
+            },
+            hard_constraints: {
+                preferred_countries: ["AU", "UK", "CA"],
+                excluded_countries: [],
+                required_tags: [],
+            },
+        });
+
+        const { coverage, set } = recommend(profile, candidates);
+
+        for (const band of ["stretch", "match", "safety"] as const) {
+            const counts = new Map<string, number>();
+            for (const score of set[band]) {
+                const country = countryByProgram.get(score.program_id) ?? "unknown";
+                counts.set(country, (counts.get(country) ?? 0) + 1);
+            }
+            const maxAllowed = Math.max(1, Math.floor(set[band].length * 0.45));
+            expect(Math.max(...counts.values())).toBeLessThanOrEqual(maxAllowed);
+            expect(coverage.country_diversity_limited[band]).toBe(false);
+        }
     });
 
     it("excludes candidates whose study level is wrong", () => {

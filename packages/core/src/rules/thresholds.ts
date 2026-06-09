@@ -62,7 +62,7 @@ export function applyHardThresholds(
     }
 
     const effectiveGpa = getEffectiveGpa4(profile);
-    if (effectiveGpa !== undefined) {
+    if (effectiveGpa !== undefined && program.gpa_min !== undefined) {
         const threshold = program.gpa_min * gpaToleranceFor(candidate);
         if (effectiveGpa < threshold) {
             return {

@@ -13,10 +13,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -27,9 +23,9 @@
             {
                 "source_id": "calgary_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.ucalgary.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://grad.ucalgary.ca/future-students/explore-programs",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate program exploration page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -47,10 +43,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -61,9 +53,9 @@
             {
                 "source_id": "calgary_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.ucalgary.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://grad.ucalgary.ca/future-students/explore-programs",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate program exploration page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -81,10 +73,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -95,9 +83,9 @@
             {
                 "source_id": "calgary_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.ucalgary.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://grad.ucalgary.ca/future-students/explore-programs",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate program exploration page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -115,10 +103,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -129,9 +113,9 @@
             {
                 "source_id": "calgary_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.ucalgary.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://grad.ucalgary.ca/future-students/explore-programs",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate program exploration page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -149,10 +133,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -163,9 +143,9 @@
             {
                 "source_id": "calgary_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.ucalgary.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://grad.ucalgary.ca/future-students/explore-programs",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate program exploration page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -183,10 +163,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -197,9 +173,9 @@
             {
                 "source_id": "concordia_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.concordia.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.concordia.ca/gradstudies/future-students/programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -217,10 +193,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -231,9 +203,9 @@
             {
                 "source_id": "concordia_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.concordia.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.concordia.ca/gradstudies/future-students/programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -251,10 +223,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -265,9 +233,9 @@
             {
                 "source_id": "concordia_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.concordia.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.concordia.ca/gradstudies/future-students/programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -285,10 +253,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -299,9 +263,9 @@
             {
                 "source_id": "concordia_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.concordia.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.concordia.ca/gradstudies/future-students/programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -319,10 +283,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -333,9 +293,9 @@
             {
                 "source_id": "concordia_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.concordia.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.concordia.ca/gradstudies/future-students/programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -353,10 +313,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -367,9 +323,9 @@
             {
                 "source_id": "dalhousie_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.dal.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.dal.ca/faculty/gradstudies/programs/graduate-programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -387,10 +343,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -401,9 +353,9 @@
             {
                 "source_id": "dalhousie_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.dal.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.dal.ca/faculty/gradstudies/programs/graduate-programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -421,10 +373,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -435,9 +383,9 @@
             {
                 "source_id": "dalhousie_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.dal.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.dal.ca/faculty/gradstudies/programs/graduate-programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -455,10 +403,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -469,9 +413,9 @@
             {
                 "source_id": "dalhousie_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.dal.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.dal.ca/faculty/gradstudies/programs/graduate-programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -489,10 +433,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -503,9 +443,9 @@
             {
                 "source_id": "dalhousie_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.dal.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.dal.ca/faculty/gradstudies/programs/graduate-programs.html",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -523,10 +463,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 60000
-        },
         "tags": [
             "field_top",
             "career_pipeline"
@@ -538,7 +474,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/desautels/programs/bcom",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -556,10 +492,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 62000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -570,9 +502,9 @@
             {
                 "source_id": "mcgill_bse_2026",
                 "kind": "url",
-                "url": "https://www.mcgill.ca/study/programs/",
-                "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "url": "https://www.mcgill.ca/study/2024-2025/faculties/science/undergraduate/programs/bachelor-science-bsc-major-software-engineering",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page; tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -590,10 +522,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 38000
-        },
         "tags": [
             "value_for_money",
             "migration_friendly"
@@ -605,7 +533,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/architecture/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -623,10 +551,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 110000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -639,7 +563,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/desautels/programs/mba",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -657,13 +581,8 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 38000
-        },
         "tags": [
             "scholarship_rich",
-            "stepping_stone",
             "migration_friendly"
         ],
         "applied_ratio": 0.4,
@@ -673,7 +592,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/bioinformatics/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -691,10 +610,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 38000
-        },
         "tags": [
             "scholarship_rich",
             "value_for_money",
@@ -707,7 +622,7 @@
                 "kind": "url",
                 "url": "https://www.cs.mcgill.ca/admissions/grad/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -725,10 +640,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 65000
-        },
         "tags": [
             "career_pipeline",
             "migration_friendly"
@@ -740,7 +651,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/desautels/programs/msc-finance",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -758,10 +669,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 40000
-        },
         "tags": [
             "value_for_money",
             "career_pipeline",
@@ -774,7 +681,7 @@
                 "kind": "url",
                 "url": "https://www.mcgill.ca/ece/graduate",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -792,10 +699,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -806,9 +709,9 @@
             {
                 "source_id": "mcmaster_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.mcmaster.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://socialsciences.mcmaster.ca/graduate/graduate-programs/",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -826,10 +729,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -840,9 +739,9 @@
             {
                 "source_id": "mcmaster_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.mcmaster.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://gs.mcmaster.ca/program/computing-and-software/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -860,10 +759,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -874,9 +769,9 @@
             {
                 "source_id": "mcmaster_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.mcmaster.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://cse.mcmaster.ca/graduate-studies/",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate studies page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -894,10 +789,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -908,9 +799,9 @@
             {
                 "source_id": "mcmaster_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.mcmaster.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://gs.mcmaster.ca/program/finance/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -928,10 +819,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -942,9 +829,9 @@
             {
                 "source_id": "mcmaster_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.mcmaster.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://eng.mcmaster.ca/future-students/future-graduate-students/graduate-research-projects/computing-and-software/",
+                "last_verified_date": "2026-06-08",
+                "note": "official graduate research projects page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -962,10 +849,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -976,9 +859,9 @@
             {
                 "source_id": "queens_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.queensu.ca/",
+                "url": "https://www.queensu.ca/grad-postdoc/grad-studies/programs-degrees",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -996,10 +879,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1010,9 +889,9 @@
             {
                 "source_id": "queens_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.queensu.ca/",
+                "url": "https://www.queensu.ca/grad-postdoc/grad-studies/programs-degrees",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1030,10 +909,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1044,9 +919,9 @@
             {
                 "source_id": "queens_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.queensu.ca/",
+                "url": "https://www.queensu.ca/grad-postdoc/grad-studies/programs-degrees",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1064,10 +939,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -1078,9 +949,9 @@
             {
                 "source_id": "queens_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.queensu.ca/",
+                "url": "https://www.queensu.ca/grad-postdoc/grad-studies/programs-degrees",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1098,10 +969,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1112,9 +979,9 @@
             {
                 "source_id": "queens_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.queensu.ca/",
+                "url": "https://www.queensu.ca/grad-postdoc/grad-studies/programs-degrees",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1132,10 +999,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -1146,9 +1009,9 @@
             {
                 "source_id": "sfu_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.sfu.ca/",
+                "url": "https://www.sfu.ca/gradstudies/apply/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1166,10 +1029,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1180,9 +1039,9 @@
             {
                 "source_id": "sfu_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.sfu.ca/",
+                "url": "https://www.sfu.ca/gradstudies/apply/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1200,10 +1059,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1214,9 +1069,9 @@
             {
                 "source_id": "sfu_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.sfu.ca/",
+                "url": "https://www.sfu.ca/gradstudies/apply/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1234,10 +1089,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -1248,9 +1099,9 @@
             {
                 "source_id": "sfu_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.sfu.ca/",
+                "url": "https://www.sfu.ca/gradstudies/apply/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1268,10 +1119,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1282,9 +1129,9 @@
             {
                 "source_id": "sfu_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.sfu.ca/",
+                "url": "https://www.sfu.ca/gradstudies/apply/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1302,10 +1149,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -1316,9 +1159,9 @@
             {
                 "source_id": "ualberta_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.ualberta.ca/",
+                "url": "https://www.ualberta.ca/en/graduate-studies/admissions-programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1336,10 +1179,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1350,9 +1189,9 @@
             {
                 "source_id": "ualberta_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.ualberta.ca/",
+                "url": "https://www.ualberta.ca/en/graduate-studies/admissions-programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1370,10 +1209,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1384,9 +1219,9 @@
             {
                 "source_id": "ualberta_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.ualberta.ca/",
+                "url": "https://www.ualberta.ca/en/graduate-studies/admissions-programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1404,10 +1239,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -1418,9 +1249,9 @@
             {
                 "source_id": "ualberta_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.ualberta.ca/",
+                "url": "https://www.ualberta.ca/en/graduate-studies/admissions-programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1438,10 +1269,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1452,9 +1279,9 @@
             {
                 "source_id": "ualberta_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.ualberta.ca/",
+                "url": "https://www.ualberta.ca/en/graduate-studies/admissions-programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1472,10 +1299,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "chinese_community",
             "value_for_money"
@@ -1487,7 +1310,7 @@
                 "kind": "url",
                 "url": "https://www.ubc.ca/our-programs/undergraduate/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1505,10 +1328,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 58000
-        },
         "tags": [
             "field_top",
             "migration_friendly",
@@ -1521,7 +1340,7 @@
                 "kind": "url",
                 "url": "https://www.ubc.ca/our-programs/undergraduate/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1539,10 +1358,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 40000
-        },
         "tags": [
             "value_for_money",
             "migration_friendly"
@@ -1552,9 +1367,9 @@
             {
                 "source_id": "ubc_msfm_2026",
                 "kind": "url",
-                "url": "https://forestry.ubc.ca/programs/graduate/",
+                "url": "https://forestry.ubc.ca/future-students/graduate/professional-masters-degrees/master-of-sustainable-forest-management/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -1572,10 +1387,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 78000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1588,7 +1399,7 @@
                 "kind": "url",
                 "url": "https://www.sauder.ubc.ca/programs/master-business-analytics",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1606,10 +1417,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 58000
-        },
         "tags": [
             "career_pipeline",
             "migration_friendly",
@@ -1620,9 +1427,9 @@
             {
                 "source_id": "ubc_meng_software_2026",
                 "kind": "url",
-                "url": "https://www.ece.ubc.ca/",
-                "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "url": "https://ece.ubc.ca/graduate/programs/master-engineering/",
+                "last_verified_date": "2026-06-08",
+                "note": "official program page; tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1640,13 +1447,8 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 38000
-        },
         "tags": [
             "value_for_money",
-            "stepping_stone",
             "migration_friendly"
         ],
         "applied_ratio": 0.55,
@@ -1656,7 +1458,7 @@
                 "kind": "url",
                 "url": "https://spph.ubc.ca/programs/mph/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1674,10 +1476,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1690,7 +1488,7 @@
                 "kind": "url",
                 "url": "https://www.cs.ubc.ca/students/grad",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1708,10 +1506,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 66000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1722,9 +1516,9 @@
             {
                 "source_id": "ubc_msc_ds_2026",
                 "kind": "url",
-                "url": "https://masterdatascience.ubc.ca/",
+                "url": "https://www.grad.ubc.ca/prospective-students/graduate-degree-programs/master-of-data-science",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -1742,10 +1536,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -1756,9 +1546,9 @@
             {
                 "source_id": "uottawa_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.uottawa.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.uottawa.ca/study/graduate-studies/masters",
+                "last_verified_date": "2026-06-08",
+                "note": "official master's-program index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1776,10 +1566,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1790,9 +1576,9 @@
             {
                 "source_id": "uottawa_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.uottawa.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.uottawa.ca/study/graduate-studies/masters",
+                "last_verified_date": "2026-06-08",
+                "note": "official master's-program index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1810,10 +1596,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1824,9 +1606,9 @@
             {
                 "source_id": "uottawa_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.uottawa.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.uottawa.ca/study/graduate-studies/masters",
+                "last_verified_date": "2026-06-08",
+                "note": "official master's-program index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1844,10 +1626,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -1858,9 +1636,9 @@
             {
                 "source_id": "uottawa_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.uottawa.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.uottawa.ca/study/graduate-studies/masters",
+                "last_verified_date": "2026-06-08",
+                "note": "official master's-program index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1878,10 +1656,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1892,9 +1666,9 @@
             {
                 "source_id": "uottawa_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.uottawa.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "url": "https://www.uottawa.ca/study/graduate-studies/masters",
+                "last_verified_date": "2026-06-08",
+                "note": "official master's-program index; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -1912,10 +1686,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 65000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -1928,7 +1698,7 @@
                 "kind": "url",
                 "url": "https://www.rotman.utoronto.ca/Degrees/UndergraduatePrograms",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1946,10 +1716,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 67500
-        },
         "tags": [
             "field_top",
             "career_pipeline"
@@ -1961,7 +1727,7 @@
                 "kind": "url",
                 "url": "https://www.artsci.utoronto.ca/future/academics/programs-and-courses",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -1979,10 +1745,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 70000
-        },
         "tags": [
             "career_pipeline",
             "migration_friendly"
@@ -1992,9 +1754,9 @@
             {
                 "source_id": "utoronto_meng_civil_2026",
                 "kind": "url",
-                "url": "https://www.civmin.utoronto.ca/",
+                "url": "https://civmin.utoronto.ca/home/programs/graduate-programs/meng",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -2012,10 +1774,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 86000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2028,7 +1786,7 @@
                 "kind": "url",
                 "url": "https://www.rotman.utoronto.ca/Degrees/MastersPrograms/MFin",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -2046,10 +1804,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 80000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2062,7 +1816,7 @@
                 "kind": "url",
                 "url": "https://www.rotman.utoronto.ca/Degrees/MastersPrograms/MMA",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "tuition not verified; left blank for manual verification"
             }
         ]
     },
@@ -2080,12 +1834,7 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
-            "stepping_stone",
             "migration_friendly"
         ],
         "applied_ratio": 0.6,
@@ -2093,9 +1842,9 @@
             {
                 "source_id": "utoronto_mpp_2026",
                 "kind": "url",
-                "url": "https://www.publicpolicy.utoronto.ca/",
+                "url": "https://www.sgs.utoronto.ca/programs/public-policy/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -2113,10 +1862,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6.5
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 73000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2127,9 +1872,9 @@
             {
                 "source_id": "utoronto_msc_cs_2026",
                 "kind": "url",
-                "url": "https://web.cs.toronto.edu/graduate",
+                "url": "https://www.sgs.utoronto.ca/programs/computer-science/",
                 "last_verified_date": "2026-05-23",
-                "note": "placeholder sticker price converted from CAD; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -2153,7 +1898,6 @@
         },
         "tags": [
             "scholarship_rich",
-            "stepping_stone",
             "migration_friendly"
         ],
         "applied_ratio": 0.3,
@@ -2161,9 +1905,9 @@
             {
                 "source_id": "utoronto_msc_stats_2026",
                 "kind": "url",
-                "url": "https://www.statistics.utoronto.ca/",
+                "url": "https://www.statistics.utoronto.ca/future-students/our-graduate-programs",
                 "last_verified_date": "2026-05-23",
-                "note": "domestic-track tuition; international rate may differ — verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -2181,10 +1925,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -2195,9 +1935,9 @@
             {
                 "source_id": "uvic_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.uvic.ca/",
+                "url": "https://www.uvic.ca/graduate-studies/",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate studies hub; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2215,10 +1955,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2229,9 +1965,9 @@
             {
                 "source_id": "uvic_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.uvic.ca/",
+                "url": "https://www.uvic.ca/graduate-studies/",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate studies hub; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2249,10 +1985,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2263,9 +1995,9 @@
             {
                 "source_id": "uvic_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.uvic.ca/",
+                "url": "https://www.uvic.ca/graduate-studies/",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate studies hub; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2283,10 +2015,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -2297,9 +2025,9 @@
             {
                 "source_id": "uvic_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.uvic.ca/",
+                "url": "https://www.uvic.ca/graduate-studies/",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate studies hub; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2317,10 +2045,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2331,179 +2055,9 @@
             {
                 "source_id": "uvic_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.uvic.ca/",
+                "url": "https://www.uvic.ca/graduate-studies/",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "waterloo-master-of-commerce",
-        "university_id": "waterloo",
-        "name_en": "Master of Commerce",
-        "name_zh": "商学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Business",
-        "teaching_style": "balanced",
-        "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
-        "tags": [
-            "career_pipeline",
-            "value_for_money",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "waterloo_master_of_commerce_2026",
-                "kind": "url",
-                "url": "https://uwaterloo.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "waterloo-master-of-computing",
-        "university_id": "waterloo",
-        "name_en": "Master of Computing",
-        "name_zh": "计算机科学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Computing",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.65,
-        "sources": [
-            {
-                "source_id": "waterloo_master_of_computing_2026",
-                "kind": "url",
-                "url": "https://uwaterloo.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "waterloo-master-of-data-science",
-        "university_id": "waterloo",
-        "name_en": "Master of Data Science",
-        "name_zh": "数据科学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Data Science",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.7,
-        "sources": [
-            {
-                "source_id": "waterloo_master_of_data_science_2026",
-                "kind": "url",
-                "url": "https://uwaterloo.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "waterloo-master-of-finance",
-        "university_id": "waterloo",
-        "name_en": "Master of Finance",
-        "name_zh": "金融硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Finance",
-        "teaching_style": "theory_heavy",
-        "gpa_min": 2.9,
-        "language_min": {
-            "ielts_overall": 7,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
-        "tags": [
-            "career_pipeline",
-            "field_top",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.5,
-        "sources": [
-            {
-                "source_id": "waterloo_master_of_finance_2026",
-                "kind": "url",
-                "url": "https://uwaterloo.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "waterloo-master-of-it",
-        "university_id": "waterloo",
-        "name_en": "Master of Information Technology",
-        "name_zh": "信息技术硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Information Technology",
-        "teaching_style": "applied_heavy",
-        "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.75,
-        "sources": [
-            {
-                "source_id": "waterloo_master_of_it_2026",
-                "kind": "url",
-                "url": "https://uwaterloo.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate studies hub; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2521,10 +2075,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
         "tags": [
             "career_pipeline",
             "value_for_money",
@@ -2535,9 +2085,9 @@
             {
                 "source_id": "western_master_of_commerce_2026",
                 "kind": "url",
-                "url": "https://www.westernu.ca/",
+                "url": "https://ssc.uwo.ca/graduate/graduate_programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2555,10 +2105,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2569,9 +2115,9 @@
             {
                 "source_id": "western_master_of_computing_2026",
                 "kind": "url",
-                "url": "https://www.westernu.ca/",
+                "url": "https://www.eng.uwo.ca/graduate/future-students/Graduate-Degree-Programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate degree programs page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2589,10 +2135,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2603,9 +2145,9 @@
             {
                 "source_id": "western_master_of_data_science_2026",
                 "kind": "url",
-                "url": "https://www.westernu.ca/",
+                "url": "https://uwo.ca/sci/datascience/graduate/programs.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official program page; tuition not verified"
             }
         ]
     },
@@ -2623,10 +2165,6 @@
             "ielts_overall": 7,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
         "tags": [
             "career_pipeline",
             "field_top",
@@ -2637,9 +2175,9 @@
             {
                 "source_id": "western_master_of_finance_2026",
                 "kind": "url",
-                "url": "https://www.westernu.ca/",
+                "url": "https://economics.uwo.ca/mfe/program-information/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official finance-related graduate program page; exact program page not found; tuition not verified"
             }
         ]
     },
@@ -2657,10 +2195,6 @@
             "ielts_overall": 6.5,
             "ielts_min_band": 6
         },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
         "tags": [
             "field_top",
             "career_pipeline",
@@ -2671,179 +2205,9 @@
             {
                 "source_id": "western_master_of_it_2026",
                 "kind": "url",
-                "url": "https://www.westernu.ca/",
+                "url": "https://www.eng.uwo.ca/graduate/future-students/Graduate-Degree-Programs/index.html",
                 "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "yorku-master-of-commerce",
-        "university_id": "yorku",
-        "name_en": "Master of Commerce",
-        "name_zh": "商学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Business",
-        "teaching_style": "balanced",
-        "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 48000
-        },
-        "tags": [
-            "career_pipeline",
-            "value_for_money",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.55,
-        "sources": [
-            {
-                "source_id": "yorku_master_of_commerce_2026",
-                "kind": "url",
-                "url": "https://www.yorku.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "yorku-master-of-computing",
-        "university_id": "yorku",
-        "name_en": "Master of Computing",
-        "name_zh": "计算机科学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Computing",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 54000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.65,
-        "sources": [
-            {
-                "source_id": "yorku_master_of_computing_2026",
-                "kind": "url",
-                "url": "https://www.yorku.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "yorku-master-of-data-science",
-        "university_id": "yorku",
-        "name_en": "Master of Data Science",
-        "name_zh": "数据科学硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Data Science",
-        "teaching_style": "balanced",
-        "gpa_min": 2.8,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 56000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.7,
-        "sources": [
-            {
-                "source_id": "yorku_master_of_data_science_2026",
-                "kind": "url",
-                "url": "https://www.yorku.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "yorku-master-of-finance",
-        "university_id": "yorku",
-        "name_en": "Master of Finance",
-        "name_zh": "金融硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Finance",
-        "teaching_style": "theory_heavy",
-        "gpa_min": 2.9,
-        "language_min": {
-            "ielts_overall": 7,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 50000
-        },
-        "tags": [
-            "career_pipeline",
-            "field_top",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.5,
-        "sources": [
-            {
-                "source_id": "yorku_master_of_finance_2026",
-                "kind": "url",
-                "url": "https://www.yorku.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
-            }
-        ]
-    },
-    {
-        "id": "yorku-master-of-it",
-        "university_id": "yorku",
-        "name_en": "Master of Information Technology",
-        "name_zh": "信息技术硕士",
-        "level": "master",
-        "duration_years": 2,
-        "field": "Information Technology",
-        "teaching_style": "applied_heavy",
-        "gpa_min": 2.7,
-        "language_min": {
-            "ielts_overall": 6.5,
-            "ielts_min_band": 6
-        },
-        "tuition": {
-            "currency": "AUD",
-            "annual": 52000
-        },
-        "tags": [
-            "field_top",
-            "career_pipeline",
-            "migration_friendly"
-        ],
-        "applied_ratio": 0.75,
-        "sources": [
-            {
-                "source_id": "yorku_master_of_it_2026",
-                "kind": "url",
-                "url": "https://www.yorku.ca/",
-                "last_verified_date": "2026-06-05",
-                "note": "placeholder sticker price; verify before launch"
+                "note": "official graduate degree programs page; exact program page not found; tuition not verified"
             }
         ]
     }
